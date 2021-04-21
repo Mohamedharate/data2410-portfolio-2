@@ -6,12 +6,12 @@
   "scripts": {
     "start": "nodemon server/index.js",
     "build": "cd client && npm install && npm run build"
-
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bootstrap": "^4.6.0",
     "pino": "^6.11.3"
   },
   "engines": {
