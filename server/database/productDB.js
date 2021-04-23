@@ -13,7 +13,7 @@ const product_schema = new Schema(
             trim: true,
         },
         price: {
-            type: Number,
+            type: String,
         },
         imageUrl: {
             type: String, //usikker på den
