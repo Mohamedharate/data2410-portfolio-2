@@ -38,12 +38,11 @@ class Navbar extends Component{
                                         <a className="nav-link disabled" href="#" tabIndex="-1"
                                            aria-disabled="true">Disabled</a>
                                     </li>
-                                    <button onClick={this.handleLogin} className="btn btn-primary mr-2">Login</button>
-                                    <button onClick={this.handleRegister} className="btn btn-primary mr-2">Register</button>
                                 </ul>
-
                             </div>
                         </div>
+                        <button onClick={this.handleLogin} className="btn text-white float-right mr-2">Login</button>
+                        <button onClick={this.handleRegister} className="btn text-white float-right mr-2">Register</button>
                     </nav>
                 </header>
         );
