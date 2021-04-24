@@ -24,6 +24,7 @@ code {
   background: white;
   color: black;
   box-shadow: 0px 2px 10px black;
+  border-radius: 5px;
 }
 
 .registerContainer{
@@ -38,6 +39,7 @@ code {
   background: white;
   color: black;
   box-shadow: 0px 2px 10px black;
+  border-radius: 5px;
 }
 .row{
   padding-top: 30px;

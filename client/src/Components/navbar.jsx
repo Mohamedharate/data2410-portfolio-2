@@ -2,17 +2,13 @@ import React, { Component } from "react";
 
 class Navbar extends Component{
     state = {
-        toggleLogin: true,
-        toggleRegister: true,
     };
 
     handleLogin = () => {
-        this.props.loginCallback(this.state.toggleLogin)
-        this.setState({toggleLogin: !this.state.toggleLogin})
+        this.props.loginCallback()
     }
     handleRegister = () => {
-        this.props.registerCallback(this.state.toggleRegister)
-        this.setState({toggleRegister: !this.state.toggleRegister})
+        this.props.registerCallback()
     }
 
     render() {
