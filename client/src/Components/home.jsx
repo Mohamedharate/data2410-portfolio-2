@@ -11,11 +11,9 @@ class Home extends Component{
 
     handleCallbackLogin = (childData) => {
         this.setState({toggleLogin: childData})
-        console.log("Data from child: " + childData.valueOf())
     }
     handleCallbackRegister = (childData) => {
         this.setState({toggleRegister: childData})
-        console.log("Data from child: " + childData.valueOf())
     }
 
     render() {

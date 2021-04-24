@@ -24,7 +24,7 @@ class Navbar extends Component{
                             <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
                                     aria-label="Toggle navigation">
-                                <span className="navbar-toggler-icon"></span>
+                                <span className="navbar-toggler-icon">tag</span>
                             </button>
                             <div className="collapse navbar-collapse" id="navbarCollapse">
                                 <ul className="navbar-nav me-auto mb-2 mb-md-0">
@@ -38,12 +38,11 @@ class Navbar extends Component{
                                         <a className="nav-link disabled" href="#" tabIndex="-1"
                                            aria-disabled="true">Disabled</a>
                                     </li>
-                                    <button onClick={this.handleLogin} className="btn btn-primary mr-2">Login</button>
-                                    <button onClick={this.handleRegister} className="btn btn-primary mr-2">Register</button>
                                 </ul>
-
                             </div>
                         </div>
+                        <button onClick={this.handleLogin} className="btn text-white float-right mr-2">Login</button>
+                        <button onClick={this.handleRegister} className="btn text-white float-right mr-2">Register</button>
                     </nav>
                 </header>
         );
