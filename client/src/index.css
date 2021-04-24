@@ -15,9 +15,10 @@ code {
 .loginContainer{
   position: absolute;
   top: 20%;
-  left: 30%;
-  width: 40%;
-  height: 40%;
+  left: 35%;
+  width: 30%;
+  height: 38%;
+  padding-top: 4%;
   z-index: 5;
   background: white;
   color: black;
@@ -27,9 +28,10 @@ code {
 .registerContainer{
   position: absolute;
   top: 15%;
-  left: 32%;
-  width: 36%;
-  height: 70%;
+  left: 35%;
+  width: 30%;
+  height: 60%;
+  padding-top: 4%;
   z-index: 5;
   background: white;
   color: black;
