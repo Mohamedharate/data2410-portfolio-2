@@ -17,8 +17,9 @@ code {
   top: 20%;
   left: 35%;
   width: 30%;
-  height: 38%;
-  padding-top: 4%;
+  height: 300px;
+  min-width: 400px;
+  padding: 50px;
   z-index: 5;
   background: white;
   color: black;
@@ -30,8 +31,9 @@ code {
   top: 15%;
   left: 35%;
   width: 30%;
-  height: 60%;
-  padding-top: 4%;
+  height: 550px;
+  min-width: 400px;
+  padding: 50px;
   z-index: 5;
   background: white;
   color: black;
