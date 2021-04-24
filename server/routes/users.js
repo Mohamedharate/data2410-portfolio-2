@@ -2,13 +2,48 @@
 const express = require("express");
 let router = express.Router();
 const User = require("../database/userDB");
+const StringBuilder = require("string-builder");
+const bodyParser = require('body-parser');
 
+router.use(bodyParser.urlencoded({ extended: false }))
+router.use(bodyParser.json())
+/*
+MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    const dbo = db.db("webshop");
+    dbo.collection("users").find({}).toArray(function(err, result) {
+        if (err) throw err;
+        res.send(formatUsers(result));
+        db.close();
+    });
+});
+
+
+
+ */
+
+//Get all
+function formatUsers(arr){
+
+    let out = new StringBuilder();
+
+    arr.forEach( user =>{
+        out.append(`
+        \n--------------------------------------
+        \nName: ${user.firstName} ${user.lastName}
+        \nAddress:${user.zipCode} ${user.street}
+        \nPhone number: ${user.phoneNumber}
+        \nEmail: ${user.email}`);
+
+    })
+    return out.toString();
+}
 
 router
-    .route('/signup')
-        .post((req,res) => {
+    .post('/signup',async (req,res) => {
 
         const userSignUp = new User({
+
             firstName:req.body.firstName,
             lastName:req.body.lastName,
             email:req.body.email,
@@ -19,33 +54,50 @@ router
         })
 
 
-            userSignUp.save()
+            await userSignUp.save()
             .then(data => {
                 res.send(`User created successfully!`)
             })
             .catch(error => {
                 res.json(error)
             })
+    })
+router
+    .get('/all',async (req, res) => {
+
+        try {
+            const  users = await User.find();
+            res.json(users);
+        }
+        catch (err) {
+
+            res.json({message:err})
+        }
+    })
+    .delete('/all',(req, res) => {
+
     });
 router
-    .route('/:userID')
-    .get((req, res) =>{
+    .get('/:userID',async (req, res) =>{
+        try {
+            const user = await User.findOne(req.params.user);
+            res.json(user);
+
+
+        }
+        catch (err){
+            res.status(404).json({message:'The user with the given id was not found'})
+
+        }
 
     })
-    .put((req, res) => {
+    .put('/:userID',(req, res) => {
 
     })
-    .delete((req, res) => {
-
-    });
-router
-    .route('/allUsers')
-    .get((req, res) => {
+    .delete('/:userID',(req, res) => {
 
     })
-    .delete((req, res) => {
 
-    });
 
 
 module.exports = router;

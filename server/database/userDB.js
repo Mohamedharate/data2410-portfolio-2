@@ -4,10 +4,12 @@ const mongoose = require("mongoose");
 
 const user_schema = new mongoose.Schema(
     {
-    user_id:{
-        type: "number",
+    userId:{
 
-    }  ,
+    },
+    id:{
+
+    },
     firstName: {
         type: String,
         required: true
@@ -36,6 +38,11 @@ const user_schema = new mongoose.Schema(
     phoneNumber:{
         type: String,
         required: true
+    },
+
+    data:{
+        type:Date,
+        default:Date.now
     },
 
 });
