@@ -21,6 +21,7 @@
     "mongoose": "^5.12.5",
     "pino": "^6.11.3",
     "popper.js": "^1.16.1",
+    "react-responsive-carousel": "^3.2.18",
     "session": "^0.1.0",
     "string-builder": "^0.1.8",
     "stringbuilder": "0.0.11"
@@ -30,6 +31,7 @@
   },
   "devDependencies": {
     "concurrently": "^6.0.2",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "react-router-dom": "^5.2.0"
   }
 }

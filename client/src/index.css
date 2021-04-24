@@ -39,3 +39,10 @@ code {
   color: black;
   box-shadow: 0px 2px 10px black;
 }
+.row{
+  padding-top: 30px;
+}
+.bestsellers{
+  padding-top: 100px;
+  text-align: center;
+}
