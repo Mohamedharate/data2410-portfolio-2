@@ -28,6 +28,11 @@ class Home extends Component{
                         <Route path="/homepage" component={Homepage} />
                     </Router>
                 </Homepage>
+                <Bestsellers>
+                    <Router>
+                        <Route path="./bestsellers" component={Bestsellers}/>
+                    </Router>
+                </Bestsellers>
                 <Navbar
                     loginCallback = {this.handleCallbackLogin}
                     registerCallback = {this.handleCallbackRegister}
