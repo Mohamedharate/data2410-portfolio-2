@@ -4,13 +4,12 @@ let router = express.Router();
 const Product = require("../database/productDB");
 
 router
-    .route('/addProduct')
-        //Add a new product
-        .post((req,res) => {
+    //Add a new product
+    .post('/addProduct', (req, res) => {
 
         const product = new Product({
             name: req.body.name,
-            description:req.body.description,
+            description: req.body.description,
             price: req.body.price,
             imageUrl: req.body.imageUrl,
             category: req.body.category
@@ -23,40 +22,35 @@ router
             .catch(error => {
                 res.json(error)
             })
-        });
+
+    });
 router
-    .route('/:productID')
-
-        //Get a product with the given productID.
-        .get((req,res) => {
+    .get('/:productID', (req, res) => {
 
 
-        })
+    })
 
-        //update a product with the given productID.
-        .put((req,res)=>{
-
-
-        })
-
-        //delete a product with the given productID.
-        .delete((req,res)=>{
+    //update a product with the given productID.
+    .put('/:productID', (req, res) => {
 
 
-        });
+    })
 
+    //delete a product with the given productID.
+    .delete('/:productID', (req, res) => {
+
+
+    });
+
+//Get all products from the productDB
 router
-    .route('/allProducts')
-        //Get all products from the productDB
-        .get((req,res)=>{
+    .get('/allProducts', (req, res) => {
 
 
-        })
-        //Delete all products
-        .delete((req,res)=>{
+    })
+    //Delete all products
+    .delete('/allProducts', (req, res) => {
 
-        })
-
-
+    })
 
 module.exports = router;
