@@ -3,6 +3,7 @@ import Navbar from "./navbar";
 import Login from "./login";
 import Register from "./register";
 import Bestsellers from "./bestsellers";
+import Homepage from "./homepage";
 import { BrowserRouter as Router, Route } from 'react-router-dom' //dumt å bruke react-router-dom?
 
 
@@ -22,11 +23,11 @@ class Home extends Component{
     render() {
         return (
             <React.Fragment>
-                <Bestsellers>
+                <Homepage>
                     <Router>
-                        <Route path="/bestsellers" component={Bestsellers} />
+                        <Route path="/homepage" component={Homepage} />
                     </Router>
-                </Bestsellers>
+                </Homepage>
                 <Navbar
                     loginCallback = {this.handleCallbackLogin}
                     registerCallback = {this.handleCallbackRegister}
