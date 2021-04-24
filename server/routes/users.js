@@ -72,11 +72,15 @@ router.post('/signIn', async (req, res) => {
 
     try {
         const checkIf = await User.findOne({email: logIn.email});
-        res.status(200).json(checkIf);
+        if (logIn.password === User.password){
+            return res.status(200)
+        }   return res.status(401).send("Incorrect password")
     }
     catch (err){
-        res.status(404).json({message:"not found"})
+        res.status(404).json({message:"User not found"})
     }
+
+
 })
 router
     .get('/all', async (req, res) => {
