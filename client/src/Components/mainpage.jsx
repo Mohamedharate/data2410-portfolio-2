@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 
-class Homepage extends Component{
+class Mainpage extends Component{
     render() {
         return (
           <div class="container">
@@ -155,4 +155,4 @@ class Homepage extends Component{
         )
  }
  }
- export default Homepage
+ export default Mainpage
