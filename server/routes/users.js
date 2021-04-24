@@ -72,6 +72,7 @@ router.post('/signIn', async (req, res) => {
 
     try {
         const checkIf = await User.findOne({email: logIn.email});
+        res.status(200).json(checkIf);
     }
     catch (err){
         res.status(404).json({message:"not found"})
