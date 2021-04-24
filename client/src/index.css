@@ -41,3 +41,10 @@ code {
   box-shadow: 0px 2px 10px black;
   border-radius: 5px;
 }
+.row{
+  padding-top: 30px;
+}
+.bestsellers{
+  padding-top: 100px;
+  text-align: center;
+}
