@@ -16,12 +16,12 @@ const product_schema = new Schema(
             type: String,
         },
         imageUrl: {
-            type: String, //usikker på den
+            type: String,
         },
         category: {
             type: String,
         },
     });
-const Product = mongoose.model("Product", product_schema);
 
+const Product = mongoose.model("Product", product_schema);
 module.exports = Product;

@@ -4,8 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server/server.js",
-    "build": "cd client && npm install && npm run build"
+    "server": "node server/server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [],
   "author": "",
@@ -26,6 +27,7 @@
     "node": "14.16.0"
   },
   "devDependencies": {
+    "concurrently": "^6.0.2",
     "express": "^4.17.1"
   }
 }

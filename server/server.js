@@ -6,14 +6,17 @@ const app = express();
 const bodyParser = require('body-parser');
 const users = require('./routes/users');
 const products = require('./routes/products');
+const orders = require('./routes/orders');
 const mongoose = require("mongoose");
 const {MongoClient} = require('mongodb');
-
-const User = require("./database/userDB");
 
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+
+
+const dotenv = require('dotenv');
+dotenv.config()
 
 try {
     mongoose.connect("mongodb+srv://haratemo:12345oslomet@webshop.uemit.mongodb.net/webshop?retryWrites=true&w=majority", {
@@ -24,6 +27,7 @@ try {
 } catch (error) {
     console.log("could not connect to webshopDB");
 }
+
 
 /*
 async function main(){
@@ -52,8 +56,10 @@ async function listDatabases(client){
 
 
  */
-app.use('/signup',users);
-app.use('/addProduct',products);
+app.use('/api/users/',users);
+app.use('/api/products/',products);
+app.use('/api/orders/',orders);
+
 
 // Handle GET requests to /api route
 app.get("/api", (req, res) => {
