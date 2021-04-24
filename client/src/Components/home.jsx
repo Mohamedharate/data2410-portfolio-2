@@ -9,11 +9,11 @@ class Home extends Component{
         toggleRegister: false,
     }
 
-    handleCallbackLogin = (childData) => {
-        this.setState({toggleLogin: childData})
+    handleCallbackLogin = () => {
+        this.setState({toggleLogin: !this.state.toggleLogin, toggleRegister: false})
     }
-    handleCallbackRegister = (childData) => {
-        this.setState({toggleRegister: childData})
+    handleCallbackRegister = () => {
+        this.setState({toggleLogin: false, toggleRegister: !this.state.toggleRegister})
     }
 
     render() {
