@@ -10,14 +10,23 @@ const orders = require('./routes/orders');
 const mongoose = require("mongoose");
 const cors = require("cors");
 const {MongoClient} = require('mongodb');
-app.use(cors)
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    optionsSuccessStatus: 200 // For legacy browser support
+}
+app.use(cors(corsOptions));
 
 const dotenv = require('dotenv');
 dotenv.config()
+
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    next();
+});
 
 try {
     mongoose.connect("mongodb+srv://haratemo:12345oslomet@webshop.uemit.mongodb.net/webshop?retryWrites=true&w=majority", {

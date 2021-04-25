@@ -2,6 +2,7 @@
   "name": "data2410-oblig2-group7",
   "version": "1.0.0",
   "description": "",
+  
   "main": "server.js",
   "scripts": {
     "server": "nodemon server/server.js",

@@ -34,7 +34,7 @@ class Register extends Component {
         try {
             await axios({
                 method: 'post',
-                url: 'http://localhost:3001/signIn',
+                url: 'http://localhost:3001/api/users/signup',
                 data: {
                     firstname: this.state.firstname,
                     lastname: this.state.lastname,

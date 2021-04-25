@@ -28,7 +28,7 @@ class Login extends Component {
         try {
              res = await axios({
                 method: 'post',
-                url: 'http://localhost:3001/signIn',
+                url: 'http://localhost:3001/api/users/signIn',
                 data: {
                     email: this.state.email,
                     password: this.state.password,
