@@ -4,28 +4,39 @@ import axios from "axios";
 class Login extends Component {
     constructor(props) {
         super(props);
-        this.emailRef = React.createRef();
-        this.passwordRef = React.createRef();
+        this.state = {
+            email: '',
+            password: '',
+        }
+
+        this.handleInputChange = this.handleInputChange.bind(this);
+    }
+
+    handleInputChange(event){
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+
+        this.setState({
+            [name]: value
+        })
     }
 
     async postLoginDetails() {
         let res;
+        alert("This was submittet: " + this.state.email + " " + this.state.password)
         try {
-            res = await axios({
+             res = await axios({
                 method: 'post',
                 url: 'http://localhost:3001/signIn',
                 data: {
-                    email: this.emailRef.current,
-                    lastName: this.passwordRef.current,
+                    email: this.state.email,
+                    password: this.state.password,
                 }
             });
-        } catch (e) {
+        } catch (e){
             console.error(e)
         }
-        console.log("Emailref: " + this.emailRef.current)
-        console.log("Passwordref: " + this.passwordRef.current)
-        console.log("Res: " + res)
-        console.log("Res.data: " + res)
     }
 
     render() {
@@ -39,15 +50,12 @@ class Login extends Component {
                                     <h4>Sign in to store</h4>
                                 </div>
                                 <div className="form-label-group">
-                                    <input type="text" className="form-control mt-2" placeholder="Username"
-                                           ref={this.emailRef}
-                                           name="login_username" required="" autoFocus=""/>
-                                    <input type="Password" className="form-control mt-2" placeholder="Password"
-                                           ref={this.passwordRef}
-                                           name="login_Password" required="" autoFocus=""/>
+                                    <input type="text" onChange={this.handleInputChange} className="form-control mt-2"
+                                           placeholder="Email" name="email" required="" autoFocus=""/>
+                                    <input type="Password" onChange={this.handleInputChange} className="form-control mt-2"
+                                           placeholder="Password" name="password" required="" autoFocus=""/>
                                 </div>
-                                <button onClick={this.postLoginDetails()}
-                                        className="btn btn-lg btn-primary btn-block mt-2">Sign in
+                                <button onClick={this.postLoginDetails.bind(this)} className="btn btn-lg btn-primary btn-block mt-2">Sign in
                                 </button>
                             </div>
                         </div>
