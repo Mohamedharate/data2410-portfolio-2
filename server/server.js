@@ -11,7 +11,7 @@ const mongoose = require("mongoose");
 const {MongoClient} = require('mongodb');
 
 app.use(express.static(path.resolve(__dirname, '../client/build')));
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 
@@ -56,14 +56,14 @@ async function listDatabases(client){
 
 
  */
-app.use('/api/users/', users);
-app.use('/api/products/', products);
-app.use('/api/orders/', orders);
+app.use('/api/users/',users);
+app.use('/api/products/',products);
+app.use('/api/orders/',orders);
 
 
 // Handle GET requests to /api route
 app.get("/api", (req, res) => {
-    res.json({message: "Hello from server!"});
+    res.json({ message: "Hello from server!" });
 });
 
 
