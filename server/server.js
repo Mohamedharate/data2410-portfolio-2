@@ -56,14 +56,14 @@ async function listDatabases(client){
 
 
  */
-app.use('/api/users/',users);
-app.use('/api/products/',products);
-app.use('/api/orders/',orders);
+app.use('/api/users/', users);
+app.use('/api/products/', products);
+app.use('/api/orders/', orders);
 
 
 // Handle GET requests to /api route
 app.get("/api", (req, res) => {
-    res.json({ message: "Hello from server!" });
+    res.json({message: "Hello from server!"});
 });
 
 

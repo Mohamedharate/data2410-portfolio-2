@@ -11,7 +11,7 @@ class Login extends Component {
     async postLoginDetails() {
         let res;
         try {
-             res = await axios({
+            res = await axios({
                 method: 'post',
                 url: 'http://localhost:3001/signIn',
                 data: {
@@ -19,7 +19,7 @@ class Login extends Component {
                     lastName: this.passwordRef.current,
                 }
             });
-        } catch (e){
+        } catch (e) {
             console.error(e)
         }
         console.log("Emailref: " + this.emailRef.current)
@@ -46,7 +46,8 @@ class Login extends Component {
                                            ref={this.passwordRef}
                                            name="login_Password" required="" autoFocus=""/>
                                 </div>
-                                <button onClick={this.postLoginDetails()} className="btn btn-lg btn-primary btn-block mt-2">Sign in
+                                <button onClick={this.postLoginDetails()}
+                                        className="btn btn-lg btn-primary btn-block mt-2">Sign in
                                 </button>
                             </div>
                         </div>

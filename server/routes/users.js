@@ -7,20 +7,7 @@ const bodyParser = require('body-parser');
 
 router.use(bodyParser.urlencoded({extended: false}))
 router.use(bodyParser.json())
-/*
-MongoClient.connect(url, function(err, db) {
-    if (err) throw err;
-    const dbo = db.db("webshop");
-    dbo.collection("users").find({}).toArray(function(err, result) {
-        if (err) throw err;
-        res.send(formatUsers(result));
-        db.close();
-    });
-});
 
-
-
- */
 
 //Get all
 function formatUsers(arr) {
@@ -64,21 +51,30 @@ router
     })
 router.post('/signIn', async (req, res) => {
 
-
     const logIn = {
-        email:req.body.email,
-        password:req.body.password
+        email: req.body.email,
+        password: req.body.password
     }
 
-    try {
-        const checkIf = await User.findOne({email: logIn.email});
-        if (logIn.password === User.password){
-            return res.status(200)
-        }   return res.status(401).send("Incorrect password")
+    const checkIfExists = await User.findOne({
+        email: logIn.email,
+        password: logIn.password
+    });
+    if (checkIfExists != null) {
+        res.status(200).json({message: "signed in"})
+    } else
+        res.status(401).send("Incorrect password or email")
+})
+
+router.post('/forgot', async (req, res) => {
+
+    const forgotPassword = {
+        email: req.body.email
     }
-    catch (err){
-        res.status(404).json({message:"User not found"})
-    }
+
+    const checkIfExists = await User.findOne({
+        email: forgotPassword.email
+    });
 
 
 })
