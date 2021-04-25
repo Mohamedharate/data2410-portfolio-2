@@ -11,7 +11,7 @@ const mongoose = require("mongoose");
 const {MongoClient} = require('mongodb');
 
 app.use(express.static(path.resolve(__dirname, '../client/build')));
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 

@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 
 const order_schema = new mongoose.Schema(
     {
-        products:{
-            type:[],
+        products: {
+            type: [],
             required: true
 
         }
