@@ -4,7 +4,8 @@ import Login from "./login";
 import Register from "./register";
 import Bestsellers from "./bestsellers";
 import Mainpage from "./mainpage";
-import { BrowserRouter as Router, Route } from 'react-router-dom' //dumt å bruke react-router-dom?
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import Footer from "./footer";
 
 
 class Home extends Component{
@@ -33,6 +34,8 @@ class Home extends Component{
                         <Route path="./bestsellers" component={Bestsellers}/>
                     </Router>
                 </Bestsellers>
+                <Footer>
+                </Footer>
                 <Navbar
                     loginCallback = {this.handleCallbackLogin}
                     registerCallback = {this.handleCallbackRegister}
