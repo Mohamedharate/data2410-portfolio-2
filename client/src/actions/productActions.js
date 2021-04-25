@@ -1,5 +1,5 @@
 import axios from "axios";
-import {FETCH_PRODUCT} from "./constants";
+import {FETCH_PRODUCT, GET_ERROR} from "./constants";
 
 export const fetchProduct = () => (dispatch) => {
     fetch("http://localhost:3000/allProducts")
