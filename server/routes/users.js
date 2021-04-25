@@ -68,7 +68,7 @@ router.post('/signIn', async (req, res) => {
 })
 
 let confirmation;
-router.post('/forgot', async (req, res,next) => {
+router.post('/forgot', async (req, res, next) => {
 
     const forgotPassword = {
         email: req.body.email
@@ -78,8 +78,8 @@ router.post('/forgot', async (req, res,next) => {
         email: forgotPassword.email
     });
 
-    if (checkIfExists){
-         confirmation = Math.floor(1000+Math.random() * 3000);
+    if (checkIfExists) {
+        confirmation = Math.floor(1000 + Math.random() * 3000);
 
         const transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -101,25 +101,23 @@ router.post('/forgot', async (req, res,next) => {
                 console.log(error);
             } else {
                 console.log('Email sent: ' + info.response);
-                res.status(200).json({message:`Mail sendt to ${mailOptions.to}!`});
+                res.status(200).json({message: `Mail sendt to ${mailOptions.to}!`});
             }
         });
-    }
-    else {
-        res.status(404).json({message:"Email not found"});
+    } else {
+        res.status(404).json({message: "Email not found"});
     }
 })
 
-router.post("/resetPassword/recvCode",(req, res,next) => {
+router.post("/resetPassword/recvCode", (req, res, next) => {
     const code = {
-        code:req.body.code
+        code: req.body.code
     }
     if (code.code === confirmation.toString()) {
 
-        res.json({message:"confirmed"})
-    }
-    else {
-        res.json({message:"Incorrect code"});
+        res.json({message: "confirmed"})
+    } else {
+        res.json({message: "Incorrect code"});
     }
 })
 
@@ -137,7 +135,7 @@ router
     .delete('/all', async (req, res) => {
         try {
             await User.deleteMany();
-            res.status(200).json({message:"Deleted all users"})
+            res.status(200).json({message: "Deleted all users"})
         } catch (err) {
             res.status(400).json({message: 'Failed!'})
         }
@@ -145,7 +143,7 @@ router
 router
     .get('/:email', async (req, res) => {
         try {
-            const user = await User.findOne({email:req.params.email});
+            const user = await User.findOne({email: req.params.email});
             res.json(user);
         } catch (err) {
             res.status(404).json({message: 'The user with the given email address was not found'})
@@ -156,8 +154,8 @@ router
     })
     .delete('/:email', async (req, res) => {
         try {
-            const user = await User.deleteOne({email:req.params.email});
-            res.json({message:"Deleted"});
+            const user = await User.deleteOne({email: req.params.email});
+            res.json({message: "Deleted"});
         } catch (err) {
             res.status(404).json({message: 'The user with the given email address was not found'})
         }
