@@ -4,6 +4,11 @@ const Schema = mongoose.Schema;
 
 const product_schema = new Schema(
     {
+        itemId:{
+            unique:true,
+            type:String,
+            default:  Math.floor(1000 + Math.random() * 8999),
+        },
         date: {
             type: Date,
             default: Date.now

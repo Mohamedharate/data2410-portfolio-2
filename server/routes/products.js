@@ -17,40 +17,55 @@ router
 
         product.save()
             .then(data => {
-                res.send(`Product added successfully!`)
+                res.status(200).json({message:`Product with name ${product.name} added successfully!`})
             })
             .catch(error => {
                 res.json(error)
             })
 
     });
+//Get all products from the productDB
 router
-    .get('/:productID', (req, res) => {
+    .get('/allProducts', async (req, res) => {
+        try {
+            const products = await Product.find();
+            res.json(products);
+        } catch (err) {
+            res.json({message: err})
+        }
+    })
+    //Delete all products
+    .delete('/allProducts', async (req, res) => {
+        try {
+            const products = await Product.deleteMany();
+            res.json({message: "Deleted all products"});
+        } catch (err) {
+            res.json({message: err})
+        }
+    });
 
-
+router
+    .get('/:itemId', async (req, res) => {
+        try {
+            const product = await Product.findOne({itemId: req.params.itemId});
+            res.json(product);
+        } catch (err) {
+            res.status(404).json({message: 'The product with the given item ID was not found'})
+        }
     })
 
     //update a product with the given productID.
-    .put('/:productID', (req, res) => {
+    .put('/:itemId', async (req, res) => {
 
 
     })
 
     //delete a product with the given productID.
-    .delete('/:productID', (req, res) => {
+    .delete('/:itemId', async (req, res) => {
 
 
     });
 
-//Get all products from the productDB
-router
-    .get('/allProducts', (req, res) => {
 
-
-    })
-    //Delete all products
-    .delete('/allProducts', (req, res) => {
-
-    })
 
 module.exports = router;

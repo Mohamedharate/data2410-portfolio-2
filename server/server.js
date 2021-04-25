@@ -8,8 +8,9 @@ const users = require('./routes/users');
 const products = require('./routes/products');
 const orders = require('./routes/orders');
 const mongoose = require("mongoose");
+const cors = require("cors");
 const {MongoClient} = require('mongodb');
-
+app.use(cors)
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
