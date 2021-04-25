@@ -4,7 +4,6 @@ import Login from "./login";
 import Register from "./register";
 import Bestsellers from "./bestsellers";
 import Mainpage from "./mainpage";
-import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Footer from "./footer";
 
 
@@ -24,18 +23,9 @@ class Home extends Component{
     render() {
         return (
             <React.Fragment>
-                <Mainpage>
-                    <Router>
-                        <Route path="./mainpage" component={Mainpage} />
-                    </Router>
-                </Mainpage>
-                <Bestsellers>
-                    <Router>
-                        <Route path="./bestsellers" component={Bestsellers}/>
-                    </Router>
-                </Bestsellers>
-                <Footer>
-                </Footer>
+                <Mainpage />
+                <Bestsellers />
+                <Footer />
                 <Navbar
                     loginCallback = {this.handleCallbackLogin}
                     registerCallback = {this.handleCallbackRegister}
