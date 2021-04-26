@@ -26,6 +26,7 @@
     "nodemailer": "^6.5.0",
     "pino": "^6.11.3",
     "popper.js": "^1.16.1",
+    "react-bootstrap": "^1.5.2",
     "react-responsive-carousel": "^3.2.18",
     "session": "^0.1.0",
     "string-builder": "^0.1.8",
