@@ -2,7 +2,7 @@ import axios from "axios";
 import {FETCH_PRODUCT, GET_ERROR} from "./constants";
 
 export const fetchProduct = () => (dispatch) => {
-    fetch("api/allProducts")
+    fetch("http://localhost:3000/api/allProducts")
         .then((res) => res.json())
         .then((post) => dispatch({
             type: FETCH_PRODUCT,
@@ -12,7 +12,7 @@ export const fetchProduct = () => (dispatch) => {
 }
 export const createProduct = (newProduct, history) => (dispatch) => {
     axios
-    .post("api/addProduct", newProduct)
+    .post("http://localhost:3000/api/addProduct", newProduct)
         .then((res) => history.push("/allProducts"))
         .catch((err) => dispatch({
             type: GET_ERROR,
@@ -20,3 +20,10 @@ export const createProduct = (newProduct, history) => (dispatch) => {
             })
         )
 }
+export const deleteProduct = (id) => (dispatch) => {
+
+}
+export const updateProduct = (id) => (dispatch) => {
+
+}
+
