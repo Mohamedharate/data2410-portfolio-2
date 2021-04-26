@@ -30,25 +30,25 @@ function formatUsers(arr) {
 
 router.post('/signup', async (req, res) => {
 
-        const userSignUp = new User({
+    const userSignUp = new User({
 
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            email: req.body.email,
-            password: req.body.password,
-            zipCode: req.body.zipCode,
-            street: req.body.street,
-            phoneNumber: req.body.phoneNumber
-        })
-
-        await userSignUp.save()
-            .then(data => {
-                res.status(200).json({message:`User created successfully!`})
-            })
-            .catch(error => {
-                res.status(400).json(error)
-            })
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        password: req.body.password,
+        zipCode: req.body.zipCode,
+        street: req.body.street,
+        phoneNumber: req.body.phoneNumber
     })
+
+    await userSignUp.save()
+        .then(data => {
+            res.status(200).json({message: `User created successfully!`})
+        })
+        .catch(error => {
+            res.status(500).send("DB error: Input neglected by database!")
+        })
+})
 router.post('/signIn', async (req, res) => {
 
     const logIn = {
@@ -123,72 +123,72 @@ router.post("/resetPassword/recvCode", (req, res, next) => {
 
 router.get('/all', async (req, res) => {
 
-        try {
-            const users = await User.find();
-            res.json(users);
-        } catch (err) {
-            res.status(500).json({message: err})
-        }
-    })
+    try {
+        const users = await User.find();
+        res.json(users);
+    } catch (err) {
+        res.status(500).json({message: err})
+    }
+})
 router.delete('/all', async (req, res) => {
-        try {
-            await User.deleteMany();
-            res.status(200).json({message: "Deleted all users successfully"})
-        } catch (err) {
-            res.status(500).json({message: 'Failed to delete all users!'})
-        }
-    });
+    try {
+        await User.deleteMany();
+        res.status(200).json({message: "Deleted all users successfully"})
+    } catch (err) {
+        res.status(500).json({message: 'Failed to delete all users!'})
+    }
+});
 router.get('/:email', async (req, res) => {
-        try {
-            const user = await User.findOne({email: req.params.email});
-            res.json(user);
-        } catch (err) {
-            res.status(404).json({message: 'The user with the given email address was not found'})
-        }
-    })
+    try {
+        const user = await User.findOne({email: req.params.email});
+        res.json(user);
+    } catch (err) {
+        res.status(404).json({message: 'The user with the given email address was not found'})
+    }
+})
 router.put('/:email', async (req, res) => {
 
-        const updateUserInfo = {
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            email: req.body.email,
-            password: req.body.password,
-            zipCode: req.body.zipCode,
-            street: req.body.street,
-            phoneNumber: req.body.phoneNumber
-        }
-        try {
-            const findUser = await User.findOne({email: req.params.email});
+    const updateUserInfo = {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        password: req.body.password,
+        zipCode: req.body.zipCode,
+        street: req.body.street,
+        phoneNumber: req.body.phoneNumber
+    }
+    try {
+        const findUser = await User.findOne({email: req.params.email});
 
-            if (updateUserInfo.firstName !== findUser.firstName)
-                await User.updateOne({email: req.params.email}, {firstName: updateUserInfo.firstName})
-            if (updateUserInfo.lastName !== findUser.lastName)
-                await User.updateOne({email: req.params.email}, {lastName: updateUserInfo.lastName})
-            if (updateUserInfo.password !== findUser.password)
-                await User.updateOne({email: req.params.email}, {password: updateUserInfo.password})
-            if (updateUserInfo.zipCode !== findUser.zipCode)
-                await User.updateOne({email: req.params.email}, {zipCode: updateUserInfo.zipCode})
-            if (updateUserInfo.street !== findUser.street)
-                await User.updateOne({email: req.params.email}, {street: updateUserInfo.street})
-            if (updateUserInfo.phoneNumber !== findUser.phoneNumber)
-                await User.updateOne({email: req.params.email}, {phoneNumber: updateUserInfo.phoneNumber})
-            if (updateUserInfo.email !== findUser.email)
-                await User.updateOne({email: req.params.email}, {email: updateUserInfo.email})
+        if (updateUserInfo.firstName !== findUser.firstName)
+            await User.updateOne({email: req.params.email}, {firstName: updateUserInfo.firstName})
+        if (updateUserInfo.lastName !== findUser.lastName)
+            await User.updateOne({email: req.params.email}, {lastName: updateUserInfo.lastName})
+        if (updateUserInfo.password !== findUser.password)
+            await User.updateOne({email: req.params.email}, {password: updateUserInfo.password})
+        if (updateUserInfo.zipCode !== findUser.zipCode)
+            await User.updateOne({email: req.params.email}, {zipCode: updateUserInfo.zipCode})
+        if (updateUserInfo.street !== findUser.street)
+            await User.updateOne({email: req.params.email}, {street: updateUserInfo.street})
+        if (updateUserInfo.phoneNumber !== findUser.phoneNumber)
+            await User.updateOne({email: req.params.email}, {phoneNumber: updateUserInfo.phoneNumber})
+        if (updateUserInfo.email !== findUser.email)
+            await User.updateOne({email: req.params.email}, {email: updateUserInfo.email})
 
-            res.json(updateUserInfo);
-        } catch (err) {
-            res.status(404).json(err)
-        }
-    })
+        res.json(updateUserInfo);
+    } catch (err) {
+        res.status(404).json(err)
+    }
+})
 
 router.delete('/:email', async (req, res) => {
-        try {
-            const user = await User.deleteOne({email: req.params.email});
-            res.json({message: `${req.params.email} has been deleted successfully`});
-        } catch (err) {
-            res.status(404).json({message: 'The user with the given email address was not found'})
-        }
-    })
+    try {
+        const user = await User.deleteOne({email: req.params.email});
+        res.json({message: `${req.params.email} has been deleted successfully`});
+    } catch (err) {
+        res.status(404).json({message: 'The user with the given email address was not found'})
+    }
+})
 
 
 module.exports = router;

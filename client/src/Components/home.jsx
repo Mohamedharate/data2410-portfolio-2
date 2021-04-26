@@ -32,7 +32,6 @@ class Home extends Component{
                 />
                 {this.state.toggleLogin && <Login />}
                 {this.state.toggleRegister && <Register/>}
-
             </React.Fragment>
         );
     }

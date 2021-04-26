@@ -4,24 +4,34 @@ let router = express.Router();
 const Product = require("../database/productDB");
 const StringBuilder = require("string-builder");
 
-/*
+
 function formatProdcuts(arr) {
 
     let out = new StringBuilder();
 
-    for (let i = 0; i < Product.length; i++) {
+    for (let i = 0; i < arr.length; i++) {
 
-        out.append(`<div class="card h-100"><a href="#">
-                    <img class="card-img-top" src='${arr[i].imageUrl[0]}' alt=""></a>
-                    <div class="card-body"><h4 class="card-title"><a href="#">${arr[i].name}</a></h4>
-                    <h5>${arr[i].price}$</h5>
-                    <p class="card-text">${arr[i].description}</p></div><div class="card-footer">
-                     <small class="text-muted">★ ★ ★ ★ ☆</small></div></div>`)
+        out.append(`
+            <div class="card h-100">
+                <a href="#">    
+                   <img class="card-img-top" src='${arr[i].imageUrl[0]}' alt="">
+                </a>
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            <a href="#">${arr[i].name}</a>
+                        </h4>
+                        <h5>${arr[i].price}$</h5>
+                        <p class="card-text">${arr[i].description}</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">★ ★ ★ ★ ☆</small>
+                     </div>
+            </div>`)
     }
 
     return out;
 }
- */
+
 
 //Add a new product
 router.post('/addProduct', (req, res) => {
@@ -49,7 +59,8 @@ router.get('/allProducts', async (req, res) => {
 
     try {
         const products = await Product.find();
-        res.send(products);
+
+        res.send(formatProdcuts(products).toString());
     } catch (err) {
         res.send(err)
 
@@ -76,9 +87,8 @@ router.delete('/allProducts', async (req, res) => {
 });
 
 
-
 //update a product with the given productID.
-router.put('/update/:itemId', async (req, res) => {
+router.put('/:itemId', async (req, res) => {
 
     const updateProduct = {
         name: req.body.name,
