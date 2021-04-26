@@ -6,7 +6,6 @@ const StringBuilder = require("string-builder");
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 
-
 router.use(bodyParser.urlencoded({extended: false}))
 router.use(bodyParser.json())
 
@@ -28,7 +27,8 @@ function formatUsers(arr) {
     return out.toString();
 }
 
-router.post('/signup', async (req, res) => {
+router
+    .post('/signup', async (req, res) => {
 
         const userSignUp = new User({
 
@@ -38,15 +38,16 @@ router.post('/signup', async (req, res) => {
             password: req.body.password,
             zipCode: req.body.zipCode,
             street: req.body.street,
-            phoneNumber: req.body.phoneNumber
+            phoneNumber: req.body.phone
         })
+
 
         await userSignUp.save()
             .then(data => {
-                res.status(200).json({message:`User created successfully!`})
+                res.send(`User created successfully!`)
             })
             .catch(error => {
-                res.status(400).json(error)
+                res.status(500).send("DB error: Input was neglected by database!")
             })
     })
 router.post('/signIn', async (req, res) => {
@@ -61,7 +62,7 @@ router.post('/signIn', async (req, res) => {
         password: logIn.password
     });
     if (checkIfExists != null) {
-        res.status(200).json({message: "signed in successfully"})
+        res.status(200).json({message: "signed in"})
     } else
         res.status(401).send("Incorrect password or email")
 })
@@ -100,7 +101,7 @@ router.post('/forgot', async (req, res, next) => {
                 console.log(error);
             } else {
                 console.log('Email sent: ' + info.response);
-                res.status(200).json({message: `Mail sendt to ${mailOptions.to} successfully!`});
+                res.status(200).json({message: `Mail sendt to ${mailOptions.to}!`});
             }
         });
     } else {
@@ -121,24 +122,26 @@ router.post("/resetPassword/recvCode", (req, res, next) => {
 })
 
 
-router.get('/all', async (req, res) => {
+router
+    .get('/all', async (req, res) => {
 
         try {
             const users = await User.find();
             res.json(users);
         } catch (err) {
-            res.status(500).json({message: err})
+            res.json({message: err})
         }
     })
-router.delete('/all', async (req, res) => {
+    .delete('/all', async (req, res) => {
         try {
             await User.deleteMany();
-            res.status(200).json({message: "Deleted all users successfully"})
+            res.status(200).json({message: "Deleted all users"})
         } catch (err) {
-            res.status(500).json({message: 'Failed to delete all users!'})
+            res.status(400).json({message: 'Failed!'})
         }
     });
-router.get('/:email', async (req, res) => {
+router
+    .get('/:email', async (req, res) => {
         try {
             const user = await User.findOne({email: req.params.email});
             res.json(user);
@@ -146,45 +149,13 @@ router.get('/:email', async (req, res) => {
             res.status(404).json({message: 'The user with the given email address was not found'})
         }
     })
-router.put('/:email', async (req, res) => {
+    .put('/:email', (req, res) => {
 
-        const updateUserInfo = {
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            email: req.body.email,
-            password: req.body.password,
-            zipCode: req.body.zipCode,
-            street: req.body.street,
-            phoneNumber: req.body.phoneNumber
-        }
-        try {
-            const findUser = await User.findOne({email: req.params.email});
-
-            if (updateUserInfo.firstName !== findUser.firstName)
-                await User.updateOne({email: req.params.email}, {firstName: updateUserInfo.firstName})
-            if (updateUserInfo.lastName !== findUser.lastName)
-                await User.updateOne({email: req.params.email}, {lastName: updateUserInfo.lastName})
-            if (updateUserInfo.password !== findUser.password)
-                await User.updateOne({email: req.params.email}, {password: updateUserInfo.password})
-            if (updateUserInfo.zipCode !== findUser.zipCode)
-                await User.updateOne({email: req.params.email}, {zipCode: updateUserInfo.zipCode})
-            if (updateUserInfo.street !== findUser.street)
-                await User.updateOne({email: req.params.email}, {street: updateUserInfo.street})
-            if (updateUserInfo.phoneNumber !== findUser.phoneNumber)
-                await User.updateOne({email: req.params.email}, {phoneNumber: updateUserInfo.phoneNumber})
-            if (updateUserInfo.email !== findUser.email)
-                await User.updateOne({email: req.params.email}, {email: updateUserInfo.email})
-
-            res.json(updateUserInfo);
-        } catch (err) {
-            res.status(404).json(err)
-        }
     })
-
-router.delete('/:email', async (req, res) => {
+    .delete('/:email', async (req, res) => {
         try {
             const user = await User.deleteOne({email: req.params.email});
-            res.json({message: `${req.params.email} has been deleted successfully`});
+            res.json({message: "Deleted"});
         } catch (err) {
             res.status(404).json({message: 'The user with the given email address was not found'})
         }
