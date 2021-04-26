@@ -2,7 +2,7 @@ import axios from "axios";
 import {FETCH_PRODUCT, GET_ERROR} from "./constants";
 
 export const fetchProduct = () => (dispatch) => {
-    fetch("http://localhost:3001/api/products/allProducts")
+    axios.get("http://localhost:3001/api/products/allProducts")
         .then((res) => res.json())
         .then((post) => dispatch({
             type: FETCH_PRODUCT,
@@ -20,10 +20,16 @@ export const createProduct = (newProduct, history) => (dispatch) => {
             })
         )
 }
-export const deleteProduct = (id) => (dispatch) => {
-
+export const deleteProduct = (itemid) => (dispatch) => {
+    axios.delete("http://localhost:3001/api/products/${itemId}")
+        .then(res => dispatch({
+            payload: itemid
+        }))
 }
-export const updateProduct = (id) => (dispatch) => {
-
+export const updateProduct = (itemId) => (dispatch) => {
+    axios.put("http://localhost:3001/api/products/${itemId}")
+        .then(res => dispatch({
+            payload: Promise.all([itemId, res.data])
+        }))
 }
 
