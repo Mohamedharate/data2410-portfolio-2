@@ -1,13 +1,19 @@
 const mongoose = require("mongoose");
+const {Decimal128} = require("bson");
 
 const Schema = mongoose.Schema;
 
+function getID(){
+    return Math.floor(1000 + Math.random() * 8999)
+}
+
 const product_schema = new Schema(
+
     {
         itemId:{
             unique:true,
             type:String,
-            default:  Math.floor(1000 + Math.random() * 8999),
+            default: getID,
         },
         date: {
             type: Date,
@@ -16,16 +22,14 @@ const product_schema = new Schema(
         name: {
             required: true,
             type: String,
-            trim: true,
         },
         description: {
             required: true,
             type: String,
-            trim: true,
         },
         price: {
             required: true,
-            type: String,
+            type: Decimal128,
         },
         imageUrl: {
             type: [],
@@ -34,6 +38,10 @@ const product_schema = new Schema(
         category: {
             required: true,
             type: String,
+        },
+        quantity: {
+            required: true,
+            type: Number,
         },
     });
 
