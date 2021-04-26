@@ -12,13 +12,13 @@ class Register extends Component {
     }
 
     state = {
-        firstname: '',
-        lastname: '',
+        firstName: '',
+        lastName: '',
         email: '',
         password: '',
         zipCode: '',
-        streetName: '',
-        phone: '',
+        street: '',
+        phoneNumber: '',
         toggle_error_feedback: false,
         toggle_success_feedback: false,
         feedback_text: '',
@@ -42,20 +42,20 @@ class Register extends Component {
             method: 'post',
             url: 'http://localhost:3001/api/users/signup',
             data: {
-                firstName: this.state.firstname,
-                lastName: this.state.lastname,
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
                 email: this.state.email,
                 password: this.state.password,
                 zipCode: this.state.zipCode,
-                street: this.state.streetName,
-                phone: this.state.phone,
+                street: this.state.street,
+                phoneNumber: this.state.phoneNumber,
             }
         }).then(function (response) {
             console.log("Data:", response.data);
             console.log("Status:", response.status);
             that.setState({toggle_error_feedback: false})
             that.setState({toggle_success_feedback: true})
-            that.setState({feedback_text: response.data})
+            that.setState({feedback_text: response.data.message})
         }).catch(function (error) {
             if (error.response) {
                 console.log(error.response.data);
@@ -89,11 +89,11 @@ class Register extends Component {
                                         <input type="text" onChange={this.handleInputChange}
                                                className="form-control mt-2" placeholder="Firstname"
                                                pattern={/^[a-z ,.'-]+$/i}
-                                               name="firstname" required="" autoFocus=""/>
+                                               name="firstName" required="" autoFocus=""/>
                                         <input type="text" onChange={this.handleInputChange}
                                                className="form-control mt-2" placeholder="Lastname"
                                                pattern={/^[a-z ,.'-]+$/i}
-                                               name="lastname" required="" autoFocus=""/>
+                                               name="lastName" required="" autoFocus=""/>
                                         <input type="email" onChange={this.handleInputChange}
                                                className="form-control mt-2" placeholder="Email"
                                                pattern={
@@ -110,11 +110,11 @@ class Register extends Component {
                                         <input type="text" onChange={this.handleInputChange}
                                                className="form-control mt-2" placeholder="Street name"
                                                pattern={/^\s[A-z]+\s[A-z]+\d+/}
-                                               name="streetName" required="" autoFocus=""/>
+                                               name="street" required="" autoFocus=""/>
                                         <input type="text" onChange={this.handleInputChange}
                                                className="form-control mt-2" placeholder="Phone"
                                                pattern={/^\s[A-z]+\s[A-z]+\d+/}
-                                               name="phone" required="" autoFocus=""/>
+                                               name="phoneNumber" required="" autoFocus=""/>
                                     </div>
                                     <button onClick={this.submitLoginDetails.bind(this)}
                                             className="btn btn-lg btn-primary btn-block mt-2">Register

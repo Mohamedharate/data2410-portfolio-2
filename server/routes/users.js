@@ -46,7 +46,7 @@ router.post('/signup', async (req, res) => {
             res.status(200).json({message: `User created successfully!`})
         })
         .catch(error => {
-            res.status(400).json(error)
+            res.status(500).send("DB error: Input neglected by database!")
         })
 })
 router.post('/signIn', async (req, res) => {
