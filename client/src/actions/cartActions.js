@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const addToCart = (product, itemId, quantity) => dispatch => {
-    axios.post("http://localhost:3001/api/cart/${id}/${itemId}")
+    axios.post("http://localhost:3001/api/cart/${id}/${itemId}") //skal dette gå under order kanskje
         .then(res => dispatch({
         }))
 }
