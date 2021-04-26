@@ -12,9 +12,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@vonage/server-sdk": "^2.10.8",
     "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.6.0",
+    "bson": "^4.3.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express-session": "^1.17.1",
@@ -28,7 +30,8 @@
     "react-responsive-carousel": "^3.2.18",
     "session": "^0.1.0",
     "string-builder": "^0.1.8",
-    "stringbuilder": "0.0.11"
+    "stringbuilder": "0.0.11",
+    "twilio": "^3.61.0"
   },
   "engines": {
     "node": "14.16.0"
