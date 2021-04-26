@@ -4,17 +4,8 @@ import { fetchProduct} from "../actions/productActions";
 
 
 class Mainpage extends Component{
-  componentDidMount() {
-    this.props.fetchProduct();
-  }
-  static propTypes = {
-    fetchProduct: PropTypes.func.isRequired,
-    product: PropTypes.func.isRequired,
-    //user?
-  }
 
   render() {
-    const { products } = this.props.product;
         return (
           <div className="container">
 
@@ -61,7 +52,6 @@ class Mainpage extends Component{
                 </div>
 
                 <div className="row">
-                  {products.map((product)=>(
                       <div className="col-lg-4 col-md-6 mb-4">
                         <div className="card h-100">
                           <a href="#"><img className="card-img-top" src="http://placehold.it/700x400" alt=""/></a>
@@ -70,14 +60,13 @@ class Mainpage extends Component{
                               <a href="#">Item One</a>
                             </h4>
                             <h5>$24.99</h5>
-                            <p className="card-text">{product.title}Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
+                            <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
                           </div>
                           <div className="card-footer">
                             <small className="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
                           </div>
                         </div>
                       </div>
-                  ))}
 
                   <div className="col-lg-4 col-md-6 mb-4">
                     <div className="card h-100">
