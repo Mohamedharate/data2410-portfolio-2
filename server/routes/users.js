@@ -6,6 +6,7 @@ const StringBuilder = require("string-builder");
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 
+
 router.use(bodyParser.urlencoded({extended: false}))
 router.use(bodyParser.json())
 
@@ -32,7 +33,7 @@ router
 
         const userSignUp = new User({
 
-            firstName: req.body.firstName,
+            firstName:  req.body.firstName,
             lastName: req.body.lastName,
             email: req.body.email,
             password: req.body.password,
@@ -40,7 +41,6 @@ router
             street: req.body.street,
             phoneNumber: req.body.phoneNumber
         })
-
 
         await userSignUp.save()
             .then(data => {

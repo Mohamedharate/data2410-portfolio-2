@@ -12,7 +12,8 @@ router
             description: req.body.description,
             price: req.body.price,
             imageUrl: req.body.imageUrl,
-            category: req.body.category
+            category: req.body.category,
+            quantity: req.body.quantity
         });
 
         product.save()
