@@ -3,16 +3,14 @@ const {Decimal128} = require("bson");
 
 const Schema = mongoose.Schema;
 
-function getID(){
+function getID() {
     return Math.floor(1000 + Math.random() * 8999)
 }
-
 const product_schema = new Schema(
-
     {
-        itemId:{
-            unique:true,
-            type:String,
+        itemId: {
+            unique: true,
+            type: String,
             default: getID,
         },
         date: {
