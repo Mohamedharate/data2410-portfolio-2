@@ -146,5 +146,25 @@ router.delete('/delete/:itemId', async (req, res) => {
     }
 });
 
+// add review.
+router.put('/addReview/:itemId', async (req, res) => {
+    const itemId = req.params.itemId;
+
+    const reviwe = {
+        "user": req.body.user,
+        "reviweText": req.body.reviweText,
+        Date: new Date().toLocaleDateString(),
+        Time: new Date().toLocaleTimeString()
+    }
+    try {
+        const product = await Product.updateOne({itemId: itemId}, {$push: {reviews: reviwe}});
+        if (product.nModified === 1) res.status(200).json({message: `New review is added to product with ID ${itemId} `});
+        else {
+            res.status(400).json({message: 'The product with the given item ID was not found'})
+        }
+    } catch (err) {
+        res.status(500).json({message: 'DB error!'})
+    }
+});
 
 module.exports = router;
