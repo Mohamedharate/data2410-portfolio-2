@@ -37,13 +37,13 @@ class Register extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.submitLoginDetails()
+        this.submitUserDetails()
             .then(response => {
             }).catch(error => {
         })
     }
 
-    async submitLoginDetails() {
+    async submitUserDetails() {
         const that = this;
 
         await axios({
@@ -68,11 +68,9 @@ class Register extends Component {
             if (error.response) {
                 console.log(error.response.data);
                 console.log(error.response.status);
-                if (error.response.status === 500) {
-                    that.setState({toggle_error_feedback: true})
-                    that.setState({toggle_success_feedback: false})
-                    that.setState({feedback_text: error.response.data})
-                }
+                that.setState({toggle_error_feedback: true})
+                that.setState({toggle_success_feedback: false})
+                that.setState({feedback_text: error.response.data})
             } else if (error.request) {
                 console.log(error.request);
             } else {
