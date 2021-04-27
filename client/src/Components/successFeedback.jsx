@@ -9,8 +9,9 @@ class SuccessFeedback extends Component {
 
     render() {
         return (
-            <Alert className="mt-2" variant="success">
+            <Alert className="mt-4" variant="success">
                 <Alert.Heading>This is great!</Alert.Heading>
+                <hr/>
                 <p>
                     {this.props.feedback_success_text}
                 </p>

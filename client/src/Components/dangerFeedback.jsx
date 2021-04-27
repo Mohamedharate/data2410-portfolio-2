@@ -9,8 +9,9 @@ class DangerFeedback extends Component {
 
     render() {
         return (
-            <Alert className="mt-2" variant="danger">
+            <Alert className="mt-4" variant="danger">
                 <Alert.Heading>Oh snap!</Alert.Heading>
+                <hr/>
                 <p>
                     {this.props.feedback_error_text}
                 </p>

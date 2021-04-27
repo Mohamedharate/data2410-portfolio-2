@@ -61,7 +61,7 @@ router.post('/signIn', async (req, res) => {
         password: logIn.password
     });
     if (checkIfExists != null) {
-        res.status(200).json({message: "signed in successfully"})
+        res.status(200).json({message: "Signed in successfully"})
     } else
         res.status(401).send("Incorrect password or email")
 })
