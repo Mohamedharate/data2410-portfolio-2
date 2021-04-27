@@ -5,6 +5,7 @@ const User = require("../database/userDB");
 const StringBuilder = require("string-builder");
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
+const bcrypt = require('bcrypt')
 
 
 router.use(bodyParser.urlencoded({extended: false}))
@@ -30,12 +31,20 @@ function formatUsers(arr) {
 
 router.post('/signup', async (req, res) => {
 
+
+    //Hashing password:
+    //generating salt to hash password
+    const salt = await bcrypt.genSalt(10);
+    //creating hashed password
+    const hash_password = await bcrypt.hash(req.body.password, salt)
+
+
     const userSignUp = new User({
 
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
-        password: req.body.password,
+        password: hash_password,
         zipCode: req.body.zipCode,
         street: req.body.street,
         phoneNumber: req.body.phoneNumber
@@ -51,19 +60,18 @@ router.post('/signup', async (req, res) => {
 })
 router.post('/signIn', async (req, res) => {
 
-    const logIn = {
-        email: req.body.email,
-        password: req.body.password
-    }
+    console.log(req.body.password)
 
-    const checkIfExists = await User.findOne({
-        email: logIn.email,
-        password: logIn.password
-    });
-    if (checkIfExists != null) {
-        res.status(200).json({message: "Signed in successfully"})
-    } else
-        res.status(401).send("Incorrect password or email")
+
+    const user = await User.findOne({email: req.body.email,});
+    if(user){
+        const validPassword = await bcrypt.compare(req.body.password, user.password);
+        if(validPassword){
+            res.status(200).json({message: "Signed in successfully"})
+        } else {
+            res.status(400).send("Incorrect password or email")
+        }
+    }
 })
 
 let confirmation;
