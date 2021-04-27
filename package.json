@@ -2,15 +2,15 @@
   "name": "data2410-oblig2-group7",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "server": "nodemon server/server.js",
+    "server": "node server/server.js",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "start": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@vonage/server-sdk": "^2.10.8",
     "axios": "^0.21.1",
