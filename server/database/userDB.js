@@ -3,14 +3,17 @@ const mongoose = require("mongoose");
 
 const user_schema = new mongoose.Schema(
     {
-
         firstName: {
             type: String,
-            required: true
+            required: true,
+            minlength: 2,
+            maxlength: 30
         },
         lastName: {
             type: String,
-            required: true
+            required: true,
+            minlength: 2,
+            maxlength: 30
         },
         email: {
             unique: true,
@@ -22,19 +25,22 @@ const user_schema = new mongoose.Schema(
             required: true
         },
         zipCode: {
-            type: String,
-            required: true
+            type: Number,
+            required: true,
+            minlength: 4,
+            maxlength: 4
         },
         street: {
             type: String,
             required: true
         },
         phoneNumber: {
-            type: String,
+            type: Number,
+            minlength: 8,
+            maxlength: 12,
             required: true
         },
-
-        data: {
+        date: {
             type: Date,
             default: Date.now
         },

@@ -31,7 +31,8 @@ app.use((req, res, next) => {
 try {
     mongoose.connect("mongodb+srv://haratemo:12345oslomet@webshop.uemit.mongodb.net/webshop?retryWrites=true&w=majority", {
         useNewUrlParser: true,
-        useUnifiedTopology: true
+        useUnifiedTopology: true,
+        useCreateIndex: true
     }, () =>
         console.log("connected to webshopDB"));
 } catch (error) {
