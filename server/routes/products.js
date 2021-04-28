@@ -91,7 +91,6 @@ router.post('/addProduct', upload.array('imageUrl',20),(req, res) => {
         category: req.body.category,
         quantity: req.body.quantity
     });
-    console.log(imageArrAfterConverting[0].filename)
 
     product.save()
         .then(data => {
@@ -108,7 +107,6 @@ router.get('/allProducts', async (req, res) => {
 
     try {
         const products = await Product.find();
-
         res.send(formatProdcuts(products).toString());
     } catch (err) {
         res.send(err)
@@ -137,7 +135,8 @@ router.delete('/allProducts', async (req, res) => {
 
 
 //update a product with the given productID.
-router.put('/update/:itemId', async (req, res) => {
+router.put('/update/:itemId', upload.array('imageUrl',20),
+    async (req, res) => {
     const itemId = req.params.itemId;
     let imageArrAfterConverting = [];
 
@@ -164,7 +163,6 @@ router.put('/update/:itemId', async (req, res) => {
         category: req.body.category,
         quantity: req.body.quantity
     }
-    console.log(findProduct)
 
     findProduct.imageUrl.forEach(image =>{
         for (let i=0;i<imageArrAfterConverting.length;i++){
