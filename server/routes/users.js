@@ -69,14 +69,13 @@ router.get('/sessUser/', (req, res) => {
 })
 router.post('/signIn', async (req, res) => {
 
-    console.log(req.body.password)
-
-
     const user = await User.findOne({email: req.body.email,});
     if(user){
         const validPassword = await bcrypt.compare(req.body.password, user.password);
         if(validPassword){
-            res.status(200).json({message: "Signed in successfully"})
+            req.session.userId = user._id
+            console.log(req.session)
+            return res.status(200).json({message: "Signed in successfully"})
         } else {
             res.status(400).send("Incorrect password or email")
         }

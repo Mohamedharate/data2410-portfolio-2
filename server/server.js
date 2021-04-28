@@ -1,7 +1,6 @@
-const PORT = process.env.PORT || 3001;
 const path = require('path');
 const express = require('express');
-//const session = require('express-session');
+const session = require('express-session');
 const app = express();
 const bodyParser = require('body-parser');
 const users = require('./routes/users');
@@ -9,10 +8,35 @@ const products = require('./routes/products');
 const orders = require('./routes/orders');
 const mongoose = require("mongoose");
 const cors = require("cors");
+
+TWO_HOURS = 1000 * 60 * 60 * 2
+
+const{
+    PORT = 3001,
+    NODE_ENV = 'development',
+
+    SESS_NAME = 'sid',
+    SESS_LIFETIME = TWO_HOURS,
+} = process.env
+
+const IN_PROD = NODE_ENV === 'production'
+
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
-
+app.use(
+    session({
+        name: SESS_NAME,
+        resave: false,
+        saveUninitialized: false,
+        secret: 'shhh!this,a7\'secret',
+        cookie: {
+            maxAge: SESS_LIFETIME,
+            sameSite: false,
+            secure: IN_PROD,
+        }
+    })
+)
 
 const corsOptions = {
     origin: 'http://localhost:3000',
