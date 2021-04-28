@@ -11,8 +11,10 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const {MongoClient} = require('mongodb');
 app.use(express.static(path.resolve(__dirname, '../client/build')));
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
+
+
 
 const corsOptions = {
     origin: 'http://localhost:3000',
