@@ -9,23 +9,30 @@ export default class Mainpage extends Component {
     this.state = {products: []};
   }
 
-  componentDidMount = () => {
-    axios
-        .get("http://localhost:3001/api/products/allProducts")
-        .then((response) => {
-          this.setState({products: response.data});
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-  };
+  componentDidMount() {
 
+    axios({
+      method: "get",
+      url: 'http://localhost:3001/api/products/allProducts',
+      data: {
+        name: this.state.name,
+        price: this.state.price,
+      }
+    }).then(function (response) {
+      console.log("Data: ", response.data);
+      this.setState({products: response.data});
+    }).catch(function (error) {
+      console.log(error.message);
+    });
+  };
 
   addToCart = (product) => {
     this.props.addToCart(product); //må ha UI for å legge til i handlevogn
   };
+
+
   static propTypes = {
-    fetchProduct: PropTypes.func.isRequired,
+    componentDidMount: PropTypes.func.isRequired,
     product: PropTypes.object.isRequired
   };
 
