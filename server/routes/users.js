@@ -39,12 +39,15 @@ router.post('/signup', async (req, res) => {
     const hash_password = await bcrypt.hash(req.body.password, salt)
 
 
+
     const userSignUp = new User({
 
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
         password: hash_password,
+        country: req.body.country,
+        city: req.body.city,
         zipCode: req.body.zipCode,
         street: req.body.street,
         phoneNumber: req.body.phoneNumber
@@ -57,6 +60,12 @@ router.post('/signup', async (req, res) => {
         .catch(error => {
             res.status(500).send("DB error: Input neglected by database!")
         })
+})
+
+router.get('/sessUser/', (req, res) => {
+
+
+    res.send("HEI")
 })
 router.post('/signIn', async (req, res) => {
 
