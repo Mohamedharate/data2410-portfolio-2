@@ -30,8 +30,6 @@ function formatUsers(arr) {
 }
 
 router.post('/signup', async (req, res) => {
-
-
     //Hashing password:
     //generating salt to hash password
     const salt = await bcrypt.genSalt(10);
@@ -54,7 +52,7 @@ router.post('/signup', async (req, res) => {
 
     await userSignUp.save()
         .then(data => {
-            res.status(200).json({message: `User created successfully!`})
+            res.status(200).json({message: `User with created successfully!`})
         })
         .catch(error => {
             res.status(500).send("DB error: Input neglected by database!")
@@ -83,7 +81,7 @@ router.post('/signIn', async (req, res) => {
 })
 
 let confirmation;
-router.post('/forgot', async (req, res, next) => {
+router.post('/forgot', async (req, res) => {
 
     const forgotPassword = {
         email: req.body.email
@@ -123,8 +121,7 @@ router.post('/forgot', async (req, res, next) => {
         res.status(404).json({message: "Email not found"});
     }
 })
-
-router.post("/resetPassword/recvCode", (req, res, next) => {
+router.post("/resetPassword/recvCode", (req, res) => {
     const code = {
         code: req.body.code
     }
@@ -135,8 +132,6 @@ router.post("/resetPassword/recvCode", (req, res, next) => {
         res.json({message: "Incorrect code"});
     }
 })
-
-
 router.get('/all', async (req, res) => {
 
     try {
@@ -196,15 +191,13 @@ router.put('/:email', async (req, res) => {
         res.status(404).json(err)
     }
 })
-
 router.delete('/:email', async (req, res) => {
     try {
-        const user = await User.deleteOne({email: req.params.email});
+        await User.deleteOne({email: req.params.email});
         res.json({message: `${req.params.email} has been deleted successfully`});
     } catch (err) {
         res.status(404).json({message: 'The user with the given email address was not found'})
     }
 })
-
 
 module.exports = router;
