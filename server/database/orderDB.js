@@ -27,11 +27,11 @@ const order_schema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        country:{
-          type: Number,
-          required: true,
-          minlength: 2,
-          maxlength: 30
+        country: {
+            type: Number,
+            required: true,
+            minlength: 2,
+            maxlength: 30
         },
         zipCode: {
             type: Number,
@@ -39,11 +39,11 @@ const order_schema = new mongoose.Schema(
             minlength: 4,
             maxlength: 4
         },
-        city:{
+        city: {
             type: String,
             required: true,
-            minlength:2,
-            maxlength:30
+            minlength: 2,
+            maxlength: 30
         },
         street: {
             type: String,

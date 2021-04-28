@@ -69,6 +69,9 @@ router.get('/sessUser/', (req, res) => {
 })
 router.post('/signIn', async (req, res) => {
 
+    console.log(req.body.password)
+
+
     const user = await User.findOne({email: req.body.email,});
     if(user){
         const validPassword = await bcrypt.compare(req.body.password, user.password);
@@ -83,7 +86,7 @@ router.post('/signIn', async (req, res) => {
 })
 
 let confirmation;
-router.post('/forgot', async (req, res, next) => {
+router.post('/forgot', async (req, res) => {
 
     const forgotPassword = {
         email: req.body.email
@@ -199,7 +202,7 @@ router.put('/:email', async (req, res) => {
 
 router.delete('/:email', async (req, res) => {
     try {
-        const user = await User.deleteOne({email: req.params.email});
+        await User.deleteOne({email: req.params.email});
         res.json({message: `${req.params.email} has been deleted successfully`});
     } catch (err) {
         res.status(404).json({message: 'The user with the given email address was not found'})

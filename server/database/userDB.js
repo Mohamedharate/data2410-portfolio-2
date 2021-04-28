@@ -24,17 +24,17 @@ const user_schema = new mongoose.Schema(
             type: String,
             required: true
         },
-        country:{
+        country: {
             type: String,
             required: true,
-            minlength:2,
-            maxlength:30
+            minlength: 2,
+            maxlength: 30
         },
-        city:{
+        city: {
             type: String,
             required: true,
-            minlength:2,
-            maxlength:30
+            minlength: 2,
+            maxlength: 30
         },
         zipCode: {
             type: Number,

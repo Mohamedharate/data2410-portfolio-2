@@ -4,11 +4,11 @@ let router = express.Router();
 const multer = require('multer');
 
 const storage = multer.diskStorage({
-    destination: function (req,file,cb){
-        cb(null,'./server/public/uploads');
+    destination: function (req, file, cb) {
+        cb(null, './server/uploads');
     },
-    filename: function (req,file,cb){
-        cb(null,file.originalname)
+    filename: function (req, file, cb) {
+        cb(null, file.originalname)
     }
 })
 /*
@@ -26,12 +26,12 @@ const fileFilter = (req,file,cb) => {
 
 const upload =
     multer({
-        storage:storage,
+        storage: storage,
         limits: {
-            fileSize : 1024 * 1024* 5,
+            fileSize: 1024 * 1024 * 5,
         },
 
-    //fileFilter:fileFilter
+        //fileFilter:fileFilter
     });
 
 const Product = require("../database/productDB");
@@ -66,19 +66,19 @@ function formatProdcuts(arr) {
 
 
 //Add a new product
-router.post('/addProduct', upload.array('imageUrl',20),(req, res) => {
+router.post('/addProduct', upload.array('imageUrl', 20), (req, res) => {
 
     if (!req.files) return res.status(400).json('please upload at least one picture')
 
     const files = req.files;
 
     let imageArrAfterConverting = [];
-    for (let i = 0;i<files.length;i++){
+    for (let i = 0; i < files.length; i++) {
         const finalImage = {
-            filename:files[i].originalname,
+            filename: files[i].originalname,
             contentType: files[i].mimetype,
             path: files[i].path,
-            image: Buffer.from(fs.readFileSync(files[i].path).toString('base64'),'base64')
+            image: Buffer.from(fs.readFileSync(files[i].path).toString('base64'), 'base64')
         };
         imageArrAfterConverting.push(finalImage)
     }
@@ -97,7 +97,7 @@ router.post('/addProduct', upload.array('imageUrl',20),(req, res) => {
             res.status(200).json({message: `Product with name ${product.name} added successfully!`})
         })
         .catch(error => {
-            res.send(500).json({message:`The product is not saved to the the database. Please try again.`})
+            res.send(500).json({message: `The product is not saved to the the database. Please try again.`})
         })
 
 
@@ -135,58 +135,58 @@ router.delete('/allProducts', async (req, res) => {
 
 
 //update a product with the given productID.
-router.put('/update/:itemId', upload.array('imageUrl',20),
+router.put('/update/:itemId', upload.array('imageUrl', 20),
     async (req, res) => {
-    const itemId = req.params.itemId;
-    let imageArrAfterConverting = [];
+        const itemId = req.params.itemId;
+        let imageArrAfterConverting = [];
 
-    if (req.files){
-        const files = req.files;
+        if (req.files) {
+            const files = req.files;
 
-        for (let i = 0;i<files.length;i++){
-            const finalImage = {
-                filename:files[i].originalname,
-                contentType: files[i].mimetype,
-                path: files[i].path,
-                image: Buffer.from(fs.readFileSync(files[i].path).toString('base64'),'base64')
-            };
-            imageArrAfterConverting.push(finalImage)
-        }
-    }
-    const findProduct = await Product.findOne({itemId: itemId});
-
-    const updateProduct = {
-        name: req.body.name,
-        description: req.body.description,
-        price: req.body.price,
-        imageUrl: req.files,
-        category: req.body.category,
-        quantity: req.body.quantity
-    }
-
-    findProduct.imageUrl.forEach(image =>{
-        for (let i=0;i<imageArrAfterConverting.length;i++){
-            console.log(image.filename)
-            console.log(imageArrAfterConverting[i].filename)
-            if (image.filename === imageArrAfterConverting[i].filename){
-                imageArrAfterConverting.splice(i,1);
-                res.status(400).json({message:`The picture with name ${image.filename} is already uploaded!`})//Må endres slik at brukeren får lastet opp de bildene som ikke er lastet opp fra før
+            for (let i = 0; i < files.length; i++) {
+                const finalImage = {
+                    filename: files[i].originalname,
+                    contentType: files[i].mimetype,
+                    path: files[i].path,
+                    image: Buffer.from(fs.readFileSync(files[i].path).toString('base64'), 'base64')
+                };
+                imageArrAfterConverting.push(finalImage)
             }
         }
-    })
-    await Product.updateOne({itemId: itemId}, {$push: {imageUrl: imageArrAfterConverting}});
-    try {
-        if (updateProduct.name !== findProduct.name) await Product.updateOne({itemId: itemId}, {name: updateProduct.name})
-        if (updateProduct.description !== findProduct.description) await Product.updateOne({itemId: itemId}, {description: updateProduct.description})
-        if (updateProduct.price !== findProduct.price) await Product.updateOne({itemId: itemId}, {price: updateProduct.price})
-        if (updateProduct.category !== findProduct.category) await Product.updateOne({itemId: itemId}, {category: updateProduct.category})
-        if (updateProduct.quantity !== findProduct.quantity) await Product.updateOne({itemId: itemId}, {quantity: updateProduct.quantity})
+        const findProduct = await Product.findOne({itemId: itemId});
 
-        res.json({message: "The product is updated!"});
-    } catch (err) {
-        res.status(404).send(err + " Feil i try")
-    }
-})
+        const updateProduct = {
+            name: req.body.name,
+            description: req.body.description,
+            price: req.body.price,
+            imageUrl: req.files,
+            category: req.body.category,
+            quantity: req.body.quantity
+        }
+
+        findProduct.imageUrl.forEach(image => {
+            for (let i = 0; i < imageArrAfterConverting.length; i++) {
+                console.log(image.filename)
+                console.log(imageArrAfterConverting[i].filename)
+                if (image.filename === imageArrAfterConverting[i].filename) {
+                    imageArrAfterConverting.splice(i, 1);
+                    res.status(400).json({message: `The picture with name ${image.filename} is already uploaded!`})//Må endres slik at brukeren får lastet opp de bildene som ikke er lastet opp fra før
+                }
+            }
+        })
+        await Product.updateOne({itemId: itemId}, {$push: {imageUrl: imageArrAfterConverting}});
+        try {
+            if (updateProduct.name !== findProduct.name) await Product.updateOne({itemId: itemId}, {name: updateProduct.name})
+            if (updateProduct.description !== findProduct.description) await Product.updateOne({itemId: itemId}, {description: updateProduct.description})
+            if (updateProduct.price !== findProduct.price) await Product.updateOne({itemId: itemId}, {price: updateProduct.price})
+            if (updateProduct.category !== findProduct.category) await Product.updateOne({itemId: itemId}, {category: updateProduct.category})
+            if (updateProduct.quantity !== findProduct.quantity) await Product.updateOne({itemId: itemId}, {quantity: updateProduct.quantity})
+
+            res.json({message: "The product is updated!"});
+        } catch (err) {
+            res.status(404).send(err + " Feil i try")
+        }
+    })
 /*
 router.put('/updateprice', async (req, res) => {
     const newPrice = {
