@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const {Binary} = require("bson");
 const {Decimal128} = require("bson");
 
 const Schema = mongoose.Schema;
@@ -39,8 +40,7 @@ const product_schema = new Schema(
         imageUrl: {
             required: true,
             type: [],
-            minlength: 1
-
+            minlength: 1,
         },
         category: {
             required: true,
