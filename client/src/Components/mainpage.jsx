@@ -1,6 +1,5 @@
 import React, {Component, useEffect} from "react";
 import PropTypes from 'prop-types';
-import {fetchProduct} from "../actions/productActions";
 import axios from "axios";
 
 
@@ -12,7 +11,7 @@ export default class Mainpage extends Component {
 
   componentDidMount = () => {
     axios
-        .get("http://localhost:3001/products/")
+        .get("http://localhost:3001/api/products/allProducts")
         .then((response) => {
           this.setState({products: response.data});
         })
