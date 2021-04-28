@@ -39,7 +39,6 @@ router.post('/signup', async (req, res) => {
     const hash_password = await bcrypt.hash(req.body.password, salt)
 
 
-
     const userSignUp = new User({
 
         firstName: req.body.firstName,
@@ -73,9 +72,9 @@ router.post('/signIn', async (req, res) => {
 
 
     const user = await User.findOne({email: req.body.email,});
-    if(user){
+    if (user) {
         const validPassword = await bcrypt.compare(req.body.password, user.password);
-        if(validPassword){
+        if (validPassword) {
             res.status(200).json({message: "Signed in successfully"})
         } else {
             res.status(400).send("Incorrect password or email")
