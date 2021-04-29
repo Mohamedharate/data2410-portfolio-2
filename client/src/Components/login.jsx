@@ -30,13 +30,16 @@ class Login extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         this.postLoginDetails()
-            .then(response => {
+            .then(r => {
+                this.props.loginCallback()
             }).catch(error => {
+                console.log(error)
         })
     }
 
     async postLoginDetails() {
         const that = this;
+        console.log("Inne i postLoginDetails")
         await axios({
             method: 'post',
             url: 'http://localhost:3001/api/users/signIn',
