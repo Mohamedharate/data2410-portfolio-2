@@ -2,6 +2,7 @@ import React, {Component,} from "react";
 import axios from "axios";
 
 
+
 export default class Mainpage extends Component {
   constructor(props) {
     super(props);
@@ -15,7 +16,7 @@ export default class Mainpage extends Component {
       method: "get",
       url: 'http://localhost:3001/api/products/allProducts',
     }).then(function (response) {
-      console.log("Data: ", response.data);
+      console.log("Data: ", response);
       that.setState({product: response.data});
     }).catch(function (error) {
       if (!error.data) {
@@ -29,7 +30,6 @@ export default class Mainpage extends Component {
   render() {
     return (
         <div className="container">
-
           <div className="row">
             <div className="col-lg-3">
 
@@ -72,110 +72,12 @@ export default class Mainpage extends Component {
                   <span className="sr-only">Next</span>
                 </a>
               </div>
-              <div className="row">
-                <div className="col-lg-4 col-md-6 mb-4">
-                  <div className="card h-100">
-                    <a href="#"><img className="card-img-top" src="http://placehold.it/700x400" alt=""/></a>
-                    <div className="card-body">
-                      <h4 className="card-title">
-                        <a href="#">{}</a>
-                      </h4>
-                      <h5>{}</h5>
-                      <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam
-                        aspernatur!</p>
+                <div className="row">
+                    <div className="col-lg-4 col-md-6 mb-4">
+                    {<div dangerouslySetInnerHTML={{ __html: this.state.product}} />}
                     </div>
-                    <div className="card-footer">
-                      <small className="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                    </div>
-                  </div>
                 </div>
-                <div className="col-lg-4 col-md-6 mb-4">
-                  <div className="card h-100">
-                    <a href="#"><img className="card-img-top" src="http://placehold.it/700x400" alt=""/></a>
-                    <div className="card-body">
-                      <h4 className="card-title">
-                        <a href="#">{this.state.name}</a>
-                      </h4>
-                      <h5>{this.state.price}</h5>
-                      <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam
-                        aspernatur! Lorem ipsum dolor sit amet.</p>
-                    </div>
-                    <div className="card-footer">
-                      <small className="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="col-lg-4 col-md-6 mb-4">
-                  <div className="card h-100">
-                    <a href="#"><img className="card-img-top" src="http://placehold.it/700x400" alt=""/></a>
-                    <div className="card-body">
-                      <h4 className="card-title">
-                        <a href="#">{this.state.name}</a>
-                      </h4>
-                      <h5>{this.state.name}</h5>
-                      <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam
-                        aspernatur!</p>
-                    </div>
-                    <div className="card-footer">
-                      <small className="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="col-lg-4 col-md-6 mb-4">
-                  <div className="card h-100">
-                    <a href="#"><img className="card-img-top" src="http://placehold.it/700x400" alt=""/></a>
-                    <div className="card-body">
-                      <h4 className="card-title">
-                        <a href="#">Item Four</a>
-                      </h4>
-                      <h5>$24.99</h5>
-                      <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam
-                        aspernatur!</p>
-                    </div>
-                    <div className="card-footer">
-                      <small className="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="col-lg-4 col-md-6 mb-4">
-                  <div className="card h-100">
-                    <a href="#"><img className="card-img-top" src="http://placehold.it/700x400" alt=""/></a>
-                    <div className="card-body">
-                      <h4 className="card-title">
-                        <a href="#">Item Five</a>
-                      </h4>
-                      <h5>$24.99</h5>
-                      <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam
-                        aspernatur! Lorem ipsum dolor sit amet.</p>
-                    </div>
-                    <div className="card-footer">
-                      <small className="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="col-lg-4 col-md-6 mb-4">
-                  <div className="card h-100">
-                    <a href="#"><img className="card-img-top" src="http://placehold.it/700x400" alt=""/></a>
-                    <div className="card-body">
-                      <h4 className="card-title">
-                        <a href="#">{this.state.name}</a>
-                      </h4>
-                      <h5>{this.state.price}</h5>
-                      <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam
-                        aspernatur!</p>
-                    </div>
-                    <div className="card-footer">
-                      <small className="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
-
           </div>
         </div>
     )
