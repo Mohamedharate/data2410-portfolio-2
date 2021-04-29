@@ -55,11 +55,11 @@ const user_schema = new mongoose.Schema(
             type: Date,
             default: Date.now
         },
-        orders:{
-            type:[]
+        orders: {
+            type: []
         },
-        chart:{
-            type:[]
+        chart: {
+            type: []
 
         }
     });

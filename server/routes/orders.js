@@ -20,12 +20,12 @@ router.post('/cart/:email', async (req, res, next) => {
 
     let added = false;
 
-    for (let i = 0;i<user.chart.length;i++){
+    for (let i = 0; i < user.chart.length; i++) {
 
         if (addItem.product_id === user.chart[i].itemId) {
             await User.updateOne(
-                { email: email},
-                { $inc: { [`chart.${i}.quantity`] : addItem.quantity}});
+                {email: email},
+                {$inc: {[`chart.${i}.quantity`]: addItem.quantity}});
 
             added = true;
         }
@@ -46,7 +46,7 @@ router.post('/cart/:email', async (req, res, next) => {
             res.status(500).send("feil")
         }
     }
-    res.status(200).send("Added" )
+    res.status(200).send("Added")
 })
 router.delete('/cart/:email', async (req, res, next) => {
 
