@@ -62,15 +62,17 @@ router.post('/signup', async (req, res) => {
         })
 })
 
-router.get('/sessUser/', (req, res) => {
+router.get('/isAuthenticated/', async (req, res) => {
 
-
-    res.send("HEI")
+    if(req.session.userId){
+        const user = await User.findOne({_id: req.session.userId})
+        return res.status(200).json(user);
+    } else {
+        res.status(404).send("No session available.");
+    }
 })
+
 router.post('/signIn', async (req, res) => {
-
-    console.log(req.body.password)
-
 
     const user = await User.findOne({email: req.body.email,});
     if(user){
