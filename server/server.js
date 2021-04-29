@@ -49,6 +49,8 @@ app.use(
     })
 )
 
+app.set("trust proxy", 1)
+
 const corsOptions = {
     origin: 'http://localhost:3000',
     optionsSuccessStatus: 200 // For legacy browser support
