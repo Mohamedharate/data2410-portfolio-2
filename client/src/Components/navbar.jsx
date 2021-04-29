@@ -11,6 +11,9 @@ class Navbar extends Component{
         this.props.registerCallback()
     }
 
+
+
+
     render() {
         return (
                 <header>

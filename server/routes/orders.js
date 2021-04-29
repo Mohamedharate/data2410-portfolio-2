@@ -1,7 +1,7 @@
 "use strict";
 const express = require("express");
 let router = express.Router();
-const Order = require("../database/orderDB");
+const Order = require("../Modules/order");
 
 router
     //Add a new product
@@ -9,6 +9,10 @@ router
 
         const order = new Order({
             products: req.body.products
+        })
+
+        order.products.forEach(product => {
+
         })
         order.save()
             .then(date => {
