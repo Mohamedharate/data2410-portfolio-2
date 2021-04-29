@@ -1,13 +1,23 @@
-const path = require('path');
 const express = require('express');
-const session = require('express-session');
 const app = express();
+
+const path = require('path');
+
+const session = require('express-session');
 const bodyParser = require('body-parser');
-const users = require('./routes/users');
+const cors = require("cors");
+
+
+// ------- routes ---------- //
 const products = require('./routes/products');
 const orders = require('./routes/orders');
+const admin = require('./routes/admins');
+const users = require('./routes/users');
+// - - - - - - - - - - - - - //
+
+
 const mongoose = require("mongoose");
-const cors = require("cors");
+
 
 TWO_HOURS = 1000 * 60 * 60 * 2
 
@@ -52,6 +62,7 @@ app.use((req, res, next) => {
     next();
 });
 
+// ------- connect to mongodb ---------- //
 try {
     mongoose.connect("mongodb+srv://haratemo:12345oslomet@webshop.uemit.mongodb.net/webshop?retryWrites=true&w=majority", {
         useNewUrlParser: true,
@@ -62,11 +73,14 @@ try {
 } catch (error) {
     console.log("could not connect to webshopDB");
 }
+// ------- - - - - - - - -  ---------- //
 
-
+// --------- use routes ------------- //
 app.use('/api/users/', users);
 app.use('/api/products/', products);
 app.use('/api/orders/', orders);
+app.use('/api/admin/', admin);
+// ------- - - - - - - - -  ---------- //
 
 
 // Handle GET requests to /api route
@@ -74,14 +88,12 @@ app.get("/api", (req, res) => {
     res.json({message: "Hello from server!"});
 });
 
-/*
+
 // All other GET requests not handled before will return our React app
 app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
 });
 
-
- */
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
