@@ -11,6 +11,7 @@ const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
 
+
 router.post('/signup', async (req, res) => {
 
 

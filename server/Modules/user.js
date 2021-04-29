@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-
 const user_schema = new mongoose.Schema(
     {
         firstName: {
@@ -26,13 +25,13 @@ const user_schema = new mongoose.Schema(
         },
         country: {
             type: String,
-            required: true,
+            required: false,
             minlength: 2,
             maxlength: 30
         },
         city: {
             type: String,
-            required: true,
+            required: false,
             minlength: 2,
             maxlength: 30
         },
@@ -56,7 +55,13 @@ const user_schema = new mongoose.Schema(
             type: Date,
             default: Date.now
         },
+        orders:{
+            type:[]
+        },
+        chart:{
+            type:[]
 
+        }
     });
 
 const User = mongoose.model("User", user_schema);
