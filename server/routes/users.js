@@ -31,17 +31,13 @@ function formatUsers(arr) {
 
 router.post('/signup', async (req, res) => {
 
-
     //Hashing password:
     //generating salt to hash password
     const salt = await bcrypt.genSalt(10);
     //creating hashed password
     const hash_password = await bcrypt.hash(req.body.password, salt)
 
-
-
     const userSignUp = new User({
-
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
@@ -84,8 +80,11 @@ router.post('/signIn', async (req, res) => {
         } else {
             res.status(400).send("Incorrect password or email")
         }
+    } else {
+        res.status(400).send("Incorrect password or email")
     }
 })
+
 
 let confirmation;
 router.post('/forgot', async (req, res) => {

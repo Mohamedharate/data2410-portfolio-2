@@ -16,6 +16,8 @@ class Register extends Component {
         lastName: '',
         email: '',
         password: '',
+        country: '',
+        city: '',
         zipCode: '',
         street: '',
         phoneNumber: '',
@@ -54,6 +56,8 @@ class Register extends Component {
                 lastName: this.state.lastName,
                 email: this.state.email,
                 password: this.state.password,
+                country: 'Norway',
+                city: 'Oslo',
                 zipCode: this.state.zipCode,
                 street: this.state.street,
                 phoneNumber: this.state.phoneNumber,
@@ -64,6 +68,7 @@ class Register extends Component {
             that.setState({toggle_error_feedback: false})
             that.setState({toggle_success_feedback: true})
             that.setState({feedback_text: response.data.message})
+            that.props.registerCallback()
         }).catch(function (error) {
             if (error.response) {
                 console.log(error.response.data);
