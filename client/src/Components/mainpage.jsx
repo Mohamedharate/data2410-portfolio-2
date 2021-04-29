@@ -10,19 +10,16 @@ export default class Mainpage extends Component {
   }
 
   async componentDidMount() {
+    const that = this;
     axios({
       method: "get",
       url: 'http://localhost:3001/api/products/allProducts',
-      data: {
-        product: this.state
-      }
     }).then(function (response) {
       console.log("Data: ", response.data);
-      this.setState({products: response});
+      that.setState({product: response.data});
     }).catch(function (error) {
       if (!error.data) {
         console.log(error.data)
-        console.log("Check your connection")
       }
       console.log(error);
     });
@@ -99,7 +96,7 @@ export default class Mainpage extends Component {
                       <h4 className="card-title">
                         <a href="#">{this.state.name}</a>
                       </h4>
-                      <h5>{this.props.price}</h5>
+                      <h5>{this.state.price}</h5>
                       <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam
                         aspernatur! Lorem ipsum dolor sit amet.</p>
                     </div>
@@ -114,9 +111,9 @@ export default class Mainpage extends Component {
                     <a href="#"><img className="card-img-top" src="http://placehold.it/700x400" alt=""/></a>
                     <div className="card-body">
                       <h4 className="card-title">
-                        <a href="#">{this.props.name}</a>
+                        <a href="#">{this.state.name}</a>
                       </h4>
-                      <h5>{this.props.name}</h5>
+                      <h5>{this.state.name}</h5>
                       <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam
                         aspernatur!</p>
                     </div>
@@ -165,9 +162,9 @@ export default class Mainpage extends Component {
                     <a href="#"><img className="card-img-top" src="http://placehold.it/700x400" alt=""/></a>
                     <div className="card-body">
                       <h4 className="card-title">
-                        <a href="#">{this.props.name}</a>
+                        <a href="#">{this.state.name}</a>
                       </h4>
-                      <h5>{this.props.price}</h5>
+                      <h5>{this.state.price}</h5>
                       <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam
                         aspernatur!</p>
                     </div>
