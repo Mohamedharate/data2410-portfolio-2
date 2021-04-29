@@ -1,40 +1,33 @@
-import React, {Component, useEffect} from "react";
-import PropTypes from 'prop-types';
+import React, {Component,} from "react";
 import axios from "axios";
 
 
 export default class Mainpage extends Component {
   constructor(props) {
     super(props);
-    this.state = {products: []};
+    this.state = {'product': []};
+
   }
 
-  componentDidMount() {
-
+  async componentDidMount() {
     axios({
       method: "get",
       url: 'http://localhost:3001/api/products/allProducts',
       data: {
-        name: this.state.name,
-        price: this.state.price,
+        product: this.state
       }
     }).then(function (response) {
       console.log("Data: ", response.data);
-      this.setState({products: response.data});
+      this.setState({products: response});
     }).catch(function (error) {
-      console.log(error.message);
+      if (!error.data) {
+        console.log(error.data)
+        console.log("Check your connection")
+      }
+      console.log(error);
     });
   };
 
-  addToCart = (product) => {
-    this.props.addToCart(product); //må ha UI for å legge til i handlevogn
-  };
-
-
-  static propTypes = {
-    componentDidMount: PropTypes.func.isRequired,
-    product: PropTypes.object.isRequired
-  };
 
   render() {
     return (
@@ -82,16 +75,15 @@ export default class Mainpage extends Component {
                   <span className="sr-only">Next</span>
                 </a>
               </div>
-
               <div className="row">
                 <div className="col-lg-4 col-md-6 mb-4">
                   <div className="card h-100">
                     <a href="#"><img className="card-img-top" src="http://placehold.it/700x400" alt=""/></a>
                     <div className="card-body">
                       <h4 className="card-title">
-                        <a href="#">{this.props.name}</a>
+                        <a href="#">{}</a>
                       </h4>
-                      <h5>{this.props.price}</h5>
+                      <h5>{}</h5>
                       <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam
                         aspernatur!</p>
                     </div>
@@ -100,13 +92,12 @@ export default class Mainpage extends Component {
                     </div>
                   </div>
                 </div>
-
                 <div className="col-lg-4 col-md-6 mb-4">
                   <div className="card h-100">
                     <a href="#"><img className="card-img-top" src="http://placehold.it/700x400" alt=""/></a>
                     <div className="card-body">
                       <h4 className="card-title">
-                        <a href="#">{this.props.name}</a>
+                        <a href="#">{this.state.name}</a>
                       </h4>
                       <h5>{this.props.price}</h5>
                       <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam
@@ -123,9 +114,9 @@ export default class Mainpage extends Component {
                     <a href="#"><img className="card-img-top" src="http://placehold.it/700x400" alt=""/></a>
                     <div className="card-body">
                       <h4 className="card-title">
-                        <a href="#">Item Three</a>
+                        <a href="#">{this.props.name}</a>
                       </h4>
-                      <h5>$24.99</h5>
+                      <h5>{this.props.name}</h5>
                       <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam
                         aspernatur!</p>
                     </div>
@@ -174,9 +165,9 @@ export default class Mainpage extends Component {
                     <a href="#"><img className="card-img-top" src="http://placehold.it/700x400" alt=""/></a>
                     <div className="card-body">
                       <h4 className="card-title">
-                        <a href="#">Item Six</a>
+                        <a href="#">{this.props.name}</a>
                       </h4>
-                      <h5>$24.99</h5>
+                      <h5>{this.props.price}</h5>
                       <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam
                         aspernatur!</p>
                     </div>
@@ -185,9 +176,7 @@ export default class Mainpage extends Component {
                     </div>
                   </div>
                 </div>
-
               </div>
-
             </div>
 
           </div>
