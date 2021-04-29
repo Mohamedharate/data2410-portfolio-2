@@ -50,3 +50,9 @@ code {
   padding-top: 10px;
   text-align: center;
 }
+
+.welcomeText{
+  white-space: nowrap;
+  direction: rtl;
+  overflow: visible;
+}

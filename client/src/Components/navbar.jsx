@@ -5,14 +5,15 @@ class Navbar extends Component{
     };
 
     handleLogin = () => {
-        this.props.loginCallback()
+        this.props.toggleLoginCallback()
     }
     handleRegister = () => {
-        this.props.registerCallback()
+        this.props.toggleRegisterCallback()
     }
-
-
-
+    handleLogout = () => {
+        console.log("HandleLogout i navbar")
+        this.props.handleLogoutCallback()
+    }
 
     render() {
         return (
@@ -39,8 +40,15 @@ class Navbar extends Component{
                                 </ul>
                             </div>
                         </div>
-                        <button onClick={this.handleLogin} className="btn text-white float-right mr-2">Login</button>
-                        <button onClick={this.handleRegister} className="btn text-white float-right mr-2">Register</button>
+                        {!this.props.isAuthenticated &&
+                        <button onClick={this.handleLogin} className="btn text-white float-right mr-2">Login</button>}
+                        {!this.props.isAuthenticated &&
+                        <button onClick={this.handleRegister} className="btn text-white float-right mr-2">Register</button>}
+                        {this.props.isAuthenticated &&
+                        <div className="welcomeText text-white float-right mr-2">Welcome, {this.props.current_user.firstName}</div>}
+                        {this.props.isAuthenticated &&
+                        <button onClick={this.handleLogout} className="btn text-white float-right mr-2">Logout</button>}
+
                     </nav>
                 </header>
         );

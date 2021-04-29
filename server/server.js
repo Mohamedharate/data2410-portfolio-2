@@ -98,6 +98,18 @@ app.get('*', (req, res) => {
 });
 
 
+app.post('/logout', (req, res) => {
+    if (req.session.userId) {
+        req.session.destroy(err => {
+            if (err){
+                return res.status(500).json({message: 'Could not perform logout!'});
+            }
+
+            res.clearCookie(SESS_NAME)
+        })
+    }
+})
+
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
 });
