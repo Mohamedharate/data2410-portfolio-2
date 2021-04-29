@@ -39,6 +39,7 @@ router.post('/signup', async (req, res) => {
     const hash_password = await bcrypt.hash(req.body.password, salt)
 
 
+
     const userSignUp = new User({
 
         firstName: req.body.firstName,
@@ -61,16 +62,17 @@ router.post('/signup', async (req, res) => {
         })
 })
 
-router.get('/sessUser/', (req, res) => {
+router.get('/isAuthenticated/', async (req, res) => {
 
-
-    res.send("HEI")
+    if(req.session.userId){
+        const user = await User.findOne({_id: req.session.userId})
+        return res.status(200).json(user);
+    } else {
+        res.status(404).send("No session available.");
+    }
 })
 
 router.post('/signIn', async (req, res) => {
-
-    console.log(req.body.password)
-
 
     const user = await User.findOne({email: req.body.email,});
     if (user) {
@@ -158,7 +160,6 @@ router.delete('/allUsers', async (req, res) => {
         res.status(500).json({message: 'Failed to delete all users!'})
     }
 });
-
 router.get('/:email', async (req, res) => {
     try {
         const user = await User.findOne({email: req.params.email});
@@ -167,15 +168,12 @@ router.get('/:email', async (req, res) => {
         res.status(404).json({message: 'The user with the given email address was not found'})
     }
 })
-
 router.put('/:email', async (req, res) => {
 
     const updateUserInfo = {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
-        country: req.body.country,
-        city: req.body.city,
         password: req.body.password,
         zipCode: req.body.zipCode,
         street: req.body.street,

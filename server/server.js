@@ -26,6 +26,7 @@ const{
     NODE_ENV = 'development',
 
     SESS_NAME = 'sid',
+    SESS_SECRET = 'shhh!this,a7\'secret',
     SESS_LIFETIME = TWO_HOURS,
 } = process.env
 
@@ -39,14 +40,16 @@ app.use(
         name: SESS_NAME,
         resave: false,
         saveUninitialized: false,
-        secret: 'shhh!this,a7\'secret',
+        secret: SESS_SECRET,
         cookie: {
-            maxAge: SESS_LIFETIME,
+            maxAge: parseInt(SESS_LIFETIME),
             sameSite: false,
             secure: IN_PROD,
         }
     })
 )
+
+app.set("trust proxy", 1)
 
 const corsOptions = {
     origin: 'http://localhost:3000',
