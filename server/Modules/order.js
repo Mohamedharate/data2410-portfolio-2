@@ -23,18 +23,17 @@ const order_schema = new mongoose.Schema(
             maxlength: 30
         },
         email: {
-            unique: true,
             type: String,
             required: true,
         },
         country: {
-            type: Number,
+            type: String,
             required: true,
             minlength: 2,
             maxlength: 30
         },
         zipCode: {
-            type: Number,
+            type: String,
             required: true,
             minlength: 4,
             maxlength: 4
@@ -50,7 +49,7 @@ const order_schema = new mongoose.Schema(
             required: true
         },
         phoneNumber: {
-            type: Number,
+            type: String,
             minlength: 8,
             maxlength: 12,
             required: true

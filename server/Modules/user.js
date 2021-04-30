@@ -36,7 +36,7 @@ const user_schema = new mongoose.Schema(
             maxlength: 30
         },
         zipCode: {
-            type: Number,
+            type: String,
             required: true,
             minlength: 4,
             maxlength: 4
@@ -46,7 +46,7 @@ const user_schema = new mongoose.Schema(
             required: true
         },
         phoneNumber: {
-            type: Number,
+            type: String,
             minlength: 8,
             maxlength: 12,
             required: true
@@ -60,7 +60,6 @@ const user_schema = new mongoose.Schema(
         },
         chart: {
             type: []
-
         }
     });
 
