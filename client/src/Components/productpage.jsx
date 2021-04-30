@@ -1,6 +1,30 @@
 import React, {Component,} from "react";
+import axios from "axios";
 
 export default class Productpage extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {'product': []};
+
+    }
+
+    async componentDidMount() {
+        const that = this;
+        await axios({
+            method: "get",
+            url: 'http://localhost:3001/api/products/:itemId',
+        }).then(function (response) {
+            console.log("Data: ", response);
+            that.setState({product: response.data});
+        }).catch(function (error) {
+            if (!error.data) {
+                console.log(error.data)
+            }
+            console.log(error);
+        });
+    };
+
+
     render() {
         return(
             <div className="container">
