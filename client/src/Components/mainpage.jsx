@@ -1,5 +1,6 @@
-import React, {Component,} from "react";
+import React, {Component} from "react";
 import axios from "axios";
+import { Link } from 'react-router-dom';
 
 
 
@@ -7,7 +8,6 @@ export default class Mainpage extends Component {
   constructor(props) {
     super(props);
     this.state = {'product': []};
-
   }
 
   async componentDidMount() {
@@ -27,6 +27,7 @@ export default class Mainpage extends Component {
   };
 
 
+
   render() {
     return (
         <div className="container">
@@ -35,15 +36,13 @@ export default class Mainpage extends Component {
 
               <h1 className="my-4">ShopMet</h1>
               <div className="list-group">
-                <a href="#" className="list-group-item">Coffee</a>
-                <a href="#" className="list-group-item">Coffee and espresso machines</a>
-                <a href="#" className="list-group-item">Accessories</a>
+                <Link to="/category/coffee" className="list-group-item">Coffee</Link>
+                <Link to="/category/machines" className="list-group-item">Coffee and espresso machines</Link>
+                <Link to="/category/access" className="list-group-item">Accessories</Link>
+                <Link to="/" className="list-group-item">All</Link>
               </div>
-
             </div>
-
             <div className="col-lg-9">
-
               <div id="carouselExampleIndicators" className="carousel slide my-4" data-ride="carousel">
                 <ol className="carousel-indicators">
                   <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"/>

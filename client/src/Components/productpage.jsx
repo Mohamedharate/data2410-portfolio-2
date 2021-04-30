@@ -1,10 +1,11 @@
-import React, {Component,} from "react";
+import React, { Component } from "react";
 import axios from "axios";
+import {Link} from "react-router-dom";
 
 export default class Productpage extends Component{
     constructor(props) {
         super(props);
-        this.state = {'product': []};
+        this.state = {name: "", price: 0, description: ""};
 
     }
 
@@ -12,10 +13,12 @@ export default class Productpage extends Component{
         const that = this;
         await axios({
             method: "get",
-            url: 'http://localhost:3001/api/products/:itemId',
+            url: '/api/products/get/' +this.props.match.params.itemId,
         }).then(function (response) {
-            console.log("Data: ", response);
-            that.setState({product: response.data});
+            console.log("Data: ", response.data);
+            that.setState({name: response.data.name, price: response.data.price,
+                description: response.data.description,
+            imageUrl: response.data.imageUrl});
         }).catch(function (error) {
             if (!error.data) {
                 console.log(error.data)
@@ -32,22 +35,20 @@ export default class Productpage extends Component{
                     <div className="col-lg-3">
                         <h1 className="my-4">ShopMet</h1>
                         <div className="list-group">
-                            <a className="list-group-item" href="#!">Category 1</a>
-                            <a className="list-group-item" href="#!">Category 2</a>
-                            <a className="list-group-item" href="#!">Category 3</a>
+                            <Link to="/category/coffee" className="list-group-item">Coffee</Link>
+                            <Link to="/category/machines" className="list-group-item">Coffee and espresso machines</Link>
+                            <Link to="/category/access" className="list-group-item">Accessories</Link>
+                            <Link to="/" className="list-group-item">All</Link>
                         </div>
                     </div>
                     <div className="col-lg-9">
                         <div className="card mt-4">
-                            <img className="card-img-top img-fluid" src="https://via.placeholder.com/900x400"
+                            <img className="card-img-top img-fluid" src={this.state.imageUrl}
                                  alt="..."/>
                             <div className="card-body">
-                                <h3 className="card-title">Product Name</h3>
-                                <h4>$24.99</h4>
-                                <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                    Sapiente dicta fugit fugiat hic aliquam itaque facere, soluta. Totam id dolores,
-                                    sint aperiam sequi pariatur praesentium animi perspiciatis molestias iure,
-                                    ducimus!</p>
+                                <h3 className="card-title">{this.state.name}</h3>
+                                <h4>pris</h4>
+                                <p className="card-text">{this.state.description}</p>
                                 <span className="text-warning">★ ★ ★ ★ ☆</span>
                                 4.0 stars
                             </div>
