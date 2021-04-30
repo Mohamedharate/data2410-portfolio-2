@@ -34,7 +34,7 @@ export default class Mainpage extends Component {
             <div className="col-lg-3">
 
               <h1 className="my-4">ShopMet</h1>
-              <div className="listclassName-group">
+              <div className="list-group">
                 <a href="#" className="list-group-item">Category 1</a>
                 <a href="#" className="list-group-item">Category 2</a>
                 <a href="#" className="list-group-item">Category 3</a>
@@ -74,7 +74,7 @@ export default class Mainpage extends Component {
               </div>
                 <div className="row">
                     <div className="col-lg-4 col-md-6 mb-4">
-                    {<div dangerouslySetInnerHTML={{ __html: this.state.product}} />}
+                      {<div dangerouslySetInnerHTML={{ __html: this.state.product}} />}
                     </div>
                 </div>
             </div>
