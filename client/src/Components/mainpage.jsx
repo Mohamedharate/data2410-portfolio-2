@@ -14,7 +14,7 @@ export default class Mainpage extends Component {
     const that = this;
     await axios({
       method: "get",
-      url: 'http://localhost:3001/api/products/allProducts',
+      url: 'http://localhost:3001/api/products/get/allProducts',
     }).then(function (response) {
       console.log("Data: ", response);
       that.setState({product: response.data});
@@ -35,9 +35,9 @@ export default class Mainpage extends Component {
 
               <h1 className="my-4">ShopMet</h1>
               <div className="list-group">
-                <a href="#" className="list-group-item">Category 1</a>
-                <a href="#" className="list-group-item">Category 2</a>
-                <a href="#" className="list-group-item">Category 3</a>
+                <a href="#" className="list-group-item">Coffee</a>
+                <a href="#" className="list-group-item">Coffee and espresso machines</a>
+                <a href="#" className="list-group-item">Accessories</a>
               </div>
 
             </div>

@@ -3,7 +3,7 @@ import axios from "axios";
 import Navbar from "./navbar";
 import Login from "./login";
 import Register from "./register";
-import Bestsellers from "./bestsellers";
+import About from "./about";
 import Mainpage from "./mainpage";
 import Footer from "./footer";
 
@@ -72,7 +72,7 @@ z
         return (
             <React.Fragment>
                 <Mainpage />
-                <Bestsellers />
+                <About />
                 <Footer />
                 <Navbar
                     toggleLoginCallback = {this.handleToggleLoginCallback}
