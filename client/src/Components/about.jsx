@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 
 
-class Bestsellers extends Component{
+class About extends Component{
     render() {
         return (
             <div className="bestsellers">
-                <h2>Our current bestsellers:</h2>
+                <h2>About us</h2>
             <main>
             <div className="container marketing">
                     <div className="row">
@@ -17,9 +17,8 @@ class Bestsellers extends Component{
                                 <text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
                             </svg>
 
-                            <h2>Heading</h2>
-                            <p>Some representative placeholder content for the three columns of text below the carousel.
-                                This is the first column.</p>
+                            <h2>Organic coffee</h2>
+                            <p>Organic coffee blah bah</p>
                             <p><a className="btn btn-secondary" href="#">View details &raquo;</a></p>
                         </div>
                         <div className="col-lg-4">
@@ -30,9 +29,8 @@ class Bestsellers extends Component{
                                 <text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
                             </svg>
 
-                            <h2>Heading</h2>
-                            <p>Another exciting bit of representative placeholder content. This time, we've moved on to
-                                the second column.</p>
+                            <h2>Excellent selection</h2>
+                            <p>The best machines on the market</p>
                             <p><a className="btn btn-secondary" href="#">View details &raquo;</a></p>
                         </div>
                         <div className="col-lg-4">
@@ -43,7 +41,7 @@ class Bestsellers extends Component{
                                 <text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
                             </svg>
 
-                            <h2>Heading</h2>
+                            <h2>Small business</h2>
                             <p>And lastly this, the third column of representative placeholder content.</p>
                             <p><a className="btn btn-secondary" href="#">View details &raquo;</a></p>
                         </div>
@@ -57,4 +55,4 @@ class Bestsellers extends Component{
 
 }
 
-export default Bestsellers;
+export default About;
