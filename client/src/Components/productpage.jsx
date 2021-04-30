@@ -71,7 +71,7 @@ export default class Productpage extends Component{
                                     aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
                                 <small className="text-muted">Posted by Anonymous on 3/1/21</small>
                                 <hr/>
-                                <a className="btn btn-success" href="#!">Leave a Review</a>
+                                <Link to="/review/:itemId" className="btn btn-success" >Leave a Review</Link>
                             </div>
                         </div>
                     </div>

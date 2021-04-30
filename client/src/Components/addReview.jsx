@@ -1,7 +1,7 @@
 import React, {Component,} from "react";
 import axios from "axios";
 
-class AddReview extends Component{
+export default class AddReview extends Component{
 render() {
     return(
         <div className="container">
@@ -12,10 +12,10 @@ render() {
                         <tr>
                             <td width="77%">
                                 <div className="">
-                                    <form className="form-horizontal">
+                                    <form className="form-horisontal">
                                         <fieldset>
                                             <div className="form-group">
-                                                <label className="col-md-3 control-label" htmlFor="name">Full
+                                                <label className="col-md-9 control-label">Full
                                                     Name</label>
                                                 <div className="col-md-9">
                                                     <input id="name" name="name" type="text" placeholder="Your name"
@@ -23,7 +23,7 @@ render() {
                                                 </div>
                                             </div>
                                             <div className="form-group">
-                                                <label className="col-md-3 control-label" htmlFor="email">Your
+                                                <label className="col-md-9 control-label">Your
                                                     E-mail</label>
                                                 <div className="col-md-9">
                                                     <input id="email" name="email" type="text" placeholder="Your email"
@@ -31,7 +31,7 @@ render() {
                                                 </div>
                                             </div>
                                             <div className="form-group">
-                                                <label className="col-md-3 control-label" htmlFor="message">Your
+                                                <label className="col-md-9 control-label">Your
                                                     message</label>
                                                 <div className="col-md-9">
                                                     <textarea className="form-control" id="message" name="message"

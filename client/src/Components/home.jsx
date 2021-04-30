@@ -8,6 +8,7 @@ import About from "./about";
 import Mainpage from "./mainpage";
 import Footer from "./footer";
 import Productpage from "./productpage";
+import addReview from "./addReview";
 
 
 class Home extends Component{
@@ -77,6 +78,7 @@ z
                 <Switch>
                     <Route exact path="/" component={Mainpage}/>
                     <Route path ="/products/:itemId" component={Productpage}/>
+                    <Route path ="/review/:itemId" component={addReview}/>
                 </Switch>
                 <Navbar
                     toggleLoginCallback = {this.handleToggleLoginCallback}
