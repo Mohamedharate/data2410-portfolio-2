@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Navbar from "./navbar";
 import Login from "./login";
 import Register from "./register";
 import About from "./about";
 import Mainpage from "./mainpage";
 import Footer from "./footer";
+import Path from "./path";
 
 
 class Home extends Component{
@@ -70,10 +72,11 @@ z
 
     render() {
         return (
+            <Router>
             <React.Fragment>
-                <Mainpage />
-                <About />
-                <Footer />
+                <Switch>
+                    <Route component={Path}/>
+                </Switch>
                 <Navbar
                     toggleLoginCallback = {this.handleToggleLoginCallback}
                     toggleRegisterCallback = {this.handleToggleRegisterCallback}
@@ -83,7 +86,10 @@ z
                 />
                 {this.state.toggleLogin && <Login loginCallback = {this.handleLogin}/>}
                 {this.state.toggleRegister && <Register registerCallback = {this.handleToggleLoginCallback}/>}
+                <About />
+                <Footer />
             </React.Fragment>
+            </Router>
         );
     }
 }
