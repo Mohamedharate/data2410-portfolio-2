@@ -58,3 +58,6 @@ code {
   direction: rtl;
   overflow: visible;
 }
+.navbar-logo{
+  max-height: 40px;
+}
