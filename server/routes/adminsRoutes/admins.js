@@ -1,33 +1,16 @@
 "use strict";
 const express = require("express");
 let router = express.Router();
-const User = require("../Modules/user");
+
+const Admin = require("../../Modules/admin");
+const Order = require("../../Modules/order");
 const StringBuilder = require("string-builder");
+
+const fs = require("fs");
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
 
-
-router.use(bodyParser.urlencoded({extended: false}))
-router.use(bodyParser.json())
-
-
-//Get all
-function formatUsers(arr) {
-
-    let out = new StringBuilder();
-
-    arr.forEach(user => {
-        out.append(`
-        \n--------------------------------------
-        \nName: ${user.firstName} ${user.lastName}
-        \nAddress:${user.zipCode} ${user.street}
-        \nPhone number: ${user.phoneNumber}
-        \nEmail: ${user.email}`);
-
-    })
-    return out.toString();
-}
 
 router.post('/signup', async (req, res) => {
 
@@ -38,9 +21,7 @@ router.post('/signup', async (req, res) => {
     //creating hashed password
     const hash_password = await bcrypt.hash(req.body.password, salt)
 
-
-
-    const userSignUp = new User({
+    const adminSignUp = new Admin({
 
         firstName: req.body.firstName,
         lastName: req.body.lastName,
@@ -53,28 +34,18 @@ router.post('/signup', async (req, res) => {
         phoneNumber: req.body.phoneNumber
     })
 
-    await userSignUp.save()
+    await adminSignUp.save()
         .then(data => {
-            res.status(200).json({message: `User created successfully!`})
+            res.status(200).json({message: `Admin created successfully!`})
         })
         .catch(error => {
             res.status(500).send("DB error: Input neglected by database!")
         })
 })
 
-router.get('/isAuthenticated/', async (req, res) => {
-
-    if(req.session.userId){
-        const user = await User.findOne({_id: req.session.userId})
-        return res.status(200).json(user);
-    } else {
-        res.status(404).send("No session available.");
-    }
-})
-
 router.post('/signIn', async (req, res) => {
 
-    const user = await User.findOne({email: req.body.email,});
+    const user = await Admin.findOne({email: req.body.email,});
     if (user) {
         const validPassword = await bcrypt.compare(req.body.password, user.password);
         if (validPassword) {
@@ -84,8 +55,6 @@ router.post('/signIn', async (req, res) => {
         } else {
             res.status(400).send("Incorrect password or email")
         }
-    } else {
-        res.status(400).send("Incorrect password or email")
     }
 })
 
@@ -96,7 +65,7 @@ router.post('/forgot', async (req, res) => {
         email: req.body.email
     }
 
-    const checkIfExists = await User.findOne({
+    const checkIfExists = await Admin.findOne({
         email: forgotPassword.email
     });
 
@@ -143,39 +112,42 @@ router.post("/resetPassword/recvCode", (req, res, next) => {
     }
 })
 
-
-router.get('/all', async (req, res) => {
+router.get('/allAdmins', async (req, res) => {
 
     try {
-        const users = await User.find();
-        res.json(users);
+        const admins = await Admin.find();
+        res.json(admins);
     } catch (err) {
         res.status(500).json({message: err})
     }
 })
 
-router.delete('/allUsers', async (req, res) => {
+router.delete('/allAdmins', async (req, res) => {
     try {
-        await User.deleteMany();
-        res.status(200).json({message: "Deleted all users successfully"})
+        await Admin.deleteMany();
+        res.status(200).json({message: "Deleted all admins successfully"})
     } catch (err) {
-        res.status(500).json({message: 'Failed to delete all users!'})
+        res.status(500).json({message: 'Failed to delete all admins!'})
     }
 });
+
 router.get('/:email', async (req, res) => {
     try {
-        const user = await User.findOne({email: req.params.email});
-        res.json(user);
+        const admin = await Admin.findOne({email: req.params.email});
+        res.json(admin);
     } catch (err) {
-        res.status(404).json({message: 'The user with the given email address was not found'})
+        res.status(404).json({message: 'The admin with the given email address was not found'})
     }
 })
+
 router.put('/:email', async (req, res) => {
 
-    const updateUserInfo = {
+    const updateAdminInfo = {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
+        country: req.body.country,
+        city: req.body.city,
         password: req.body.password,
         zipCode: req.body.zipCode,
         street: req.body.street,
@@ -184,87 +156,88 @@ router.put('/:email', async (req, res) => {
 
     let out = new StringBuilder();
 
-    const findUser = await User.findOne({email: req.params.email});
-    if (findUser) {
-        if (updateUserInfo.firstName !== findUser.firstName) {
+    const findAdmin = await Admin.findOne({email: req.params.email});
+
+    if (findAdmin) {
+        if (updateAdminInfo.firstName !== findAdmin.firstName) {
             try {
-                await User.updateOne({email: req.params.email}, {firstName: updateUserInfo.firstName})
+                await Admin.updateOne({email: req.params.email}, {firstName: updateAdminInfo.firstName})
             } catch {
                 out.append('Something went wrong during updating the first name\nError code: ' + err.error_code)
             }
         }
-        if (updateUserInfo.lastName !== findUser.lastName) {
+        if (updateAdminInfo.lastName !== findAdmin.lastName) {
             try {
-                await User.updateOne({email: req.params.email}, {lastName: updateUserInfo.lastName})
+                await Admin.updateOne({email: req.params.email}, {lastName: updateAdminInfo.lastName})
             } catch {
                 out.append('Something went wrong during updating the last name\nError code: ' + err.error_code)
             }
         }
-        if (updateUserInfo.password !== findUser.password) {
+        if (updateAdminInfo.password !== findAdmin.password) {
             try {
-                await User.updateOne({email: req.params.email}, {password: updateUserInfo.password})
+                await Admin.updateOne({email: req.params.email}, {password: updateAdminInfo.password})
             } catch {
                 out.append('Something went wrong during updating the password\nError code: ' + err.error_code)
             }
         }
-        if (updateUserInfo.country !== findUser.country) {
+        if (updateAdminInfo.country !== findAdmin.country) {
             try {
-                await User.updateOne({email: req.params.email}, {country: updateUserInfo.country})
+                await Admin.updateOne({email: req.params.email}, {country: updateAdminInfo.country})
             } catch {
                 out.append('Something went wrong during updating the country\nError code: ' + err.error_code)
             }
         }
-        if (updateUserInfo.city !== findUser.city) {
+        if (updateAdminInfo.city !== findAdmin.city) {
             try {
-                await User.updateOne({email: req.params.email}, {city: updateUserInfo.city})
+                await Admin.updateOne({email: req.params.email}, {city: updateAdminInfo.city})
             } catch {
                 out.append('Something went wrong during updating the city\nError code: ' + err.error_code)
             }
         }
-        if (updateUserInfo.zipCode !== findUser.zipCode) {
+        if (updateAdminInfo.zipCode !== findAdmin.zipCode) {
             try {
-                await User.updateOne({email: req.params.email}, {zipCode: updateUserInfo.zipCode})
+                await Admin.updateOne({email: req.params.email}, {zipCode: updateAdminInfo.zipCode})
             } catch {
                 out.append('Something went wrong during updating the zip code\nError code: ' + err.error_code)
             }
         }
-        if (updateUserInfo.street !== findUser.street) {
+        if (updateAdminInfo.street !== findAdmin.street) {
             try {
-                await User.updateOne({email: req.params.email}, {street: updateUserInfo.street})
+                await Admin.updateOne({email: req.params.email}, {street: updateAdminInfo.street})
             } catch {
                 out.append('Something went wrong during updating the street name\nError code: ' + err.error_code)
             }
         }
-        if (updateUserInfo.phoneNumber !== findUser.phoneNumber) {
+        if (updateAdminInfo.phoneNumber !== findAdmin.phoneNumber) {
             try {
-                await User.updateOne({email: req.params.email}, {phoneNumber: updateUserInfo.phoneNumber})
+                await Admin.updateOne({email: req.params.email}, {phoneNumber: updateAdminInfo.phoneNumber})
             } catch {
                 out.append('Something went wrong during updating the phone number\nError code: ' + err.error_code)
             }
         }
-        if (updateUserInfo.email !== findUser.email) {
+        if (updateAdminInfo.email !== findAdmin.email) {
             try {
-                await User.updateOne({email: req.params.email}, {email: updateUserInfo.email})
+                await Admin.updateOne({email: req.params.email}, {email: updateAdminInfo.email})
             } catch (err) {
                 out.append('Something went wrong during updating the email\nError code: ' + err.error_code)
             }
         }
     } else {
-        out.append('Something went wrong during finding user`s information')
+        out.append('Something went wrong during finding admin`s information')
     }
     if (out.toString()) {
         res.send(out.toString())
     } else {
-        res.send("User information is updated.")
+        res.send("Admin information is updated.")
     }
 })
 
 router.delete('/:email', async (req, res) => {
     try {
-        await User.deleteOne({email: req.params.email});
+        await Admin.deleteOne({email: req.params.email});
         res.json({message: `${req.params.email} has been deleted successfully`});
     } catch (err) {
-        res.status(404).json({message: 'The user with the given email address was not found'})
+        res.status(404).json({message: 'The admin with the given email address was not found'})
     }
 })
 

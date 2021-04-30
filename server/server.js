@@ -1,22 +1,27 @@
 const express = require('express');
+const cors = require("cors");
+const dotenv = require('dotenv').config();
+const connectDB = require('./DB Connection/connectDB')
 const app = express();
-
 const path = require('path');
 
 const session = require('express-session');
 const bodyParser = require('body-parser');
-const cors = require("cors");
 
 
-// ------- routes ---------- //
-const products = require('./routes/products');
-const orders = require('./routes/orders');
-const admin = require('./routes/admins');
-const users = require('./routes/users');
+// ------- import routes ---------- //
+
+
+const register = require('./routes/usersRoutes/NotAuth/register');
+const resetPassword = require('./routes/usersRoutes/NotAuth/resetPassword');
+const products = require('./routes/productsRoutes/products');
+const orders = require('./routes/ordersRoutes/orders');
+const admin = require('./routes/adminsRoutes/admins');
+const users = require('./routes/usersRoutes/users');
+const chart = require('./routes/chartRoutes/chart');
+
 // - - - - - - - - - - - - - //
 
-
-const mongoose = require("mongoose");
 
 
 TWO_HOURS = 1000 * 60 * 60 * 2
@@ -57,32 +62,22 @@ const corsOptions = {
 }
 app.use(cors(corsOptions));
 
-const dotenv = require('dotenv');
-dotenv.config()
+
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     next();
 });
 
-// ------- connect to mongodb ---------- //
-try {
-    mongoose.connect("mongodb+srv://haratemo:12345oslomet@webshop.uemit.mongodb.net/webshop?retryWrites=true&w=majority", {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true
-    }, () =>
-        console.log("connected to webshopDB"));
-} catch (error) {
-    console.log("could not connect to webshopDB");
-}
-// ------- - - - - - - - -  ---------- //
 
-// --------- use routes ------------- //
+// --------- Middlewares ------------- //
+app.use('/api/register/', register);
+app.use('/api/reset/', resetPassword);
 app.use('/api/users/', users);
 app.use('/api/products/', products);
 app.use('/api/orders/', orders);
 app.use('/api/admin/', admin);
+app.use('/api/chart/', chart);
 // ------- - - - - - - - -  ---------- //
 
 
