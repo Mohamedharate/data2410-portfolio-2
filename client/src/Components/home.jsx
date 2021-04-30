@@ -7,7 +7,7 @@ import Register from "./register";
 import About from "./about";
 import Mainpage from "./mainpage";
 import Footer from "./footer";
-import Path from "./path";
+import Productpage from "./productpage";
 
 
 class Home extends Component{
@@ -75,7 +75,8 @@ z
             <Router>
             <React.Fragment>
                 <Switch>
-                    <Route component={Path}/>
+                    <Route exact path="/" component={Mainpage}/>
+                    <Route path ="/products/:itemId" component={Productpage}/>
                 </Switch>
                 <Navbar
                     toggleLoginCallback = {this.handleToggleLoginCallback}
