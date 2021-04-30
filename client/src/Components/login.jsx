@@ -12,7 +12,6 @@ class Login extends Component {
     state = {
         email: '',
         password: '',
-        toggle_success_feedback: false,
         toggle_error_feedback: false,
         feedback_text: '',
     }
@@ -33,7 +32,7 @@ class Login extends Component {
             .then(r => {
                 this.props.loginCallback()
             }).catch(error => {
-                console.log(error)
+            console.log(error)
         })
     }
 
@@ -53,14 +52,12 @@ class Login extends Component {
             if (response.status === 200) {
                 that.setState({feedback_text: response.data.message});
                 that.setState({toggle_error_feedback: false});
-                that.setState({toggle_success_feedback: true});
             }
         }).catch(function (error) {
             if (error.response) {
                 console.log(error.response.data);
                 console.log(error.response.status);
                 that.setState({feedback_text: error.response.data});
-                that.setState({toggle_success_feedback: false});
                 that.setState({toggle_error_feedback: true});
             } else if (error.request) {
                 console.log(error.request);
@@ -80,20 +77,33 @@ class Login extends Component {
                                 <h4>Sign in to store</h4>
                             </div>
                             <div className="form-label-group">
-                                <input type="email" onChange={this.handleInputChange} className="form-control mt-2"
-                                       placeholder="Email" name="email" required="*" autoFocus=""/>
-                                <input type="Password" onChange={this.handleInputChange}
-                                       className="form-control mt-2"
-                                       pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}"
-                                       title="Password must contain at least 1 upper and lower case letter, 1 number and
+                                <div className="input-group">
+                                    <div className="input-group-prepend">
+                                        <div className="input-group-text mt-2" id="basic-addon1">
+                                            <i className="material-icons">mail</i>
+                                        </div>
+                                    </div>
+                                    <input type="email" onChange={this.handleInputChange} className="form-control mt-2"
+                                           placeholder="Email" name="email" required="*" autoFocus=""
+                                           aria-describedby="basic-addon1"/>
+                                </div>
+                                <div className="input-group">
+                                    <div className="input-group-prepend">
+                                        <div className="input-group-text mt-2" id="basic-addon1">
+                                            <i className="material-icons">vpn_key</i>
+                                        </div>
+                                    </div>
+                                    <input type="Password" onChange={this.handleInputChange}
+                                           className="form-control mt-2"
+                                           pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}"
+                                           title="Password must contain at least 1 upper and lower case letter, 1 number and
                                         be at least 8 characters long."
-                                       placeholder="Password" name="password" required="*" autoFocus=""/>
+                                           placeholder="Password" name="password" required="*" autoFocus=""/>
+                                </div>
                             </div>
                             <button type="submit"
-                                    className="btn btn-lg btn-primary btn-block mt-2">Sign in
+                                    className="btn btn-lg btn-primary btn-block mt-2">Sign in!
                             </button>
-                            {this.state.toggle_success_feedback &&
-                            <SuccessFeedback feedback_success_text={this.state.feedback_text}/>}
                             {this.state.toggle_error_feedback &&
                             <DangerFeedback feedback_error_text={this.state.feedback_text}/>}
                         </form>

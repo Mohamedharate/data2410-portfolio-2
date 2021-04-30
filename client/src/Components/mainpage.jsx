@@ -12,7 +12,7 @@ export default class Mainpage extends Component {
 
   async componentDidMount() {
     const that = this;
-    axios({
+    await axios({
       method: "get",
       url: 'http://localhost:3001/api/products/allProducts',
     }).then(function (response) {
