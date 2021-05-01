@@ -25,13 +25,13 @@ const user_schema = new mongoose.Schema(
         },
         country: {
             type: String,
-            required: false,
+            required: true,
             minlength: 2,
             maxlength: 30
         },
         city: {
             type: String,
-            required: false,
+            required: true,
             minlength: 2,
             maxlength: 30
         },
@@ -59,7 +59,10 @@ const user_schema = new mongoose.Schema(
             type: []
         },
         chart: {
-            type: []
+            type: [],
+            sum:{
+
+            }
         }
     });
 

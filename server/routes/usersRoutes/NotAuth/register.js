@@ -8,12 +8,9 @@ const bcrypt = require('bcrypt')
 
 const JWT_ACC = "accountactivateOsloMetShop";
 
-router.post('/signup', async (req, res) => {
+router.post('/', async (req, res) => {
 
-    //Hashing password:
-    //generating salt to hash password
     const salt = await bcrypt.genSalt(10);
-    //creating hashed password
     const password = await bcrypt.hash(req.body.password, salt)
 
     const {firstName, lastName, email, country, city, zipCode, street, phoneNumber} = req.body;
@@ -74,10 +71,10 @@ router.get('/emailActivation/:link', async (req, res) => {
             if (err) {
                 return res.status(400).json({error: "Incorrect or expired"})
             }
-            const {firstName, lastName, email, password, country, zipCode, street, phoneNumber} = decodedToken;
+            const {firstName, lastName, email, password, country,city, zipCode, street, phoneNumber} = decodedToken;
             const user = await User.findOne({email: email,});
 
-            let newUser = new User({firstName, lastName, email, password, country, zipCode, street, phoneNumber})
+            let newUser = new User({firstName, lastName, email, password, country,city, zipCode, street, phoneNumber})
             await newUser.save()
                 .then(data => {
                     res.status(200).json({message: `User created successfully!`})

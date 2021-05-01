@@ -19,24 +19,25 @@ router.post('/:email', async (req, res, next) => {
     let added = false;
 
     for (let i = 0; i < user.chart.length; i++) {
-
         if (addItem.product_id === user.chart[i].itemId) {
+            let totalSumProduct = user.chart[i].total + parseFloat(product.price*addItem.quantity)
             await User.updateOne(
                 {email: email},
-                {$inc: {[`chart.${i}.quantity`]: addItem.quantity}});
-
+                {$inc: {
+                    [`chart.${i}.quantity`]: addItem.quantity},
+                    [`chart.${i}.total`]: parseFloat(totalSumProduct)
+                });
             added = true;
         }
     }
 
-    let total = 0
     if (!added) {
         const newItem = {
             name: product.name,
-            price: product.price,
+            price: parseFloat(product.price),
             itemId: addItem.product_id,
             quantity: addItem.quantity,
-            total: total
+            total: parseFloat(product.price*addItem.quantity)
         }
         try {
             await User.updateOne({email: email}, {$push: {chart: newItem}});

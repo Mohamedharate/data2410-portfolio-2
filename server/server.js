@@ -2,9 +2,17 @@ const express = require('express');
 const cors = require("cors");
 const dotenv = require('dotenv').config();
 const connectDB = require('./DB Connection/connectDB')
-const app = express();
-const path = require('path');
 
+const https = require('https');
+const path = require('path');
+const fs = require('fs');
+
+
+const app = express();
+
+
+
+//https.createServer(httpsOptions,app)
 const session = require('express-session');
 const bodyParser = require('body-parser');
 
@@ -71,7 +79,7 @@ app.use((req, res, next) => {
 
 
 // --------- Middlewares ------------- //
-app.use('/api/register/', register);
+app.use('/api/register', register);
 app.use('/api/reset/', resetPassword);
 app.use('/api/users/', users);
 app.use('/api/products/', products);
@@ -104,8 +112,19 @@ app.post('/logout', (req, res) => {
         })
     }
 })
+/*
+const sslServer = https.createServer({
+    key: '',
+    cert: ''
+},app)
+
+sslServer.listen(PORT, () => console.log(`Server listening on ${PORT}`))
+
+ */
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
 });
+
+
 

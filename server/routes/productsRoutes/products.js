@@ -1,10 +1,10 @@
 "use strict";
 const express = require("express");
 let router = express.Router();
-const upload = require('../../multer/multer')
 
 const Product = require("../../Modules/product");
 const StringBuilder = require("string-builder");
+const upload = require('../../multer/multer')
 const fs = require("fs");
 
 
