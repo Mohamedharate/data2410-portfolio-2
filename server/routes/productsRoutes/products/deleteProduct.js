@@ -3,8 +3,21 @@ const express = require("express");
 let router = express.Router();
 const Product = require("../../../Modules/product");
 
+
+
+//Delete all products
+router.delete('/all', async (req, res) => {
+    try {
+        const products = await Product.deleteMany();
+        res.json({message: "Deleted all products"});
+    } catch (err) {
+        res.json({message: "Failed"})
+    }
+});
+
+
 //delete a product with the given productID.
-router.delete('/:itemId', async (req, res) => {
+router.delete('/one/:itemId/', async (req, res) => {
     try {
         const product = await Product.deleteOne({itemId: req.params.itemId});
         res.json({message: "The product is deleted!"});
@@ -14,16 +27,6 @@ router.delete('/:itemId', async (req, res) => {
 });
 
 
-
-//Delete all products
-router.delete('/allProducts', async (req, res) => {
-    try {
-        const products = await Product.deleteMany();
-        res.json({message: "Deleted all products"});
-    } catch (err) {
-        res.json({message: "Failed"})
-    }
-});
 
 
 module.exports = router;
