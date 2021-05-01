@@ -1,10 +1,15 @@
 "use strict";
 const express = require("express");
+const btoa = require("btoa");
 let router = express.Router();
 const Product = require("../../../Modules/product");
+const sanitize = require('sanitize-html')
 
 const StringBuilder = require("string-builder");
+
 const fs = require("fs");
+const path = require('path');
+const domSanitizer = require('domconstants');
 
 
 function formatProdcuts(arr) {
@@ -14,16 +19,20 @@ function formatProdcuts(arr) {
         for (let i = 0; i < arr.length; i++) {
 
 
+
+
             out.append(`
             <div class="card h-100">
                 <a href="#">
-                   <img class="card-img-top" src=data:${arr[i].imageUrl[0].contentType};base64,${arr[i].imageUrl[0].image} alt="">
+                   <img class="card-img-top" 
+                   
+                   src=data:image/png;base64, />
                 </a>
                     <div class="card-body">
                         <h4 class="card-title">
-                            <a href="http://localhost:3000/products/${arr[i].itemId}" >${arr[i].name}</a>
+                            <a href="http://localhost:3000/products/${arr[i].itemId}">${arr[i].name}</a>
                         </h4>
-                        <h5>${arr[i].price}$</h5>
+                        <h5>$${parseFloat(arr[i].price)}</h5>
                         <p class="card-text">${arr[i].description}</p>
                     </div>
                     <div class="card-footer">

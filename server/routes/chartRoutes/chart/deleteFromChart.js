@@ -5,7 +5,7 @@ const User = require("../../../Modules/user");
 const Product = require("../../../Modules/product");
 
 
-router.delete('/cart/:email', async (req, res, next) => {
+router.delete('/:email', async (req, res, next) => {
 
     const email = req.params.email;
     const deleteItem = {
@@ -18,16 +18,32 @@ router.delete('/cart/:email', async (req, res, next) => {
 
     let deleted = false;
 
+    let msgOut;
+
     for (let i = 0; i < user.chart.length; i++) {
         if (deleteItem.product_id === user.chart[i].itemId) {
-            await User.updateOne(
-                {email: email},
-                {$inc: {[`chart.${i}.quantity`]: -deleteItem.quantity}});
-            deleted = true;
+            if (user.chart[i].quantity >= deleteItem.quantity && user.chart[i].quantity === 0 && user.chart[i].quantity !== null){
+
+                let totalSumProduct = parseFloat(product.price*deleteItem.quantity)
+                try{
+                    await User.updateOne(
+                        {email: email},
+                        {$inc: {
+                                [`chart.${i}.quantity`]: Number(-deleteItem.quantity),
+                                [`chart.${i}.total`]: -totalSumProduct
+                        }});
+                    deleted = true;
+                }
+                catch (err){
+                    return res.json({Error:err.toString()})
+                }
+            }
         }
     }
-    if (deleted) res.send("Deleted")
-    else res.send("not Deleted")
+
+
+    if (deleted) res.json({Error:"Deleted"})
+    else res.json({Error:" not Deleted"})
 })
 
 
