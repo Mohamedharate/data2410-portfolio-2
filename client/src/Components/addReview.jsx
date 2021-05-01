@@ -6,12 +6,13 @@ render() {
     return(
         <div className="container">
             <div className="row">
-                <h2>Feedback</h2>
-                <table width="100%" border="0">
-                    <div className="col-md-9 col-md-offset-0">
+                    <div className="col-lg-9">
                         <tr>
-                            <td width="77%">
-                                <div className="">
+                            <td width="100%">
+                                <h1>Feedback</h1>
+                                <div className="card mt-4">
+                                    <div className="card-header">Add review for item</div>
+                                    <div className="card-body">
                                     <form className="form-horisontal">
                                         <fieldset>
                                             <div className="form-group">
@@ -39,13 +40,26 @@ render() {
                                                               rows="5"/>
                                                 </div>
                                             </div>
+                                        <div className="form-group">
+                                            <label className="col-md-9 control-label">Number of stars</label>
+                                            <div className="col-md-9">
+                                                    <select className="form-control" id="stars" name="stars">
+                                                            <option>1</option>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                        <option>4</option>
+                                                        <option>5</option>
+                                                    </select>
+                                            </div>
+                                        </div>
+                                            <div className="btn btn-success">Send review</div>
                                         </fieldset>
                                     </form>
+                                </div>
                                 </div>
                             </td>
                         </tr>
                     </div>
-                </table>
             </div>
         </div>
     )
