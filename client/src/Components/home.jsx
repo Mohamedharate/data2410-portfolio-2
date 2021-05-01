@@ -9,6 +9,8 @@ import Mainpage from "./mainpage";
 import Footer from "./footer";
 import Productpage from "./productpage";
 import addReview from "./addReview";
+import Cart from "./cart";
+import Orders from "./orders";
 
 
 class Home extends Component{
@@ -79,6 +81,8 @@ z
                     <Route exact path="/" component={Mainpage}/>
                     <Route path ="/products/:itemId" component={Productpage}/>
                     <Route path ="/review/:itemId" component={addReview}/>
+                    <Route path ="/chart" component={Cart}/>
+                    <Route path ="/orders" component={Orders}/>
                 </Switch>
                 <Navbar
                     toggleLoginCallback = {this.handleToggleLoginCallback}
