@@ -19,7 +19,7 @@ export default class Productpage extends Component{
             console.log("Data: ", response.data);
             that.setState({products: response.data, name: response.data.name, price: response.data.price,
                 description: response.data.description,
-            image: response.data.imageUrl[0].image,
+            image: "data:image/png;base64,"+response.data.imageUrl[0].image,
             itemId: response.data.itemId});
         }).catch(function (error) {
             if (!error.data) {
