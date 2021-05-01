@@ -1,7 +1,34 @@
 import React, {Component,} from "react";
 import axios from "axios";
+import {func} from "prop-types";
 
 export default class AddReview extends Component{
+
+    async putReview(){
+        const that = this;
+        await axios({
+            method: 'put',
+            url: '/api/products/addReview:itemId',
+            data: {
+                name: this.state.name,
+                mail: this.state.mail,
+                message: this.state.message,
+                stars: this.state.stars,
+            }
+        }).then(function(response){
+            console.log("Data: ", response.data);
+        }).catch(function (error){
+            if (error.response){
+                console.log(error.response.data);
+            }
+        })
+    }
+    handleReview = (event) => {
+        event.preventDefault();
+    }
+
+
+
 render() {
     return(
         <div className="container">
