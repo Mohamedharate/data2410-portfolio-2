@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 export default class Productpage extends Component{
     constructor(props) {
         super(props);
-        this.state = {name: "", price: 0, description: ""};
+        this.state = {name: "", price: 0, description: "", itemId: "", imageUrl: ""};
 
     }
 
@@ -13,12 +13,13 @@ export default class Productpage extends Component{
         const that = this;
         await axios({
             method: "get",
-            url: '/api/products/get/' +this.props.match.params.itemId,
+            url: '/api/products/get/'+this.props.match.params.itemId,
         }).then(function (response) {
             console.log("Data: ", response.data);
             that.setState({name: response.data.name, price: response.data.price,
                 description: response.data.description,
-            imageUrl: response.data.imageUrl});
+            imageUrl: response.data.imageUrl,
+            itemId: response.data.itemId});
         }).catch(function (error) {
             if (!error.data) {
                 console.log(error.data)
@@ -71,7 +72,7 @@ export default class Productpage extends Component{
                                     aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
                                 <small className="text-muted">Posted by Anonymous on 3/1/21</small>
                                 <hr/>
-                                <Link to="/review/:itemId" className="btn btn-success" >Leave a Review</Link>
+                                <Link to={'/addReview/${this.state.itemId}'} className="btn btn-success" >Leave a Review</Link>
                             </div>
                         </div>
                     </div>

@@ -80,7 +80,7 @@ z
                 <Switch>
                     <Route exact path="/" component={Mainpage}/>
                     <Route path ="/products/:itemId" component={Productpage}/>
-                    <Route path ="/review/:itemId" component={addReview}/>
+                    <Route path ="/addReview/:itemId" component={addReview}/>
                     <Route path ="/chart" component={Cart}/>
                     <Route path ="/orders" component={Orders}/>
                 </Switch>
