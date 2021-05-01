@@ -34,8 +34,8 @@ render() {
         <div className="container">
             <div className="row">
                     <div className="col-lg-9">
-                        <tr>
-                            <td width="100%">
+                        <div>
+                            <div width="100%">
                                 <h1>Feedback</h1>
                                 <div className="card mt-4">
                                     <div className="card-header">Add review for item</div>
@@ -84,8 +84,8 @@ render() {
                                     </form>
                                 </div>
                                 </div>
-                            </td>
-                        </tr>
+                            </div>
+                        </div>
                     </div>
             </div>
         </div>
