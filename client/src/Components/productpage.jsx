@@ -6,6 +6,7 @@ import Spinner from "react-bootstrap/Spinner";
 export default class Productpage extends Component{
     constructor(props) {
         super(props);
+        this.state = {name: "", price: 0, descriptionLong: ""};
         this.state = {products: [], name: "", price: 0, description: "", itemId: "", imageUrl: ""};
 
     }
@@ -18,7 +19,7 @@ export default class Productpage extends Component{
         }).then(function (response) {
             console.log("Data: ", response.data);
             that.setState({products: response.data, name: response.data.name, price: response.data.price,
-                description: response.data.description,
+                description: response.data.descriptionLong,
             image: "data:image/png;base64,"+response.data.imageUrl[0].image,
             itemId: response.data.itemId});
         }).catch(function (error) {

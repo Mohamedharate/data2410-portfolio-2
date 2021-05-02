@@ -15,17 +15,18 @@ router.post('/:email', async (req, res, next) => {
 
     const user = await User.findOne({email: email});
     const product = await Product.findOne({itemId: addItem.product_id});
+    if (!product) return res.status(400).json({Error:"Product not found"})
 
     let added = false;
 
-    for (let i = 0; i < user.chart.length; i++) {
-        if (addItem.product_id === user.chart[i].itemId) {
-            let totalSumProduct = user.chart[i].total + parseFloat(product.price*addItem.quantity)
+    for (let i = 0; i < user.cart.length; i++) {
+        if (addItem.product_id === user.cart[i].itemId) {
+            let totalSumProduct = user.cart[i].total + parseFloat(product.price*addItem.quantity)
             await User.updateOne(
                 {email: email},
                 {$inc: {
-                    [`chart.${i}.quantity`]: addItem.quantity},
-                    [`chart.${i}.total`]: parseFloat(totalSumProduct)
+                    [`cart.${i}.quantity`]: addItem.quantity},
+                    [`cart.${i}.total`]: parseFloat(totalSumProduct)
                 });
             added = true;
         }
@@ -40,12 +41,12 @@ router.post('/:email', async (req, res, next) => {
             total: parseFloat(product.price*addItem.quantity)
         }
         try {
-            await User.updateOne({email: email}, {$push: {chart: newItem}});
+            await User.updateOne({email: email}, {$push: {cart: newItem}});
         } catch (err) {
-            res.status(500).send("feil")
+            res.status(500).json({Error:"Failed to add the item to cart."})
         }
     }
-    res.status(200).send("Added")
+    res.status(200).json({Message:"The item has been added to cart successfully"})
 })
 
 

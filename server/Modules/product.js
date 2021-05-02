@@ -25,10 +25,16 @@ const product_schema = new Schema(
             minlength: 2,
             maxlength: 30
         },
-        description: {
+        descriptionShort: {
             required: true,
             type: String,
             minlength: 10,
+            max: 1000
+        },
+        descriptionLong: {
+            required: true,
+            type: String,
+            minlength: 20,
             max: 1000
         },
         price: {

@@ -31,7 +31,8 @@ router.post('/', upload.array('imageUrl', 20),
 
         const product = new Product({
             name: req.body.name,
-            description: req.body.description,
+            descriptionShort: req.body.descriptionShort,
+            descriptionLong: req.body.descriptionLong,
             price: req.body.price,
             imageUrl: imageArrAfterConverting,
             category: req.body.category,

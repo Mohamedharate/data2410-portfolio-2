@@ -20,17 +20,17 @@ router.delete('/:email', async (req, res, next) => {
 
     let msgOut;
 
-    for (let i = 0; i < user.chart.length; i++) {
-        if (deleteItem.product_id === user.chart[i].itemId) {
-            if (user.chart[i].quantity >= deleteItem.quantity && user.chart[i].quantity === 0 && user.chart[i].quantity !== null){
+    for (let i = 0; i < user.cart.length; i++) {
+        if (deleteItem.product_id === user.cart[i].itemId) {
+            if (user.cart[i].quantity >= deleteItem.quantity && user.cart[i].quantity === 0 && user.cart[i].quantity !== null){
 
                 let totalSumProduct = parseFloat(product.price*deleteItem.quantity)
                 try{
                     await User.updateOne(
                         {email: email},
                         {$inc: {
-                                [`chart.${i}.quantity`]: Number(-deleteItem.quantity),
-                                [`chart.${i}.total`]: -totalSumProduct
+                                [`cart.${i}.quantity`]: Number(-deleteItem.quantity),
+                                [`cart.${i}.total`]: -totalSumProduct
                         }});
                     deleted = true;
                 }

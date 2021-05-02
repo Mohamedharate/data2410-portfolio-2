@@ -16,9 +16,10 @@ function formatProdcuts(arr) {
             out.append(`
 
 
+        <div class="col-lg-4 col-md-6 mb-4">
             <div class="card h-100">
            
-                <a href="#">
+                <a href="http://localhost:3000/products/${arr[i].itemId}">
                    <img class="card-img-top" src="data:${arr[i].imageUrl[0].contentType};base64, ${arr[i].imageUrl[0].image}" alt="" />
                    </a>
                     <div class="card-body">
@@ -26,12 +27,13 @@ function formatProdcuts(arr) {
                             <a href="http://localhost:3000/products/${arr[i].itemId}">${arr[i].name}</a>
                         </h4>
                         <h5>$${parseFloat(arr[i].price)}</h5>
-                        <p class="card-text">${arr[i].description}</p>
+                        <p class="card-text">${arr[i].descriptionShort}</p>
                     </div>
                     <div class="card-footer">
                         <small class="text-muted">★ ★ ★ ★ ☆</small>
                      </div>
-            </div>`)
+            </div>
+        </div>`)
         }
         return out;
     } else return "No product"

@@ -15,34 +15,45 @@ router.post('/newOrder/:email', async (req, res) => {
 
     const user = await User.findOne({email: req.body.email});
 
-    console.log(user.chart)
+    if (user){
+        if (!user.cart) return res.status(404).json({Error:"No cart"})
 
-    const order = new Order({
-
-        products: user.chart,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        country: req.body.country,
-        zipCode: req.body.zipCode,
-        city: req.body.city,
-        street: req.body.street,
-        phoneNumber: req.body.phoneNumber
-    })
-
-    await User.updateOne({email: email}, {$push: {orders: order}});
-    await User.updateOne(
-        {email: email},
-        {$set: {[`chart`]: []}});
-
-    await order.save()
-        .then(data => {
-            res.send("ADDED")
-
+        let tot
+        user.cart.forEach(item=>{
+            tot += item.total;
         })
-        .catch(error => {
-            res.send(error.toString());
+        const order = new Order({
+
+            products: user.cart,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.email,
+            country: req.body.country,
+            zipCode: req.body.zipCode,
+            city: req.body.city,
+            street: req.body.street,
+            phoneNumber: req.body.phoneNumber,
+            total: tot
         })
+        await User.updateOne({email: email}, {$push: {orders: order}});
+        await User.updateOne(
+            {email: email},
+            {$set: {[`cart`]: []}});
+
+        await order.save()
+            .then(data => {
+                res.send("ADDED")
+
+            })
+            .catch(error => {
+                res.send(error.toString());
+            })
+    }
+    else return res.status(404).json({Error:"User not found."})
+
+
+
+
 });
 
 module.exports = router;

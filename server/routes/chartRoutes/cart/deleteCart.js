@@ -11,15 +11,15 @@ router.delete('/:email', async (req, res, next) => {
 
     const user = await User.findOne({email: email});
 
-    if (user.chart.length > 0){
+    if (user.cart.length > 0){
 
         await User.updateOne(
             {email: email},
-            {$set: {[`chart`]: []}});
-        res.status(200).json({message:"Chart is deleted!"})
+            {$set: {[`cart`]: []}});
+        res.status(200).json({message:"Cart is deleted!"})
     }
     else {
-        res.status(400).json({message:`The user dont have any items in the chart!`})
+        res.status(400).json({message:`The user dont have any items in the cart!`})
     }
 })
 
