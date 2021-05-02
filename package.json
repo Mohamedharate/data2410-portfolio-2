@@ -43,7 +43,6 @@
     "react-responsive-carousel": "^3.2.18",
     "sanitize-html": "^2.3.3",
     "session": "^0.1.0",
-    "ssl": "^1.0.0",
     "string-builder": "^0.1.8",
     "stringbuilder": "0.0.11",
     "twilio": "^3.61.0",
@@ -51,7 +50,7 @@
   },
   "engines": {
     "node": "14.16.0",
-    "npm":"6.14.11"
+    "npm": "6.14.11"
   },
   "devDependencies": {
     "btoa": "^1.2.1",
