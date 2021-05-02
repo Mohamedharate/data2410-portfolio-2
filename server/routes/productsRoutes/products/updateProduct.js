@@ -21,7 +21,7 @@ router.put('/:itemId', upload.array('imageUrl', 20),
                     filename: files[i].originalname,
                     contentType: files[i].mimetype,
                     path: files[i].path,
-                    image: Buffer.from(fs.readFileSync(files[i].path).toString('base64'), 'base64')
+                    image: fs.readFileSync(files[i].path).toString('base64')
                 };
                 imageArrAfterConverting.push(finalImage)
             }
@@ -31,7 +31,8 @@ router.put('/:itemId', upload.array('imageUrl', 20),
 
         const updateProduct = {
             name: req.body.name,
-            description: req.body.description,
+            descriptionShort: req.body.descriptionShort,
+            descriptionLong: req.body.descriptionLong,
             price: req.body.price,
             imageUrl: req.files,
             category: req.body.category,
@@ -57,31 +58,37 @@ router.put('/:itemId', upload.array('imageUrl', 20),
             out.append("Failed to upload the pictures!\n")
         }
         try{
-            if (updateProduct.name !== findProduct.name) await Product.updateOne({itemId: itemId}, {name: updateProduct.name})
+            if (updateProduct.name && updateProduct.name !== findProduct.name) await Product.updateOne({itemId: itemId}, {name: updateProduct.name})
         }
         catch (err){
             out.append("Failed to update name!\n")
         }
         try {
-            if (updateProduct.description !== findProduct.description) await Product.updateOne({itemId: itemId}, {description: updateProduct.description})
+            if (updateProduct.descriptionShort && updateProduct.descriptionShort !== findProduct.descriptionShort) await Product.updateOne({itemId: itemId}, {descriptionShort: updateProduct.descriptionShort})
         }
         catch (err){
             out.append("Failed to update the description!\n")
         }
         try {
-            if (updateProduct.price !== findProduct.price) await Product.updateOne({itemId: itemId}, {price: updateProduct.price})
+            if (updateProduct.descriptionLong && updateProduct.descriptionLong !== findProduct.descriptionLong) await Product.updateOne({itemId: itemId}, {descriptionShort: updateProduct.descriptionLong})
+        }
+        catch (err){
+            out.append("Failed to update the description!\n")
+        }
+        try {
+            if (updateProduct.price && updateProduct.price !== findProduct.price) await Product.updateOne({itemId: itemId}, {price: updateProduct.price})
         }
         catch (err){
             out.append("Failed to update the price!\n")
         }
         try {
-            if (updateProduct.category !== findProduct.category) await Product.updateOne({itemId: itemId}, {category: updateProduct.category})
+            if (updateProduct.category && updateProduct.category !== findProduct.category) await Product.updateOne({itemId: itemId}, {category: updateProduct.category})
         }
         catch (err){
             out.append("Failed to upload the category!\n")
         }
         try {
-            if (updateProduct.quantity !== findProduct.quantity) await Product.updateOne({itemId: itemId}, {quantity: updateProduct.quantity})
+            if (updateProduct.quantity && updateProduct.quantity !== findProduct.quantity) await Product.updateOne({itemId: itemId}, {quantity: updateProduct.quantity})
         }
         catch (err) {
             out.append("Failed to upload the quantity!\n")
@@ -90,7 +97,7 @@ router.put('/:itemId', upload.array('imageUrl', 20),
             res.status(400).send(out.toString())
         }
         else {
-            res.status(200).send("The product is uploaded successfully!")
+            res.status(200).send("The product is updated successfully!")
         }
     })
 

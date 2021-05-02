@@ -51,13 +51,13 @@ export default class Mainpage extends Component {
                 </ol>
                 <div className="carousel-inner" role="listbox">
                   <div className="carousel-item active">
-                    <img className="d-block img-fluid" src="http://placehold.it/900x350" alt="First slide"/>
+                    <img className="d-block img-fluid" src="https://www.fino.eu/wp-content/uploads/2013/12/Coffee-Filters.jpg" alt="First slide"/>
                   </div>
                   <div className="carousel-item">
-                    <img className="d-block img-fluid" src="http://placehold.it/900x350" alt="Second slide"/>
+                    <img className="d-block img-fluid" src="https://www.thegeneralpost.com/wp-content/uploads/2021/01/cofee-900x350.jpg" alt="Second slide"/>
                   </div>
                   <div className="carousel-item">
-                    <img className="d-block img-fluid" src="http://placehold.it/900x350" alt="Third slide"/>
+                    <img className="d-block img-fluid" src="https://i0.wp.com/www.toptensell.com/wp-content/uploads/2020/05/best-coffee-makers.jpg?fit=900%2C350&ssl=1" alt="Third slide"/>
                   </div>
                 </div>
                 <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button"
@@ -71,11 +71,10 @@ export default class Mainpage extends Component {
                   <span className="sr-only">Next</span>
                 </a>
               </div>
-                <div className="row">
-                    <div className="col-lg-4 col-md-6 mb-4">
-                      {<div dangerouslySetInnerHTML={{ __html: this.state.product}} />}
-                    </div>
-                </div>
+                <div className="row" dangerouslySetInnerHTML={{ __html: this.state.product}} />
+
+
+
             </div>
           </div>
         </div>

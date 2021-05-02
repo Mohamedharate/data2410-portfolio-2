@@ -58,7 +58,7 @@ const user_schema = new mongoose.Schema(
         orders: {
             type: []
         },
-        chart: {
+        cart: {
             type: [],
             sum:{
 

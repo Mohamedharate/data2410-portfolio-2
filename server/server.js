@@ -26,7 +26,7 @@ const products = require('./routes/productsRoutes/products');
 const orders = require('./routes/ordersRoutes/orders');
 const admin = require('./routes/adminsRoutes/admins');
 const users = require('./routes/usersRoutes/users');
-const chart = require('./routes/chartRoutes/chart');
+const cart = require('./routes/chartRoutes/cart');
 
 // - - - - - - - - - - - - - //
 
@@ -85,7 +85,7 @@ app.use('/api/users/', users);
 app.use('/api/products/', products);
 app.use('/api/orders/', orders);
 app.use('/api/admin/', admin);
-app.use('/api/chart/', chart);
+app.use('/api/cart/', cart);
 // ------- - - - - - - - -  ---------- //
 
 
