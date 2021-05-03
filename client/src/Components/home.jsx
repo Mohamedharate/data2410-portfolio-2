@@ -25,6 +25,9 @@ class Home extends Component{
         toggleShoppingCart: false,
         isAuthenticated: false,
         current_user: {},
+        empty_cart: false,
+        empty_cart_message: 'Nothing to show here.',
+        cart_objects: []
     }
 
 
@@ -42,7 +45,9 @@ z
         this.setState({toggleLogin: false, toggleRegister: !this.state.toggleRegister});
     }
     handleToggleShoppingCartCallback = () => {
-        this.setState({toggleShoppingCart: !this.state.toggleShoppingCart});
+        this.getCartObjects().then(() => {
+            this.setState({toggleShoppingCart: !this.state.toggleShoppingCart});
+        })
     }
     handleLogin = () => {
         this.tryIsAuthenticated().then()
@@ -73,6 +78,21 @@ z
         }).then()
     }
 
+    async getCartObjects() {
+        axios.get('http://localhost:3001/api/cart/getCart')
+            .then(response => {
+                if (response.data.message){
+                    this.state.empty_cart = true;
+                    this.state.empty_cart_message = response.data.message;
+                } else {
+                    this.state.empty_cart = false;
+                    this.state.cart_objects = response.data.products
+                }
+            }).catch(error => {
+            console.log(error.data)
+        })
+    }
+
     render() {
         return (
             <Router>
@@ -94,7 +114,12 @@ z
                 />
                 {this.state.toggleLogin && <Login loginCallback = {this.handleLogin}/>}
                 {this.state.toggleRegister && <Register registerCallback = {this.handleToggleLoginCallback}/>}
-                {this.state.toggleShoppingCart && <ShoppingCart />}
+                {this.state.toggleShoppingCart &&
+                <ShoppingCart
+                    empty_cart = {this.state.empty_cart}
+                    empty_cart_message = {this.state.empty_cart_message}
+                    cart_objects = {this.state.cart_objects}
+                />}
                 <About />
                 <Footer />
             </React.Fragment>
