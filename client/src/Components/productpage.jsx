@@ -7,7 +7,7 @@ export default class Productpage extends Component{
     constructor(props) {
         super(props);
         this.state = {name: "", price: 0, descriptionLong: ""};
-        this.state = {products: [], name: "", price: 0, description: "", itemId: "", imageUrl: ""};
+        this.state = {products: [], name: "", price: 0, description: "", itemId: "", imageUrl: "", email: "", quantity: 0};
 
     }
 
@@ -29,12 +29,14 @@ export default class Productpage extends Component{
         });
     };
     async postToCart(){
-        const that = this;
         await axios({
             method: "post",
             url: 'http://localhost:3001/api/cart/addToCart/:email',
+            data: cart
         }).then(function (response){
             console.log("data:", response.data);
+        }).catch(function (error){
+            console.log(error);
         })
     }
 
