@@ -5,14 +5,16 @@ const Product = require("../../../Modules/product");
 
 
 // add review.
-router.put('/:itemId', async (req, res) => {
+router.post('/:itemId', async (req, res) => {
     const itemId = req.params.itemId;
 
     const review = {
-        'user': req.body.user,
-        'reviewText': req.body.reviewText,
+        user: req.body.user,
+        reviewText: req.body.reviewText,
+        rating:req.body.rating,
         Date: new Date().toLocaleDateString(),
-        Time: new Date().toLocaleTimeString()
+        Time: new Date().toLocaleTimeString(),
+
     }
     try {
         const product = await Product.updateOne({itemId: itemId}, {$push: {reviews: review}});
