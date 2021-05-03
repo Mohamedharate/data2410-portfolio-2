@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import {Link} from "react-router-dom";
-import Spinner from "react-bootstrap/Spinner";
+
 
 export default class Productpage extends Component{
     constructor(props) {
@@ -17,8 +17,7 @@ export default class Productpage extends Component{
             method: "get",
             url: 'http://localhost:3001/api/products/get/'+this.props.match.params.itemId,
         }).then(function (response) {
-            console.log("Data: ", response.data);
-            that.setState({products: response.data, name: response.data.name, price: response.data.price,
+            that.setState({name: response.data.name, price: response.data.price,
                 description: response.data.descriptionLong,
             image: "data:image/png;base64,"+response.data.imageUrl[0].image,
             itemId: response.data.itemId});
@@ -30,9 +29,8 @@ export default class Productpage extends Component{
         });
     };
 
-
     render() {
-        const { price, image } = this.state;
+        const { price } = this.state;
         return(
             <div className="container">
                     <div className="row">

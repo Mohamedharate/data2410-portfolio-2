@@ -1,46 +1,97 @@
 import React, {Component,} from "react";
 import axios from "axios";
-import {func} from "prop-types";
+
 
 export default class AddReview extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            dateTime: (new Date()).toDateString(),
+            reviewText: this.props.reviewText || '',
+            reviewStars: this.props.reviewStars || ''}
+        this.handleChange = this.handleChange.bind(this);
+    }
+    handleChange = e => {
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+    };
 
+    handleSubmit = (event) => {
+        event.preventDefault();
+        this.putReview()
+            .then(response => {
+            }).catch(error => {
+        })
+    };
     async putReview(){
         const that = this;
         await axios({
             method: 'put',
-            url: '/api/products/addReview:itemId',
+            url: '/api/products/addReview/:itemId',
             data: {
-                name: this.state.name,
+                user: this.state.user,
                 mail: this.state.mail,
-                message: this.state.message,
-                stars: this.state.stars,
+                reviewText: this.state.reviewText,
+                rating: this.state.rating,
             }
         }).then(function(response){
             console.log("Data: ", response.data);
+            that.setState({reviewText: response.data.message})
         }).catch(function (error){
             if (error.response){
                 console.log(error.response.data);
             }
         })
     }
-    handleReview = (event) => {
-        event.preventDefault();
-    }
 
+    async componentDidMount() {
+        const that = this;
+        await axios({
+            method: "get",
+            url: 'http://localhost:3001/api/products/get/'+this.props.match.params.itemId,
+        }).then(function (response) {
+            that.setState({name: response.data.name,
+                image: "data:image/png;base64,"+response.data.imageUrl[0].image,
+                itemId: response.data.itemId});
+        }).catch(function (error) {
+            if (!error.data) {
+                console.log(error.data)
+            }
+            console.log(error);
+        });
+    };
 
-
-render() {
+    render() {
+    const { reviewStars } = this.state;
+    const options = [
+        {
+            label: "1",
+            value: "1",
+        }, {
+            label: "2",
+            value: "2",
+        }, {
+            label: "3",
+            value: "3",
+        }, {
+            label: "4",
+            value: "4",
+        }, {
+            label: "5",
+            value: "5",
+        }
+    ];
     return(
+        <div className="review">
         <div className="container">
-            <div className="row">
-                    <div className="col-lg-9">
                         <div>
                             <div width="100%">
-                                <h1>Feedback</h1>
-                                <div className="card mt-4">
-                                    <div className="card-header">Add review for item</div>
+                                <div className="row">
+                                <div className="col-lg-6">
+                                    <div className="card-header">Add review for item {this.state.name}</div>
                                     <div className="card-body">
-                                    <form className="form-horisontal">
+                                    <form onSubmit={this.handleSubmit}>
                                         <fieldset>
                                             <div className="form-group">
                                                 <label className="col-md-9 control-label">Full
@@ -67,26 +118,32 @@ render() {
                                                               rows="5"/>
                                                 </div>
                                             </div>
-                                        <div className="form-group">
-                                            <label className="col-md-9 control-label">Number of stars</label>
-                                            <div className="col-md-9">
-                                                    <select className="form-control" id="stars" name="stars">
-                                                            <option>1</option>
-                                                        <option>2</option>
-                                                        <option>3</option>
-                                                        <option>4</option>
-                                                        <option>5</option>
+                                            <div className="form-group">
+                                                <label className="rating" htmlFor="message">Your
+                                                    rating</label>
+                                                <div className="col-md-9">
+                                                    <select name="rating" id="reviewStars" className="star_rate" value={reviewStars}
+                                                            onChange={this.handleChange}>
+                                                            {options.map((option) => (
+                                                                <option key={option.value} value={option.value}>
+                                                                    {option.label}</option>
+                                                            ))}
                                                     </select>
+
+                                                </div>
                                             </div>
-                                        </div>
-                                            <div className="btn btn-success">Send review</div>
+
+                                            <button type="submit" className="btn btn-success">Send review</button>
                                         </fieldset>
                                     </form>
                                 </div>
                                 </div>
+                                <div className="col-lg-6">
+                                    <img className="card-img" src={this.state.image} alt = "picture of product"/>
                             </div>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
     )
