@@ -5,7 +5,8 @@ const User = require("../../../Modules/user");
 const Product = require("../../../Modules/product");
 
 
-router.post('/:email', async (req, res, next) => {
+router.post('/:email', async (req,
+                              res, next) => {
 
     const email = req.params.email;
     const addItem = {
