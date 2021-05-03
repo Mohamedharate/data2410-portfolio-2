@@ -8,14 +8,22 @@ const Product = require("../../../Modules/product");
 router.delete('/:email', async (req, res, next) => {
 
     const email = req.params.email;
-
     const user = await User.findOne({email: email});
 
     if (user.cart.length > 0){
+        for (let item of user.cart) {
+
+            await Product.updateOne(
+                {itemId: item.itemId},
+                {$inc: {
+                        quantity: item.quantity}
+                });
+        }
 
         await User.updateOne(
             {email: email},
             {$set: {[`cart`]: []}});
+
         res.status(200).json({message:"Cart is deleted!"})
     }
     else {

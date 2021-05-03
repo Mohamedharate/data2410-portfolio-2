@@ -32,6 +32,11 @@ router.delete('/:email', async (req, res, next) => {
                                 [`cart.${i}.quantity`]: Number(-deleteItem.quantity),
                                 [`cart.${i}.total`]: -totalSumProduct
                         }});
+                    await Product.updateOne(
+                        {itemId: deleteItem.product_id},
+                        {$inc: {
+                                quantity: deleteItem.quantity}
+                        });
                     deleted = true;
                 }
                 catch (err){
