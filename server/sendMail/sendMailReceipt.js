@@ -3,7 +3,7 @@
 const nodemailer = require('nodemailer');
 
 
-async function send(userMail, item) {
+async function send(user, html) {
 
     const transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -15,9 +15,10 @@ async function send(userMail, item) {
 
     const mailOptions = {
         from: 'ShopMet',
-        to: `${userMail.email}`,
+        to: `${user.email}`,
         subject: `Confirmation`,
-        html: `${item}`
+        html: `${html}`
+
     };
 
     await transporter.sendMail(mailOptions, async function (error, info) {

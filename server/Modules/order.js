@@ -1,7 +1,12 @@
 const mongoose = require("mongoose");
 
+
 const order_schema = new mongoose.Schema(
     {
+        user:{
+            type: String,
+            required: true
+        },
         date: {
             type: Date,
             default: Date.now
