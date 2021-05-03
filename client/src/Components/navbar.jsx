@@ -36,7 +36,7 @@ class Navbar extends Component{
                                         <Link to="/chart" className="nav-link">Cart</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link to="/order" className="nav-link" href="#" tabIndex="-1">Orders</Link>
+                                        <Link to="/orders" className="nav-link" href="#" tabIndex="-1">Orders</Link>
                                     </li>
                                 </ul>
                             </div>
