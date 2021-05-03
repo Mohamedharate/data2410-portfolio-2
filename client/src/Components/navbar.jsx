@@ -12,7 +12,6 @@ class Navbar extends Component{
         this.props.toggleRegisterCallback()
     }
     handleLogout = () => {
-        console.log("HandleLogout i navbar")
         this.props.handleLogoutCallback()
     }
 
