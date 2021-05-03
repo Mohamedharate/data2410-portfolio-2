@@ -17,7 +17,7 @@ router.post('/', async (req, res) => {
 
     const user = await User.findOne({email: req.body.email,});
     if (user) {
-        return res.status(400).json({error: "User already exists"});
+        return res.status(400).json({message: "User already exists"});
     } else {
         const token = jwt.sign({
             firstName,
