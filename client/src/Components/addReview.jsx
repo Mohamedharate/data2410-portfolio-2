@@ -3,13 +3,13 @@ import axios from "axios";
 
 
 export default class AddReview extends Component{
-
     constructor(props) {
         super(props);
         this.state = {
             dateTime: (new Date()).toDateString(),
             reviewText: this.props.reviewText || '',
             reviewStars: this.props.reviewStars || ''}
+        this.handleChange = this.handleChange.bind(this);
     }
     handleChange = e => {
         this.setState({
@@ -17,11 +17,12 @@ export default class AddReview extends Component{
         });
     };
 
-    handleSubmit = e => {
-        e.preventDefault();
-        this.putReview(this.state)
-            .then(()=>this.props.onUpdate());
-
+    handleSubmit = (event) => {
+        event.preventDefault();
+        this.putReview()
+            .then(response => {
+            }).catch(error => {
+        })
     };
     async putReview(){
         const that = this;
@@ -36,15 +37,14 @@ export default class AddReview extends Component{
             }
         }).then(function(response){
             console.log("Data: ", response.data);
+            that.setState({reviewText: response.data.message})
         }).catch(function (error){
             if (error.response){
                 console.log(error.response.data);
             }
         })
     }
-    handleReview = (event) => {
-        event.preventDefault();
-    }
+
     async componentDidMount() {
         const that = this;
         await axios({
@@ -132,7 +132,8 @@ export default class AddReview extends Component{
 
                                                 </div>
                                             </div>
-                                            <div className="btn btn-success">Send review</div>
+
+                                            <button type="submit" className="btn btn-success">Send review</button>
                                         </fieldset>
                                     </form>
                                 </div>

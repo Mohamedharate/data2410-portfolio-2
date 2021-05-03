@@ -10,7 +10,7 @@ router.put('/:itemId', async (req, res) => {
 
     const review = {
         'user': req.body.user,
-        'reviweText': req.body.reviweText,
+        'reviewText': req.body.reviewText,
         Date: new Date().toLocaleDateString(),
         Time: new Date().toLocaleTimeString()
     }
