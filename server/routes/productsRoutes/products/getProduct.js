@@ -58,7 +58,7 @@ function formatProdcuts(arr) {
                    </a>
                     <div class="card-body">
                         <h4 class="card-title">
-                            <a href="http://localhost:3000/products/${arr[i].itemId}">${arr[i].name}</a>
+                            <a href="/products/${arr[i].itemId}">${arr[i].name}</a>
                         </h4>
                         <h5>$${parseFloat(arr[i].price)}</h5>
                         <p class="card-text">${arr[i].descriptionShort}</p>
