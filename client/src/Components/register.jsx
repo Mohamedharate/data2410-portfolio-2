@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import axios from "axios";
 import DangerFeedback from "./dangerFeedback";
-import SuccessFeedback from "./successFeedback";
 
 
 class Register extends Component {
@@ -49,7 +48,7 @@ class Register extends Component {
 
         await axios({
             method: 'post',
-            url: 'http://localhost:3001/api/users/signup',
+            url: 'http://localhost:3001/api/register/',
             data: {
                 firstName: this.state.firstName,
                 lastName: this.state.lastName,

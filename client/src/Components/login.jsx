@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import axios from "axios";
 import DangerFeedback from "./dangerFeedback";
-import SuccessFeedback from "./successFeedback";
 
 class Login extends Component {
     constructor(props) {
@@ -38,7 +37,6 @@ class Login extends Component {
 
     async postLoginDetails() {
         const that = this;
-        console.log("Inne i postLoginDetails")
         await axios({
             method: 'post',
             url: 'http://localhost:3001/api/users/signIn',
@@ -47,7 +45,6 @@ class Login extends Component {
                 password: this.state.password,
             }
         }).then(function (response) {
-            console.log("Data:", response.data.message);
             console.log("Status:", response.status);
             if (response.status === 200) {
                 that.setState({feedback_text: response.data.message});
