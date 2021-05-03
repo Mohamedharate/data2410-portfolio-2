@@ -15,7 +15,7 @@ code {
 }
 
 .loginContainer{
-  position: absolute;
+  position: fixed;
   top: 20%;
   left: 35%;
   width: 30%;
@@ -31,7 +31,7 @@ code {
 }
 
 .registerContainer{
-  position: absolute;
+  position: fixed;
   top: 12%;
   left: 35%;
   width: 30%;
@@ -47,7 +47,7 @@ code {
 }
 
 .shoppingCartContainer{
-  position: absolute;
+  position: fixed;
   top: 60px;
   left: 0;
   width: 500px;
