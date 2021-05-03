@@ -68,10 +68,10 @@ class Register extends Component {
             that.props.registerCallback()
         }).catch(function (error) {
             if (error.response) {
-                console.log(error.response.data);
+                console.log(error.response.data.message);
                 console.log(error.response.status);
                 that.setState({toggle_error_feedback: true})
-                that.setState({feedback_text: error.response.data})
+                that.setState({feedback_text: error.response.data.message})
             } else if (error.request) {
                 console.log(error.request);
             } else {

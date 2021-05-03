@@ -26,7 +26,7 @@ const products = require('./routes/productsRoutes/products');
 const orders = require('./routes/ordersRoutes/orders');
 const admin = require('./routes/adminsRoutes/admins');
 const users = require('./routes/usersRoutes/users');
-const cart = require('./routes/chartRoutes/cart');
+const cart = require('./routes/cartRoutes/cart');
 
 // - - - - - - - - - - - - - //
 
@@ -79,7 +79,7 @@ app.use((req, res, next) => {
 
 
 // --------- Middlewares ------------- //
-app.use('/api/register', register);
+app.use('/api/register/', register);
 app.use('/api/reset/', resetPassword);
 app.use('/api/users/', users);
 app.use('/api/products/', products);
