@@ -17,7 +17,6 @@ export default class Productpage extends Component{
             method: "get",
             url: 'http://localhost:3001/api/products/get/'+this.props.match.params.itemId,
         }).then(function (response) {
-            console.log("Data: ", response.data);
             that.setState({name: response.data.name, price: response.data.price,
                 description: response.data.descriptionLong,
             image: "data:image/png;base64,"+response.data.imageUrl[0].image,

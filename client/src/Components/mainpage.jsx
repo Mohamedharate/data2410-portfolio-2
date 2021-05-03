@@ -16,7 +16,6 @@ export default class Mainpage extends Component {
       method: "get",
       url: 'http://localhost:3001/api/products/get/allProducts',
     }).then(function (response) {
-      console.log("Data: ", response);
       that.setState({product: response.data});
     }).catch(function (error) {
       if (!error.data) {
