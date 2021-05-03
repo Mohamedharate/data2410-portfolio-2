@@ -9,7 +9,7 @@ import Mainpage from "./mainpage";
 import Footer from "./footer";
 import Productpage from "./productpage";
 import addReview from "./addReview";
-import Cart from "./cart";
+import ShoppingCart from "./shoppingCart";
 import Orders from "./orders";
 
 
@@ -22,6 +22,7 @@ class Home extends Component{
     state = {
         toggleLogin: false,
         toggleRegister: false,
+        toggleShoppingCart: false,
         isAuthenticated: false,
         current_user: {},
     }
@@ -39,6 +40,9 @@ z
     }
     handleToggleRegisterCallback = () => {
         this.setState({toggleLogin: false, toggleRegister: !this.state.toggleRegister});
+    }
+    handleToggleShoppingCartCallback = () => {
+        this.setState({toggleShoppingCart: !this.state.toggleShoppingCart});
     }
     handleLogin = () => {
         this.tryIsAuthenticated().then()
@@ -77,18 +81,20 @@ z
                     <Route exact path="/" component={Mainpage}/>
                     <Route path ="/products/:itemId" component={Productpage}/>
                     <Route path ="/addReview/:itemId" component={addReview}/>
-                    <Route path ="/chart" component={Cart}/>
+                    <Route path ="/chart" component={ShoppingCart}/>
                     <Route path ="/orders" component={Orders}/>
                 </Switch>
                 <Navbar
                     toggleLoginCallback = {this.handleToggleLoginCallback}
                     toggleRegisterCallback = {this.handleToggleRegisterCallback}
+                    toggleShoppingCartCallback = {this.handleToggleShoppingCartCallback}
                     handleLogoutCallback = {this.handleLogoutCallback}
                     isAuthenticated = {this.state.isAuthenticated}
                     current_user = {this.state.current_user}
                 />
                 {this.state.toggleLogin && <Login loginCallback = {this.handleLogin}/>}
                 {this.state.toggleRegister && <Register registerCallback = {this.handleToggleLoginCallback}/>}
+                {this.state.toggleShoppingCart && <ShoppingCart />}
                 <About />
                 <Footer />
             </React.Fragment>
