@@ -28,12 +28,12 @@ export default class AddReview extends Component{
         const that = this;
         await axios({
             method: 'put',
-            url: '/api/products/addReview:itemId',
+            url: '/api/products/addReview/:itemId',
             data: {
-                name: this.state.name,
+                user: this.state.user,
                 mail: this.state.mail,
-                message: this.state.message,
-                stars: this.state.stars,
+                reviewText: this.state.reviewText,
+                rating: this.state.rating,
             }
         }).then(function(response){
             console.log("Data: ", response.data);
