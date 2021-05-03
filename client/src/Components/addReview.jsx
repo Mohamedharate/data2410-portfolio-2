@@ -1,8 +1,35 @@
 import React, {Component,} from "react";
 import axios from "axios";
-import {func} from "prop-types";
+
 
 export default class AddReview extends Component{
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            dateTime: (new Date()).toDateString(),
+            firebaseKey: this.props.firebaseKey || '',
+            reviewText: this.props.reviewText || '',
+            reviewStars: this.props.reviewStars || ''}
+    }
+    handleChange = e => {
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+    };
+
+    handleSubmit = e => {
+        e.preventDefault();
+        if (this.state.firebaseKey === '') {
+            this.setState({
+                firebaseKey: this.props.firebaseKey
+            });
+        }
+
+        this.putReview(this.state)
+            .then(()=>this.props.onUpdate());
+
+    };
 
     async putReview(){
         const that = this;
@@ -30,6 +57,29 @@ export default class AddReview extends Component{
 
 
 render() {
+    const { reviewStars } = this.state;
+    const options = [
+        {
+            label: "1",
+            value: "1",
+        },
+        {
+            label: "2",
+            value: "2",
+        },
+        {
+            label: "3",
+            value: "3",
+        },
+        {
+            label: "4",
+            value: "4",
+        },
+        {
+            label: "5",
+            value: "5",
+        }
+    ];
     return(
         <div className="container">
             <div className="row">
@@ -40,7 +90,7 @@ render() {
                                 <div className="card mt-4">
                                     <div className="card-header">Add review for item</div>
                                     <div className="card-body">
-                                    <form className="form-horisontal">
+                                    <form onSubmit={this.handleSubmit}>
                                         <fieldset>
                                             <div className="form-group">
                                                 <label className="col-md-9 control-label">Full
@@ -67,18 +117,20 @@ render() {
                                                               rows="5"/>
                                                 </div>
                                             </div>
-                                        <div className="form-group">
-                                            <label className="col-md-9 control-label">Number of stars</label>
-                                            <div className="col-md-9">
-                                                    <select className="form-control" id="stars" name="stars">
-                                                            <option>1</option>
-                                                        <option>2</option>
-                                                        <option>3</option>
-                                                        <option>4</option>
-                                                        <option>5</option>
+                                            <div className="form-group">
+                                                <label className="col-md-3 control-label" htmlFor="message">Your
+                                                    rating</label>
+                                                <div className="col-md-9">
+                                                    <select name="rating" id="reviewStars" className="selectpicker" value={reviewStars}
+                                                            onChange={this.handleChange}>
+                                                            {options.map((option) => (
+                                                                <option key={option.value} value={option.value}>
+                                                                    {option.label}</option>
+                                                            ))}
                                                     </select>
+
+                                                </div>
                                             </div>
-                                        </div>
                                             <div className="btn btn-success">Send review</div>
                                         </fieldset>
                                     </form>
