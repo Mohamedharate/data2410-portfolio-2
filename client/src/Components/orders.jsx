@@ -11,7 +11,7 @@ class Orders extends Component{
     async getOrder(){
         await axios({
             method: "get",
-            url: "http://localhost:3001/api/orders/get/"+this.props.match.email,
+            url: "http://localhost:3001/api/orders/getUserOrders/"+this.props.match.email,
         }).then(function (response){
         this.setState({email: response.data.email, orderNumber: response.data.orderNumber,
         products: response.data.products, total: response.data.total})
