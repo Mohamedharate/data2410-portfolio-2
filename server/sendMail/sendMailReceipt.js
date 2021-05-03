@@ -16,7 +16,7 @@ async function send(user, html) {
     const mailOptions = {
         from: 'ShopMet',
         to: `${user.email}`,
-        subject: `Confirmation`,
+        subject: `Order Confirmation`,
         html: `${html}`
 
     };
@@ -28,7 +28,6 @@ async function send(user, html) {
             console.log('Email sent: ' + info.response);
         }
     });
-
 }
 
 module.exports = send

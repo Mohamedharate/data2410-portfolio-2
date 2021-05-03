@@ -1,10 +1,15 @@
 const mongoose = require("mongoose");
+const {Decimal128} = require("bson");
 
 
 const order_schema = new mongoose.Schema(
     {
         user:{
             type: String,
+            required: true
+        },
+        total:{
+            type: Decimal128,
             required: true
         },
         date: {

@@ -11,6 +11,9 @@ class Navbar extends Component{
     handleRegister = () => {
         this.props.toggleRegisterCallback()
     }
+    handleShoppingCart = () => {
+        this.props.toggleShoppingCartCallback()
+    }
     handleLogout = () => {
         this.props.handleLogoutCallback()
     }
@@ -33,10 +36,12 @@ class Navbar extends Component{
                                         <Link to="/" className="nav-link active" aria-current="page">Home</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link to="/chart" className="nav-link">Cart</Link>
+                                        <Link to="/order" className="nav-link" href="#" tabIndex="-1">Orders</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link to="/orders" className="nav-link" href="#" tabIndex="-1">Orders</Link>
+                                        <button onClick={this.handleShoppingCart} className="btn text-white">
+                                            <i className="material-icons">shopping_cart</i>
+                                        </button>
                                     </li>
                                 </ul>
                             </div>
