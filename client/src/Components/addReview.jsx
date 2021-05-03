@@ -53,10 +53,27 @@ export default class AddReview extends Component{
     handleReview = (event) => {
         event.preventDefault();
     }
+    async componentDidMount() {
+        const that = this;
+        await axios({
+            method: "get",
+            url: 'http://localhost:3001/api/products/get/'+this.props.match.params.itemId,
+        }).then(function (response) {
+            that.setState({name: response.data.name,
+                image: "data:image/png;base64,"+response.data.imageUrl[0].image,
+                itemId: response.data.itemId});
+        }).catch(function (error) {
+            if (!error.data) {
+                console.log(error.data)
+            }
+            console.log(error);
+        });
+    };
 
 
 
-render() {
+
+    render() {
     const { reviewStars } = this.state;
     const options = [
         {
@@ -81,14 +98,14 @@ render() {
         }
     ];
     return(
+        <div className="review">
+            <h2>Feedback</h2>
         <div className="container">
-            <div className="row">
-                    <div className="col-lg-9">
                         <div>
                             <div width="100%">
-                                <h1>Feedback</h1>
-                                <div className="card mt-4">
-                                    <div className="card-header">Add review for item</div>
+                                <div className="row">
+                                <div className="col-lg-6">
+                                    <div className="card-header">Add review for item {this.state.name}</div>
                                     <div className="card-body">
                                     <form onSubmit={this.handleSubmit}>
                                         <fieldset>
@@ -118,10 +135,10 @@ render() {
                                                 </div>
                                             </div>
                                             <div className="form-group">
-                                                <label className="col-md-3 control-label" htmlFor="message">Your
+                                                <label className="rating" htmlFor="message">Your
                                                     rating</label>
                                                 <div className="col-md-9">
-                                                    <select name="rating" id="reviewStars" className="selectpicker" value={reviewStars}
+                                                    <select name="rating" id="reviewStars" className="star_rate" value={reviewStars}
                                                             onChange={this.handleChange}>
                                                             {options.map((option) => (
                                                                 <option key={option.value} value={option.value}>
@@ -136,9 +153,12 @@ render() {
                                     </form>
                                 </div>
                                 </div>
+                                <div className="col-lg-6">
+                                    <img className="card-img" src={this.state.image} alt = "picture of product"/>
                             </div>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
     )

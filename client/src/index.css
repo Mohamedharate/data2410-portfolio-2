@@ -61,3 +61,7 @@ code {
 .navbar-logo{
   max-height: 40px;
 }
+.review{
+  padding: 60px;
+  text-align: center;
+}
