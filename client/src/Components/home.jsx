@@ -44,7 +44,6 @@ z
         this.tryIsAuthenticated().then()
     }
     handleLogoutCallback = () => {
-        console.log("HandleLogout i home")
         this.tryLogout().then()
         this.tryIsAuthenticated().then()
 
@@ -56,16 +55,13 @@ z
                 this.setState({isAuthenticated: true});
                 this.setState({current_user: response.data})
                 this.setState({toggleLogin: false});
-                console.log(this.state.current_user.firstName)
             }).catch(error => {
                 this.setState({isAuthenticated: false});
                 this.setState({current_user: {}})
-                console.log("No session available: ", error.data);
             })
     }
 
     async tryLogout() {
-        console.log("Try Logout")
         await axios({
             method: 'post',
             url: 'http://localhost:3001/logout',
