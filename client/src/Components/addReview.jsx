@@ -8,7 +8,6 @@ export default class AddReview extends Component{
         super(props);
         this.state = {
             dateTime: (new Date()).toDateString(),
-            firebaseKey: this.props.firebaseKey || '',
             reviewText: this.props.reviewText || '',
             reviewStars: this.props.reviewStars || ''}
     }
@@ -20,17 +19,10 @@ export default class AddReview extends Component{
 
     handleSubmit = e => {
         e.preventDefault();
-        if (this.state.firebaseKey === '') {
-            this.setState({
-                firebaseKey: this.props.firebaseKey
-            });
-        }
-
         this.putReview(this.state)
             .then(()=>this.props.onUpdate());
 
     };
-
     async putReview(){
         const that = this;
         await axios({
@@ -70,36 +62,28 @@ export default class AddReview extends Component{
         });
     };
 
-
-
-
     render() {
     const { reviewStars } = this.state;
     const options = [
         {
             label: "1",
             value: "1",
-        },
-        {
+        }, {
             label: "2",
             value: "2",
-        },
-        {
+        }, {
             label: "3",
             value: "3",
-        },
-        {
+        }, {
             label: "4",
             value: "4",
-        },
-        {
+        }, {
             label: "5",
             value: "5",
         }
     ];
     return(
         <div className="review">
-            <h2>Feedback</h2>
         <div className="container">
                         <div>
                             <div width="100%">
