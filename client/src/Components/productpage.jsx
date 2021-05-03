@@ -52,6 +52,7 @@ export default class Productpage extends Component{
                                 <p className="card-text">{this.state.description}</p>
                                 <span className="text-warning">★ ★ ★ ★ ☆</span>
                                 4.0 stars
+                                <button type="submit" className="btn btn-lg btn-secondary btn-block mt-2">Add to cart</button>
                             </div>
                         </div>
                         <div className="card card-outline-secondary my-4">
