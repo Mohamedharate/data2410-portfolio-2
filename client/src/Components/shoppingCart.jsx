@@ -35,6 +35,8 @@ class ShoppingCart extends Component {
                         <ShoppingCartObject
                             key={shoppingCartObject.id}
                             shoppingCartObject={shoppingCartObject}
+                            quantity_increase = {() => this.props.quantity_increase(shoppingCartObject.itemId)}
+                            quantity_decrease = {() => this.props.quantity_decrease(shoppingCartObject.itemId)}
                         />
                     ))}
                 </div>}

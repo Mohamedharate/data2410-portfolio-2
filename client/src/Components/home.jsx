@@ -30,14 +30,16 @@ class Home extends Component{
         cart_objects: []
     }
 
-
+    // Init/on load
     componentDidMount() {
         window.addEventListener('load', this.handleLoad);
     }
     async handleLoad() {
         this.tryIsAuthenticated().then()
     }
-z
+
+    // Handlers
+    // Toggle windows.
     handleToggleLoginCallback = () => {
         this.setState({toggleLogin: !this.state.toggleLogin, toggleRegister: false});
     }
@@ -45,25 +47,36 @@ z
         this.setState({toggleLogin: false, toggleRegister: !this.state.toggleRegister});
     }
     handleToggleShoppingCartCallback = () => {
-        this.getCartObjects().then(() => {
-            this.setState({toggleShoppingCart: !this.state.toggleShoppingCart});
-        })
+        this.setState({toggleShoppingCart: !this.state.toggleShoppingCart});
     }
-    handleLogin = () => {
+
+    // Handle quantities in cart
+    handleQuantityIncreaseCallback = itemId => {
+        console.log("Increase", itemId)
+    }
+    handleQuantityDecreaseCallback = itemId => {
+        console.log("Decrease", itemId)
+    }
+
+    // Handle authentication.
+    handleLoginCallback = () => {
         this.tryIsAuthenticated().then()
     }
     handleLogoutCallback = () => {
         this.tryLogout().then()
         this.tryIsAuthenticated().then()
-
+        this.getCartObjects().then()
+        this.state.toggleShoppingCart = false;
     }
 
+    // Api calls
     async tryIsAuthenticated() {
         await axios.get('http://localhost:3001/api/users/isAuthenticated')
             .then(response => {
                 this.setState({isAuthenticated: true});
                 this.setState({current_user: response.data})
                 this.setState({toggleLogin: false});
+                this.getCartObjects()
             }).catch(error => {
                 this.setState({isAuthenticated: false});
                 this.setState({current_user: {}})
@@ -84,9 +97,11 @@ z
                 if (response.data.message){
                     this.state.empty_cart = true;
                     this.state.empty_cart_message = response.data.message;
+                    return true;
                 } else {
                     this.state.empty_cart = false;
                     this.state.cart_objects = response.data.products
+                    return false;
                 }
             }).catch(error => {
             console.log(error.data)
@@ -116,6 +131,8 @@ z
                 {this.state.toggleRegister && <Register registerCallback = {this.handleToggleLoginCallback}/>}
                 {this.state.toggleShoppingCart &&
                 <ShoppingCart
+                    quantity_increase = {this.handleQuantityIncreaseCallback}
+                    quantity_decrease = {this.handleQuantityDecreaseCallback}
                     empty_cart = {this.state.empty_cart}
                     empty_cart_message = {this.state.empty_cart_message}
                     cart_objects = {this.state.cart_objects}
