@@ -7,6 +7,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
 }
 
 code {
@@ -122,4 +123,16 @@ code {
   background: #0b2e13;
   height: 60px;
   width: 60px;
+}
+.productContainer{
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 30px;
+  margin-right: auto;
+  margin-left: auto;
+  width: 100%;
+
+}
+.container{
+  padding-top: 60px;
 }

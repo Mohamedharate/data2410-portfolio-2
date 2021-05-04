@@ -39,17 +39,50 @@ async function sendMSG(){
     }
 sendMSG()
 
+function reviewRating(item){
 
+        let reviewRating = 0;
+        let count = 0;
+        let stars = ""
+        if (item.reviews.length === 0) {
+            reviewRating = 5;
+            stars = "★ ★ ★ ★ ★"
+        } else {
+            item.reviews.forEach(review => {
+                reviewRating = reviewRating + review.rating;
+                count++;
+            })
+            reviewRating = parseFloat(reviewRating/count);
+
+            if (reviewRating > 4.5) {
+                stars = "★ ★ ★ ★ ★"
+            } else if (reviewRating > 3.5) {
+                stars = "★ ★ ★ ★ ☆"
+            } else if (reviewRating > 2.5) {
+                stars = "★ ★ ★ ☆ ☆"
+            } else if (reviewRating > 1.5) {
+                stars = "★ ★ ☆ ☆ ☆"
+            } else if (reviewRating > 0.5) {
+                stars = "★ ☆ ☆ ☆ ☆"
+            } else {
+                stars = "☆ ☆ ☆ ☆ ☆"
+            }
+        }
+
+    return stars;
+}
 
 function formatProdcuts(arr) {
+
     if (arr) {
         let out = new StringBuilder();
 
-        for (let i = 0; i < arr.length; i++) {
+        for (let i = 0; i < arr.length; i++){
 
-            out.append(`
+            let stars = reviewRating(arr[i]);
 
 
+        out.append(`
         <div class="col-lg-4 col-md-6 mb-4">
             <div class="card h-100">
            
@@ -64,7 +97,7 @@ function formatProdcuts(arr) {
                         <p class="card-text">${arr[i].descriptionShort}</p>
                     </div>
                     <div class="card-footer">
-                        <small class="text-muted">★ ★ ★ ★ ☆</small>
+                        <small class="text-muted" style="text-align: left">${stars}</small>
                      </div>
             </div>
         </div>`)
@@ -81,7 +114,7 @@ router.get('/allProducts', async (req, res) => {
         const products = await Product.find();
         res.send(formatProdcuts(products).toString());
     } catch (err) {
-        res.send(err + " ")
+        res.send(err.toString())
     }
 });
 

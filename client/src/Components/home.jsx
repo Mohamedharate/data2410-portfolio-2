@@ -112,13 +112,6 @@ class Home extends Component{
         return (
             <Router>
             <React.Fragment>
-                <Switch>
-                    <Route exact path="/" component={Mainpage}/>
-                    <Route path ="/products/:itemId" component={Productpage}/>
-                    <Route path ="/addReview/:itemId" component={addReview}/>
-                    <Route path ="/chart" component={ShoppingCart}/>
-                    <Route path ="/orders" component={Orders}/>
-                </Switch>
                 <Navbar
                     toggleLoginCallback = {this.handleToggleLoginCallback}
                     toggleRegisterCallback = {this.handleToggleRegisterCallback}
@@ -127,7 +120,14 @@ class Home extends Component{
                     isAuthenticated = {this.state.isAuthenticated}
                     current_user = {this.state.current_user}
                 />
-                {this.state.toggleLogin && <Login loginCallback = {this.handleLoginCallback}/>}
+                <Switch>
+                    <Route exact path="/" component={Mainpage}/>
+                    <Route path ="/products/:itemId" component={Productpage}/>
+                    <Route path ="/addReview/:itemId" component={addReview}/>
+                    <Route path ="/chart" component={ShoppingCart}/>
+                    <Route path ="/orders" component={Orders}/>
+                </Switch>
+                {this.state.toggleLogin && <Login loginCallback = {this.handleLogin}/>}
                 {this.state.toggleRegister && <Register registerCallback = {this.handleToggleLoginCallback}/>}
                 {this.state.toggleShoppingCart &&
                 <ShoppingCart

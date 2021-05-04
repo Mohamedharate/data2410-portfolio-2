@@ -7,7 +7,7 @@ export default class Productpage extends Component{
     constructor(props) {
         super(props);
         this.state = {name: "", price: 0, descriptionLong: ""};
-        this.state = {products: [], name: "", price: 0, description: "", itemId: "", imageUrl: ""};
+        this.state = {products: [], name: "", price: 0, description: "", itemId: "", imageUrl: "", email: "", quantity: 0};
 
     }
 
@@ -28,12 +28,24 @@ export default class Productpage extends Component{
             console.log(error);
         });
     };
+    async postToCart(){
+        await axios({
+            method: "post",
+            url: 'http://localhost:3001/api/cart/addToCart/:email',
+            data: cart
+        }).then(function (response){
+            console.log("data:", response.data);
+        }).catch(function (error){
+            console.log(error);
+        })
+    }
+
 
     render() {
         const { price } = this.state;
         return(
             <div className="container">
-                    <div className="row">
+                    <div className="row product">
                         <div className="col-lg-3">
                         <h1 className="my-4">ShopMet</h1>
                         <div className="list-group">
@@ -52,6 +64,7 @@ export default class Productpage extends Component{
                                 <p className="card-text">{this.state.description}</p>
                                 <span className="text-warning">★ ★ ★ ★ ☆</span>
                                 4.0 stars
+                                <button type="submit" className="btn btn-lg btn-success btn-block mt-2" onClick={this.postToCart}>Add to cart</button>
                             </div>
                         </div>
                         <div className="card card-outline-secondary my-4">

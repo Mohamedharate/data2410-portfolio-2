@@ -27,7 +27,7 @@ export default class AddReview extends Component{
     async putReview(){
         const that = this;
         await axios({
-            method: 'put',
+            method: 'post',
             url: '/api/products/addReview/:itemId',
             data: {
                 user: this.state.user,
