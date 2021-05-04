@@ -51,11 +51,19 @@ class Home extends Component{
     }
 
     // Handle quantities in cart
-    handleQuantityIncreaseCallback = itemId => {
-        console.log("Increase", itemId)
+    handleQuantityIncreaseCallback = item_id => {
+        const cart_objects = [...this.state.cart_objects];
+        const index = cart_objects.findIndex(i => i.itemId === item_id)
+        cart_objects[index].quantity++;
+        this.setState({ cart_objects })
+        //TODO update cart in server!
     }
-    handleQuantityDecreaseCallback = itemId => {
-        console.log("Decrease", itemId)
+    handleQuantityDecreaseCallback = item_id => {
+        const cart_objects = [...this.state.cart_objects];
+        const index = cart_objects.findIndex(i => i.itemId === item_id)
+        cart_objects[index].quantity--;
+        this.setState({ cart_objects })
+        //TODO update cart in server!
     }
 
     // Handle authentication.
@@ -127,7 +135,7 @@ class Home extends Component{
                     <Route path ="/chart" component={ShoppingCart}/>
                     <Route path ="/orders" component={Orders}/>
                 </Switch>
-                {this.state.toggleLogin && <Login loginCallback = {this.handleLogin}/>}
+                {this.state.toggleLogin && <Login loginCallback = {this.handleLoginCallback}/>}
                 {this.state.toggleRegister && <Register registerCallback = {this.handleToggleLoginCallback}/>}
                 {this.state.toggleShoppingCart &&
                 <ShoppingCart
