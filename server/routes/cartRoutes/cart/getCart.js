@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
         }
         else return res.status(404).json({message:"The user dosen't exists."})
     }
-    else return res.status(401).json({message:"No session"})
+    else return res.json({message:"No session"})
 });
 
 
