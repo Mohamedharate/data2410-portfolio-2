@@ -4,10 +4,13 @@ let router = express.Router();
 const User = require("../../../Modules/user");
 const Product = require("../../../Modules/product");
 
+router.put('/:email',async (req,res)=>{
+
+
+})
 
 router.post('/:email', async (req,
                               res, next) => {
-
     const email = req.params.email;
     const addItem = {
         product_id: req.body.product_id,

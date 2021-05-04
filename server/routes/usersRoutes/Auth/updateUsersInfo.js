@@ -6,19 +6,28 @@ const StringBuilder = require("string-builder");
 const bcrypt = require('bcrypt')
 const upload = require('../../../multer/multer')
 const fs = require("fs");
+const path = require("path");
+
 
 const bodyParser = require('body-parser');
 
 
 router.put('/:email', upload.single('profileImage'),async (req, res) => {
 
+    const findUser = await User.findOne({email: req.params.email});
 
+    let password;
+    if (req.body.password){
+        //Hashing password:
+        //generating salt to hash password
+        const salt = await bcrypt.genSalt(10);
+        //creating hashed password
+        password = await bcrypt.hash(req.body.password, salt)
+    }
+    else {
+        password  = findUser.password;
+    }
 
-    //Hashing password:
-    //generating salt to hash password
-    const salt = await bcrypt.genSalt(10);
-    //creating hashed password
-    const password = await bcrypt.hash(req.body.password, salt)
 
     const updateUserInfo = {
         firstName: req.body.firstName,
@@ -30,7 +39,6 @@ router.put('/:email', upload.single('profileImage'),async (req, res) => {
         street: req.body.street,
         phoneNumber: req.body.phoneNumber
     }
-    const findUser = await User.findOne({email: req.params.email});
 
     if (req.file) {
         const file = req.file;
@@ -38,9 +46,14 @@ router.put('/:email', upload.single('profileImage'),async (req, res) => {
             filename: file.originalname,
             contentType: file.mimetype,
             path: file.path,
-            image: fs.readFileSync(file.path).toString('base64')
+            //image: fs.readFileSync(file.path).toString('base64')
         };
-        await User.updateOne({email: req.params.email},  {profileImage: finalImage});
+        try {
+            await User.updateOne({email: req.params.email},   { profileImage: finalImage});
+        }
+        catch (err){
+            console.log(err.toString())
+        }
 
     }
 
