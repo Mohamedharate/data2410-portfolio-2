@@ -51,11 +51,26 @@ class Home extends Component{
     }
 
     // Handle quantities in cart
-    handleQuantityIncreaseCallback = itemId => {
-        console.log("Increase", itemId)
+    handleQuantityIncreaseCallback = item_id => {
+        const cart_objects = [...this.state.cart_objects];
+        const index = cart_objects.findIndex(i => i.itemId === item_id)
+        cart_objects[index].quantity++;
+        this.setState({ cart_objects })
+        //TODO update cart in server!
     }
-    handleQuantityDecreaseCallback = itemId => {
-        console.log("Decrease", itemId)
+    handleQuantityDecreaseCallback = item_id => {
+        const cart_objects = [...this.state.cart_objects];
+        const index = cart_objects.findIndex(i => i.itemId === item_id)
+        cart_objects[index].quantity--;
+        this.setState({ cart_objects })
+        //TODO update cart in server!
+    }
+
+    // Handle checkout
+    handleCheckOutCallback = () => {
+        console.log("checkout")
+        this.placeNewOrder().then()
+        //TODO Add a place to handle feedbacks and send server responses to the feedback.
     }
 
     // Handle authentication.
@@ -88,11 +103,11 @@ class Home extends Component{
             method: 'post',
             url: 'http://localhost:3001/logout',
             data: {}
-        }).then()
+        })
     }
 
     async getCartObjects() {
-        axios.get('http://localhost:3001/api/cart/getCart')
+        await axios.get('http://localhost:3001/api/cart/getCart')
             .then(response => {
                 if (response.data.message){
                     this.state.empty_cart = true;
@@ -105,6 +120,14 @@ class Home extends Component{
                 }
             }).catch(error => {
             console.log(error.data)
+        })
+    }
+
+    async placeNewOrder() {
+        await axios({
+            method: 'post',
+            url: 'http://localhost:3001/api/orders/newOrder',
+            data: {},
         })
     }
 
@@ -127,12 +150,13 @@ class Home extends Component{
                     <Route path ="/chart" component={ShoppingCart}/>
                     <Route path ="/orders" component={Orders}/>
                 </Switch>
-                {this.state.toggleLogin && <Login loginCallback = {this.handleLogin}/>}
+                {this.state.toggleLogin && <Login loginCallback = {this.handleLoginCallback}/>}
                 {this.state.toggleRegister && <Register registerCallback = {this.handleToggleLoginCallback}/>}
                 {this.state.toggleShoppingCart &&
                 <ShoppingCart
                     quantity_increase = {this.handleQuantityIncreaseCallback}
                     quantity_decrease = {this.handleQuantityDecreaseCallback}
+                    onCheckOut = {this.handleCheckOutCallback}
                     empty_cart = {this.state.empty_cart}
                     empty_cart_message = {this.state.empty_cart_message}
                     cart_objects = {this.state.cart_objects}
