@@ -29,11 +29,10 @@ export default class Productpage extends Component{
         });
     };
     async postToCart(itemId, quantity){
-
         await axios({
             method: "post",
-            url: 'http://localhost:3001/api/cart/addToCart/'+this.state.current_user,
-            data: {itemId, quantity}
+            url: 'http://localhost:3001/api/cart/addToCart/'+this.props.email,
+            data: {email: this.props.email, quantity, product_id: itemId}
         }).then(function (response){
             console.log("data:", response.data);
         }).catch(function (error){
