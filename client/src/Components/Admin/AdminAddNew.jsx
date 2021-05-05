@@ -58,7 +58,7 @@ class AdminAddNew extends Component {
                                    title="The address should follow this format:
                                        <Address> <Number><Letter(optional)>."
                                    name="street" required autoFocus=""/>
-                            <input type="text" onChange={this.handleInputChange}
+                            <input type="" onChange={this.handleInputChange}
                                    className="form-control mt-2" placeholder="Phone"
                                    pattern="^(\+|00)?[1-9][0-9 \-\(\)\.]{7,}$"
                                    title="The address should follow this format:

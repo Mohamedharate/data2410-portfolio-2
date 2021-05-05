@@ -3,6 +3,7 @@ import Footer from "../footer";
 import AdminAddNew from "./AdminAddNew";
 import AdminRegister from "./AdminRegister";
 import AdminRestockProducts from "./AdminRestockProducts";
+import AdminEditProduct from "./AdminEditProduct";
 
 class AdminPage extends Component {
     state = {
@@ -70,7 +71,7 @@ class AdminPage extends Component {
                             {this.state.toggle_restock &&
                             <AdminRestockProducts />}
                             {this.state.toggle_edit_product &&
-                            <AdminRegister />}
+                            <AdminEditProduct />}
                             {this.state.toggle_new_product &&
                             <AdminAddNew />}
                             {this.state.toggle_new_admin &&
