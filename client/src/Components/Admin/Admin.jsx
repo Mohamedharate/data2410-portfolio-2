@@ -5,15 +5,15 @@ import AdminPage from "./AdminPage"
 
 class Admin extends Component {
     state = {
-        toggleLogin: false,
+        toggleLogin: true,
     };
 
     render() {
         return (
             <React.Fragment>
-                {!this.state.toggleAdmin &&
+                {!this.state.toggleLogin &&
                 <AdminLogin toggle_admin = {this.props.toggle_admin}/>}
-                {this.state.toggleAdmin &&
+                {this.state.toggleLogin &&
                 <AdminPage toggle_admin = {this.props.toggle_admin}/>}
             </React.Fragment>
         );

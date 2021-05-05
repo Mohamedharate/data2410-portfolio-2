@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import Home from "./home";
-import Admin from "./Admin"
+import Admin from "./Admin/Admin"
 
 
 class App extends Component {
