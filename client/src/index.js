@@ -4,12 +4,12 @@ import './index.css';
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import "./bootstrap.min.css";
-import Home from "./Components/home";
+import App from "./Components/App";
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Home/>
+    <App/>
   </React.StrictMode>,
   document.getElementById('root')
 );

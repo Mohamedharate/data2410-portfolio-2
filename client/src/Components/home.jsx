@@ -28,7 +28,7 @@ class Home extends Component{
         empty_cart: false,
         empty_cart_message: 'Nothing to show here.',
         cart_objects: []
-    }
+    };
 
     // Init/on load
     componentDidMount() {
@@ -162,7 +162,7 @@ class Home extends Component{
                     cart_objects = {this.state.cart_objects}
                 />}
                 <About />
-                <Footer />
+                <Footer toggle_admin = {this.props.toggle_admin} />
             </React.Fragment>
             </Router>
         );

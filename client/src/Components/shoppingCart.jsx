@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import ShoppingCartObject from "./shoppingCartObject";
-import axios from "axios";
 
 class ShoppingCart extends Component {
     render() {
