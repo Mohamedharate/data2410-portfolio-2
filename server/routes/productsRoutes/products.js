@@ -14,11 +14,11 @@ const deleteProduct = require('./products/deleteProduct');
 const newProduct = require('./products/newProduct');
 const addReview = require('./products/addReview');
 
-router.use('/update',updateProduct);
-router.use('/get',getProduct);
-router.use('/delete',deleteProduct);
-router.use('/new',newProduct);
-router.use('/addReview',addReview);
+router.use('/update', updateProduct);
+router.use('/get', getProduct);
+router.use('/delete', deleteProduct);
+router.use('/new', newProduct);
+router.use('/addReview', addReview);
 
 
 /*
@@ -37,7 +37,6 @@ router.put('/updateprice', async (req, res) => {
     }
 })
  */
-
 
 
 // add review.

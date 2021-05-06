@@ -15,7 +15,7 @@ const admin_schema = new mongoose.Schema(
             minlength: 2,
             maxlength: 30
         },
-        position:{
+        position: {
             type: String,
             required: true
         },

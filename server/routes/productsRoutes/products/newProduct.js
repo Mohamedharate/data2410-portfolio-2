@@ -11,7 +11,7 @@ const fs = require("fs");
 router.post('/', upload.array('imageUrl', 20),
     (req, res) => {
 
-        if (!req.files) return res.status(400).json('please upload at least one picture')
+        if (!req.files) return res.status(400).json({Error: 'please upload at least one picture'})
 
         const files = req.files;
 
@@ -25,6 +25,7 @@ router.post('/', upload.array('imageUrl', 20),
             };
             imageArrAfterConverting.push(finalImage)
         }
+
         const product = new Product({
             name: req.body.name,
             descriptionShort: req.body.descriptionShort,
@@ -34,8 +35,8 @@ router.post('/', upload.array('imageUrl', 20),
             category: req.body.category,
             quantity: req.body.quantity
         });
-        if(imageArrAfterConverting.length < 1){
-            return res.status(400).json({Error:"You to upload at least one picture."})
+        if (imageArrAfterConverting.length < 1) {
+            return res.status(400).json({Error: "You to upload at least one picture."})
         }
         product.save()
             .then(data => {

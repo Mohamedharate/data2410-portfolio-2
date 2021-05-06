@@ -19,7 +19,7 @@ const user_schema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        profileImage:{
+        profileImage: {
             type: String,
             required: false
         },
@@ -64,9 +64,7 @@ const user_schema = new mongoose.Schema(
         },
         cart: {
             type: [],
-            sum:{
-
-            }
+            sum: {}
         }
     });
 
