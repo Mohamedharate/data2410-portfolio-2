@@ -107,12 +107,22 @@ function formatProdcuts(arr) {
 }
 
 
-//Get all products from the productDB
+//Get all products from the productDB formatted
 router.get('/allProducts', async (req, res) => {
 
     try {
         const products = await Product.find();
         res.send(formatProdcuts(products).toString());
+    } catch (err) {
+        res.send(err.toString())
+    }
+});
+
+router.get('/allProductsPure', async (req, res) => {
+
+    try {
+        const products = await Product.find();
+        res.send(products);
     } catch (err) {
         res.send(err.toString())
     }

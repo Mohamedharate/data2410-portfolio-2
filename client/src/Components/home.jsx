@@ -28,7 +28,7 @@ class Home extends Component{
         empty_cart: false,
         empty_cart_message: 'Nothing to show here.',
         cart_objects: []
-    }
+    };
 
     // Init/on load
     componentDidMount() {
@@ -66,6 +66,13 @@ class Home extends Component{
         //TODO update cart in server!
     }
 
+    // Handle checkout
+    handleCheckOutCallback = () => {
+        console.log("checkout")
+        this.placeNewOrder().then()
+        //TODO Add a place to handle feedbacks and send server responses to the feedback.
+    }
+
     // Handle authentication.
     handleLoginCallback = () => {
         this.tryIsAuthenticated().then()
@@ -96,11 +103,11 @@ class Home extends Component{
             method: 'post',
             url: 'http://localhost:3001/logout',
             data: {}
-        }).then()
+        })
     }
 
     async getCartObjects() {
-        axios.get('http://localhost:3001/api/cart/getCart')
+        await axios.get('http://localhost:3001/api/cart/getCart')
             .then(response => {
                 if (response.data.message){
                     this.state.empty_cart = true;
@@ -113,6 +120,14 @@ class Home extends Component{
                 }
             }).catch(error => {
             console.log(error.data)
+        })
+    }
+
+    async placeNewOrder() {
+        await axios({
+            method: 'post',
+            url: 'http://localhost:3001/api/orders/newOrder',
+            data: {},
         })
     }
 
@@ -141,12 +156,13 @@ class Home extends Component{
                 <ShoppingCart
                     quantity_increase = {this.handleQuantityIncreaseCallback}
                     quantity_decrease = {this.handleQuantityDecreaseCallback}
+                    onCheckOut = {this.handleCheckOutCallback}
                     empty_cart = {this.state.empty_cart}
                     empty_cart_message = {this.state.empty_cart_message}
                     cart_objects = {this.state.cart_objects}
                 />}
                 <About />
-                <Footer />
+                <Footer toggle_admin = {this.props.toggle_admin} />
             </React.Fragment>
             </Router>
         );
