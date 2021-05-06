@@ -7,6 +7,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
 }
 
 code {
@@ -74,6 +75,12 @@ code {
 .shoppingCartObject{
   direction: ltr;
 }
+.adminLoginContainer{
+  position: absolute;
+  top: 15%;
+  left: 30%;
+  width: 40%;
+}
 
 .bestsellers{
   padding-top: 10px;
@@ -122,4 +129,22 @@ code {
   background: #0b2e13;
   height: 60px;
   width: 60px;
+}
+.productContainer{
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 30px;
+  margin-right: auto;
+  margin-left: auto;
+  width: 100%;
+
+}
+.fillPage{
+  min-height: 100vh;
+}
+
+@media (min-width: 768px){
+  .fillColumn{
+    min-height: 100vh;
+  }
 }

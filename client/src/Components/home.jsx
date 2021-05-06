@@ -28,16 +28,18 @@ class Home extends Component{
         empty_cart: false,
         empty_cart_message: 'Nothing to show here.',
         cart_objects: []
-    }
+    };
 
-
+    // Init/on load
     componentDidMount() {
         window.addEventListener('load', this.handleLoad);
     }
     async handleLoad() {
         this.tryIsAuthenticated().then()
     }
-z
+
+    // Handlers
+    // Toggle windows.
     handleToggleLoginCallback = () => {
         this.setState({toggleLogin: !this.state.toggleLogin, toggleRegister: false});
     }
@@ -45,25 +47,51 @@ z
         this.setState({toggleLogin: false, toggleRegister: !this.state.toggleRegister});
     }
     handleToggleShoppingCartCallback = () => {
-        this.getCartObjects().then(() => {
-            this.setState({toggleShoppingCart: !this.state.toggleShoppingCart});
-        })
+        this.setState({toggleShoppingCart: !this.state.toggleShoppingCart});
     }
-    handleLogin = () => {
+
+    // Handle quantities in cart
+    handleQuantityIncreaseCallback = item_id => {
+        const cart_objects = [...this.state.cart_objects];
+        const index = cart_objects.findIndex(i => i.itemId === item_id)
+        cart_objects[index].quantity++;
+        this.setState({ cart_objects })
+        //TODO update cart in server!
+    }
+    handleQuantityDecreaseCallback = item_id => {
+        const cart_objects = [...this.state.cart_objects];
+        const index = cart_objects.findIndex(i => i.itemId === item_id)
+        cart_objects[index].quantity--;
+        this.setState({ cart_objects })
+        //TODO update cart in server!
+    }
+
+    // Handle checkout
+    handleCheckOutCallback = () => {
+        console.log("checkout")
+        this.placeNewOrder().then()
+        //TODO Add a place to handle feedbacks and send server responses to the feedback.
+    }
+
+    // Handle authentication.
+    handleLoginCallback = () => {
         this.tryIsAuthenticated().then()
     }
     handleLogoutCallback = () => {
         this.tryLogout().then()
         this.tryIsAuthenticated().then()
-
+        this.getCartObjects().then()
+        this.state.toggleShoppingCart = false;
     }
 
+    // Api calls
     async tryIsAuthenticated() {
         await axios.get('http://localhost:3001/api/users/isAuthenticated')
             .then(response => {
                 this.setState({isAuthenticated: true});
                 this.setState({current_user: response.data})
                 this.setState({toggleLogin: false});
+                this.getCartObjects()
             }).catch(error => {
                 this.setState({isAuthenticated: false});
                 this.setState({current_user: {}})
@@ -75,21 +103,31 @@ z
             method: 'post',
             url: 'http://localhost:3001/logout',
             data: {}
-        }).then()
+        })
     }
 
     async getCartObjects() {
-        axios.get('http://localhost:3001/api/cart/getCart')
+        await axios.get('http://localhost:3001/api/cart/getCart')
             .then(response => {
                 if (response.data.message){
                     this.state.empty_cart = true;
                     this.state.empty_cart_message = response.data.message;
+                    return true;
                 } else {
                     this.state.empty_cart = false;
                     this.state.cart_objects = response.data.products
+                    return false;
                 }
             }).catch(error => {
             console.log(error.data)
+        })
+    }
+
+    async placeNewOrder() {
+        await axios({
+            method: 'post',
+            url: 'http://localhost:3001/api/orders/newOrder',
+            data: {},
         })
     }
 
@@ -97,13 +135,6 @@ z
         return (
             <Router>
             <React.Fragment>
-                <Switch>
-                    <Route exact path="/" component={Mainpage}/>
-                    <Route path ="/products/:itemId" component={Productpage}/>
-                    <Route path ="/addReview/:itemId" component={addReview}/>
-                    <Route path ="/chart" component={ShoppingCart}/>
-                    <Route path ="/orders" component={Orders}/>
-                </Switch>
                 <Navbar
                     toggleLoginCallback = {this.handleToggleLoginCallback}
                     toggleRegisterCallback = {this.handleToggleRegisterCallback}
@@ -112,16 +143,26 @@ z
                     isAuthenticated = {this.state.isAuthenticated}
                     current_user = {this.state.current_user}
                 />
-                {this.state.toggleLogin && <Login loginCallback = {this.handleLogin}/>}
+                <Switch>
+                    <Route exact path="/" component={Mainpage}/>
+                    <Route path ="/products/:itemId" component={Productpage}/>
+                    <Route path ="/addReview/:itemId" component={addReview}/>
+                    <Route path ="/chart" component={ShoppingCart}/>
+                    <Route path ="/orders" component={Orders}/>
+                </Switch>
+                {this.state.toggleLogin && <Login loginCallback = {this.handleLoginCallback}/>}
                 {this.state.toggleRegister && <Register registerCallback = {this.handleToggleLoginCallback}/>}
                 {this.state.toggleShoppingCart &&
                 <ShoppingCart
+                    quantity_increase = {this.handleQuantityIncreaseCallback}
+                    quantity_decrease = {this.handleQuantityDecreaseCallback}
+                    onCheckOut = {this.handleCheckOutCallback}
                     empty_cart = {this.state.empty_cart}
                     empty_cart_message = {this.state.empty_cart_message}
                     cart_objects = {this.state.cart_objects}
                 />}
                 <About />
-                <Footer />
+                <Footer toggle_admin = {this.props.toggle_admin} />
             </React.Fragment>
             </Router>
         );

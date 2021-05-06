@@ -98,8 +98,8 @@ class Login extends Component {
                                            placeholder="Password" name="password" required="*" autoFocus=""/>
                                 </div>
                             </div>
-                            <button type="submit"
-                                    className="btn btn-lg btn-primary btn-block mt-2">Sign in!
+                            <button type="submit" className="btn btn-lg btn-primary btn-block mt-2">
+                                Sign in!
                             </button>
                             {this.state.toggle_error_feedback &&
                             <DangerFeedback feedback_error_text={this.state.feedback_text}/>}
