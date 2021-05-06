@@ -1,8 +1,7 @@
 "use strict";
 const express = require("express");
 let router = express.Router();
-const Product = require("../../../Modules/product");
-
+const Product = require("../../../Models/product");
 
 
 //Delete all products
@@ -25,8 +24,6 @@ router.delete('/one/:itemId/', async (req, res) => {
         res.status(404).json({message: 'The product with the given item ID was not found'})
     }
 });
-
-
 
 
 module.exports = router;

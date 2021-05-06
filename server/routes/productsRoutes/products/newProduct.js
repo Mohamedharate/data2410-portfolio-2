@@ -3,18 +3,15 @@ const express = require("express");
 let router = express.Router();
 const upload = require('../../../multer/multer')
 
-const Product = require("../../../Modules/product");
+const Product = require("../../../Models/product");
 
-const StringBuilder = require("string-builder");
 const fs = require("fs");
-
-
 
 //Add a new product
 router.post('/', upload.array('imageUrl', 20),
     (req, res) => {
 
-        if (!req.files) return res.status(400).json('please upload at least one picture')
+        if (!req.files) return res.status(400).json({Error: 'please upload at least one picture'})
 
         const files = req.files;
 
@@ -38,7 +35,9 @@ router.post('/', upload.array('imageUrl', 20),
             category: req.body.category,
             quantity: req.body.quantity
         });
-
+        if (imageArrAfterConverting.length < 1) {
+            return res.status(400).json({Error: "You to upload at least one picture."})
+        }
         product.save()
             .then(data => {
                 res.status(200).json({message: `Product with name ${product.name} added successfully!`})
@@ -51,10 +50,5 @@ router.post('/', upload.array('imageUrl', 20),
                 }
             })
     });
-
-
-
-
-
 
 module.exports = router;

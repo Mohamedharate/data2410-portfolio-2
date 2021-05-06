@@ -1,7 +1,7 @@
 "use strict";
 const express = require("express");
 let router = express.Router();
-const Product = require("../../../Modules/product");
+const Product = require("../../../Models/product");
 
 
 // add review.
@@ -11,7 +11,7 @@ router.post('/:itemId', async (req, res) => {
     const review = {
         user: req.body.user,
         reviewText: req.body.reviewText,
-        rating:req.body.rating,
+        rating: req.body.rating,
         Date: new Date().toLocaleDateString(),
         Time: new Date().toLocaleTimeString(),
 
@@ -26,7 +26,6 @@ router.post('/:itemId', async (req, res) => {
         res.status(500).json({message: 'DB error!'})
     }
 });
-
 
 
 module.exports = router;

@@ -2,13 +2,13 @@
 const express = require("express");
 let router = express.Router();
 const jwt = require('jsonwebtoken');
-const User = require("../../../Modules/user");
+const User = require("../../../Models/user");
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt')
 
 const JWT_ACC = "accountactivateOsloMetShop";
 
-router.post('/forgot', async (req, res) => {
+router.post('/', async (req, res) => {
 
     const email = req.body.email;
 
@@ -70,7 +70,7 @@ router.post("/newPassword/:link", async (req, res, next) => {
             } catch {
                 out.append('Something went wrong during updating the password\nError code: ' + err.error_code)
             }
-            return res.json({message:"Your password is updated!"})
+            return res.json({message: "Your password is updated!"})
         })
 
     } else {

@@ -9,10 +9,10 @@ const deleteCart = require("./cart/deleteCart")
 const getCart = require("./cart/getCart")
 
 
-router.use("/addToCart/",addToCart)
-router.use("/getCart/",getCart)
-router.use("/deleteCart/",deleteCart)
-router.use("/deleteFromCart",deleteFromCart)
+router.use("/addToCart/", addToCart)
+router.use("/getCart/", getCart)
+router.use("/deleteCart/", deleteCart)
+router.use("/deleteFromCart", deleteFromCart)
 
 
 module.exports = router;

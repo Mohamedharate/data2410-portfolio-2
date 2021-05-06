@@ -1,36 +1,43 @@
 "use strict";
 const express = require("express");
 let router = express.Router();
-const User = require("../../../Modules/user");
+const User = require("../../../Models/user");
 const StringBuilder = require("string-builder");
 const bcrypt = require('bcrypt')
 const upload = require('../../../multer/multer')
 const fs = require("fs");
+const path = require("path");
+
 
 const bodyParser = require('body-parser');
 
 
-router.put('/:email', upload.single('profileImage'),async (req, res) => {
+router.put('/:email', upload.single('profileImage'), async (req, res) => {
 
+    const findUser = await User.findOne({email: req.params.email});
 
+    let password;
+    if (req.body.password) {
+        //Hashing password:
+        //generating salt to hash password
+        const salt = await bcrypt.genSalt(10);
+        //creating hashed password
+        password = await bcrypt.hash(req.body.password, salt)
+    } else {
+        password = findUser.password;
+    }
 
-    //Hashing password:
-    //generating salt to hash password
-    const salt = await bcrypt.genSalt(10);
-    //creating hashed password
-    const password = await bcrypt.hash(req.body.password, salt)
 
     const updateUserInfo = {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
         password: password,
-        profileImage:req.file,
+        profileImage: req.file,
         zipCode: req.body.zipCode,
         street: req.body.street,
         phoneNumber: req.body.phoneNumber
     }
-    const findUser = await User.findOne({email: req.params.email});
 
     if (req.file) {
         const file = req.file;
@@ -38,9 +45,13 @@ router.put('/:email', upload.single('profileImage'),async (req, res) => {
             filename: file.originalname,
             contentType: file.mimetype,
             path: file.path,
-            image: fs.readFileSync(file.path).toString('base64')
+            //image: fs.readFileSync(file.path).toString('base64')
         };
-        await User.updateOne({email: req.params.email},  {profileImage: finalImage});
+        try {
+            await User.updateOne({email: req.params.email}, {profileImage: finalImage});
+        } catch (err) {
+            console.log(err.toString())
+        }
 
     }
 
@@ -48,7 +59,7 @@ router.put('/:email', upload.single('profileImage'),async (req, res) => {
     let out = new StringBuilder();
 
     if (findUser) {
-        if (updateUserInfo.firstName &&updateUserInfo.firstName !== findUser.firstName) {
+        if (updateUserInfo.firstName && updateUserInfo.firstName !== findUser.firstName) {
             try {
                 await User.updateOne({email: req.params.email}, {firstName: updateUserInfo.firstName})
             } catch {
@@ -69,14 +80,14 @@ router.put('/:email', upload.single('profileImage'),async (req, res) => {
                 out.append('Something went wrong during updating the password\nError code: ' + err.error_code)
             }
         }
-        if ( updateUserInfo.country && updateUserInfo.country !== findUser.country) {
+        if (updateUserInfo.country && updateUserInfo.country !== findUser.country) {
             try {
                 await User.updateOne({email: req.params.email}, {country: updateUserInfo.country})
             } catch {
                 out.append('Something went wrong during updating the country\nError code: ' + err.error_code)
             }
         }
-        if ( updateUserInfo.city && updateUserInfo.city !== findUser.city) {
+        if (updateUserInfo.city && updateUserInfo.city !== findUser.city) {
             try {
                 await User.updateOne({email: req.params.email}, {city: updateUserInfo.city})
             } catch {
