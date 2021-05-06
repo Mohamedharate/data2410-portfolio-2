@@ -1,8 +1,8 @@
 "use strict";
 const express = require("express");
 let router = express.Router();
-const Orders = require("../../../Modules/order");
-const User = require("../../../Modules/user");
+const Orders = require("../../../Models/order");
+const User = require("../../../Models/user");
 const send = require('../../../sendMail/sendMail');
 
 const StringBuilder = require("string-builder");

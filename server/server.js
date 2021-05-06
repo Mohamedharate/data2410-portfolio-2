@@ -1,24 +1,86 @@
 const express = require('express');
-const cors = require("cors");
-const dotenv = require('dotenv').config();
-const connectDB = require('./DB Connection/connectDB')
-
-const https = require('https');
 const path = require('path');
+//const User = require("./Models/user");
+
+const cors = require("cors");
+const passport = require('passport');
+const flash = require('express-flash')
+
+require('./passport-config')
+require('./DB Connection/connectDB')
+
+/*
+const favicon = require('serve-favicon');
+const dotenv = require('dotenv').config();
+
+ */
+
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+
+//const https = require('https');
 const fs = require('fs');
-
-
 const app = express();
 
+app.use(cors());
 
-
-//https.createServer(httpsOptions,app)
 const session = require('express-session');
-const bodyParser = require('body-parser');
+const MongoDBStore = require('connect-mongodb-session')(session);
+
+app.use('/', express.static('./public'));
+
+app.use(express.static(path.resolve(__dirname, '../client/build')));
+
+
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: false}))
+
+ONE_WEEK = 604800000
+
+const{
+    PORT = 3001,
+    NODE_ENV = 'development',
+    SESS_NAME = 'sid',
+    SESS_SECRET = 'shhh!this,a7\'secret',
+    SESS_LIFETIME = ONE_WEEK,
+} = process.env
+
+const IN_PROD = NODE_ENV === 'production'
+
+const store = new MongoDBStore({
+    uri: 'mongodb+srv://haratemo:12345oslomet@webshop.uemit.mongodb.net/webshop?retryWrites=true&w=majority',
+    collection: 'mySessions'
+});
+app.use(cookieParser('shhh!this,a7\'secret'))
+
+app.use(
+    session({
+        secret: SESS_SECRET,
+        resave: false,
+        name: SESS_NAME,
+        saveUninitialized: false,
+        unset: 'destroy',
+        httpOnly:false,
+        cookie: {
+            maxAge: parseInt(SESS_LIFETIME),
+            sameSite: true,
+            secure: false,
+        },
+        store:store
+    })
+)
+app.set("trust proxy", 1)
+
+store.on('error', function(error) {
+    console.log(error.toString() + " feil i lagring av session");
+});
+
+app.use(flash())
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 // ------- import routes ---------- //
-
 
 const register = require('./routes/usersRoutes/NotAuth/register');
 const resetPassword = require('./routes/usersRoutes/NotAuth/resetPassword');
@@ -28,57 +90,8 @@ const admin = require('./routes/adminsRoutes/admins');
 const users = require('./routes/usersRoutes/users');
 const cart = require('./routes/cartRoutes/cart');
 
-// - - - - - - - - - - - - - //
-
-
-
-TWO_HOURS = 1000 * 60 * 60 * 2
-
-const{
-    PORT = 3001,
-    NODE_ENV = 'development',
-
-    SESS_NAME = 'sid',
-    SESS_SECRET = 'shhh!this,a7\'secret',
-    SESS_LIFETIME = TWO_HOURS,
-} = process.env
-
-const IN_PROD = NODE_ENV === 'production'
-
-app.use(express.static(path.resolve(__dirname, '../client/build')));
-app.use(bodyParser.urlencoded({extended: true}))
-app.use(bodyParser.json())
-app.use(
-    session({
-        name: SESS_NAME,
-        resave: false,
-        saveUninitialized: false,
-        secret: SESS_SECRET,
-        cookie: {
-            maxAge: parseInt(SESS_LIFETIME),
-            sameSite: false,
-            secure: IN_PROD,
-        }
-    })
-)
-
-app.set("trust proxy", 1)
-
-const corsOptions = {
-    origin: 'http://localhost:3000',
-    optionsSuccessStatus: 200 // For legacy browser support
-}
-app.use(cors(corsOptions));
-
-
-
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    next();
-});
-
-
 // --------- Middlewares ------------- //
+
 app.use('/api/register/', register);
 app.use('/api/reset/', resetPassword);
 app.use('/api/users/', users);
@@ -86,14 +99,27 @@ app.use('/api/products/', products);
 app.use('/api/orders/', orders);
 app.use('/api/admin/', admin);
 app.use('/api/cart/', cart);
+
 // ------- - - - - - - - -  ---------- //
 
+app.post('/api/signInAdmin', passport.authenticate('local.signinAdmin', {
+    successRedirect: '/',
+    failureRedirect: '/api/signInAdmin',
+    failureFlash: true
+}))
 
-// Handle GET requests to /api route
-app.get("/api", (req, res) => {
-    res.json({message: "Hello from server!"});
-});
+app.post('/api/signIn', passport.authenticate('local.signin', {
+    successRedirect: '/',
+    failureRedirect: '/api/signIn',
+    failureFlash: true
+}))
 
+
+app.use(function (req,res,next){
+    res.locals.login = req.isAuthenticated();
+    res.locals.session = req.session;
+    next();
+})
 
 // All other GET requests not handled before will return our React app
 app.get('*', (req, res) => {
@@ -102,25 +128,16 @@ app.get('*', (req, res) => {
 
 
 app.post('/logout', (req, res) => {
-    if (req.session.userId) {
+    if (req.isAuthenticated()) {
         req.session.destroy(err => {
             if (err){
                 return res.status(500).json({message: 'Could not perform logout!'});
             }
-
             res.clearCookie(SESS_NAME)
         })
     }
 })
-/*
-const sslServer = https.createServer({
-    key: '',
-    cert: ''
-},app)
 
-sslServer.listen(PORT, () => console.log(`Server listening on ${PORT}`))
-
- */
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);

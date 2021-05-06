@@ -32,7 +32,7 @@ export default class Productpage extends Component{
         await axios({
             method: "post",
             url: 'http://localhost:3001/api/cart/addToCart/:email',
-            data: cart
+            data: {}
         }).then(function (response){
             console.log("data:", response.data);
         }).catch(function (error){

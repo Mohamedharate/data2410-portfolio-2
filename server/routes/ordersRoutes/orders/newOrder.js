@@ -1,29 +1,27 @@
 "use strict";
 const express = require("express");
 let router = express.Router();
-const Order = require("../../../Modules/order");
-const User = require("../../../Modules/user");
+const Order = require("../../../Models/order");
+const User = require("../../../Models/user");
 
 const send = require('../../../sendMail/sendMailReceipt');
 const formatReceipt = require('../../../sendMail/formatReceipt');
 
 
-router.post('/:email', async (req, res) => {
-    const email = req.params.email;
+router.post('/', async (req, res) => {
 
-    const user = await User.findOne({email: req.params.email});
 
-    if (user) {
-        if (user.cart.length < 1) return res.status(404).json({Error: "No cart"})
 
-        else {
-            let tot = 0;
-            user.cart.forEach(item => {
-                tot = parseFloat(tot) + parseFloat(item.total);
-            })
+let tot;
+
+    if (req.session) {
+        if (req.session.passport) {
+
+
+            const user = await User.findOne({_id: req.session.passport.user});
 
             const order = new Order({
-                user:user.email,
+                user: user.email,
                 products: user.cart,
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
@@ -35,21 +33,78 @@ router.post('/:email', async (req, res) => {
                 phoneNumber: req.body.phoneNumber,
                 total: parseFloat(tot)
             })
-            await User.updateOne({email: email}, {$push: {orders: order}});
-            await User.updateOne(
-                {email: email},
-                {$set: {[`cart`]: []}});
-            await order.save()
-                .then(data => {
-                    send(user, formatReceipt(user,order,tot))
-                    res.status(200).json({Message: "The order has been registered and a receipt is sent to the user"})
-                })
-                .catch(error => {
-                    res.status(400).json({Error:error.toString()});
-                })
+
+            if (user) {
+                if (user.cart.length < 1) return res.status(404).json({Error: "No cart"})
+                else {
+                    let tot = 0;
+                    user.cart.forEach(item => {
+                        tot = parseFloat(tot) + parseFloat(item.total);
+                    })
+
+                    await User.updateOne({email: email}, {$push: {orders: order}});
+                    await User.updateOne(
+                        {email: email},
+                        {$set: {[`cart`]: []}});
+                    await order.save()
+                        .then(data => {
+                            send(user, formatReceipt(user, order, tot))
+                            return res.status(200).json({Message: "The order has been registered and a receipt is sent to the user"})
+                        })
+                        .catch(error => {
+                            return res.status(400).json({Error: error.toString()});
+                        })
+                }
+            }
+            else
+                return res.status(404).json({Error: "User not found."})
+        }
+        else {
+            if (req.session.cart){
+                if (req.session.cart.length < 1){
+                    return res.status(404).json({Error: "No cart"})
+                }
+                else {
+                    const order = new Order({
+                        user: req.body.email,
+                        products: req.session.cart,
+                        firstName: req.body.firstName,
+                        lastName: req.body.lastName,
+                        email: req.body.email,
+                        country: req.body.country,
+                        zipCode: req.body.zipCode,
+                        city: req.body.city,
+                        street: req.body.street,
+                        phoneNumber: req.body.phoneNumber,
+                        total: parseFloat(tot)
+                    })
+                    tot = 0;
+                    req.session.cart.forEach(item => {
+                        tot = parseFloat(tot) + parseFloat(item.total);
+                    })
+                    req.session.cart = [];
+                    req.session.orders = [];
+                    req.session.orders.push(order)
+                    await order.save()
+                        .then(data => {
+                            send(order, formatReceipt(order, order, tot))
+                            return res.status(200).json({Message: "The order has been registered and a receipt is sent to the user"})
+                        })
+                        .catch(error => {
+                            return res.status(400).json({Error: error.toString()});
+                        })
+                }
+            }
+            else {
+                return res.status(404).json({Message:"No cart available"})
+            }
+
+
+
         }
     }
-    else return res.status(404).json({Error: "User not found."})
+
+
 });
 
 module.exports = router;

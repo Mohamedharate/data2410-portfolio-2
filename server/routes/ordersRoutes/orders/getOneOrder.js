@@ -1,7 +1,7 @@
 "use strict";
 const express = require("express");
 let router = express.Router();
-const Orders = require("../../../Modules/order");
+const Orders = require("../../../Models/order");
 
 router.get('/:orderId', async (req, res) => {
 

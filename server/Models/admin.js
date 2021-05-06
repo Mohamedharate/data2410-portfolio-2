@@ -1,17 +1,8 @@
 const mongoose = require("mongoose");
 
 
-function getID() {
-    return Math.floor(1000 + Math.random() * 8999)
-}
-
 const admin_schema = new mongoose.Schema(
     {
-        adminId: {
-            unique: true,
-            type: String,
-            default: getID,
-        },
         firstName: {
             type: String,
             required: true,
@@ -39,31 +30,31 @@ const admin_schema = new mongoose.Schema(
         },
         country: {
             type: String,
-            required: true,
+            required: false,
             minlength: 2,
             maxlength: 30
         },
         city: {
             type: String,
-            required: true,
+            required: false,
             minlength: 2,
             maxlength: 30
         },
         zipCode: {
             type: Number,
-            required: true,
+            required: false,
             minlength: 4,
             maxlength: 4
         },
         street: {
             type: String,
-            required: true
+            required: false
         },
         phoneNumber: {
             type: Number,
             minlength: 8,
             maxlength: 12,
-            required: true
+            required: false
         },
         date: {
             type: Date,

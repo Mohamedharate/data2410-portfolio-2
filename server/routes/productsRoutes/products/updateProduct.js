@@ -2,7 +2,7 @@
 const express = require("express");
 let router = express.Router();
 const upload = require('../../../multer/multer')
-const Product = require("../../../Modules/product");
+const Product = require("../../../Models/product");
 const StringBuilder = require("string-builder");
 const fs = require("fs");
 

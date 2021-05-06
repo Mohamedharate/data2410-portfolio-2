@@ -2,7 +2,7 @@
 const express = require("express");
 let router = express.Router();
 
-const Product = require("../../Modules/product");
+const Product = require("../../Models/product");
 const StringBuilder = require("string-builder");
 const upload = require('../../multer/multer')
 const fs = require("fs");
@@ -19,9 +19,6 @@ router.use('/get',getProduct);
 router.use('/delete',deleteProduct);
 router.use('/new',newProduct);
 router.use('/addReview',addReview);
-
-
-
 
 
 /*

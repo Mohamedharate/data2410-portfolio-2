@@ -1,7 +1,7 @@
 "use strict";
 const express = require("express");
 let router = express.Router();
-const Product = require("../../../Modules/product");
+const Product = require("../../../Models/product");
 
 
 // add review.

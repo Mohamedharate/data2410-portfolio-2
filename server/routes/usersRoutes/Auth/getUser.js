@@ -1,7 +1,7 @@
 "use strict";
 const express = require("express");
 let router = express.Router();
-const User = require("../../../Modules/user");
+const User = require("../../../Models/user");
 const StringBuilder = require("string-builder");
 
 
