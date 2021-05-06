@@ -27,11 +27,11 @@ export default class Productpage extends Component{
             console.log(error);
         });
     };
-    async postToCart(itemId, quantity, email){
+    async postToCart(itemId, quantity){
         await axios({
             method: "post",
-            url: 'http://localhost:3001/api/cart/addToCart/'+this.props.email,
-            data: {product_id: itemId, quantity, email}
+            url: 'http://localhost:3001/api/cart/addToCart/',
+            data: {product_id: itemId, quantity}
         }).then(function (response){
             console.log("data:", response.data);
         })
@@ -61,7 +61,7 @@ export default class Productpage extends Component{
                                 <p className="card-text">{this.state.description}</p>
                                 <span className="text-warning">★ ★ ★ ★ ☆</span>
                                 4.0 stars
-                                <button type="submit" className="btn btn-lg btn-success btn-block mt-2" onClick={() =>this.postToCart(this.state.itemId, 1, this.state.email)}>Add to cart</button>
+                                <button type="submit" className="btn btn-lg btn-success btn-block mt-2" onClick={() =>this.postToCart(this.state.itemId, 1)}>Add to cart</button>
                             </div>
                         </div>
                         <div className="card card-outline-secondary my-4">
