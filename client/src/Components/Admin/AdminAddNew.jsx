@@ -76,7 +76,11 @@ class AdminAddNew extends Component {
             })
         }).catch(err => {
             console.log(err)
-            this.setState({toggle_success_feedback: false, toggle_error_feedback: true})
+            this.setState({
+                toggle_success_feedback: false,
+                toggle_error_feedback: true,
+                feedback_text: err,
+            })
         })
     }
 
