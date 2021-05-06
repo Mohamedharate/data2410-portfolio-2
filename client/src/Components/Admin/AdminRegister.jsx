@@ -1,11 +1,70 @@
 import React, {Component} from "react";
 import DangerFeedback from "../dangerFeedback";
+import axios from "axios";
+import SuccessFeedback from "../successFeedback";
 
 
 class AdminRegister extends Component {
+    constructor(props){
+        super(props)
+
+        this.handleInputChange = this.handleInputChange.bind(this);
+    }
     state = {
+        firstName: String,
+        lastName: String,
+        email: String,
+        password: String,
+        phoneNumber: String,
+        position: String,
+        feedback_text: String,
         toggle_error_feedback: false,
+        toggle_success_feedback: false,
     };
+
+    handleInputChange(event) {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+
+        this.setState({
+            [name]: value
+        })
+    };
+
+    handleSubmit = event => {
+        event.preventDefault();
+        this.saveAdminUser().then()
+    };
+
+    async saveAdminUser() {
+        await axios({
+            method: 'post',
+            url: 'http://localhost:3001/api/admin/register',
+            data: {
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
+                email: this.state.email,
+                password: this.state.password,
+                phoneNumber: this.state.phoneNumber,
+                position: this.state.position,
+            }
+        }).then(res => {
+            console.log(res.data.message)
+            this.setState({
+                toggle_success_feedback: true,
+                toggle_error_feedback: false,
+                feedback_text: res.data.message,
+            })
+        }).catch(err => {
+            console.log(err)
+            this.setState({
+                toggle_success_feedback: false,
+                toggle_error_feedback: true,
+                feedback_text: err.message,
+            })
+        })
+    }
 
     render() {
         return (
@@ -13,69 +72,63 @@ class AdminRegister extends Component {
                 <form onSubmit={this.handleSubmit} className="form-signin">
                     <div className="row text-center m-5">
                         <div className="col-12">
-                            <h3>Register New Admin</h3>
+                            <h3>Register New Employee</h3>
                         </div>
                     </div>
-                    <div className="row form-label-group m-2">
+                    <div className="row form-label-group justify-content-center m-2">
                         <div className="col-sm-6">
+                            <label className=" mt-2" htmlFor="firstName">First name:</label>
                             <input type="text" onChange={this.handleInputChange}
-                                   className="form-control mt-2" placeholder="Firstname"
+                                   className="form-control" placeholder="Firstname"
                                    pattern="^[A-ZÆØÅ]+[a-zæøå ,.'-]{1,20}(\s[A-ZÆØÅ]+[a-zæøå ,.'-]{1,20})?$"
                                    title="First name has to start with an upper case letter and have at least 2 characters."
                                    name="firstName" required autoFocus=""/>
+                            <label className=" mt-2" htmlFor="lastName">Last name:</label>
                             <input type="text" onChange={this.handleInputChange}
-                                   className="form-control mt-2" placeholder="Lastname"
+                                   className="form-control" placeholder="Lastname"
                                    pattern="^[A-ZÆØÅ]+[a-zæøå ,.'-]{1,20}$"
                                    title="Last name has to start with an upper case letter and have at least 2 characters."
                                    name="lastName" required autoFocus=""/>
+                            <label className=" mt-2" htmlFor="email">Email:</label>
                             <input type="email" onChange={this.handleInputChange}
-                                   className="form-control mt-2" placeholder="Email"
+                                   className="form-control" placeholder="Email"
                                    name="email" required autoFocus=""/>
+                            <label className=" mt-2" htmlFor="password">Password</label>
                             <input type="Password" onChange={this.handleInputChange}
-                                   className="form-control mt-2" placeholder="Password"
+                                   className="form-control" placeholder="Password"
                                    pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}"
                                    title="Password must contain at least 1 upper and lower case letter, 1 number and be at least 8 characters long."
                                    name="password" required autoFocus=""/>
-                            <select name="country" onChange={this.handleInputChange} className="custom-select my-1 mr-sm-2 mt-2" required>
-                                <option value="" defaultValue="">Choose...</option>
-                                <option value="Norway">Norway</option>
-                                <option value="Sweden">Sweden</option>
-                                <option value="Denmark">Denmark</option>
-                            </select>
-                        </div>
-                        <div className="col-sm-6">
+                            <label className=" mt-2" htmlFor="phoneNumber">Phone number:</label>
                             <input type="text" onChange={this.handleInputChange}
-                                   className="form-control mt-2" placeholder="City"
-                                   pattern="^[A-ZÆØÅ]+[a-zæøåA-ZÆØÅ ,.'-]{1,20}(\s[A-ZÆØÅ]+[a-zæøåA-ZÆØÅ ,.'-]{1,20})?(\s[A-ZÆØÅ]+[a-zæøåA-ZÆØÅ ,.'-]{1,20})?$"
-                                   title="City name has to start with an upper case letter and have at least 2 characters."
-                                   name="city" required autoFocus=""/>
-                            <input type="text" onChange={this.handleInputChange}
-                                   className="form-control mt-2" placeholder="Zip Code"
-                                   pattern="^\d{4,5}(?:[-\s]\d{4})?$"
-                                   name="zipCode" required autoFocus=""/>
-                            <input type="text" onChange={this.handleInputChange}
-                                   className="form-control mt-2" placeholder="Street name"
-                                   pattern="^[A-ZÆØÅ]+[a-zæøåA-ZÆØÅ ,.'-]{1,20}([A-ZÆØÅ]+[a-zæøåA-ZÆØÅ ,.'-]{1,20})?(\s[A-ZÆØÅ]+[a-zæøåA-ZÆØÅ ,.'-]{1,20})?\s\d+\s?[a-zæøåA-ZÆØÅ]?"
-                                   title="The address should follow this format:
-                                       <Address> <Number><Letter(optional)>."
-                                   name="street" required autoFocus=""/>
-                            <input type="text" onChange={this.handleInputChange}
-                                   className="form-control mt-2" placeholder="Phone"
+                                   className="form-control" placeholder="Phone"
                                    pattern="^(\+|00)?[1-9][0-9 \-\(\)\.]{7,}$"
                                    title="The address should follow this format:
                                        <Country code(optional)> <Number(At least 7 digits>."
                                    name="phoneNumber" required autoFocus=""/>
+                            <label className=" mt-2" htmlFor="position">Title:</label>
+                            <select name="position" onChange={this.handleInputChange} className="custom-select my-1 mr-sm-2" required>
+                                <option value="" defaultValue="">Choose...</option>
+                                <option value="CO-worker">CO-worker</option>
+                                <option value="Marketing Coordinator">Marketing Coordinator</option>
+                                <option value="Web Designer">Web Designer</option>
+                                <option value="Project Manager">Project Manager</option>
+                                <option value="Executive Sales Manager">Executive Sales Manager</option>
+                                <option value="President">President</option>
+                            </select>
                         </div>
                     </div>
-                    <div className="row m-2">
+                    <div className="row justify-content-center m-2">
                         <div className="col-md-3">
                             <button type="submit" className="btn btn-lg btn-primary btn-block mt-2">
-                                Register Admin
+                                Register Employee
                             </button>
                         </div>
                     </div>
                     {this.state.toggle_error_feedback &&
                     <DangerFeedback feedback_error_text={this.state.feedback_text}/>}
+                    {this.state.toggle_success_feedback &&
+                    <SuccessFeedback feedback_success_text={this.state.feedback_text}/>}
                 </form>
             </React.Fragment>
         );
