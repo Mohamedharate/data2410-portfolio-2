@@ -2,7 +2,7 @@
 const StringBuilder = require("string-builder");
 const date = require('date-and-time')
 
-function formatReceipt(user,order,total) {
+function formatReceipt(user, order, total) {
 
     let out = new StringBuilder();
 
@@ -303,7 +303,7 @@ function formatReceipt(user,order,total) {
                                                             <td>
                                                                 <h3>Order Information</h3>
                                                                 <br>Order Number: ${order._id}
-                                                                <br>Order Date: ${date.format(order.date,'YYYY/MM/DD HH:mm:ss')}
+                                                                <br>Order Date: ${date.format(order.date, 'YYYY/MM/DD HH:mm:ss')}
                                                                 <br>Customer: ${user.firstName} ${user.lastName} 
                                                             </td>
                                                         </tr>
@@ -331,7 +331,7 @@ function formatReceipt(user,order,total) {
                                                                     <tbody>                       
             `)
 
-    order.products.forEach(one=>{
+    order.products.forEach(one => {
         out.append(`
        <tr>
             <td>${one.name}</td>

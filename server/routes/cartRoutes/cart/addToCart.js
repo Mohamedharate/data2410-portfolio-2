@@ -38,6 +38,8 @@ router.post('/', async (req,
                                     quantity: -addItem.quantity
                                 }
                             });
+                        return res.status(200).json({Message: "The item has been added to cart successfully"})
+
                         added = true;
                     }
                 }
@@ -91,8 +93,12 @@ router.post('/', async (req,
                     quantity: addItem.quantity,
                     total: parseFloat(product.price * addItem.quantity)
                 }
+                if (!(req.session.cart)) {
+                    req.session.cart = []
+                }
                 req.session.cart.push(newItem);
                 try {
+
                     await Product.updateOne(
                         {itemId: addItem.product_id},
                         {

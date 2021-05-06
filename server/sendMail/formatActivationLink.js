@@ -1,7 +1,7 @@
 "use strict";
 const StringBuilder = require("string-builder");
 
-function formatActivationEmail(firstName,link) {
+function formatActivationEmail(firstName, link) {
     let out = new StringBuilder();
     out.append(`
 <!DOCTYPE html>

@@ -37,7 +37,7 @@ app.use(bodyParser.urlencoded({extended: false}))
 
 ONE_WEEK = 604800000
 
-const{
+const {
     PORT = 3001,
     NODE_ENV = 'development',
     SESS_NAME = 'sid',
@@ -60,18 +60,18 @@ app.use(
         name: SESS_NAME,
         saveUninitialized: false,
         unset: 'destroy',
-        httpOnly:false,
+        httpOnly: false,
         cookie: {
             maxAge: parseInt(SESS_LIFETIME),
             sameSite: true,
             secure: false,
         },
-        store:store
+        store: store
     })
 )
 app.set("trust proxy", 1)
 
-store.on('error', function(error) {
+store.on('error', function (error) {
     console.log(error.toString() + " feil i lagring av session");
 });
 
@@ -115,7 +115,7 @@ app.post('/api/signIn', passport.authenticate('local.signin', {
 }))
 
 
-app.use(function (req,res,next){
+app.use(function (req, res, next) {
     res.locals.login = req.isAuthenticated();
     res.locals.session = req.session;
     next();
@@ -130,7 +130,7 @@ app.get('*', (req, res) => {
 app.post('/logout', (req, res) => {
     if (req.isAuthenticated()) {
         req.session.destroy(err => {
-            if (err){
+            if (err) {
                 return res.status(500).json({message: 'Could not perform logout!'});
             }
             res.clearCookie(SESS_NAME)

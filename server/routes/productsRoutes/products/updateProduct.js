@@ -7,7 +7,6 @@ const StringBuilder = require("string-builder");
 const fs = require("fs");
 
 
-
 //update a product with the given productID.
 router.put('/:itemId', upload.array('imageUrl', 20),
     async (req, res) => {
@@ -53,50 +52,42 @@ router.put('/:itemId', upload.array('imageUrl', 20),
 
         try {
             await Product.updateOne({itemId: itemId}, {$push: {imageUrl: imageArrAfterConverting}});
-        }
-        catch (err){
+        } catch (err) {
             out.append("Failed to upload the pictures!\n")
         }
-        try{
+        try {
             if (updateProduct.name && updateProduct.name !== findProduct.name) await Product.updateOne({itemId: itemId}, {name: updateProduct.name})
-        }
-        catch (err){
+        } catch (err) {
             out.append("Failed to update name!\n")
         }
         try {
             if (updateProduct.descriptionShort && updateProduct.descriptionShort !== findProduct.descriptionShort) await Product.updateOne({itemId: itemId}, {descriptionShort: updateProduct.descriptionShort})
-        }
-        catch (err){
+        } catch (err) {
             out.append("Failed to update the description!\n")
         }
         try {
             if (updateProduct.descriptionLong && updateProduct.descriptionLong !== findProduct.descriptionLong) await Product.updateOne({itemId: itemId}, {descriptionShort: updateProduct.descriptionLong})
-        }
-        catch (err){
+        } catch (err) {
             out.append("Failed to update the description!\n")
         }
         try {
             if (updateProduct.price && updateProduct.price !== findProduct.price) await Product.updateOne({itemId: itemId}, {price: updateProduct.price})
-        }
-        catch (err){
+        } catch (err) {
             out.append("Failed to update the price!\n")
         }
         try {
             if (updateProduct.category && updateProduct.category !== findProduct.category) await Product.updateOne({itemId: itemId}, {category: updateProduct.category})
-        }
-        catch (err){
+        } catch (err) {
             out.append("Failed to upload the category!\n")
         }
         try {
             if (updateProduct.quantity && updateProduct.quantity !== findProduct.quantity) await Product.updateOne({itemId: itemId}, {quantity: updateProduct.quantity})
-        }
-        catch (err) {
+        } catch (err) {
             out.append("Failed to upload the quantity!\n")
         }
-        if (out.toString()){
+        if (out.toString()) {
             res.status(400).send(out.toString())
-        }
-        else {
+        } else {
             res.status(200).send("The product is updated successfully!")
         }
     })

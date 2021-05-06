@@ -12,20 +12,19 @@ const path = require("path");
 const bodyParser = require('body-parser');
 
 
-router.put('/:email', upload.single('profileImage'),async (req, res) => {
+router.put('/:email', upload.single('profileImage'), async (req, res) => {
 
     const findUser = await User.findOne({email: req.params.email});
 
     let password;
-    if (req.body.password){
+    if (req.body.password) {
         //Hashing password:
         //generating salt to hash password
         const salt = await bcrypt.genSalt(10);
         //creating hashed password
         password = await bcrypt.hash(req.body.password, salt)
-    }
-    else {
-        password  = findUser.password;
+    } else {
+        password = findUser.password;
     }
 
 
@@ -34,7 +33,7 @@ router.put('/:email', upload.single('profileImage'),async (req, res) => {
         lastName: req.body.lastName,
         email: req.body.email,
         password: password,
-        profileImage:req.file,
+        profileImage: req.file,
         zipCode: req.body.zipCode,
         street: req.body.street,
         phoneNumber: req.body.phoneNumber
@@ -49,9 +48,8 @@ router.put('/:email', upload.single('profileImage'),async (req, res) => {
             //image: fs.readFileSync(file.path).toString('base64')
         };
         try {
-            await User.updateOne({email: req.params.email},   { profileImage: finalImage});
-        }
-        catch (err){
+            await User.updateOne({email: req.params.email}, {profileImage: finalImage});
+        } catch (err) {
             console.log(err.toString())
         }
 
@@ -61,7 +59,7 @@ router.put('/:email', upload.single('profileImage'),async (req, res) => {
     let out = new StringBuilder();
 
     if (findUser) {
-        if (updateUserInfo.firstName &&updateUserInfo.firstName !== findUser.firstName) {
+        if (updateUserInfo.firstName && updateUserInfo.firstName !== findUser.firstName) {
             try {
                 await User.updateOne({email: req.params.email}, {firstName: updateUserInfo.firstName})
             } catch {
@@ -82,14 +80,14 @@ router.put('/:email', upload.single('profileImage'),async (req, res) => {
                 out.append('Something went wrong during updating the password\nError code: ' + err.error_code)
             }
         }
-        if ( updateUserInfo.country && updateUserInfo.country !== findUser.country) {
+        if (updateUserInfo.country && updateUserInfo.country !== findUser.country) {
             try {
                 await User.updateOne({email: req.params.email}, {country: updateUserInfo.country})
             } catch {
                 out.append('Something went wrong during updating the country\nError code: ' + err.error_code)
             }
         }
-        if ( updateUserInfo.city && updateUserInfo.city !== findUser.city) {
+        if (updateUserInfo.city && updateUserInfo.city !== findUser.city) {
             try {
                 await User.updateOne({email: req.params.email}, {city: updateUserInfo.city})
             } catch {

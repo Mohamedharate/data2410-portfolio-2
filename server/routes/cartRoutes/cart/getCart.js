@@ -18,8 +18,7 @@ router.get('/', async (req, res) => {
             if (req.session.cart) {
                 if (req.session.cart.length > 0) {
                     return res.json({products: req.session.cart})
-                }
-                else {
+                } else {
                     return res.json({message: "The cart is still empty"})
                 }
             } else {

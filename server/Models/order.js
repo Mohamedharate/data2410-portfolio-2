@@ -4,11 +4,11 @@ const {Decimal128} = require("bson");
 
 const order_schema = new mongoose.Schema(
     {
-        user:{
+        user: {
             type: String,
             required: true
         },
-        total:{
+        total: {
             type: Decimal128,
             required: true
         },

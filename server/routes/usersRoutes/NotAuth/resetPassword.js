@@ -70,7 +70,7 @@ router.post("/newPassword/:link", async (req, res, next) => {
             } catch {
                 out.append('Something went wrong during updating the password\nError code: ' + err.error_code)
             }
-            return res.json({message:"Your password is updated!"})
+            return res.json({message: "Your password is updated!"})
         })
 
     } else {

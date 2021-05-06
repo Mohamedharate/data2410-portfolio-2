@@ -4,7 +4,6 @@ let router = express.Router();
 const Product = require("../../../Models/product");
 
 
-
 //Delete all products
 router.delete('/all', async (req, res) => {
     try {
@@ -25,8 +24,6 @@ router.delete('/one/:itemId/', async (req, res) => {
         res.status(404).json({message: 'The product with the given item ID was not found'})
     }
 });
-
-
 
 
 module.exports = router;

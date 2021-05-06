@@ -11,8 +11,7 @@ const formatReceipt = require('../../../sendMail/formatReceipt');
 router.post('/', async (req, res) => {
 
 
-
-let tot;
+    let tot;
 
     if (req.session) {
         if (req.session.passport) {
@@ -55,16 +54,13 @@ let tot;
                             return res.status(400).json({Error: error.toString()});
                         })
                 }
-            }
-            else
+            } else
                 return res.status(404).json({Error: "User not found."})
-        }
-        else {
-            if (req.session.cart){
-                if (req.session.cart.length < 1){
+        } else {
+            if (req.session.cart) {
+                if (req.session.cart.length < 1) {
                     return res.status(404).json({Error: "No cart"})
-                }
-                else {
+                } else {
                     const order = new Order({
                         user: req.body.email,
                         products: req.session.cart,
@@ -94,11 +90,9 @@ let tot;
                             return res.status(400).json({Error: error.toString()});
                         })
                 }
+            } else {
+                return res.status(404).json({Message: "No cart available"})
             }
-            else {
-                return res.status(404).json({Message:"No cart available"})
-            }
-
 
 
         }

@@ -6,11 +6,10 @@ const Orders = require("../../../Models/order");
 router.get('/:orderId', async (req, res) => {
 
     const order = await Orders.findOne({_id: req.params.orderId});
-    if (order){
-        res.json({Order:order})
-    }
-    else {
-        return res.json({message:"The order dosen't exists."})
+    if (order) {
+        res.json({Order: order})
+    } else {
+        return res.json({message: "The order dosen't exists."})
     }
 });
 
