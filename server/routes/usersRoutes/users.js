@@ -5,6 +5,7 @@ const User = require("../../Models/user");
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt')
 
+const resetPassword = require('./NotAuth/resetPassword');
 const updateUsersInfo = require('./Auth/updateUsersInfo');
 const deleteUser = require('./Auth/deleteUser');
 const getUser = require('./Auth/getUser');
@@ -12,6 +13,7 @@ const getUser = require('./Auth/getUser');
 router.use(bodyParser.urlencoded({extended: false}))
 router.use(bodyParser.json())
 
+router.use('/resetPassword/', resetPassword);
 router.use('/update', updateUsersInfo);
 router.use('/delete', deleteUser);
 router.use('/get', getUser);

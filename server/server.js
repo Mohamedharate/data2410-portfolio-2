@@ -93,7 +93,6 @@ const cart = require('./routes/cartRoutes/cart');
 // --------- Middlewares ------------- //
 
 app.use('/api/register/', register);
-app.use('/api/reset/', resetPassword);
 app.use('/api/users/', users);
 app.use('/api/products/', products);
 app.use('/api/orders/', orders);

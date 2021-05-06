@@ -8,7 +8,7 @@ const bcrypt = require('bcrypt')
 
 const JWT_ACC = "accountactivateOsloMetShop";
 
-router.post('/forgot', async (req, res) => {
+router.post('/', async (req, res) => {
 
     const email = req.body.email;
 
