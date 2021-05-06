@@ -19,6 +19,7 @@ class AdminAddNew extends Component {
         product_category: String,
         short_description: String,
         long_description: String,
+        imagePreview: File,
         feedback_text: String,
         toggle_error_feedback: false,
         toggle_success_feedback: false,
@@ -36,6 +37,8 @@ class AdminAddNew extends Component {
 
     handleInputFile = event => {
         const file = event.target.files[0]; //TODO make this work for a list of pictures.
+
+        this.setState({imagePreview: URL.createObjectURL(file)})
 
         const imageArray = file
         this.setState({imageArray});
@@ -109,8 +112,9 @@ class AdminAddNew extends Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-6">
-                            <img className="photo1" src={this.state.imageArray[0]} alt=""/>
+                        <div className="col-sm-6">
+                            <p>Preview image:</p>
+                            <img className="previewImage" src={this.state.imagePreview} alt=""/>
                         </div>
                     </div>
                     <div className="row form-label-group m-2">
