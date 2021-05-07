@@ -31,7 +31,7 @@ router.get('/', async (req, res) => {
             return res.status(403).json({Error: "You don't have permission for this"})
         }
     } else {
-        res.status(400).json({Message: "Something went wrong!"})
+        res.status(500).json({Message: "Something went wrong!"})
     }
 });
 module.exports = router;

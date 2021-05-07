@@ -51,12 +51,23 @@ router.post('/', async (req, res) => {
                             }, JWT_ACC, {expiresIn: "20m"})
                             const link = `http://localhost:3001/api/admin/register/emailActivation/${token}`
                             await send(email, formatActivationEmail(firstName, link), "Activation");
-                            res.status(200).json({message: "A verification link has been sent to your email account, please confirm!"})}
-                    } else {return res.status(403).json({Error: "You don't have permission for this"})}
-                } else {return res.status(403).json({Error: "You don't have permission for this"})}
-            } else {return res.status(403).json({Error: "You don't have permission for this"})}
-        } else {return res.status(403).json({Error: "You don't have permission for this"})}
-    }else {return res.status(403).json({Error: "You don't have permission for this"})}
+                            res.status(200).json({message: "A verification link has been sent to your email account, please confirm!"})
+                        }
+                    } else {
+                        return res.status(403).json({Error: "You don't have permission for this"})
+                    }
+                } else {
+                    return res.status(403).json({Error: "You don't have permission for this"})
+                }
+            } else {
+                return res.status(403).json({Error: "You don't have permission for this"})
+            }
+        } else {
+            return res.status(403).json({Error: "You don't have permission for this"})
+        }
+    } else {
+        res.status(500).json({Error: `Something has gone wrong!`})
+    }
 })
 
 router.get('/emailActivation/:link', async (req, res) => {

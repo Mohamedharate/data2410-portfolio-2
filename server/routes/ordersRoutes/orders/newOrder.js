@@ -14,7 +14,7 @@ router.post('/', async (req, res) => {
     if (req.session) {
         if (req.session.passport) {
             if (req.session.passport.user.type !== 'User') {
-                return res.status(404).json({Error: "You have to sign in as user to order."})
+                return res.status(403).json({Error: "You have to sign in as user to order."})
             }
             const user = await User.findOne({_id: req.session.passport.user.id});
 
@@ -95,6 +95,9 @@ router.post('/', async (req, res) => {
 
 
         }
+    }
+    else {
+        res.status(500).json({message: `Something has gone wrong!`})
     }
 
 

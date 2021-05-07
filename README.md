@@ -17,7 +17,8 @@
 * Get all products without html format: [http://localhost:3001/api/products/get/allProductsPure]
 * Delete all products: [http://localhost:3001/api/products/delete/all]
 * Delete one product: [http://localhost:3001/api/products/delete/one/:itemId]
-* Update product: [http://localhost:3001/api/products/addReview/:itemId]
+* Update product: [http://localhost:3001/api/products/update/:itemId]
+* Add review product: [http://localhost:3001/api/products/addReview/:itemId]
 
 
 ##Cart
@@ -34,8 +35,8 @@
 
 ##Admins
 
-* Admins sign in: [http://localhost:3001/api/admin/register]
-* Admins sign in: [http://localhost:3001/api/signInAdmin]
+* Admins sign up: [http://localhost:3001/api/admin/register]
+* Admins sign in: [http://localhost:3001//api/signin-admin]
 
 
 ###To Run the application run npm run server

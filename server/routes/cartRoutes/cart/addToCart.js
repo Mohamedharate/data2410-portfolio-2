@@ -19,29 +19,32 @@ router.post('/', async (req,
 
         if (req.session) {
             if (req.session.passport) {
-                user = await User.findOne({_id: req.session.passport.user});
-                for (let i = 0; i < user.cart.length; i++) {
-                    if (addItem.product_id === user.cart[i].itemId) {
-                        let totalSumProduct = user.cart[i].total + parseFloat(product.price * addItem.quantity)
-                        await User.updateOne(
-                            {_id: user._id},
-                            {
-                                $inc: {
-                                    [`cart.${i}.quantity`]: addItem.quantity
-                                },
-                                [`cart.${i}.total`]: parseFloat(totalSumProduct)
-                            });
-                        await Product.updateOne(
-                            {itemId: addItem.product_id},
-                            {
-                                $inc: {
-                                    quantity: -addItem.quantity
-                                }
-                            });
-                        return res.status(200).json({Message: "The item has been added to cart successfully"})
-
-                        added = true;
+                if (req.session.passport.user.type === 'User') {
+                    user = await User.findOne({_id: req.session.passport.user.id});
+                    for (let i = 0; i < user.cart.length; i++) {
+                        if (addItem.product_id === user.cart[i].itemId) {
+                            let totalSumProduct = user.cart[i].total + parseFloat(product.price * addItem.quantity)
+                            await User.updateOne(
+                                {_id: user._id},
+                                {
+                                    $inc: {
+                                        [`cart.${i}.quantity`]: addItem.quantity
+                                    },
+                                    [`cart.${i}.total`]: parseFloat(totalSumProduct)
+                                });
+                            await Product.updateOne(
+                                {itemId: addItem.product_id},
+                                {
+                                    $inc: {
+                                        quantity: -addItem.quantity
+                                    }
+                                });
+                            added = true;
+                            return res.status(200).json({Message: "The item has been added to cart successfully"})
+                        }
                     }
+                } else {
+                    return res.status(403).json({Error: "You have to sign in as user to order."})
                 }
                 if (!added) {
                     const newItem = {
@@ -66,7 +69,6 @@ router.post('/', async (req,
                     }
                 }
             } else if (req.session.cart && req.session.cart.length > 0) {
-
                 for (let i = 0; i < req.session.cart.length; i++) {
                     if (addItem.product_id === req.session.cart[i].itemId) {
                         req.session.cart[i].quantity += addItem.quantity;
@@ -84,7 +86,6 @@ router.post('/', async (req,
                     }
                 }
             }
-
             if (!added) {
                 const newItem = {
                     name: product.name,
@@ -111,14 +112,10 @@ router.post('/', async (req,
                     return res.status(500).json({Error: "Failed to add the item to cart."})
                 }
             }
-
-
         }
     } else {
         return res.status(400).json({Error: "Not enough items"})
     }
-
-})
-
+});
 
 module.exports = router;
