@@ -1,20 +1,53 @@
 const LocalStrategy = require('passport-local').Strategy
 const bcrypt = require('bcrypt')
 const User = require("./Models/user");
-const Admin = require("./Models/admin");
 const passport = require('passport');
-const Product = require("./Models/product");
+const Admin = require("./Models/admin");
 
 
+
+
+
+passport.serializeUser((obj, done) => {
+    if (obj instanceof Admin) {
+        done(null, { id: obj.id, type: 'Admin' });
+    } else {
+        done(null, { id: obj.id, type: 'User' });
+    }
+});
+
+passport.deserializeUser((obj, done) => {
+    if (obj.type === 'Admin') {
+        Admin.findById(obj.id, function (err, user) {
+            done(err, user)
+        })
+    } else {
+        User.findById(obj.id, function (err, user) {
+            done(err, user)
+        })
+    }
+});
+/*
 passport.serializeUser(function (user, done) {
     done(null, user.id);
 });
-passport.deserializeUser(function (id, done) {
-    User.findById(id, function (err, user) {
-        done(err, user);
+
+passport.deserializeUser(async function (id, done) {
+
+    await User.findById(id, function (err, user) {
+        if (!user) {
+            Admin.findById(id, function (err, user) {
+                done(err, user)
+            })
+        } else {
+            done(err, user);
+        }
     });
+
 });
 
+
+ */
 
 passport.use('local.signinAdmin', new LocalStrategy({
         usernameField: 'email',
@@ -26,19 +59,17 @@ passport.use('local.signinAdmin', new LocalStrategy({
                 return done(err)
             }
             if (!admin) {
-                console.log("User not found")
                 return done(null, false, {message: "No user found"})
             }
             const validPassword = await bcrypt.compare(password, admin.password);
-            console.log(validPassword)
             if (!validPassword) {
-                console.log("wrong password")
                 return done(null, false, {message: "Wrong passoword"})
             }
             return done(null, admin)
         });
     }
 ));
+
 
 passport.use('local.signin', new LocalStrategy({
         usernameField: 'email',
@@ -53,7 +84,6 @@ passport.use('local.signin', new LocalStrategy({
                 return done(null, false, {message: "No user found"})
             }
             const validPassword = await bcrypt.compare(password, user.password);
-            console.log(validPassword)
             if (!validPassword) {
                 return done(null, false, {message: "Wrong passoword"})
             }
