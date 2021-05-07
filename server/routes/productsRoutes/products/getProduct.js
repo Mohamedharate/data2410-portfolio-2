@@ -33,9 +33,9 @@ async function sendMSG(){
         </div>`
 
         const users = await User.find();
-        //send(users,newMSG,prod.name)
+        send(users,newMSG,prod.name)
     }
-    //setTimeout(sendMSG, 86400000);
+    setTimeout(sendMSG, 86400000);
     }
 sendMSG()
 

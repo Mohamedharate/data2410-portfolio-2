@@ -1,7 +1,5 @@
 const express = require('express');
 const path = require('path');
-//const User = require("./Models/user");
-
 const cors = require("cors");
 const passport = require('passport');
 const flash = require('express-flash')
@@ -9,17 +7,8 @@ const flash = require('express-flash')
 require('./passport-config')
 require('./DB Connection/connectDB')
 
-/*
-const favicon = require('serve-favicon');
-const dotenv = require('dotenv').config();
-
- */
-
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-
-//const https = require('https');
-const fs = require('fs');
 const app = express();
 
 app.use(cors());
@@ -30,7 +19,6 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 app.use('/', express.static('./public'));
 
 app.use(express.static(path.resolve(__dirname, '../client/build')));
-
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
@@ -101,17 +89,45 @@ app.use('/api/cart/', cart);
 
 // ------- - - - - - - - -  ---------- //
 
-app.post('/api/signInAdmin', passport.authenticate('local.signinAdmin', {
-    successRedirect: '/',
-    failureRedirect: '/api/signInAdmin',
-    failureFlash: true
-}))
 
-app.post('/api/signIn', passport.authenticate('local.signin', {
-    successRedirect: '/',
-    failureRedirect: '/api/signIn',
-    failureFlash: true
-}))
+app.post('/api/signin', (req, res, next) => {
+    passport.authenticate('local.signin',
+        (err, user, info) => {
+            if (err) {
+                return res.status(500).json(err.toString())
+            }
+
+            if (!user) {
+                return res.status(400).json(info)
+            }
+            req.logIn(user, function (err) {
+                if (err) {
+                    return next(err);
+                }
+                return res.redirect('/');
+            });
+        })(req, res, next);
+});
+
+
+app.post('/api/signin-admin', (req, res, next) => {
+    passport.authenticate('local.signinAdmin',
+        (err, user, info) => {
+            if (err) {
+                return res.status(500).json(err.toString())
+            }
+
+            if (!user) {
+                return res.status(400).json(info)
+            }
+            req.logIn(user, function (err) {
+                if (err) {
+                    return next(err);
+                }
+                return res.redirect('/');
+            });
+        })(req, res, next);
+});
 
 
 app.use(function (req, res, next) {

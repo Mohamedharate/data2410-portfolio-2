@@ -5,14 +5,11 @@ const passport = require('passport');
 const Admin = require("./Models/admin");
 
 
-
-
-
 passport.serializeUser((obj, done) => {
     if (obj instanceof Admin) {
-        done(null, { id: obj.id, type: 'Admin' });
+        done(null, {id: obj.id, type: 'Admin'});
     } else {
-        done(null, { id: obj.id, type: 'User' });
+        done(null, {id: obj.id, type: 'User'});
     }
 });
 
@@ -81,11 +78,11 @@ passport.use('local.signin', new LocalStrategy({
                 return done(err)
             }
             if (!user) {
-                return done(null, false, {message: "No user found"})
+                return done(null, false, {Error: "No user with that email found"})
             }
             const validPassword = await bcrypt.compare(password, user.password);
             if (!validPassword) {
-                return done(null, false, {message: "Wrong passoword"})
+                return done(null, false, {Error: "Incorrect password"})
             }
 
             if (req.session.cart) {

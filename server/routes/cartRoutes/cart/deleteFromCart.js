@@ -18,7 +18,9 @@ router.delete('/', async (req, res, next) => {
 
     if (req.session) {
         if (req.session.passport) {
-            const user = await User.findOne({_id: req.session.passport.user});
+            if (req.session.passport.user.type !== 'User')
+            {return res.status(403).json({Error: "You don't have permission for this"}) }
+                const user = await User.findOne({_id: req.session.passport.user.id});
             if (!user) return res.status(404).json({Error: "User not found"})
             for (let i = 0; i < user.cart.length; i++) {
                 if (deleteItem.product_id === user.cart[i].itemId) {
