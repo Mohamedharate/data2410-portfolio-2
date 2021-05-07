@@ -12,32 +12,51 @@ const JWT_ACC = "accountactivateOsloMetShop";
 
 router.post('/', async (req, res) => {
 
-    const salt = await bcrypt.genSalt(10);
-    const password = await bcrypt.hash(req.body.password, salt)
+    if (req.session) {
+        if (req.session.passport) {
+            if (req.session.passport.user.type === 'Admin') {
+                const adminWithPermission = await Admin.findOne({_id: req.session.passport.user.id})
+                if (adminWithPermission) {
+                    if (adminWithPermission.position === 'President') {
+                        const salt = await bcrypt.genSalt(10);
+                        const password = await bcrypt.hash(req.body.password, salt)
 
-    const {firstName, lastName, email,position, country, city, zipCode, street, phoneNumber} = req.body;
+                        const {
+                            firstName,
+                            lastName,
+                            email,
+                            position,
+                            country,
+                            city,
+                            zipCode,
+                            street,
+                            phoneNumber
+                        } = req.body;
 
-    const admin = await Admin.findOne({email: req.body.email,});
-    if (admin) {
-        return res.status(400).json({message: "User already exists"});
-    } else {
-        const token = jwt.sign({
-            firstName,
-            lastName,
-            email,
-            password,
-            position,
-            country,
-            city,
-            zipCode,
-            street,
-            phoneNumber
-        }, JWT_ACC, {expiresIn: "20m"})
-        const link = `http://localhost:3001/api/admin/register/emailActivation/${token}`
-        await send(email, formatActivationEmail(firstName, link), "Activation");
-        res.status(200).json({message:"A verification link has been sent to your email account, please confirm!"})
-
-    }
+                        const admin = await Admin.findOne({email: req.body.email,});
+                        if (admin) {
+                            return res.status(400).json({message: "User already exists"});
+                        } else {
+                            const token = jwt.sign({
+                                firstName,
+                                lastName,
+                                email,
+                                password,
+                                position,
+                                country,
+                                city,
+                                zipCode,
+                                street,
+                                phoneNumber
+                            }, JWT_ACC, {expiresIn: "20m"})
+                            const link = `http://localhost:3001/api/admin/register/emailActivation/${token}`
+                            await send(email, formatActivationEmail(firstName, link), "Activation");
+                            res.status(200).json({message: "A verification link has been sent to your email account, please confirm!"})}
+                    } else {return res.status(403).json({Error: "You don't have permission for this"})}
+                } else {return res.status(403).json({Error: "You don't have permission for this"})}
+            } else {return res.status(403).json({Error: "You don't have permission for this"})}
+        } else {return res.status(403).json({Error: "You don't have permission for this"})}
+    }else {return res.status(403).json({Error: "You don't have permission for this"})}
 })
 
 router.get('/emailActivation/:link', async (req, res) => {
@@ -48,8 +67,30 @@ router.get('/emailActivation/:link', async (req, res) => {
             if (err) {
                 return res.status(400).json({error: "Incorrect or expired"})
             }
-            const {firstName, lastName, email, password,position, country,city, zipCode, street, phoneNumber} = decodedToken;
-            let newUser = new Admin({firstName, lastName, email, password,position, country,city, zipCode, street, phoneNumber})
+            const {
+                firstName,
+                lastName,
+                email,
+                password,
+                position,
+                country,
+                city,
+                zipCode,
+                street,
+                phoneNumber
+            } = decodedToken;
+            let newUser = new Admin({
+                firstName,
+                lastName,
+                email,
+                password,
+                position,
+                country,
+                city,
+                zipCode,
+                street,
+                phoneNumber
+            })
             await newUser.save()
                 .then(data => {
                     res.status(200).json({message: `User created successfully!`})

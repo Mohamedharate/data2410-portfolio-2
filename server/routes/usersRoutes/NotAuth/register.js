@@ -10,6 +10,7 @@ const JWT_ACC = "accountactivateOsloMetShop";
 
 router.post('/', async (req, res) => {
 
+
     const salt = await bcrypt.genSalt(10);
     const password = await bcrypt.hash(req.body.password, salt)
 

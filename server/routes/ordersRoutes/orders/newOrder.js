@@ -10,14 +10,13 @@ const formatReceipt = require('../../../sendMail/formatReceipt');
 
 router.post('/', async (req, res) => {
 
-
     let tot;
-
     if (req.session) {
         if (req.session.passport) {
-
-
-            const user = await User.findOne({_id: req.session.passport.user});
+            if (req.session.passport.user.type !== 'User') {
+                return res.status(404).json({Error: "You have to sign in as user to order."})
+            }
+            const user = await User.findOne({_id: req.session.passport.user.id});
 
             const order = new Order({
                 user: user.email,

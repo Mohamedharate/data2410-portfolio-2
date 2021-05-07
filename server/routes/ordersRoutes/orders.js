@@ -9,7 +9,7 @@ const getUserOrders = require('./orders/getUserOrders');
 
 router.use('/newOrder', newOrder);
 router.use('/getOneOrder/', getOneOrder);
-router.use('/getAllOrder/', getAllOrders);
+router.use('/getAllOrders/', getAllOrders);
 router.use('/getUserOrders/', getUserOrders);
 
 
