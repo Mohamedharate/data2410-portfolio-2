@@ -40,8 +40,12 @@ class AdminRestockProducts extends Component {
             .then(res => {
                 const products = res.data
                 this.setState({ products })
-            }).catch(res => {
-                console.error(res)
+            }).catch(err => {
+                this.setState({
+                    toggle_success_feedback: false,
+                    toggle_error_feedback: true,
+                    feedback_text: err.response.data.Error,
+                })
             })
     }
 

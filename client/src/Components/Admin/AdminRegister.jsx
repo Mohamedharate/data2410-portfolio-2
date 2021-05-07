@@ -50,18 +50,16 @@ class AdminRegister extends Component {
                 position: this.state.position,
             }
         }).then(res => {
-            console.log(res.data.message)
             this.setState({
                 toggle_success_feedback: true,
                 toggle_error_feedback: false,
-                feedback_text: res.data.message,
+                feedback_text: res.data.Message,
             })
         }).catch(err => {
-            console.log(err)
             this.setState({
                 toggle_success_feedback: false,
                 toggle_error_feedback: true,
-                feedback_text: err.message,
+                feedback_text: err.response.data.Error,
             })
         })
     }

@@ -71,18 +71,16 @@ class AdminAddNew extends Component {
             url: 'http://localhost:3001/api/products/new',
             data: formdata,
         }).then(res => {
-            console.log(res.data.message)
             this.setState({
                 toggle_success_feedback: true,
                 toggle_error_feedback: false,
-                feedback_text: res.data.message,
+                feedback_text: res.data.Message,
             })
         }).catch(err => {
-            console.log(err)
             this.setState({
                 toggle_success_feedback: false,
                 toggle_error_feedback: true,
-                feedback_text: err,
+                feedback_text: err.response.data.Error,
             })
         })
     }
