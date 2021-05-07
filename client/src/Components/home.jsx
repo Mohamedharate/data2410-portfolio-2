@@ -5,10 +5,10 @@ import Navbar from "./navbar";
 import Login from "./login";
 import Register from "./register";
 import About from "./about";
-import Mainpage from "./mainpage";
+import Mainpage from "./Products/mainpage";
 import Footer from "./footer";
-import Productpage from "./productpage";
-import addReview from "./addReview";
+import Productpage from "./Products/productpage";
+import addReview from "./Products/addReview";
 import ShoppingCart from "./shoppingCart";
 import Orders from "./orders";
 
