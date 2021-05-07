@@ -4,6 +4,9 @@ import Admin from "./Admin/Admin"
 
 
 class App extends Component {
+    constructor(props) {
+        super(props);
+    }
     state = {
         toggleAdmin: false,
     };

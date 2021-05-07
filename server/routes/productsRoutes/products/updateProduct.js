@@ -10,10 +10,13 @@ const fs = require("fs");
 //update a product with the given productID.
 router.put('/:itemId', upload.array('imageUrl', 20),
     async (req, res) => {
+    /*
         if (req.session) {
             if (req.session.passport.user.type !== 'Admin') {
                 return res.status(403).json({Error: "You don't have permission for this"})
             }
+
+     */
             const itemId = req.params.itemId;
             let imageArrAfterConverting = [];
 
@@ -92,11 +95,12 @@ router.put('/:itemId', upload.array('imageUrl', 20),
             if (out.toString()) {
                 res.status(400).json({Error: out.toString()})
             } else {
-                res.status(200).send({Message:"The product is updated successfully!"})
+                res.status(200).json({Message:"The product is updated successfully!"})
             }
-        } else {
-            res.status(500).json({Error: "Something went wrong!"})
-        }
+        /* } else {
+             res.status(500).json({Error: "Something went wrong!"})
+         }
+         */
     });
 
 module.exports = router;

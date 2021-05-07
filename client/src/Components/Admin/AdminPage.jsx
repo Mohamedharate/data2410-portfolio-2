@@ -6,6 +6,9 @@ import AdminRestockProducts from "./AdminRestockProducts";
 import AdminEditProduct from "./AdminEditProduct";
 
 class AdminPage extends Component {
+    constructor(props) {
+        super(props);
+    }
     state = {
         toggle_restock: true,
         toggle_edit_product: false,

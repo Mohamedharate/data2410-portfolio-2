@@ -13,7 +13,7 @@ class AdminEditProduct extends Component {
 
     state = {
         products: [],
-        imagePreview: File,
+        imagePreview: '',
         itemId: Number,
 
         old_imageArray: [],
@@ -54,10 +54,10 @@ class AdminEditProduct extends Component {
 
         this.setState({imagePreview: URL.createObjectURL(file)})
 
-        const imageArray = file
-        this.setState({imageArray});
+        const new_imageArray = file
+        this.setState({new_imageArray});
     }
-    handleEdit = product => {
+    handleEditBtn = product => {
 
         const preview = `data:${product.imageUrl[0].contentType};base64, ${product.imageUrl[0].image}`
 
@@ -89,6 +89,8 @@ class AdminEditProduct extends Component {
 
         let file = this.state.new_imageArray;
 
+        console.log("submit new file", file) //TODO console
+        console.log("submit old file", this.state.old_imageArray) //TODO console
         let formdata = new FormData();
 
         // Checks which variables has changed and add changed variables to the form-data.
@@ -128,24 +130,23 @@ class AdminEditProduct extends Component {
 
     async updateProduct(formdata) {
         const itemId = this.state.itemId;
-
+        console.log("updating")
         await axios({
             method: 'put',
             url: `http://localhost:3001/api/products/update/${itemId}`,
             data: formdata,
         }).then(res => {
-            console.log(res.data.message)
             this.setState({
                 toggle_success_feedback: true,
                 toggle_error_feedback: false,
-                feedback_text: res.data.message,
+                feedback_text: res.data.Message,
             })
         }).catch(err => {
-            console.log(err)
+            console.log(err.response.data.Error)
             this.setState({
                 toggle_success_feedback: false,
                 toggle_error_feedback: true,
-                feedback_text: err.error,
+                feedback_text: err.response.data.Error,
             })
         })
     }
@@ -155,8 +156,8 @@ class AdminEditProduct extends Component {
             .then(res => {
                 const products = res.data
                 this.setState({products})
-            }).catch(res => {
-                console.error(res)
+            }).catch(err => {
+                console.error(err)
             })
     }
 
@@ -181,7 +182,7 @@ class AdminEditProduct extends Component {
                                 <input type="text" value={product.name} disabled/>
                                 <div className="input-group-append">
                                     <div className="input-group-text">
-                                        <button onClick={() => this.handleEdit(product)} className="btn">Edit</button>
+                                        <button onClick={() => this.handleEditBtn(product)} className="btn">Edit</button>
                                     </div>
                                 </div>
                             </div>
@@ -241,7 +242,7 @@ class AdminEditProduct extends Component {
                                         <option value="Coffee Beans">Coffee Beans</option>
                                         <option value="Filter Ground Coffee">Filter Ground Coffee</option>
                                         <option value="Coffee Machine">Coffee Machine</option>
-                                        <option value="Coffee Beans">Coffee Beans</option>
+                                        <option value="Coffee">Coffee</option>
                                         <option value="Other">Other</option>
                                     </select>
                                 </div>

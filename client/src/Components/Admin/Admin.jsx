@@ -4,6 +4,9 @@ import AdminPage from "./AdminPage"
 
 
 class Admin extends Component {
+    constructor(props) {
+        super(props);
+    }
     state = {
         toggleLogin: true,
     };
