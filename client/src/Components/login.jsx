@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import axios from "axios";
 import DangerFeedback from "./dangerFeedback";
 
+
 class Login extends Component {
     constructor(props) {
         super(props);
@@ -39,15 +40,15 @@ class Login extends Component {
         const that = this;
         await axios({
             method: 'post',
-            url: 'http://localhost:3001/api/users/signIn',
+            url: 'http://localhost:3001/api/signIn',
             data: {
                 email: this.state.email,
                 password: this.state.password,
-            }
+            },
         }).then(function (response) {
             console.log("Status:", response.status);
             if (response.status === 200) {
-                that.setState({feedback_text: response.data.message});
+                that.setState({feedback_text: response.data});
                 that.setState({toggle_error_feedback: false});
             }
         }).catch(function (error) {
@@ -98,8 +99,8 @@ class Login extends Component {
                                            placeholder="Password" name="password" required="*" autoFocus=""/>
                                 </div>
                             </div>
-                            <button type="submit"
-                                    className="btn btn-lg btn-primary btn-block mt-2">Sign in!
+                            <button type="submit" className="btn btn-lg btn-primary btn-block mt-2">
+                                Sign in!
                             </button>
                             {this.state.toggle_error_feedback &&
                             <DangerFeedback feedback_error_text={this.state.feedback_text}/>}

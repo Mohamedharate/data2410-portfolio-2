@@ -2,13 +2,14 @@
 const express = require("express");
 let router = express.Router();
 const jwt = require('jsonwebtoken');
-const User = require("../../../Modules/user");
-const nodemailer = require('nodemailer');
+const User = require("../../../Models/user");
 const bcrypt = require('bcrypt')
-
+const send = require('../../../sendMail/sendActivationLink');
+const formatActivationEmail = require('../../../sendMail/formatActivationLink')
 const JWT_ACC = "accountactivateOsloMetShop";
 
 router.post('/', async (req, res) => {
+
 
     const salt = await bcrypt.genSalt(10);
     const password = await bcrypt.hash(req.body.password, salt)
@@ -31,35 +32,14 @@ router.post('/', async (req, res) => {
             phoneNumber
         }, JWT_ACC, {expiresIn: "20m"})
 
+        const link = `http://localhost:3001/api/register/emailActivation/${token}`
+        try {
+            send(email, formatActivationEmail(firstName, link), "Activation")
+        } catch (e) {
+            return res.status(400).json({Error: e.toString()})
+        }
 
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: 'shopmetnorway@gmail.com',
-                pass: '12345oslomet'
-            }
-        });
-
-        const mailOptions = {
-            from: 'ShopMet',
-            to: `${email}`,
-            subject: 'Account Activation',
-            html:
-                `
-        <h2>Please click on the link to activate your account.</h2>
-        <a href=http://localhost:3001/api/register/emailActivation/${token}>Verify your account</a>
-       
-        `
-        };
-
-        await transporter.sendMail(mailOptions, async function (error, info) {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log('Email sent: ' + info.response);
-                res.status(200).json({message: `Email has been sendt to ${mailOptions.to}, please activate your account!`});
-            }
-        });
+        res.status(200).json({Messsage: "A verification link has been sent to your email account, please confirm!"})
     }
 })
 
@@ -71,10 +51,10 @@ router.get('/emailActivation/:link', async (req, res) => {
             if (err) {
                 return res.status(400).json({error: "Incorrect or expired"})
             }
-            const {firstName, lastName, email, password, country,city, zipCode, street, phoneNumber} = decodedToken;
+            const {firstName, lastName, email, password, country, city, zipCode, street, phoneNumber} = decodedToken;
             const user = await User.findOne({email: email,});
 
-            let newUser = new User({firstName, lastName, email, password, country,city, zipCode, street, phoneNumber})
+            let newUser = new User({firstName, lastName, email, password, country, city, zipCode, street, phoneNumber})
             await newUser.save()
                 .then(data => {
                     res.status(200).json({message: `User created successfully!`})

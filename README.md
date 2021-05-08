@@ -1,70 +1,42 @@
-# Getting Started with Create React App
+# Routes
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+##Users
+* Register new customer: [http://localhost:3001/api/register]
+* Log in as customer: [http://localhost:3001/api/signIn]
+* Reset password: [http://localhost:3001/api/users/resetPassword]
+* Update user's info: [http://localhost:3001/api/users/update/:email]
+* Get user: [http://localhost:3001/api/users/get/:email]
+* Get all users: [http://localhost:3001/api/users/get/all]
+* Delete user: [http://localhost:3001/api/users/delete/:email]
+* Delete all users: [http://localhost:3001/api/users/delete/allUsers]
 
-## Available Scripts
+##Products
+* Add new product: [http://localhost:3001/api/products/new]
+* Get one product: [http://localhost:3001/api/products/get/:itemId]
+* Get all products in html format: [http://localhost:3001/api/products/get/allProducts]
+* Get all products without html format: [http://localhost:3001/api/products/get/allProductsPure]
+* Delete all products: [http://localhost:3001/api/products/delete/all]
+* Delete one product: [http://localhost:3001/api/products/delete/one/:itemId]
+* Update product: [http://localhost:3001/api/products/update/:itemId]
+* Add review product: [http://localhost:3001/api/products/addReview/:itemId]
 
-In the project directory, you can run:
 
-### `npm start`
+##Cart
+* Add to cart: [http://localhost:3001/api/cart/addToCart]
+* Delete one item from cart: [http://localhost:3001/api/cart/deleteFromCart]
+* Delete all items from cart: [http://localhost:3001/api/cart/deleteCart]
+* Get cart: [http://localhost:3001/api/cart/getCart]
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+##Orders
+* Add new order: [http://localhost:3001/api/orders/newOrder]
+* Get one user's orders by email: [http://localhost:3001/api/orders/getUserOrders/:email]
+* Get All orders: [http://localhost:3001/api/orders/getAllOrder/:email]
+* Get one order by order ID: [http://localhost:3001/api/orders/getOneOrder/:orderId]
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+##Admins
 
-### `npm test`
+* Admins sign up: [http://localhost:3001/api/admin/register]
+* Admins sign in: [http://localhost:3001//api/signin-admin]
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+###To Run the application run npm run server

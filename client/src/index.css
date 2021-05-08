@@ -75,6 +75,12 @@ code {
 .shoppingCartObject{
   direction: ltr;
 }
+.adminLoginContainer{
+  position: absolute;
+  top: 15%;
+  left: 30%;
+  width: 40%;
+}
 
 .bestsellers{
   padding-top: 10px;
@@ -133,6 +139,17 @@ code {
   width: 100%;
 
 }
-.container{
-  padding-top: 60px;
+.fillPage{
+  min-height: 100vh;
+}
+
+@media (min-width: 768px){
+  .fillColumn{
+    min-height: 100vh;
+  }
+}
+
+.previewImage{
+  max-width: 100px;
+  max-height: 100px;
 }

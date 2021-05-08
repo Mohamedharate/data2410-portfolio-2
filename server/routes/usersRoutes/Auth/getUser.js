@@ -1,45 +1,48 @@
 "use strict";
 const express = require("express");
 let router = express.Router();
-const User = require("../../../Modules/user");
-const StringBuilder = require("string-builder");
+const User = require("../../../Models/user");
 
-
-//Get all
-function formatUsers(arr) {
-
-    let out = new StringBuilder();
-
-    arr.forEach(user => {
-        out.append(`
-        \n--------------------------------------
-        \nName: ${user.firstName} ${user.lastName}
-        \nAddress:${user.zipCode} ${user.street}
-        \nPhone number: ${user.phoneNumber}
-        \nEmail: ${user.email}`);
-
-    })
-    return out.toString();
-}
 
 router.get('/all', async (req, res) => {
-
-    try {
-        const users = await User.find();
-        res.json(users);
-    } catch (err) {
-        res.status(500).json({message: err})
+    if (req.session) {
+        if (req.session.passport.user.type !== 'Admin') {
+            return res.status(403).json({Error: "You don't have permission for this"})
+        }
+        try {
+            const users = await User.find();
+            return res.json({Message: users});
+        } catch (err) {
+            return res.status(500).json({Error: err})
+        }
+    } else {
+        return res.status(500).json({Error: "Something went wrong!"})
     }
 })
 
 
 router.get('/:email', async (req, res) => {
-    try {
-        const user = await User.findOne({email: req.params.email});
-        res.json(user);
-    } catch (err) {
-        res.status(404).json({message: 'The user with the given email address was not found'})
+    if (req.session) {
+        if (req.session.passport) {
+            const user = await User.findOne({email: req.params.email});
+            if (!user) return res.status(404).json({Error: 'The user with the given email address was not found'})
+            if (user._id === req.session.passport.user.id || req.session.passport.user.type === 'Admin') {
+                try {
+                    const user = await User.findOne({email: req.params.email});
+                    return res.json({Message: user});
+                } catch (err) {
+                    return res.status(404).json({Error: 'The user with the given email address was not found'})
+                }
+            } else {
+                return res.status(403).json({Error: "You don't have permission for this"})
+            }
+        } else {
+            return res.status(403).json({Error: "You don't have permission for this"})
+        }
+    } else {
+        return res.status(500).json({Error: "Something went wrong!"})
     }
+
 })
 
 module.exports = router;

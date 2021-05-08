@@ -3,9 +3,9 @@
 const nodemailer = require('nodemailer');
 
 
-async function send(arr,item,subject) {
+async function send(arr, item, subject) {
 
-    for (let i = 0;i<arr.length;i++){
+    for (let i = 0; i < arr.length; i++) {
 
         const transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -30,7 +30,6 @@ async function send(arr,item,subject) {
             }
         });
     }
-
 
 
 }

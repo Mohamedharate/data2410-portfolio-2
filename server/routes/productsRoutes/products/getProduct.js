@@ -1,8 +1,8 @@
 "use strict";
 const express = require("express");
 let router = express.Router();
-const Product = require("../../../Modules/product");
-const User = require("../../../Modules/user");
+const Product = require("../../../Models/product");
+const User = require("../../../Models/user");
 const send = require('../../../sendMail/sendMail');
 
 const StringBuilder = require("string-builder");
@@ -33,9 +33,9 @@ async function sendMSG(){
         </div>`
 
         const users = await User.find();
-        //send(users,newMSG,prod.name)
+        send(users,newMSG,prod.name)
     }
-    //setTimeout(sendMSG, 86400000);
+    setTimeout(sendMSG, 86400000);
     }
 sendMSG()
 
@@ -107,12 +107,22 @@ function formatProdcuts(arr) {
 }
 
 
-//Get all products from the productDB
+//Get all products from the productDB formatted
 router.get('/allProducts', async (req, res) => {
 
     try {
         const products = await Product.find();
         res.send(formatProdcuts(products).toString());
+    } catch (err) {
+        res.send(err.toString())
+    }
+});
+
+router.get('/allProductsPure', async (req, res) => {
+
+    try {
+        const products = await Product.find();
+        res.send(products);
     } catch (err) {
         res.send(err.toString())
     }

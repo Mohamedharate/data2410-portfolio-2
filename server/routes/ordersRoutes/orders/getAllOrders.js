@@ -1,24 +1,37 @@
 "use strict";
 const express = require("express");
 let router = express.Router();
-const Orders = require("../../../Modules/order");
-const User = require("../../../Modules/user");
+const Orders = require("../../../Models/order");
+const Admin = require("../../../Models/admin");
 const send = require('../../../sendMail/sendMail');
-
-const StringBuilder = require("string-builder");
-
-
 
 router.get('/', async (req, res) => {
 
-    try {
-        const orders = await Orders.find();
-        res.status(200).json({Orders:orders});
+    if (req.session) {
+        if (req.session.passport) {
+            if (req.session.passport.user.type === 'Admin') {
+                const admin = await Admin.findOne({_id: req.session.passport.user.id})
+                if (admin) {
+                    try {
+                        const orders = await Orders.find();
+                        return res.status(200).json({Orders: orders});
 
-    } catch (err) {
-        res.status(400).json(err.toString())
+                    } catch (err) {
+                        return res.status(400).json(err.toString())
+                    }
+                } else {
+                    return res.status(403).json({Error: "You don't have permission for this"})
+                }
+            }
+            else {
+                return res.status(403).json({Error: "You don't have permission for this"})
+            }
+
+        } else {
+            return res.status(403).json({Error: "You don't have permission for this"})
+        }
+    } else {
+        res.status(500).json({Message: "Something went wrong!"})
     }
-
 });
-
 module.exports = router;
