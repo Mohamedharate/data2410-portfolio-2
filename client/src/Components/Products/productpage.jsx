@@ -41,7 +41,7 @@ export default class Productpage extends Component{
     render() {
         const { price } = this.state;
         return(
-            <div className="container">
+            <div className="productContainer">
                     <div className="row">
                         <div className="col-lg-3">
                         <h1 className="my-4">ShopMet</h1>

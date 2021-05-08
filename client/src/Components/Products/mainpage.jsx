@@ -29,7 +29,7 @@ export default class Mainpage extends Component {
 
   render() {
     return (
-        <div className="container">
+        <div className="productContainer">
           <div className="row">
             <div className="col-lg-3">
 
