@@ -69,7 +69,7 @@ export default class Productpage extends Component {
         if (imageArr.length > 0){
             carousel = <Carousel>{imageArr}</Carousel>;
         }
-            return (
+        return (
                 <div className="productContainer">
                     <div className="row">
                         <div className="col-lg-3">
@@ -102,13 +102,10 @@ export default class Productpage extends Component {
                                         value={this.state.quantity} min={1}
                                         onChange={this.state.quantity}
                                         max={this.state.quantityOfProduct} label="Quantity" />
-                                        <button type="submit" className="btn btn-lg btn-success btn-block mt-2" onClick={()=>this.postToCart(this.state.itemId, 1)}
+                                        <button type="submit" className="btn btn-lg btn-success btn-block mt-2"
+                                                onClick={this.props.add_cart}
                                         >Add to cart</button>
-                                    <ShoppingCartObject
-                                        postToCart ={() => this.props.postToCart()}
-                                        />
                                     <p className="card-text">{this.state.cartFeedback}</p>
-
                                 </div>
                             </div>
                             <div className="card card-outline-secondary my-4">
