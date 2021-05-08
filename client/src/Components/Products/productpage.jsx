@@ -3,7 +3,8 @@ import axios from "axios";
 import {Link} from "react-router-dom";
 import { Carousel } from "react-responsive-carousel";
 import {array, arrayOf} from "prop-types";
-import FormFileInput from "react-bootstrap";
+import InputSpinner from "react-bootstrap-input-spinner";
+
 
 
 export default class Productpage extends Component {
@@ -24,7 +25,8 @@ export default class Productpage extends Component {
                 name: response.data.name, price: response.data.price,
                 description: response.data.descriptionLong,
                 image: response.data.imageUrl,
-                itemId: response.data.itemId
+                itemId: response.data.itemId,
+                quantityOfProduct: response.data.quantity
             });
         }).catch(function (error) {
             if (!error.data) {
@@ -91,8 +93,9 @@ export default class Productpage extends Component {
                                     <p className="card-text">{this.state.description}</p>
                                     <span className="text-warning">★ ★ ★ ★ ☆</span>
                                     4.0 stars
-                                    <p><strong>Quantity</strong></p>
-                                    <input type="number" className="form-control" value={this.state.quantity} label="Quantity" />
+                                    <InputSpinner type="number" size ={'lg'} variant={'dark'} placeholder="Quantity"
+                                                  value={this.state.quantity} min={1}
+                                                  max={this.state.quantityOfProduct} label="Quantity" />
                                     <button type="submit" className="btn btn-lg btn-success btn-block mt-2"
                                             onClick={() => this.postToCart(this.state.itemId, this.state.quantity)}>Add to cart</button>
                                 </div>
