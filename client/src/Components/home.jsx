@@ -65,6 +65,13 @@ class Home extends Component{
         this.setState({ cart_objects })
         //TODO update cart in server!
     }
+    handleAddToCartCallback = item_id => {
+        const cart_objects = [...this.state.cart_objects];
+        const index = cart_objects.findIndex(i => i.itemId === item_id);
+        cart_objects[index].quantity = item_id.quantity;
+        this.setState({ cart_objects, cartFeedback: "${cart_objects.name} added to cart!" })
+        console.log("hei");
+    }
 
     // Handle checkout
     handleCheckOutCallback = () => {
@@ -154,6 +161,7 @@ class Home extends Component{
                 {this.state.toggleRegister && <Register registerCallback = {this.handleToggleLoginCallback}/>}
                 {this.state.toggleShoppingCart &&
                 <ShoppingCart
+                    postToCart = {this.handleAddToCartCallback}
                     quantity_increase = {this.handleQuantityIncreaseCallback}
                     quantity_decrease = {this.handleQuantityDecreaseCallback}
                     onCheckOut = {this.handleCheckOutCallback}

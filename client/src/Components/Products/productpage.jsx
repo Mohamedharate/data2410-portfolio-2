@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import { Carousel } from "react-responsive-carousel";
 import {array, arrayOf} from "prop-types";
 import InputSpinner from "react-bootstrap-input-spinner";
+import ShoppingCartObject from "../shoppingCartObject";
 
 
 
@@ -41,12 +42,14 @@ export default class Productpage extends Component {
             method: "post",
             url: 'http://localhost:3001/api/cart/addToCart/',
             data: {product_id: itemId, quantity}
-        })
+        }).then(function (res){
+                console.log(res.data)
+            })
     }
 
 
     render() {
-        const {price} = this.state;
+        const {price, image} = this.state;
         let imageArr = [];
         let carousel;
         if(this.props.image){
@@ -90,14 +93,22 @@ export default class Productpage extends Component {
                                 <div className="card-body">
                                     <h3 className="card-title">{this.state.name}</h3>
                                     {Object.values(price).map((p) => (<h4 className="price" key="p">${p}</h4>))}
+
                                     <p className="card-text">{this.state.description}</p>
                                     <span className="text-warning">★ ★ ★ ★ ☆</span>
                                     4.0 stars
-                                    <InputSpinner type="number" size ={'lg'} variant={'dark'} placeholder="Quantity"
-                                                  value={this.state.quantity} min={1}
-                                                  max={this.state.quantityOfProduct} label="Quantity" />
-                                    <button type="submit" className="btn btn-lg btn-success btn-block mt-2"
-                                            onClick={() => this.postToCart(this.state.itemId, this.state.quantity)}>Add to cart</button>
+                                    <InputSpinner
+                                        type="number" size ={'lg'} variant={'dark'}
+                                        value={this.state.quantity} min={1}
+                                        onChange={this.state.quantity}
+                                        max={this.state.quantityOfProduct} label="Quantity" />
+                                        <button type="submit" className="btn btn-lg btn-success btn-block mt-2" onClick={()=>this.postToCart(this.state.itemId, 1)}
+                                        >Add to cart</button>
+                                    <ShoppingCartObject
+                                        postToCart ={() => this.props.postToCart()}
+                                        />
+                                    <p className="card-text">{this.state.cartFeedback}</p>
+
                                 </div>
                             </div>
                             <div className="card card-outline-secondary my-4">
