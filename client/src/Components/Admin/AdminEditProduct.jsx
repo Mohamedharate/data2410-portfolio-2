@@ -54,7 +54,7 @@ class AdminEditProduct extends Component {
 
         this.setState({imagePreview: URL.createObjectURL(file)})
 
-        const new_imageArray = file
+        const new_imageArray = file;
         this.setState({new_imageArray});
     }
     handleEditBtn = product => {
@@ -89,37 +89,28 @@ class AdminEditProduct extends Component {
 
         let file = this.state.new_imageArray;
 
-        console.log("submit new file", file) //TODO console
-        console.log("submit old file", this.state.old_imageArray) //TODO console
         let formdata = new FormData();
 
         // Checks which variables has changed and add changed variables to the form-data.
         if (this.state.old_imageArray !== this.state.new_imageArray) {
-            console.log("Bildet er endret!")
             formdata.append('imageUrl', file);
         }
         if (this.state.old_product_name !== this.state.new_product_name) {
-            console.log("endret!")
             formdata.append('name', this.state.new_product_name);
         }
         if (this.state.old_short_description !== this.state.new_short_description) {
-            console.log("endret!")
             formdata.append('descriptionShort', this.state.new_short_description);
         }
         if (this.state.old_long_description !== this.state.new_long_description) {
-            console.log("endret!")
             formdata.append('descriptionLong', this.state.new_long_description);
         }
         if (this.state.old_product_price !== this.state.new_product_price) {
-            console.log("endret!")
             formdata.append('price', this.state.new_product_price);
         }
         if (this.state.old_product_category !== this.state.new_product_category) {
-            console.log("endret!")
             formdata.append('category', this.state.new_product_category);
         }
         if (this.state.old_product_stock !== this.state.new_product_stock) {
-            console.log("endret!")
             formdata.append('quantity', this.state.new_product_stock);
         }
 

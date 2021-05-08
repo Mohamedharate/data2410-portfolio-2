@@ -48,14 +48,14 @@ class Login extends Component {
         }).then(function (response) {
             console.log("Status:", response.status);
             if (response.status === 200) {
-                that.setState({feedback_text: response.data});
+                that.setState({feedback_text: response.data.MediaList});
                 that.setState({toggle_error_feedback: false});
             }
         }).catch(function (error) {
             if (error.response) {
                 console.log(error.response.data);
                 console.log(error.response.status);
-                that.setState({feedback_text: error.response.data});
+                that.setState({feedback_text: error.response.data.Error});
                 that.setState({toggle_error_feedback: true});
             } else if (error.request) {
                 console.log(error.request);
