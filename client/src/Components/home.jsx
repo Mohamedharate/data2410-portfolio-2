@@ -27,16 +27,18 @@ class Home extends Component{
         current_user: {},
         empty_cart: false,
         empty_cart_message: 'Nothing to show here.',
-        cart_objects: []
+        cart_objects: [],
+        cart_counter: Number,
+        cart_total_price: Number,
     };
 
     // Init/on load
-    componentDidMount() {
+    componentDidMount = async () => {
         window.addEventListener('load', this.handleLoad);
-    }
-    async handleLoad() {
+    };
+    handleLoad = async() => {
         this.tryIsAuthenticated().then()
-    }
+    };
 
     // Handlers
     // Toggle windows.
@@ -50,68 +52,80 @@ class Home extends Component{
         this.setState({toggleShoppingCart: !this.state.toggleShoppingCart});
     }
 
-    // Handle quantities in cart
-    handleQuantityIncreaseCallback = item_id => {
+    // Handle cart
+    handleQuantityIncreaseCallback = async item_id => {
         const cart_objects = [...this.state.cart_objects];
         const index = cart_objects.findIndex(i => i.itemId === item_id)
         cart_objects[index].quantity++;
+        this.updateCartCounterAndPrice(cart_objects);
         this.setState({ cart_objects })
+        await axios({
+            method: 'post',
+            url: '',
+            data: {
+
+            }
+        })
         //TODO update cart in server!
     }
     handleQuantityDecreaseCallback = item_id => {
         const cart_objects = [...this.state.cart_objects];
         const index = cart_objects.findIndex(i => i.itemId === item_id)
         cart_objects[index].quantity--;
+        this.updateCartCounterAndPrice(cart_objects);
         this.setState({ cart_objects })
         //TODO update cart in server!
     }
-    handleAddToCartCallback = (product_id, quantity) => {
-        const cart_objects = [product_id];
-        cart_objects.quantity = quantity;
+    handleAddToCartCallback = (product, quantity) => {
+        const Product = product;
+        Product.quantity = quantity;
+
+        const cart_objects = [...this.state.cart_objects, Product];
+        this.updateCartCounterAndPrice(cart_objects);
         this.setState({ cart_objects })
     }
 
     // Handle checkout
-    handleCheckOutCallback = () => {
-        console.log("checkout")
-        this.placeNewOrder().then()
+    handleCheckOutCallback = async() => {
+        console.log("checkout");
+        this.placeNewOrder();
         //TODO Add a place to handle feedbacks and send server responses to the feedback.
     }
 
     // Handle authentication.
-    handleLoginCallback = () => {
-        this.tryIsAuthenticated().then()
-    }
-    handleLogoutCallback = () => {
-        this.tryLogout().then()
-        this.tryIsAuthenticated().then()
-        this.getCartObjects().then()
+    handleLoginCallback = async() => {
+        this.tryIsAuthenticated();
+    };
+    handleLogoutCallback = async() => {
+        this.tryLogout();
+        this.tryIsAuthenticated();
+        this.getCartObjects();
         this.state.toggleShoppingCart = false;
-    }
+    };
 
     // Api calls
-    async tryIsAuthenticated() {
+    tryIsAuthenticated = async() => {
         await axios.get('http://localhost:3001/api/users/isAuthenticated')
             .then(response => {
                 this.setState({isAuthenticated: true});
-                this.setState({current_user: response.data})
+                this.setState({current_user: response.data});
                 this.setState({toggleLogin: false});
-                this.getCartObjects()
+                this.getCartObjects();
             }).catch(error => {
                 this.setState({isAuthenticated: false});
-                this.setState({current_user: {}})
-            })
-    }
+                this.setState({current_user: {}});
+            });
+    };
 
-    async tryLogout() {
+    tryLogout = async () => {
         await axios({
             method: 'post',
             url: 'http://localhost:3001/logout',
             data: {}
         })
-    }
+    };
 
-    async getCartObjects() {
+    getCartObjects = async() => {
         await axios.get('http://localhost:3001/api/cart/getCart')
             .then(response => {
                 if (response.data.message){
@@ -120,19 +134,32 @@ class Home extends Component{
                     return true;
                 } else {
                     this.state.empty_cart = false;
-                    this.state.cart_objects = response.data.products
+                    const cart_objects = [...response.data.products];
+                    this.updateCartCounterAndPrice(cart_objects);
+                    this.setState({ cart_objects });
                     return false;
                 }
             }).catch(error => {
             console.log(error.data)
         })
+    };
+
+    // Updating cart values for the navbar.
+    updateCartCounterAndPrice = cartArray => {
+        let cart_counter = 0;
+        let cart_total_price = 0;
+        cartArray.forEach(product => {
+            cart_counter += parseInt(product.quantity);
+            cart_total_price += parseInt(product.price) * parseInt(product.quantity)
+        });
+        this.setState({ cart_counter, cart_total_price })
     }
 
     async placeNewOrder() {
         await axios({
             method: 'post',
             url: 'http://localhost:3001/api/orders/newOrder',
-            data: {},
+            data: {}, //TODO add correct data
         })
     }
 
@@ -147,6 +174,8 @@ class Home extends Component{
                     handleLogoutCallback = {this.handleLogoutCallback}
                     isAuthenticated = {this.state.isAuthenticated}
                     current_user = {this.state.current_user}
+                    cart_counter = {this.state.cart_counter}
+                    cart_total_price = {this.state.cart_total_price}
                 />
                 <Switch>
                     <Route exact path="/" component={Mainpage}/>
