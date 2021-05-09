@@ -65,6 +65,11 @@ class Home extends Component{
         this.setState({ cart_objects })
         //TODO update cart in server!
     }
+    handleAddToCartCallback = (product_id, quantity) => {
+        const cart_objects = [product_id];
+        cart_objects.quantity = quantity;
+        this.setState({ cart_objects })
+    }
 
     // Handle checkout
     handleCheckOutCallback = () => {
@@ -154,6 +159,7 @@ class Home extends Component{
                 {this.state.toggleRegister && <Register registerCallback = {this.handleToggleLoginCallback}/>}
                 {this.state.toggleShoppingCart &&
                 <ShoppingCart
+                    postToCart = {this.handleAddToCartCallback}
                     quantity_increase = {this.handleQuantityIncreaseCallback}
                     quantity_decrease = {this.handleQuantityDecreaseCallback}
                     onCheckOut = {this.handleCheckOutCallback}

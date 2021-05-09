@@ -40,9 +40,9 @@ router.post('/', async (req, res) => {
                         tot = parseFloat(tot) + parseFloat(item.total);
                     })
 
-                    await User.updateOne({email: email}, {$push: {orders: order}});
+                    await User.updateOne({email: user.email}, {$push: {orders: order}});
                     await User.updateOne(
-                        {email: email},
+                        {email: user.email},
                         {$set: {[`cart`]: []}});
                     await order.save()
                         .then(data => {
