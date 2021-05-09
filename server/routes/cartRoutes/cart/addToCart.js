@@ -19,7 +19,7 @@ router.post('/', async (req,
 
         if (req.session) {
             if (req.session.passport) {
-                if (req.session.passport.user.type === 'User') {
+                if (req.session.passport.user && req.session.passport.user.type === 'User') {
                     user = await User.findOne({_id: req.session.passport.user.id});
                     for (let i = 0; i < user.cart.length; i++) {
                         if (addItem.product_id === user.cart[i].itemId) {
@@ -49,12 +49,15 @@ router.post('/', async (req,
                 if (!added) {
                     const newItem = {
                         name: product.name,
+                        img: product.imageUrl[0],
                         price: parseFloat(product.price),
+                        date: new Date(),
                         itemId: addItem.product_id,
                         quantity: addItem.quantity,
                         total: parseFloat(product.price * addItem.quantity)
                     }
                     try {
+                        await User.updateOne({_id: user._id}, {$set: {hasCart: true}});
                         await User.updateOne({_id: user._id}, {$push: {cart: newItem}});
                         await Product.updateOne(
                             {itemId: addItem.product_id},

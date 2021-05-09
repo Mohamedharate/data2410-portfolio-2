@@ -1,11 +1,13 @@
+//require('./DB Connection/connectDB')
+const mongoose = require("mongoose");
 const express = require('express');
 const path = require('path');
+
 const cors = require("cors");
 const passport = require('passport');
 const flash = require('express-flash')
 
 require('./passport-config')
-require('./DB Connection/connectDB')
 
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -104,7 +106,7 @@ app.post('/api/signin', (req, res, next) => {
                 if (err) {
                     return next(err);
                 }
-                return res.redirect('/');
+                return res.status(200).redirect('http://localhost:3001/');
             });
         })(req, res, next);
 });
@@ -124,11 +126,24 @@ app.post('/api/signin-admin', (req, res, next) => {
                 if (err) {
                     return next(err);
                 }
-                return res.redirect('/');
+                return res.redirect('/users/isAuthenticated');
             });
         })(req, res, next);
 });
 
+
+
+app.get('/auth/google',
+    passport.authenticate('google',
+        { scope: ['profile','email'] }));
+
+app.get('/auth/google/callback',
+    passport.authenticate('google',
+        { failureRedirect: '/login' }),
+    function(req, res) {
+        // Successful authentication, redirect home.
+        res.redirect('/');
+    });
 
 app.use(function (req, res, next) {
     res.locals.login = req.isAuthenticated();
@@ -143,20 +158,55 @@ app.get('*', (req, res) => {
 
 
 app.post('/logout', (req, res) => {
-    if (req.isAuthenticated()) {
+    if (req.user) {
+        try {
+
+            req.logout();
+            req.session.destroy();
+            res.clearCookie(SESS_NAME)
+
+        }
+        catch (err){
+            return res.status(500).json({message: 'Could not perform logout!'});
+        }
+        return res.status(200).redirect('http://localhost:3001/');
+        /*
         req.session.destroy(err => {
             if (err) {
                 return res.status(500).json({message: 'Could not perform logout!'});
             }
             res.clearCookie(SESS_NAME)
         })
+
+         */
     }
 })
+app.on('ready', function () {
+    app.listen(3001, function () {
+        console.log("app is ready");
+    });
+});
 
-
+// ------- connect to mongodb ---------- //
+try {
+    mongoose.connect("mongodb+srv://haratemo:12345oslomet@webshop.uemit.mongodb.net/webshop?retryWrites=true&w=majority", {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true
+    }, () =>
+        console.log("connected to webshopDB"));
+        app.emit('ready');
+} catch (error) {
+    console.log("could not connect to webshopDB");
+}
+/*
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
 });
+
+ */
+
+
 
 
 
