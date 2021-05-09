@@ -3,6 +3,7 @@ import axios from "axios";
 import FormData from "form-data"
 import DangerFeedback from "../dangerFeedback";
 import SuccessFeedback from "../successFeedback";
+import LoadingSpinnerBtn from "../LoadingSpinnerBtn";
 
 class AdminAddNew extends Component {
     constructor(props) {
@@ -20,6 +21,8 @@ class AdminAddNew extends Component {
         short_description: String,
         long_description: String,
         imagePreview: File,
+
+        toggle_loading: false,
         feedback_text: String,
         toggle_error_feedback: false,
         toggle_success_feedback: false,
@@ -40,13 +43,12 @@ class AdminAddNew extends Component {
 
         this.setState({imagePreview: URL.createObjectURL(file)})
 
-        const imageArray = file
-        this.setState({imageArray});
-    }
+        this.setState({imageArray: file});
+    };
 
-    handleSubmit = event => {
+    handleSubmit = async event => {
         event.preventDefault();
-
+        this.setState({toggle_loading: true});
         let file = this.state.imageArray;
 
         let formdata = new FormData();
@@ -59,10 +61,6 @@ class AdminAddNew extends Component {
         formdata.append('category', this.state.product_category);
         formdata.append('quantity', this.state.product_stock);
 
-        this.addProduct(formdata).then();
-    };
-
-    async addProduct(formdata) {
         await axios({
             method: 'post',
             url: 'http://localhost:3001/api/products/new',
@@ -80,7 +78,8 @@ class AdminAddNew extends Component {
                 feedback_text: err.response.data.Error,
             })
         })
-    }
+        this.setState({toggle_loading: false});
+    };
 
     render() {
         return (
@@ -101,7 +100,7 @@ class AdminAddNew extends Component {
                                 <div className="custom-file">
                                     <input onChange={this.handleInputFile} type="file" className="form-control-file"
                                            id="uploadImage"
-                                           name="imageUrl" aria-describedby="uploadImg" multiple/>
+                                           name="imageUrl" aria-describedby="uploadImg"/>
                                     <label className="custom-file-label"
                                            htmlFor="uploadImage">Choose file..</label>
                                 </div>
@@ -156,9 +155,10 @@ class AdminAddNew extends Component {
                     </div>
                     <div className="row m-2">
                         <div className="col-md-3">
-                            <button type="submit" className="btn btn-lg btn-primary btn-block mt-2">
-                                Add Product
-                            </button>
+                            {this.state.toggle_loading ? <LoadingSpinnerBtn/> :
+                                <button type="submit" className="btn btn-lg btn-primary btn-block mt-2">
+                                    Add Product
+                                </button>}
                         </div>
                     </div>
                     {this.state.toggle_error_feedback &&

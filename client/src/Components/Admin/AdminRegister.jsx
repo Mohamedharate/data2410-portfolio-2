@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import DangerFeedback from "../dangerFeedback";
 import axios from "axios";
 import SuccessFeedback from "../successFeedback";
+import LoadingSpinnerBtn from "../LoadingSpinnerBtn";
 
 
 class AdminRegister extends Component {
@@ -17,6 +18,8 @@ class AdminRegister extends Component {
         password: String,
         phoneNumber: String,
         position: String,
+
+        toggle_loading: false,
         feedback_text: String,
         toggle_error_feedback: false,
         toggle_success_feedback: false,
@@ -32,12 +35,10 @@ class AdminRegister extends Component {
         })
     };
 
-    handleSubmit = event => {
+    handleSubmit = async event => {
         event.preventDefault();
-        this.saveAdminUser().then()
-    };
+        this.setState({toggle_loading: true});
 
-    async saveAdminUser() {
         await axios({
             method: 'post',
             url: 'http://localhost:3001/api/admin/register',
@@ -62,7 +63,8 @@ class AdminRegister extends Component {
                 feedback_text: err.response.data.Error,
             })
         })
-    }
+        this.setState({toggle_loading: false});
+    };
 
     render() {
         return (
@@ -118,9 +120,10 @@ class AdminRegister extends Component {
                     </div>
                     <div className="row justify-content-center m-2">
                         <div className="col-md-3">
-                            <button type="submit" className="btn btn-lg btn-primary btn-block mt-2">
-                                Register Employee
-                            </button>
+                            {this.state.toggle_loading ? <LoadingSpinnerBtn/> :
+                                <button type="submit" className="btn btn-lg btn-primary btn-block mt-2">
+                                    Register Employee
+                                </button>}
                         </div>
                     </div>
                     {this.state.toggle_error_feedback &&

@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import axios from "axios";
 import DangerFeedback from "../dangerFeedback";
 import SuccessFeedback from "../successFeedback";
+import LoadingSpinnerBtn from "../LoadingSpinnerBtn";
 
 class AdminEditProduct extends Component {
     constructor(props) {
@@ -10,7 +11,6 @@ class AdminEditProduct extends Component {
         this.handleInputChange = this.handleInputChange.bind(this)
         this.handleInputFile = this.handleInputFile.bind(this)
     }
-
     state = {
         products: [],
         imagePreview: '',
@@ -32,6 +32,8 @@ class AdminEditProduct extends Component {
         new_short_description: String,
         new_long_description: String,
 
+        toggle_submit_loading: false,
+        toggle_get_product_loading: false,
         feedback_text: String,
         toggle_error_feedback: false,
         toggle_success_feedback: false,
@@ -84,10 +86,12 @@ class AdminEditProduct extends Component {
         })
 
     }
-    handleSubmit = event => {
+    handleSubmit =  async event => {
         event.preventDefault();
 
         let file = this.state.new_imageArray;
+        const itemId = this.state.itemId;
+        this.setState({toggle_submit_loading: true});
 
         let formdata = new FormData();
 
@@ -114,12 +118,6 @@ class AdminEditProduct extends Component {
             formdata.append('quantity', this.state.new_product_stock);
         }
 
-        this.updateProduct(formdata).then();
-    };
-
-    async updateProduct(formdata) {
-        const itemId = this.state.itemId;
-        console.log("updating")
         await axios({
             method: 'put',
             url: `http://localhost:3001/api/products/update/${itemId}`,
@@ -129,17 +127,19 @@ class AdminEditProduct extends Component {
                 toggle_success_feedback: true,
                 toggle_error_feedback: false,
                 feedback_text: res.data.Message,
-            })
+            });
         }).catch(err => {
             this.setState({
                 toggle_success_feedback: false,
                 toggle_error_feedback: true,
                 feedback_text: err.response.data.Error,
-            })
-        })
-    }
+            });
+        });
+        this.setState({toggle_submit_loading: false});
+    };
 
-    async getProducts() {
+    getProducts = async() => {
+        this.setState({toggle_get_product_loading: true});
         await axios.get('http://localhost:3001/api/products/get/allProductsPure')
             .then(res => {
                 const products = res.data
@@ -149,15 +149,17 @@ class AdminEditProduct extends Component {
                     toggle_success_feedback: true,
                     toggle_error_feedback: false,
                     feedback_text: res.data.Message,
-                })
+                });
             }).catch(err => {
+                console.log(err.response) //TODO console
                 this.setState({
                     toggle_success_feedback: false,
                     toggle_error_feedback: true,
-                    feedback_text: err.response.data.Error,
-                })
-            })
-    }
+                    feedback_text: err.response,
+                });
+            });
+        this.setState({toggle_get_product_loading: false});
+    };
 
     render() {
         return (
@@ -168,9 +170,10 @@ class AdminEditProduct extends Component {
                         <h3>Edit Products</h3>
                     </div>
                     <div className="col-md-4">
-                        <button onClick={this.handleGetProducts} className="btn btn-primary">
-                            Get Products
-                        </button>
+                        {this.state.toggle_get_product_loading ? <LoadingSpinnerBtn/> :
+                            <button onClick={this.handleGetProducts} className="btn btn-primary">
+                                Get Products
+                            </button>}
                     </div>
                 </div>
                 <div className="row text-center mt-5">
@@ -257,9 +260,10 @@ class AdminEditProduct extends Component {
                             </div>
                             <div className="row m-2">
                                 <div className="col-md-3">
-                                    <button type="submit" className="btn btn-lg btn-primary btn-block mt-2">
+                                    {this.state.toggle_submit_loading ? <LoadingSpinnerBtn/> :
+                                        <button type="submit" className="btn btn-lg btn-primary btn-block mt-2">
                                         Update Product
-                                    </button>
+                                        </button>}
                                 </div>
                             </div>
                             {this.state.toggle_error_feedback &&
