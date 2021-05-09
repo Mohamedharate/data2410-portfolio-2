@@ -42,7 +42,6 @@ class AdminAddNew extends Component {
 
         const imageArray = file
         this.setState({imageArray});
-        console.log("array", imageArray); //TODO console
     }
 
     handleSubmit = event => {
@@ -59,8 +58,6 @@ class AdminAddNew extends Component {
         formdata.append('price', this.state.product_price);
         formdata.append('category', this.state.product_category);
         formdata.append('quantity', this.state.product_stock);
-
-        console.log(formdata); //TODO console
 
         this.addProduct(formdata).then();
     };

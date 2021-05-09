@@ -114,8 +114,6 @@ class AdminEditProduct extends Component {
             formdata.append('quantity', this.state.new_product_stock);
         }
 
-        console.log(formdata); //TODO console
-
         this.updateProduct(formdata).then();
     };
 
