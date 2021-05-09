@@ -5,6 +5,7 @@ import DangerFeedback from "./dangerFeedback";
 class Login extends Component {
     constructor(props) {
         super(props);
+
         this.handleInputChange = this.handleInputChange.bind(this);
     }
 
@@ -25,18 +26,8 @@ class Login extends Component {
         })
     }
 
-    handleSubmit = (event) => {
+    handleSubmit = async (event) => {
         event.preventDefault();
-        this.postLoginDetails()
-            .then(r => {
-                this.props.loginCallback()
-            }).catch(error => {
-            console.log(error)
-        })
-    }
-
-    async postLoginDetails() {
-        const that = this;
         await axios({
             method: 'post',
             url: 'http://localhost:3001/api/signIn',
@@ -44,18 +35,16 @@ class Login extends Component {
                 email: this.state.email,
                 password: this.state.password,
             }
-        }).then(function (response) {
-            console.log("Status:", response.status);
-            if (response.status === 200) {
-                that.setState({feedback_text: response.data.message});
-                that.setState({toggle_error_feedback: false});
-            }
-        }).catch(function (error) {
+        }).then(response => {
+            this.props.loginCallback();
+            this.setState({feedback_text: response.data.message});
+            this.setState({toggle_error_feedback: false});
+        }).catch(error => {
             if (error.response) {
                 console.log(error.response.data);
                 console.log(error.response.status);
-                that.setState({feedback_text: error.response.data});
-                that.setState({toggle_error_feedback: true});
+                this.setState({feedback_text: error.response.data});
+                this.setState({toggle_error_feedback: true});
             } else if (error.request) {
                 console.log(error.request);
             } else {
@@ -63,6 +52,7 @@ class Login extends Component {
             }
         });
     }
+
 
     render() {
         return (
