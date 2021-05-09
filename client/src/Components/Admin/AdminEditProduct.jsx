@@ -164,14 +164,14 @@ class AdminEditProduct extends Component {
     render() {
         return (
             <div className="fillPage">
-                <div className="row text-center mt-5">
+                <div className="row text-center m-5">
                     <div className="col-md-4"/>
                     <div className="col-md-4">
                         <h3>Edit Products</h3>
                     </div>
                     <div className="col-md-4">
                         {this.state.toggle_get_product_loading ? <LoadingSpinnerBtn/> :
-                            <button onClick={this.handleGetProducts} className="btn btn-primary">
+                            <button onClick={this.handleGetProducts} className="btn btn-primary btn-block">
                                 Get Products
                             </button>}
                     </div>
@@ -261,7 +261,7 @@ class AdminEditProduct extends Component {
                             <div className="row m-2">
                                 <div className="col-md-3">
                                     {this.state.toggle_submit_loading ? <LoadingSpinnerBtn/> :
-                                        <button type="submit" className="btn btn-lg btn-primary btn-block mt-2">
+                                        <button type="submit" className="btn btn-primary btn-block mt-2">
                                         Update Product
                                         </button>}
                                 </div>

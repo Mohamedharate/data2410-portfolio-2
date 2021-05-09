@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import axios from "axios";
 import DangerFeedback from "./dangerFeedback";
+import LoadingSpinnerBtn from "./LoadingSpinnerBtn";
 
 class Login extends Component {
     constructor(props) {
@@ -12,6 +13,7 @@ class Login extends Component {
     state = {
         email: '',
         password: '',
+        toggle_loading: false,
         toggle_error_feedback: false,
         feedback_text: '',
     };
@@ -28,6 +30,7 @@ class Login extends Component {
 
     handleSubmit = async (event) => {
         event.preventDefault();
+        this.setState({toggle_loading: true});
         await axios({
             method: 'post',
             url: 'http://localhost:3001/api/signIn',
@@ -36,10 +39,10 @@ class Login extends Component {
                 password: this.state.password,
             }
         }).then(response => {
-            this.props.loginCallback();
-            this.setState({feedback_text: response.data.message});
+            this.props.loginCallback(response.data);
             this.setState({toggle_error_feedback: false});
         }).catch(error => {
+            this.setState({toggle_loading: false});
             if (error.response) {
                 console.log(error.response.data);
                 console.log(error.response.status);
@@ -51,8 +54,7 @@ class Login extends Component {
                 console.log('Error', error.message);
             }
         });
-    }
-
+    };
 
     render() {
         return (
@@ -74,7 +76,7 @@ class Login extends Component {
                                            placeholder="Email" name="email" required="*" autoFocus=""
                                            aria-describedby="basic-addon1"/>
                                 </div>
-                                <div className="input-group">
+                                <div className="input-group mb-2">
                                     <div className="input-group-prepend">
                                         <div className="input-group-text mt-2" id="basic-addon1">
                                             <i className="material-icons">vpn_key</i>
@@ -88,9 +90,10 @@ class Login extends Component {
                                            placeholder="Password" name="password" required="*" autoFocus=""/>
                                 </div>
                             </div>
-                            <button type="submit"
-                                    className="btn btn-lg btn-primary btn-block mt-2">Sign in!
-                            </button>
+                            {this.state.toggle_loading ? <LoadingSpinnerBtn/> :
+                                <button type="submit" className="btn btn-primary btn-block">
+                                    Sign in!
+                                </button>}
                             {this.state.toggle_error_feedback &&
                             <DangerFeedback feedback_error_text={this.state.feedback_text}/>}
                         </form>

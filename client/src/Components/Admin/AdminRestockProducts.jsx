@@ -73,7 +73,7 @@ class AdminRestockProducts extends Component {
                     </div>
                     <div className="col-md-4">
                         {this.state.toggle_loading ? <LoadingSpinnerBtn/> :
-                            <button onClick={this.handleGetProducts} className="btn btn-primary">
+                            <button onClick={this.handleGetProducts} className="btn btn-primary btn-block">
                                 Get Products
                             </button>}
                     </div>

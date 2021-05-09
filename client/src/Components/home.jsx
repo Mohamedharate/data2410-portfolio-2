@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {Component, useEffect} from "react";
 import axios from "axios";
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Navbar from "./navbar";
@@ -16,10 +16,7 @@ import Orders from "./orders";
 class Home extends Component {
     constructor(props) {
         super(props);
-
-        this.handleLoad = this.handleLoad.bind(this);
     }
-
     state = {
         toggleLogin: false,
         toggleRegister: false,
@@ -36,12 +33,8 @@ class Home extends Component {
         cart_feedback_text: String,
     };
 
-    // Init/on load
     componentDidMount = async () => {
-        window.addEventListener('load', this.handleLoad);
-    };
-    handleLoad = async () => {
-        this.tryIsAuthenticated().then()
+        this.Authenticated()
     };
 
     // Handlers
@@ -66,7 +59,7 @@ class Home extends Component {
             url: 'http://localhost:3001/api/cart/addToCart',
             data: {
                 product_id: cart_objects[index].itemId,
-                quantity: cart_objects[index].quantity
+                quantity: 1
             },
         }).then(r => {
             this.updateCartCounterAndPrice(cart_objects);
@@ -82,7 +75,7 @@ class Home extends Component {
             url: 'http://localhost:3001/api/cart/deleteFromCart',
             data: {
                 product_id: cart_objects[index].itemId,
-                quantity: cart_objects[index].quantity
+                quantity: 1
             },
         }).then(r => {
             this.updateCartCounterAndPrice(cart_objects);
@@ -106,57 +99,61 @@ class Home extends Component {
     }
 
     // Handle authentication.
-    handleLoginCallback = async () => {
-        this.tryIsAuthenticated();
+    handleLoginCallback = user => {
+        const current_user = user;
+        this.setState({current_user, isAuthenticated: true});
+        this.getCartObjects(current_user);
+        this.setState({toggleLogin: false});
     };
     handleLogoutCallback = async () => {
-        this.tryLogout();
-        this.tryIsAuthenticated();
-        this.getCartObjects();
-        this.state.toggleShoppingCart = false;
-    };
-
-    // Api calls
-    tryIsAuthenticated = async () => {
-        await axios.get('http://localhost:3001/api/users/isAuthenticated')
-            .then(response => {
-                this.setState({isAuthenticated: true});
-                this.setState({current_user: response.data});
-                this.setState({toggleLogin: false});
-                this.getCartObjects();
-            }).catch(error => {
-                this.setState({isAuthenticated: false});
-                this.setState({current_user: {}});
-            });
-    };
-
-    tryLogout = async () => {
         await axios({
             method: 'post',
             url: 'http://localhost:3001/logout',
             data: {}
+        }).then(() => {
+            sessionStorage.clear();
+            this.state.toggleShoppingCart = false;
+            const cart_objects = [];
+            this.updateCartCounterAndPrice(cart_objects);
+            this.setState({
+                cart_objects,
+                current_user: {},
+                isAuthenticated: false
+            });
         })
     };
-
-    getCartObjects = async () => {
-        await axios.get('http://localhost:3001/api/cart/getCart')
+    Authenticated = async () => {
+        await axios.get('http://localhost:3001/api/users/isAuthenticated')
             .then(response => {
-                if (response.data.message) {
-                    this.state.empty_cart = true;
-                    this.state.empty_cart_message = response.data.message;
-                    return true;
+                if (response.status === 200) {
+                    // Session is auth
+                    const current_user = response.data;
+                    this.getCartObjects(current_user);
+                    this.setState({ current_user, isAuthenticated: true});
                 } else {
-                    this.state.empty_cart = false;
-                    const cart_objects = [...response.data.products];
-                    this.updateCartCounterAndPrice(cart_objects);
-                    this.setState({cart_objects});
-                    return false;
+                    // Session is not auth
+                    this.setState({ current_user: {}, isAuthenticated: false });
                 }
             }).catch(error => {
-                console.log(error.data)
-            })
+                console.log(error);
+            });
     };
 
+    // Cart
+    // Instantiate Cart
+    getCartObjects = user => {
+        if (user.cart.length === 0) {
+            this.state.empty_cart = true;
+            this.state.empty_cart_message = 'There is nothing to see here!';
+            return true;
+        } else {
+            this.state.empty_cart = false;
+            const cart_objects = [...user.cart];
+            this.updateCartCounterAndPrice(cart_objects);
+            this.setState({cart_objects});
+            return false;
+        }
+    };
     // Updating cart values for the navbar.
     updateCartCounterAndPrice = cartArray => {
         let cart_counter = 0;
