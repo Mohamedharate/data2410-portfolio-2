@@ -1,5 +1,7 @@
 import React, {Component} from "react";
 import ShoppingCartObject from "./shoppingCartObject";
+import DangerFeedback from "./dangerFeedback";
+import SuccessFeedback from "./successFeedback";
 
 class ShoppingCart extends Component {
     render() {
@@ -12,6 +14,14 @@ class ShoppingCart extends Component {
                         </div>
                         <div className="col-sm-5">
                             <button onClick={this.props.onCheckOut} className="btn btn-dark float-right mt-3">Check out!</button>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-12">
+                            {this.props.toggle_error_feedback &&
+                            <DangerFeedback feedback_error_text={this.props.feedback_text}/>}
+                            {this.props.toggle_success_feedback &&
+                            <SuccessFeedback feedback_success_text={this.props.feedback_text}/>}
                         </div>
                     </div>
                     {this.props.empty_cart && <p className="text-center mt-4"><strong>{this.props.empty_cart_message}</strong></p>}
@@ -39,6 +49,7 @@ class ShoppingCart extends Component {
                         />
                     ))}
                 </div>}
+                <p>Price total: ${this.props.cart_total_price}</p>
             </div>
         );
     }

@@ -31,6 +31,9 @@ class Home extends Component {
         cart_objects: [],
         cart_counter: Number,
         cart_total_price: Number,
+        cart_error_feedback: false,
+        cart_success_feedback: false,
+        cart_feedback_text: String,
     };
 
     // Init/on load
@@ -98,8 +101,8 @@ class Home extends Component {
     // Handle checkout
     handleCheckOutCallback = async () => {
         console.log("checkout");
-        this.placeNewOrder();
-        //TODO Add a place to handle feedbacks and send server responses to the feedback.
+        this.placeNewOrder()
+        //TODO Her må det lages et Checkout vindu som tar inn informasjon om levering.
     }
 
     // Handle authentication.
@@ -165,11 +168,23 @@ class Home extends Component {
         this.setState({cart_counter, cart_total_price})
     }
 
-    async placeNewOrder() {
+    placeNewOrder = async () => {
         await axios({
             method: 'post',
             url: 'http://localhost:3001/api/orders/newOrder',
             data: {}, //TODO add correct data
+        }).then(r => {
+            this.setState({
+                cart_error_feedback: false,
+                cart_success_feedback: true,
+                cart_feedback_text: r.data.Message
+            }).catch(err => {
+                this.setState({
+                    cart_error_feedback: true,
+                    cart_success_feedback: false,
+                    cart_feedback_text: String
+                })
+            });
         })
     }
 
@@ -205,6 +220,10 @@ class Home extends Component {
                         empty_cart={this.state.empty_cart}
                         empty_cart_message={this.state.empty_cart_message}
                         cart_objects={this.state.cart_objects}
+                        cart_total_price={this.state.cart_total_price}
+                        toggle_error_feedback={this.state.cart_error_feedback}
+                        toggle_success_feedback={this.state.cart_success_feedback}
+                        feedback_text={this.state.cart_feedback_text}
                     />}
                     <About/>
                     <Footer toggle_admin={this.props.toggle_admin}/>
