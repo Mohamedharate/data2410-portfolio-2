@@ -22,7 +22,6 @@ router.use('/get', getUser);
 router.use('/subscribe', subscribe);
 router.use('/unsubscribe', unsubscribe);
 
-
 router.get('/isAuthenticated/', async (req, res) => {
     if(req.user){
         const user = await User.findOne({_id: req.session.passport.user.id})

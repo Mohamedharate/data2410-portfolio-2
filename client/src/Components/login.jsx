@@ -54,7 +54,7 @@ class Login extends Component {
             if (error.response) {
                 console.log(error.response.data);
                 console.log(error.response.status);
-                that.setState({feedback_text: error.response.data});
+                that.setState({feedback_text: error.response.data.Error});
                 that.setState({toggle_error_feedback: true});
             } else if (error.request) {
                 console.log(error.request);

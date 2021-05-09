@@ -116,17 +116,16 @@ app.post('/api/signin-admin', (req, res, next) => {
     passport.authenticate('local.signinAdmin',
         (err, user, info) => {
             if (err) {
-                return res.status(500).json(err.toString())
+                return res.status(500).json(err)
             }
-
             if (!user) {
                 return res.status(400).json(info)
             }
             req.logIn(user, function (err) {
                 if (err) {
-                    return next(err);
+                    res.redirect('http://localhost:3001');
                 }
-                return res.redirect('/users/isAuthenticated');
+                return res.status(200);
             });
         })(req, res, next);
 });
@@ -135,7 +134,11 @@ app.post('/api/signin-admin', (req, res, next) => {
 
 app.get('/auth/google',
     passport.authenticate('google',
-        { scope: ['profile','email'] }));
+        { scope: [
+            'https://www.googleapis.com/auth/userinfo.profile',
+                'https://www.googleapis.com/auth/userinfo.email' ]
+        })
+);
 
 app.get('/auth/google/callback',
     passport.authenticate('google',
@@ -160,11 +163,9 @@ app.get('*', (req, res) => {
 app.post('/logout', (req, res) => {
     if (req.user) {
         try {
-
             req.logout();
             req.session.destroy();
             res.clearCookie(SESS_NAME)
-
         }
         catch (err){
             return res.status(500).json({message: 'Could not perform logout!'});
