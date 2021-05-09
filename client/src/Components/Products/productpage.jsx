@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component, useState} from "react";
 import axios from "axios";
 import {Link} from "react-router-dom";
 import { Carousel } from "react-responsive-carousel";
@@ -7,13 +7,11 @@ import InputSpinner from "react-bootstrap-input-spinner";
 import ShoppingCartObject from "../shoppingCartObject";
 
 
-
 export default class Productpage extends Component {
     constructor(props) {
         super(props);
         this.state = {name: "", price: 0, descriptionLong: ""};
-        this.state = {products: [], name: "", price: 0, description: "", itemId: "", imageArr: [], email: ""};
-
+        this.state = {products: [], name: "", price: 0, description: "", itemId: "", imageArr: [], email: "", quantity: 1};
     }
 
     async componentDidMount() {
@@ -25,7 +23,7 @@ export default class Productpage extends Component {
             that.setState({
                 name: response.data.name, price: response.data.price,
                 description: response.data.descriptionLong,
-                image: response.data.imageUrl,
+                image: "data:imapng;base64,"+response.data.imageUrl[0].image,
                 itemId: response.data.itemId,
                 quantityOfProduct: response.data.quantity
             });
@@ -36,39 +34,31 @@ export default class Productpage extends Component {
             console.log(error);
         });
     };
+    handleSubmit = (event) => {
+        event.preventDefault();
+        this.postToCart()
+            .then(response => {
+                this.props.handleAddToCartCallback()
+            }).catch(error => {
+        })
+    }
 
-    async postToCart(itemId, quantity) {
+    async postToCart() {
+        const that = this;
         await axios({
             method: "post",
             url: 'http://localhost:3001/api/cart/addToCart/',
-            data: {product_id: itemId, quantity}
-        }).then(function (res){
-                console.log(res.data)
-            })
+            data: {product_id: this.state.itemId, quantity: this.state.quantity}
+        }).then(function (res) {
+            that.setState({cart_feedback: "Added to cart!"})
+        })
     }
+
 
 
     render() {
         const {price, image} = this.state;
-        let imageArr = [];
-        let carousel;
-        if(this.props.image){
-            this.props.image.map((img, i) => {
-                const buffer = img.imageURL[0].data;
-                const b64 = new Buffer(buffer).toString("base64");
-                let mimeType = img.imageURL[0].contentType;
-                let src = 'data:${mimeType};base64,${b64}';
 
-                imageArr.push(
-                    <div key ={i}>
-                        <img src={src} />
-                    </div>
-                );
-            });
-        }
-        if (imageArr.length > 0){
-            carousel = <Carousel>{imageArr}</Carousel>;
-        }
         return (
                 <div className="productContainer">
                     <div className="row">
@@ -85,11 +75,7 @@ export default class Productpage extends Component {
                         </div>
                         <div className="col-lg-9">
                             <div className="card mt-4">
-                                <div className="card-img-top">
-                                    <Carousel>
-                                        {imageArr}
-                                    </Carousel>
-                                </div>
+                                <img className="card-img-top" src={this.state.image} alt="..."/>
                                 <div className="card-body">
                                     <h3 className="card-title">{this.state.name}</h3>
                                     {Object.values(price).map((p) => (<h4 className="price" key="p">${p}</h4>))}
@@ -100,12 +86,12 @@ export default class Productpage extends Component {
                                     <InputSpinner
                                         type="number" size ={'lg'} variant={'dark'}
                                         value={this.state.quantity} min={1}
-                                        onChange={this.state.quantity}
+                                        onChange={(qty) => this.setState({...this.state, quantity: qty})}
                                         max={this.state.quantityOfProduct} label="Quantity" />
                                         <button type="submit" className="btn btn-lg btn-success btn-block mt-2"
-                                                onClick={this.props.add_cart}
+                                                onClick= {this.handleSubmit}
                                         >Add to cart</button>
-                                    <p className="card-text">{this.state.cartFeedback}</p>
+                                    <p className="card-text">{this.state.cart_feedback}</p>
                                 </div>
                             </div>
                             <div className="card card-outline-secondary my-4">
