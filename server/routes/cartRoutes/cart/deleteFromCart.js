@@ -5,8 +5,9 @@ const User = require("../../../Models/user");
 const Product = require("../../../Models/product");
 
 
-router.delete('/', async (req, res, next) => {
+router.put('/', async (req, res, next) => {
 
+    //TODO Remains pending when called.
     const deleteItem = {
         product_id: req.body.product_id,
         quantity: req.body.quantity
@@ -25,7 +26,6 @@ router.delete('/', async (req, res, next) => {
             for (let i = 0; i < user.cart.length; i++) {
                 if (deleteItem.product_id === user.cart[i].itemId) {
                     if (user.cart[i].quantity >= deleteItem.quantity && user.cart[i].quantity === 0 && user.cart[i].quantity !== null) {
-
                         try {
                             await User.updateOne(
                                 {email: email},
@@ -44,13 +44,17 @@ router.delete('/', async (req, res, next) => {
                                 });
                             deleted = true;
                             if (deleted) return res.status(200).json({message: "The item is deleted successfully"})
+                            res.status(404)
                         } catch (err) {
                             return res.status(400).json({Error: err.toString()})
                         }
+                    } else {
+                        return res.status(400)
                     }
+                } else {
+                    return res.status(400)
                 }
             }
-
         } else {
             if (req.session.cart) {
                 const item = req.session.cart.find(({itemId}) => itemId === deleteItem.product_id);
@@ -71,6 +75,7 @@ router.delete('/', async (req, res, next) => {
             }
         }
     }
+    res.status(404)
 
 })
 

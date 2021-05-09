@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import axios from "axios";
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Navbar from "./navbar";
 import Login from "./login";
 import Register from "./register";
@@ -13,12 +13,13 @@ import ShoppingCart from "./shoppingCart";
 import Orders from "./orders";
 
 
-class Home extends Component{
+class Home extends Component {
     constructor(props) {
         super(props);
 
         this.handleLoad = this.handleLoad.bind(this);
     }
+
     state = {
         toggleLogin: false,
         toggleRegister: false,
@@ -36,7 +37,7 @@ class Home extends Component{
     componentDidMount = async () => {
         window.addEventListener('load', this.handleLoad);
     };
-    handleLoad = async() => {
+    handleLoad = async () => {
         this.tryIsAuthenticated().then()
     };
 
@@ -57,24 +58,33 @@ class Home extends Component{
         const cart_objects = [...this.state.cart_objects];
         const index = cart_objects.findIndex(i => i.itemId === item_id)
         cart_objects[index].quantity++;
-        this.updateCartCounterAndPrice(cart_objects);
-        this.setState({ cart_objects })
         await axios({
             method: 'post',
-            url: '',
+            url: 'http://localhost:3001/api/cart/addToCart',
             data: {
-
-            }
+                product_id: cart_objects[index].itemId,
+                quantity: cart_objects[index].quantity
+            },
+        }).then(r => {
+            this.updateCartCounterAndPrice(cart_objects);
+            this.setState({cart_objects})
         })
-        //TODO update cart in server!
     }
-    handleQuantityDecreaseCallback = item_id => {
+    handleQuantityDecreaseCallback = async item_id => {
         const cart_objects = [...this.state.cart_objects];
         const index = cart_objects.findIndex(i => i.itemId === item_id)
         cart_objects[index].quantity--;
-        this.updateCartCounterAndPrice(cart_objects);
-        this.setState({ cart_objects })
-        //TODO update cart in server!
+        await axios({
+            method: 'put',
+            url: 'http://localhost:3001/api/cart/deleteFromCart',
+            data: {
+                product_id: cart_objects[index].itemId,
+                quantity: cart_objects[index].quantity
+            },
+        }).then(r => {
+            this.updateCartCounterAndPrice(cart_objects);
+            this.setState({cart_objects});
+        })
     }
     handleAddToCartCallback = (product, quantity) => {
         const Product = product;
@@ -82,21 +92,21 @@ class Home extends Component{
 
         const cart_objects = [...this.state.cart_objects, Product];
         this.updateCartCounterAndPrice(cart_objects);
-        this.setState({ cart_objects })
+        this.setState({cart_objects})
     }
 
     // Handle checkout
-    handleCheckOutCallback = async() => {
+    handleCheckOutCallback = async () => {
         console.log("checkout");
         this.placeNewOrder();
         //TODO Add a place to handle feedbacks and send server responses to the feedback.
     }
 
     // Handle authentication.
-    handleLoginCallback = async() => {
+    handleLoginCallback = async () => {
         this.tryIsAuthenticated();
     };
-    handleLogoutCallback = async() => {
+    handleLogoutCallback = async () => {
         this.tryLogout();
         this.tryIsAuthenticated();
         this.getCartObjects();
@@ -104,7 +114,7 @@ class Home extends Component{
     };
 
     // Api calls
-    tryIsAuthenticated = async() => {
+    tryIsAuthenticated = async () => {
         await axios.get('http://localhost:3001/api/users/isAuthenticated')
             .then(response => {
                 this.setState({isAuthenticated: true});
@@ -125,10 +135,10 @@ class Home extends Component{
         })
     };
 
-    getCartObjects = async() => {
+    getCartObjects = async () => {
         await axios.get('http://localhost:3001/api/cart/getCart')
             .then(response => {
-                if (response.data.message){
+                if (response.data.message) {
                     this.state.empty_cart = true;
                     this.state.empty_cart_message = response.data.message;
                     return true;
@@ -136,12 +146,12 @@ class Home extends Component{
                     this.state.empty_cart = false;
                     const cart_objects = [...response.data.products];
                     this.updateCartCounterAndPrice(cart_objects);
-                    this.setState({ cart_objects });
+                    this.setState({cart_objects});
                     return false;
                 }
             }).catch(error => {
-            console.log(error.data)
-        })
+                console.log(error.data)
+            })
     };
 
     // Updating cart values for the navbar.
@@ -152,7 +162,7 @@ class Home extends Component{
             cart_counter += parseInt(product.quantity);
             cart_total_price += parseInt(product.price) * parseInt(product.quantity)
         });
-        this.setState({ cart_counter, cart_total_price })
+        this.setState({cart_counter, cart_total_price})
     }
 
     async placeNewOrder() {
@@ -166,41 +176,42 @@ class Home extends Component{
     render() {
         return (
             <Router>
-            <React.Fragment>
-                <Navbar
-                    toggleLoginCallback = {this.handleToggleLoginCallback}
-                    toggleRegisterCallback = {this.handleToggleRegisterCallback}
-                    toggleShoppingCartCallback = {this.handleToggleShoppingCartCallback}
-                    handleLogoutCallback = {this.handleLogoutCallback}
-                    isAuthenticated = {this.state.isAuthenticated}
-                    current_user = {this.state.current_user}
-                    cart_counter = {this.state.cart_counter}
-                    cart_total_price = {this.state.cart_total_price}
-                />
-                <Switch>
-                    <Route exact path="/" component={Mainpage}/>
-                    <Route path ="/products/:itemId" component={Productpage}/>
-                    <Route path ="/addReview/:itemId" component={addReview}/>
-                    <Route path ="/chart" component={ShoppingCart}/>
-                    <Route path ="/orders" component={Orders}/>
-                </Switch>
-                {this.state.toggleLogin && <Login loginCallback = {this.handleLoginCallback}/>}
-                {this.state.toggleRegister && <Register registerCallback = {this.handleToggleLoginCallback}/>}
-                {this.state.toggleShoppingCart &&
-                <ShoppingCart
-                    postToCart = {this.handleAddToCartCallback}
-                    quantity_increase = {this.handleQuantityIncreaseCallback}
-                    quantity_decrease = {this.handleQuantityDecreaseCallback}
-                    onCheckOut = {this.handleCheckOutCallback}
-                    empty_cart = {this.state.empty_cart}
-                    empty_cart_message = {this.state.empty_cart_message}
-                    cart_objects = {this.state.cart_objects}
-                />}
-                <About />
-                <Footer toggle_admin = {this.props.toggle_admin} />
-            </React.Fragment>
+                <React.Fragment>
+                    <Navbar
+                        toggleLoginCallback={this.handleToggleLoginCallback}
+                        toggleRegisterCallback={this.handleToggleRegisterCallback}
+                        toggleShoppingCartCallback={this.handleToggleShoppingCartCallback}
+                        handleLogoutCallback={this.handleLogoutCallback}
+                        isAuthenticated={this.state.isAuthenticated}
+                        current_user={this.state.current_user}
+                        cart_counter={this.state.cart_counter}
+                        cart_total_price={this.state.cart_total_price}
+                    />
+                    <Switch>
+                        <Route exact path="/" component={Mainpage}/>
+                        <Route path="/products/:itemId" component={Productpage}/>
+                        <Route path="/addReview/:itemId" component={addReview}/>
+                        <Route path="/chart" component={ShoppingCart}/>
+                        <Route path="/orders" component={Orders}/>
+                    </Switch>
+                    {this.state.toggleLogin && <Login loginCallback={this.handleLoginCallback}/>}
+                    {this.state.toggleRegister && <Register registerCallback={this.handleToggleLoginCallback}/>}
+                    {this.state.toggleShoppingCart &&
+                    <ShoppingCart
+                        postToCart={this.handleAddToCartCallback}
+                        quantity_increase={this.handleQuantityIncreaseCallback}
+                        quantity_decrease={this.handleQuantityDecreaseCallback}
+                        onCheckOut={this.handleCheckOutCallback}
+                        empty_cart={this.state.empty_cart}
+                        empty_cart_message={this.state.empty_cart_message}
+                        cart_objects={this.state.cart_objects}
+                    />}
+                    <About/>
+                    <Footer toggle_admin={this.props.toggle_admin}/>
+                </React.Fragment>
             </Router>
         );
     }
 }
+
 export default Home;

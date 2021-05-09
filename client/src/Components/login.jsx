@@ -39,7 +39,7 @@ class Login extends Component {
         const that = this;
         await axios({
             method: 'post',
-            url: 'http://localhost:3001/api/users/signIn',
+            url: 'http://localhost:3001/api/signIn',
             data: {
                 email: this.state.email,
                 password: this.state.password,
