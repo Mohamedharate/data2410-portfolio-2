@@ -26,7 +26,6 @@ passport.deserializeUser((obj, done) => {
         })
     }
 });
-
 passport.use('local.signinAdmin', new LocalStrategy({
         usernameField: 'email',
         passwordField: 'password',
@@ -47,8 +46,6 @@ passport.use('local.signinAdmin', new LocalStrategy({
         });
     }
 ));
-
-
 passport.use('local.signin', new LocalStrategy({
         usernameField: 'email',
         passwordField: 'password',
@@ -60,6 +57,9 @@ passport.use('local.signin', new LocalStrategy({
             }
             if (!user) {
                 return done(null, false, {Error: "No user with that email found"})
+            }
+            else if (!user.password) {
+                return done(null, false, {Error: "Log in with Google"})
             }
             const validPassword = await bcrypt.compare(password, user.password);
             if (!validPassword) {
@@ -98,39 +98,27 @@ passport.use( 'google',new GoogleStrategy(
         {
             clientID: "651055263121-919p95n24dr0cnlvc4pi5pkj61kv4s5a.apps.googleusercontent.com",
             clientSecret: "bLGBEzIke-i8IzrqMtHa1kc9",
-            callbackURL: 'http://localhost:3001',
+            callbackURL: 'http://localhost:3001/auth/google/callback',
         },
         async (accessToken, refreshToken, profile, done) => {
-            console.log("Loged in with google")
 
-            //get the user data from google
             const newUser = {
                 googleId: profile.id,
                 firstName: profile.name.givenName,
                 lastName: profile.name.familyName,
-                email: profile.emails[0].value
+                email:profile.emails[0].value,
             }
-
             try {
-                console.log("Loged in with google")
-
-                //find the user in our database
                 let user = await User.findOne({ googleId: profile.id })
 
                 if (user) {
-                    //If user present in our database.
-                    console.log("Loged in with google")
                     done(null, user)
                 } else {
-                    // if user is not preset in our database save user data to database.
                     user = await User.create(newUser)
-                    console.log("User created")
                     done(null, user)
                 }
             } catch (err) {
-                console.log("err")
-
-                console.error(err)
+                console.error(err.toString())
             }
         }
     )
