@@ -3,7 +3,6 @@ const express = require("express");
 let router = express.Router();
 const Orders = require("../../../Models/order");
 const Admin = require("../../../Models/admin");
-const send = require('../../../sendMail/sendMail');
 
 router.get('/', async (req, res) => {
 

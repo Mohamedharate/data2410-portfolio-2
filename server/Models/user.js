@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const user_schema = new mongoose.Schema(
     {
+        googleId:{
+          type: String,
+          required: false
+        },
         firstName: {
             type: String,
             required: true,
@@ -17,7 +21,7 @@ const user_schema = new mongoose.Schema(
         email: {
             unique: true,
             type: String,
-            required: true,
+            required: false,
         },
         profileImage: {
             type: String,
@@ -25,35 +29,35 @@ const user_schema = new mongoose.Schema(
         },
         password: {
             type: String,
-            required: true
+            required: false
         },
         country: {
             type: String,
-            required: true,
+            required: false,
             minlength: 2,
             maxlength: 30
         },
         city: {
             type: String,
-            required: true,
+            required: false,
             minlength: 2,
             maxlength: 30
         },
         zipCode: {
             type: String,
-            required: true,
+            required: false,
             minlength: 4,
             maxlength: 4
         },
         street: {
             type: String,
-            required: true
+            required: false
         },
         phoneNumber: {
             type: String,
             minlength: 8,
             maxlength: 12,
-            required: true
+            required: false
         },
         date: {
             type: Date,
@@ -62,9 +66,18 @@ const user_schema = new mongoose.Schema(
         orders: {
             type: []
         },
+        hasCart:{
+          type:Boolean,
+          default:false,
+        },
         cart: {
             type: [],
             sum: {}
+        },
+        subscriber:{
+            type: Boolean,
+            required:false,
+            default: false
         }
     });
 

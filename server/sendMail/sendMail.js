@@ -3,7 +3,7 @@
 const nodemailer = require('nodemailer');
 
 
-async function send(arr, item, subject) {
+async function send(arr, item, subject, prod1, prod2) {
 
     for (let i = 0; i < arr.length; i++) {
 
@@ -18,7 +18,17 @@ async function send(arr, item, subject) {
         const mailOptions = {
             from: 'ShopMet',
             to: `${arr[i].email}`,
-            subject: `Check out our ${subject}`,
+            attachments: [{
+                filename: `${prod1.imageUrl[0].filename}`,
+                path: `${prod1.imageUrl[0].path}`,
+                cid: 'prod1'
+            },
+                {
+                    filename: `${prod2.imageUrl[0].filename}`,
+                    path: `${prod2.imageUrl[0].path}`,
+                    cid: 'prod2'
+                }],
+            subject: `${arr[i].firstName}, ${subject}`,
             html: `${item}`
         };
 

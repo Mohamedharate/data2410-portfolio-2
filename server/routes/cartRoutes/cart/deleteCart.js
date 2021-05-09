@@ -23,6 +23,8 @@ router.delete('/', async (req, res, next) => {
                     await User.updateOne(
                         {_id: req.session.passport.user},
                         {$set: {[`cart`]: []}});
+                    await User.updateOne({_id: req.session.passport.user.id}, {$set: {hasCart: false}});
+
 
                     return res.status(200).json({message: "Cart is deleted!"})
                 } else {

@@ -10,6 +10,7 @@ router.get('/', async (req, res) => {
                 const user = await User.findOne({_id: req.session.passport.user.id});
                 if (user) {
                     if (user.cart.length > 0) {
+
                         return res.json({products: user.cart})
                     } else {
                         return res.json({message: "The cart is still empty"})

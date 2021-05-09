@@ -44,17 +44,17 @@ router.post('/', upload.array('imageUrl', 20),
             }
             product.save()
                 .then(data => {
-                    res.status(200).json({message: `Product with name ${product.name} added successfully!`})
+                    return res.status(200).json({message: `Product with name ${product.name} added successfully!`})
                 })
                 .catch(error => {
                     if (error.name === 'MongoError' && error.code === 11000) {
                         return Promise.reject({error: `Duplicate ${files[index].originalname}. File Already exists! `});
                     } else {
-                        res.status(500).json({Error: error.toString()})
+                        return res.status(500).json({Error: error.toString()})
                     }
                 })
         } else {
-            res.status(500).json({Error: "Something went wrong!"})
+            return res.status(500).json({Error: "Something went wrong!"})
         }
 
     });
