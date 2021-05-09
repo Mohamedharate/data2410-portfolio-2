@@ -54,8 +54,6 @@ export default class Productpage extends Component {
         })
     }
 
-
-
     render() {
         const {price, image} = this.state;
 
