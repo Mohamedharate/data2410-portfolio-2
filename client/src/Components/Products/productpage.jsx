@@ -1,10 +1,10 @@
-import React, {Component, useState} from "react";
+import React, {Component} from "react";
 import axios from "axios";
 import {Link} from "react-router-dom";
 import { Carousel } from "react-responsive-carousel";
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import InputSpinner from "react-bootstrap-input-spinner";
-import {CardImg, Image} from "react-bootstrap";
+import {CardImg} from "react-bootstrap";
 
 
 export default class Productpage extends Component {
@@ -36,7 +36,6 @@ export default class Productpage extends Component {
         await this.postToCart()
             .then(response => {
                 this.props.addToCartCallback(this.state.product, this.state.quantity);
-                console.log(response);
             }
             ).catch(error => {
         })
