@@ -33,8 +33,11 @@ export default class Productpage extends Component {
 
     handleSubmit = async (event) => {
         event.preventDefault();
-        this.postToCart()
-            .then(response => {this.props.handleAddToCartCallback(this.state.product,this.state.quantity)}
+        await this.postToCart()
+            .then(response => {
+                this.props.addToCartCallback(this.state.product, this.state.quantity);
+                console.log(response);
+            }
             ).catch(error => {
         })
     }
@@ -46,7 +49,8 @@ export default class Productpage extends Component {
             url: 'http://localhost:3001/api/cart/addToCart/',
             data: {product_id: this.state.product.itemId, quantity: this.state.quantity}
         }).then(function (res) {
-            that.setState({cart_feedback: "Added to cart!"})
+            that.setState({cart_feedback: "Product added to cart!"})
+
         })
     }
 
@@ -89,10 +93,11 @@ export default class Productpage extends Component {
                                 <h3 className="card-title">{product.name}</h3>
                                 {Object.values(price).map((p) => (<h4 className="price" key="p">${p}</h4>))}
 
-                                <p className="card-text">{product.description}</p>
+                                <p className="card-text">{product.descriptionLong}</p>
                                 <span className="text-warning">★ ★ ★ ★ ☆</span>
                                 4.0 stars
                                 <InputSpinner
+                                    className="InputSpinner"
                                     type="number" size ={'lg'} variant={'dark'}
                                     value={this.state.quantity} min={1}
                                     onChange={(qty) => this.setState({...this.state, quantity: qty})}
