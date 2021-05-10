@@ -10,7 +10,7 @@ import {CardImg, Image} from "react-bootstrap";
 export default class Productpage extends Component {
     constructor(props) {
         super(props);
-        this.state = {descriptionLong: ""};
+        this.state = {descriptionLong: "", cart_feedback: ''};
         this.state = {product: [], quantity: 1, price: 0, quantityOfProduct: 0};
     }
 
@@ -49,7 +49,7 @@ export default class Productpage extends Component {
             url: 'http://localhost:3001/api/cart/addToCart/',
             data: {product_id: this.state.product.itemId, quantity: this.state.quantity}
         }).then(function (res) {
-            that.setState({cart_feedback: "Product added to cart!"})
+            that.setState({cart_feedback:  'Product added to cart!'})
 
         })
     }
@@ -94,8 +94,9 @@ export default class Productpage extends Component {
                                 {Object.values(price).map((p) => (<h4 className="price" key="p">${p}</h4>))}
 
                                 <p className="card-text">{product.descriptionLong}</p>
-                                <span className="text-warning">★ ★ ★ ★ ☆</span>
-                                4.0 stars
+                                <p className="card-text">{this.state.quantityOfProduct} left in stock</p>
+                                <span className="text-warning">★ ★ ★ ★ ☆ </span>
+                                 4.0 stars
                                 <InputSpinner
                                     className="InputSpinner"
                                     type="number" size ={'lg'} variant={'dark'}
