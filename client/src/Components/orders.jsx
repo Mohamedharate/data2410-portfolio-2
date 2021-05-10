@@ -1,5 +1,7 @@
-import React, {Component} from "react";
+import React, {Component, Fragment} from "react";
 import axios from "axios";
+import {Link} from "react-router-dom";
+import {Alert} from "react-bootstrap";
 
 class Orders extends Component{
 
@@ -7,34 +9,43 @@ class Orders extends Component{
         super(props);
         this.state = {user: "", orders: [], order_id: 0};
     }
-
     async getOrder(){
+        const that = this;
         await axios({
             method: "get",
-            url: "http://localhost:3001/api/orders/getAllOrders/",
+            url: "http://localhost:3001/api/orders/getUserOrders/",
         }).then(function (response){
             console.log(response.data)
-        this.setState({orders: response.data, order_id: response.data._id})
+            that.setState({
+                orders: response.data, order_id: response.data.orders._id,});
         }).catch(function (error){
             console.log(error.data)
         });
     }
-
-
-
     render() {
         return(
             <div className="orderContainer">
-            <div className="card mb-5">
+            <div className="card mt-5">
                 <h3 className="card-header">Previous orders</h3>
-                <ul className="list-group">
-                    <li className="list-group-item">
-                    {this.state.orders &&
-                    this.state.orders.map((order) => {
-                        return(
-                        <div key={order._id}>
-                            <h6>{order.date}</h6>
-                            <h6>{order.total}</h6>
+                        {!this.state.orders &&
+                        <Alert color="info">You have no orders. Go shopping!</Alert>}
+                        {this.state.orders &&
+                        <Alert color="info">You are logged in as {this.state.orders.firstName}. Here are your orders:</Alert>}
+                    <ul className="list-group">
+                        <li className="list-group-item">
+                        {this.state.orders &&
+                        this.state.orders.map((order, index) => {
+                            return(
+                                <div key={index}>
+                                    {order.products.map((p, i) => {
+                                        return(
+                                            <div key={i}>
+                                                <h6>Name: {p.name}</h6>
+                                                <h6>Price: ${p.price}</h6>
+                                                <h6>Date: {p.date}</h6>
+                                    </div>
+                                )
+                            })}
                         </div>
                         )
                     })}
