@@ -56,15 +56,40 @@ class Login extends Component {
         });
     };
 
+    handleGoogleBtn = async () => {
+        console.log("click");
+        await axios.get('http://localhost:3001/auth/google').then(() => {console.log("Done")})
+    };
+
     render() {
         return (
             <div className="loginContainer">
                 <div id="login_div" className="row">
+                    <div className="col-12">
+                        <div className="text-center mb-4">
+                            <h4>Sign in to store</h4>
+                        </div>
+                    </div>
+                </div>
+                <div className="row text-center">
+                    <div className="col-12">
+                        <div onClick={this.handleGoogleBtn} className="google-btn">
+                            <div className="google-icon-wrapper">
+                                <img className="google-icon"
+                                     src="/btn_google_light_normal_ios.svg"/>
+                            </div>
+                            <p className="btn-text"><b>Sign in with google</b></p>
+                        </div>
+                        <div className="separator">
+                            <div className="line"/>
+                            <h5>or</h5>
+                            <div className="line"/>
+                        </div>
+                    </div>
+                </div>
+                <div className="row mt-2">
                     <div className="col-md-12">
                         <form onSubmit={this.handleSubmit} className="form-signin">
-                            <div className="text-center mb-4">
-                                <h4>Sign in to store</h4>
-                            </div>
                             <div className="form-label-group">
                                 <div className="input-group">
                                     <div className="input-group-prepend">
