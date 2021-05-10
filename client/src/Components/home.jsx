@@ -83,6 +83,7 @@ class Home extends Component {
         })
     }
     handleAddToCartCallback = (product, quantity) => {
+        console.log("add to cart")
         const Product = product;
         Product.quantity = quantity;
 
@@ -201,10 +202,16 @@ class Home extends Component {
                     />
                     <Switch>
                         <Route exact path="/" component={Mainpage}/>
-                        <Route path="/products/:itemId" component={Productpage}/>
+                        <Route path="/products/:itemId" component={Productpage} addToCartCallback={this.handleAddToCartCallback}/>
                         <Route path="/addReview/:itemId" component={addReview}/>
                         <Route path="/chart" component={ShoppingCart}/>
-                        <Route path="/orders" component={Orders}/>
+                        <Orders>
+                            <Route> path="/orders"</Route>
+                            component={Orders}
+                            current_user={this.state.current_user}
+                            isAuthenticated={this.state.isAuthenticated}
+                        />
+                        </Orders>
                     </Switch>
                     {this.state.toggleLogin && <Login loginCallback={this.handleLoginCallback}/>}
                     {this.state.toggleShoppingCart &&
