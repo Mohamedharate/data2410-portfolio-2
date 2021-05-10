@@ -156,7 +156,7 @@ class AdminAddNew extends Component {
                     <div className="row m-2">
                         <div className="col-md-3">
                             {this.state.toggle_loading ? <LoadingSpinnerBtn/> :
-                                <button type="submit" className="btn btn-lg btn-primary btn-block mt-2">
+                                <button type="submit" className="btn btn-primary btn-block mt-2">
                                     Add Product
                                 </button>}
                         </div>

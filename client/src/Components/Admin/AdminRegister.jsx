@@ -51,10 +51,11 @@ class AdminRegister extends Component {
                 position: this.state.position,
             }
         }).then(res => {
+            console.log(res)
             this.setState({
                 toggle_success_feedback: true,
                 toggle_error_feedback: false,
-                feedback_text: res.data.Message,
+                feedback_text: res.status,
             })
         }).catch(err => {
             this.setState({
@@ -121,7 +122,7 @@ class AdminRegister extends Component {
                     <div className="row justify-content-center m-2">
                         <div className="col-md-3">
                             {this.state.toggle_loading ? <LoadingSpinnerBtn/> :
-                                <button type="submit" className="btn btn-lg btn-primary btn-block mt-2">
+                                <button type="submit" className="btn btn-primary btn-block mt-2">
                                     Register Employee
                                 </button>}
                         </div>

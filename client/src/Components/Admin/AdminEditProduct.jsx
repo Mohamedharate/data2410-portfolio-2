@@ -142,20 +142,13 @@ class AdminEditProduct extends Component {
         this.setState({toggle_get_product_loading: true});
         await axios.get('http://localhost:3001/api/products/get/allProductsPure')
             .then(res => {
-                const products = res.data
-                this.setState({products})
-            }).then(res => {
-                this.setState({
-                    toggle_success_feedback: true,
-                    toggle_error_feedback: false,
-                    feedback_text: res.data.Message,
-                });
+                const products = res.data;
+                this.setState({products});
             }).catch(err => {
-                console.log(err.response) //TODO console
                 this.setState({
                     toggle_success_feedback: false,
                     toggle_error_feedback: true,
-                    feedback_text: err.response,
+                    feedback_text: err.data.Error,
                 });
             });
         this.setState({toggle_get_product_loading: false});

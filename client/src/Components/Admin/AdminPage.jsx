@@ -69,6 +69,9 @@ class AdminPage extends Component {
                             <button onClick={this.toggleNewAdmin} className="btn btn-light btn-md m-2">
                                 Add New Admin
                             </button>
+                            <button onClick={this.props.logoutCallback} className="btn btn-light btn-md m-2">
+                                Logout
+                            </button>
                         </div>
                         <div className="col-md-10">
                             {this.state.toggle_restock &&

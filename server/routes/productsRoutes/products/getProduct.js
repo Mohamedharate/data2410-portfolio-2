@@ -90,7 +90,7 @@ router.get('/allProductsPure', async (req, res) => {
         const products = await Product.find();
         res.send(products);
     } catch (err) {
-        res.send(err.toString())
+        res.json(err.toString())
     }
 });
 

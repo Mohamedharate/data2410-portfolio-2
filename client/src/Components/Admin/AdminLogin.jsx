@@ -1,12 +1,61 @@
 import React, {Component} from "react";
 import Footer from "../footer";
 import DangerFeedback from "../dangerFeedback";
+import axios from "axios";
+import LoadingSpinnerBtn from "../LoadingSpinnerBtn";
 
 class AdminLogin extends Component {
+    constructor(props) {
+        super(props);
+
+        this.handleInputChange = this.handleInputChange.bind(this);
+    }
+
     state = {
+        email: '',
+        password: '',
+        toggle_loading: false,
+        toggle_error_feedback: false,
+        feedback_text: '',
     };
 
+    handleInputChange = (event) => {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
 
+        this.setState({
+            [name]: value
+        })
+    }
+
+    handleSubmit = async (event) => {
+        event.preventDefault();
+        this.setState({toggle_loading: true});
+        await axios({
+            method: 'post',
+            url: 'http://localhost:3001/api/signin-admin',
+            data: {
+                email: this.state.email,
+                password: this.state.password,
+            }
+        }).then(response => {
+            this.props.loginCallback(response.data);
+            this.setState({toggle_error_feedback: false});
+        }).catch(error => {
+            this.setState({toggle_loading: false});
+            if (error.response) {
+                console.log(error.response.data.Error);
+                console.log(error.response.status);
+                this.setState({feedback_text: error.response.data.Error});
+                this.setState({toggle_error_feedback: true});
+            } else if (error.request) {
+                console.log(error.request);
+            } else {
+                console.log('Error', error.message);
+            }
+        });
+    };
     render() {
         return (
             <React.Fragment>
@@ -21,7 +70,7 @@ class AdminLogin extends Component {
                         <div className="row mt-5">
                             <div className="col-md-12">
                                 <form onSubmit={this.handleSubmit} className="form-signin">
-                                    <div className="form-label-group">
+                                    <div className="form-label-group mb-2">
                                         <div className="input-group">
                                             <div className="input-group-prepend">
                                                 <div className="input-group-text mt-2" id="basic-addon1">
@@ -46,10 +95,10 @@ class AdminLogin extends Component {
                                                    placeholder="Password" name="password" required="*" autoFocus=""/>
                                         </div>
                                     </div>
-                                    <button type="submit"
-                                            className="btn btn-lg btn-primary btn-block mt-2">Sign in!
-                                    </button>
-
+                                    {this.state.toggle_loading ? <LoadingSpinnerBtn/> :
+                                        <button type="submit" className="btn btn-primary btn-block">
+                                            Sign in!
+                                        </button>}
                                 </form>
                                     {this.state.toggle_error_feedback &&
                                     <DangerFeedback feedback_error_text={this.state.feedback_text}/>}

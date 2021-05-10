@@ -125,7 +125,7 @@ app.post('/api/signin-admin', (req, res, next) => {
                 if (err) {
                     res.redirect('http://localhost:3001');
                 }
-                return res.status(200);
+                return res.status(200).json(user);
             });
         })(req, res, next);
 });
