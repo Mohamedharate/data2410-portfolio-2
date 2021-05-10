@@ -132,13 +132,13 @@ code {
   width: 60px;
 }
 .productContainer{
+  padding-top: 60px;
   padding-left: 15px;
   padding-right: 15px;
-  padding-top: 30px;
   margin-right: auto;
   margin-left: auto;
+  margin-top: auto;
   width: 100%;
-
 }
 
 .fillPage{
@@ -208,5 +208,6 @@ code {
 .google-btn:active {
   background: #1669f2;
 }
+
 
 
