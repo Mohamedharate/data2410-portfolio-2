@@ -13,6 +13,9 @@ export default class Productpage extends Component {
         this.state = {descriptionLong: "", cart_feedback: ''};
         this.state = {product: [], quantity: 1, price: 0, quantityOfProduct: 0};
     }
+    handleAddToCartCallback = () => {
+        this.props.addToCartCallback()
+    }
 
     async componentDidMount() {
         const that = this;
