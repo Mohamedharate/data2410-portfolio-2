@@ -34,7 +34,7 @@ class Navbar extends Component {
                                     <Link to="/" className="nav-link active" aria-current="page">Home</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link to="/order" className="nav-link" href="#" tabIndex="-1">Orders</Link>
+                                    <Link to="/orders" className="nav-link" href="#" tabIndex="-1">Orders</Link>
                                 </li>
                                 <li className="nav-item">
                                     <button onClick={this.handleShoppingCart} className="btn text-white">
