@@ -209,7 +209,7 @@ class Home extends Component {
                     {this.state.toggleLogin && <Login loginCallback={this.handleLoginCallback}/>}
                     {this.state.toggleShoppingCart &&
                     <ShoppingCart
-                        postToCart={this.handleAddToCartCallback}
+                        addToCartCallback={this.handleAddToCartCallback}
                         quantity_increase={this.handleQuantityIncreaseCallback}
                         quantity_decrease={this.handleQuantityDecreaseCallback}
                         onCheckOut={this.handleCheckOutCallback}
