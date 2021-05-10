@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
 
     const user = await User.findOne({email: req.body.email,});
     if (user) {
-        return res.status(400).json({message: "User already exists"});
+        return res.status(400).json({Error: "User already exists"});
     } else {
         const token = jwt.sign({
             firstName,
@@ -39,7 +39,7 @@ router.post('/', async (req, res) => {
             return res.status(400).json({Error: e.toString()})
         }
 
-        res.status(200).json({Messsage: "A verification link has been sent to your email account, please confirm!"})
+        return res.status(200).json({Message: "A verification link has been sent to your email account, please confirm!"})
     }
 })
 

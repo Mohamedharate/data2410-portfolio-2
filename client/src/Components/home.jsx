@@ -207,7 +207,6 @@ class Home extends Component {
                         <Route path="/orders" component={Orders}/>
                     </Switch>
                     {this.state.toggleLogin && <Login loginCallback={this.handleLoginCallback}/>}
-                    {this.state.toggleRegister && <Register registerCallback={this.handleToggleLoginCallback}/>}
                     {this.state.toggleShoppingCart &&
                     <ShoppingCart
                         postToCart={this.handleAddToCartCallback}

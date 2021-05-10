@@ -44,9 +44,9 @@ class Login extends Component {
         }).catch(error => {
             this.setState({toggle_loading: false});
             if (error.response) {
-                console.log(error.response.data);
+                console.log(error.response.data.Error);
                 console.log(error.response.status);
-                this.setState({feedback_text: error.response.data});
+                this.setState({feedback_text: error.response.data.Error});
                 this.setState({toggle_error_feedback: true});
             } else if (error.request) {
                 console.log(error.request);

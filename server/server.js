@@ -170,7 +170,7 @@ app.post('/logout', (req, res) => {
         catch (err){
             return res.status(500).json({message: 'Could not perform logout!'});
         }
-        return res.status(200).redirect('http://localhost:3001/');
+        return res.status(200).redirect('http://localhost:3001');
         /*
         req.session.destroy(err => {
             if (err) {

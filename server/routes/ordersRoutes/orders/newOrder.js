@@ -17,7 +17,10 @@ router.post('/', async (req, res) => {
                 return res.status(403).json({Error: "You have to sign in as user to order."})
             }
             const user = await User.findOne({_id: req.session.passport.user.id});
-
+            tot = 0;
+            user.cart.forEach(item => {
+                tot = parseFloat(tot) + parseFloat(item.total);
+            })
             const order = new Order({
                 user: user.email,
                 products: user.cart,
@@ -60,6 +63,10 @@ router.post('/', async (req, res) => {
                 if (req.session.cart.length < 1) {
                     return res.status(404).json({Error: "No cart"})
                 } else {
+                    tot = 0;
+                    req.session.cart.forEach(item => {
+                        tot = parseFloat(tot) + parseFloat(item.total);
+                    })
                     const order = new Order({
                         user: req.body.email,
                         products: req.session.cart,
@@ -73,10 +80,7 @@ router.post('/', async (req, res) => {
                         phoneNumber: req.body.phoneNumber,
                         total: parseFloat(tot)
                     })
-                    tot = 0;
-                    req.session.cart.forEach(item => {
-                        tot = parseFloat(tot) + parseFloat(item.total);
-                    })
+
                     req.session.cart = [];
                     req.session.orders = [];
                     req.session.orders.push(order)
@@ -95,9 +99,8 @@ router.post('/', async (req, res) => {
 
 
         }
-    }
-    else {
-        res.status(500).json({message: `Something has gone wrong!`})
+    } else {
+        res.status(500).json({Error: `Something has gone wrong!`})
     }
 
 

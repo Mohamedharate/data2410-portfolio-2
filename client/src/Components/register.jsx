@@ -48,7 +48,7 @@ class Register extends Component {
 
         await axios({
             method: 'post',
-            url: 'http://localhost:3001/api/register/',
+            url: 'http://localhost:3001/api/register',
             data: {
                 firstName: this.state.firstName,
                 lastName: this.state.lastName,
@@ -61,17 +61,17 @@ class Register extends Component {
                 phoneNumber: this.state.phoneNumber,
             }
         }).then(function (response) {
-            console.log("Data:", response.data);
+            console.log("Data:", response.data.Message);
             console.log("Status:", response.status);
             that.setState({toggle_error_feedback: false})
-            that.setState({feedback_text: response.data.message})
+            that.setState({feedback_text: response.data.Message})
             that.props.registerCallback()
         }).catch(function (error) {
             if (error.response) {
-                console.log(error.response.data.message);
+                console.log(error.response.data.Error);
                 console.log(error.response.status);
                 that.setState({toggle_error_feedback: true})
-                that.setState({feedback_text: error.response.data.message})
+                that.setState({feedback_text: error.response.data.Error})
             } else if (error.request) {
                 console.log(error.request);
             } else {

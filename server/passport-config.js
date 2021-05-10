@@ -36,11 +36,11 @@ passport.use('local.signinAdmin', new LocalStrategy({
                 return done(err)
             }
             if (!admin) {
-                return done(null, false, {message: "No user found"})
+                return done(null, false, {Error: "No user found"})
             }
             const validPassword = await bcrypt.compare(password, admin.password);
             if (!validPassword) {
-                return done(null, false, {message: "Wrong passoword"})
+                return done(null, false, {Error: "Wrong passoword"})
             }
             return done(null, admin)
         });
