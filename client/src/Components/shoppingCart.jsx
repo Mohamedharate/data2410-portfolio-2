@@ -40,9 +40,9 @@ class ShoppingCart extends Component {
                 </div>
                 {!this.props.empty_cart &&
                 <div className="shoppingCartObjectsContainer">
-                    {this.props.cart_objects.map(shoppingCartObject => (
+                    {this.props.cart_objects.map((shoppingCartObject, index) => (
                         <ShoppingCartObject
-                            key={shoppingCartObject.id}
+                            key={index}
                             shoppingCartObject={shoppingCartObject}
                             quantity_increase = {() => this.props.quantity_increase(shoppingCartObject.itemId)}
                             quantity_decrease = {() => this.props.quantity_decrease(shoppingCartObject.itemId)}

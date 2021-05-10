@@ -27,7 +27,7 @@ router.get('/isAuthenticated/', async (req, res) => {
         const user = await User.findOne({_id: req.session.passport.user.id})
         return res.status(200).json(user);
     } else {
-        res.status(403).send("No session available.");
+        res.status(204).send("No session available.");
     }
 })
 

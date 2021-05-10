@@ -106,7 +106,7 @@ app.post('/api/signin', (req, res, next) => {
                 if (err) {
                     return next(err);
                 }
-                return res.status(200).redirect('http://localhost:3001/');
+                return res.status(200).json(user);
             });
         })(req, res, next);
 });
