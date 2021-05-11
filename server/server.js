@@ -13,7 +13,13 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const app = express();
 
+
 app.use(cors());
+app.all('/*', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    next();
+});
+
 
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
@@ -131,18 +137,18 @@ app.post('/api/signin-admin', (req, res, next) => {
 });
 
 
-
 app.get('/auth/google',
     passport.authenticate('google',
         { scope: [
             'https://www.googleapis.com/auth/userinfo.profile',
-                'https://www.googleapis.com/auth/userinfo.email' ]
+                'https://www.googleapis.com/auth/userinfo.email'
+            ]
         })
 );
 
 app.get('/auth/google/callback',
     passport.authenticate('google',
-        { failureRedirect: '/login' }),
+        { failureRedirect: '/' }),
     function(req, res) {
         // Successful authentication, redirect home.
         res.redirect('/');
@@ -168,7 +174,7 @@ app.post('/logout', (req, res) => {
             res.clearCookie(SESS_NAME)
         }
         catch (err){
-            return res.status(500).json({message: 'Could not perform logout!'});
+            return res.status(500).json({Error: 'Could not perform logout!'});
         }
         return res.status(200).redirect('http://localhost:3001');
         /*
@@ -180,6 +186,9 @@ app.post('/logout', (req, res) => {
         })
 
          */
+    }
+    else{
+        return res.status(400).json({Error: 'Not logged in'});
     }
 })
 app.on('ready', function () {

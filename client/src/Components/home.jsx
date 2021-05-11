@@ -69,18 +69,20 @@ class Home extends Component {
     handleQuantityDecreaseCallback = async item_id => {
         const cart_objects = [...this.state.cart_objects];
         const index = cart_objects.findIndex(i => i.itemId === item_id)
-        cart_objects[index].quantity--;
-        await axios({
-            method: 'put',
-            url: 'http://localhost:3001/api/cart/deleteFromCart',
-            data: {
-                product_id: cart_objects[index].itemId,
-                quantity: 1
-            },
-        }).then(r => {
-            this.updateCartCounterAndPrice(cart_objects);
-            this.setState({cart_objects});
-        })
+        if (cart_objects[index].quantity > 0){
+            cart_objects[index].quantity--;
+            await axios({
+                method: 'put',
+                url: 'http://localhost:3001/api/cart/deleteFromCart',
+                data: {
+                    product_id: cart_objects[index].itemId,
+                    quantity: 1
+                },
+            }).then(r => {
+                this.updateCartCounterAndPrice(cart_objects);
+                this.setState({cart_objects});
+            })
+        }
     }
     handleAddToCartCallback = (product, quantity) => {
         console.log("add to cart")
@@ -214,6 +216,7 @@ class Home extends Component {
                         </Orders>
                     </Switch>
                     {this.state.toggleLogin && <Login loginCallback={this.handleLoginCallback}/>}
+                    {this.state.toggleRegister && <Register />}
                     {this.state.toggleShoppingCart &&
                     <ShoppingCart
                         addToCartCallback={this.handleAddToCartCallback}
