@@ -11,6 +11,7 @@ import Productpage from "./Products/productpage";
 import addReview from "./Products/addReview";
 import ShoppingCart from "./ShoppingCart/ShoppingCart";
 import Orders from "./orders";
+import CheckOut from "./CheckOut";
 
 
 class Home extends Component {
@@ -21,6 +22,7 @@ class Home extends Component {
         toggleLogin: false,
         toggleRegister: false,
         toggleShoppingCart: false,
+        toggleCheckOut: false,
         isAuthenticated: false,
         current_user: {},
         empty_cart: false,
@@ -34,7 +36,7 @@ class Home extends Component {
     };
 
     componentDidMount = async () => {
-        this.Authenticated()
+        await this.Authenticated()
     };
 
     // Handlers
@@ -47,6 +49,9 @@ class Home extends Component {
     }
     handleToggleShoppingCartCallback = () => {
         this.setState({toggleShoppingCart: !this.state.toggleShoppingCart});
+    }
+    handleToggleCheckOutCallback = () => {
+        this.setState({toggleCheckOut: !this.state.toggleCheckOut, toggleShoppingCart: false})
     }
 
     // Handle cart
@@ -94,12 +99,7 @@ class Home extends Component {
         this.setState({cart_objects})
     }
 
-    // Handle checkout
-    handleCheckOutCallback = async () => {
-        console.log("checkout");
-        this.placeNewOrder()
-        //TODO Her må det lages et Checkout vindu som tar inn informasjon om levering.
-    }
+
 
     // Handle authentication.
     handleLoginCallback = user => {
@@ -168,26 +168,6 @@ class Home extends Component {
         this.setState({cart_counter, cart_total_price})
     }
 
-    placeNewOrder = async () => {
-        await axios({
-            method: 'post',
-            url: 'http://localhost:3001/api/orders/newOrder',
-            data: {}, //TODO add correct data
-        }).then(r => {
-            this.setState({
-                cart_error_feedback: false,
-                cart_success_feedback: true,
-                cart_feedback_text: r.data.Message
-            }).catch(err => {
-                this.setState({
-                    cart_error_feedback: true,
-                    cart_success_feedback: false,
-                    cart_feedback_text: String
-                })
-            });
-        })
-    }
-
     render() {
         return (
             <Router>
@@ -217,12 +197,20 @@ class Home extends Component {
                     </Switch>
                     {this.state.toggleLogin && <SignIn loginCallback={this.handleLoginCallback}/>}
                     {this.state.toggleRegister && <SignUp />}
+                    {this.state.toggleCheckOut && <CheckOut
+                        cart_objects={this.state.cart_objects}
+                        current_user={this.state.current_user}
+                        price_total={this.state.cart_total_price}
+                        signed_in={this.state.isAuthenticated}
+                        order_complete={this.getCartObjects}
+                        close={this.handleToggleCheckOutCallback}
+                    />}
                     {this.state.toggleShoppingCart &&
                     <ShoppingCart
                         addToCartCallback={this.handleAddToCartCallback}
                         quantity_increase={this.handleQuantityIncreaseCallback}
                         quantity_decrease={this.handleQuantityDecreaseCallback}
-                        onCheckOut={this.handleCheckOutCallback}
+                        onCheckOut={this.handleToggleCheckOutCallback}
                         empty_cart={this.state.empty_cart}
                         empty_cart_message={this.state.empty_cart_message}
                         cart_objects={this.state.cart_objects}
