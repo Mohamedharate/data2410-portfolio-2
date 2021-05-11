@@ -72,19 +72,15 @@ export default class Productpage extends Component {
                     <div className="col-lg-9">
                         <div className="card mt-4">
                             <div className="card-img-top">
-                                <Carousel autoPlay="true" infiniteLoop="true">
+                                <Carousel autoPlay="true" showThumbs={false} infiniteLoop="true">
                                     {product.imageUrl &&
-                                    product.imageUrl.map((img, index) => {
-                                        return(
-                                            <div>
-                                                <CardImg
-                                                    key={index}
-                                                    src={`data:img/${img.contentType};base64,${img.image.toString("base64")}`}
+                                    product.imageUrl.map((img, index) => (
+                                            <div key={index}>
+                                                    <img src={`data:img/${img.contentType};base64,${img.image.toString("base64")}`}
                                                     height={600}
                                                 />
                                             </div>
-                                        )
-                                    })
+                                        ))
                                     }
                                 </Carousel>
                             </div>
