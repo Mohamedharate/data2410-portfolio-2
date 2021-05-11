@@ -12,6 +12,7 @@ class AdminAddNew extends Component {
         this.handleInputChange = this.handleInputChange.bind(this)
         this.handleInputFile = this.handleInputFile.bind(this)
     }
+
     state = {
         imageArray: [],
         product_name: String,
