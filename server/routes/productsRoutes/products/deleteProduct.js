@@ -25,7 +25,7 @@ router.delete('/all', async (req, res) => {
 
 
 //delete a product with the given productID.
-router.delete('/one/:itemId/', async (req, res) => {
+router.delete('/one/:itemId', async (req, res) => {
 
     if(req.session){
         if (req.session.passport.user.type !== 'Admin') {
@@ -33,10 +33,11 @@ router.delete('/one/:itemId/', async (req, res) => {
         }
         try {
             const product = await Product.deleteOne({itemId: req.params.itemId});
-            res.json({Message: "The product is deleted!"});
         } catch (err) {
             res.status(404).json({Error: 'The product with the given item ID was not found'})
         }
+        return res.status(200).json({Message: "The product is deleted!"});
+
     }
     else{
         res.status(500).json({Error: "Something went wrong!"})
