@@ -206,10 +206,10 @@ class Home extends Component {
                         <Route exact path="/" component={Mainpage}/>
                         <Route path="/products/:itemId" handleAddToCartCallback={this.handleAddToCartCallback} component={Productpage}/>
                         <Route path="/addReview/:itemId" component={addReview}/>
-                        <Route path="/orders" />
+                        <Route path="/orders/"
                             component={Orders}
                             current_user={this.state.current_user}
-                            isAuthenticated={this.state.isAuthenticated}
+                            isAuthenticated={this.state.isAuthenticated} />
                     </Switch>
                     {this.state.toggleLogin && <SignIn loginCallback={this.handleLoginCallback}/>}
                     {this.state.toggleRegister && <SignUp />}

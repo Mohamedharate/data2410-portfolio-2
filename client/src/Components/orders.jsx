@@ -62,7 +62,6 @@ class Orders extends Component{
                             [orders].map((order, index) => {
                             return(
                                 <div key={index}>
-                                    <p>{order.firstName}</p>
                                     {order.products &&
                                     [order.products].map((o, i) => {
                                         return(
