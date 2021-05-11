@@ -2,16 +2,15 @@ import React, {Component, useEffect} from "react";
 import axios from "axios";
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Navbar from "./navbar";
-import Login from "./login";
-import Register from "./register";
+import SignIn from "./Authentication/SignIn";
+import SignUp from "./Authentication/SignUp";
 import About from "./about";
 import Mainpage from "./Products/mainpage";
 import Footer from "./footer";
 import Productpage from "./Products/productpage";
 import addReview from "./Products/addReview";
-import ShoppingCart from "./shoppingCart";
+import ShoppingCart from "./ShoppingCart/ShoppingCart";
 import Orders from "./orders";
-
 
 
 class Home extends Component {
@@ -85,11 +84,11 @@ class Home extends Component {
             })
         }
     }
-
-    handleAddToCartCallback = (product_id, quantity) => {
+    handleAddToCartCallback = (product, quantity) => {
         console.log("add to cart")
         const Product = product_id;
         Product.quantity = quantity;
+
         const cart_objects = [...this.state.cart_objects, Product];
         this.updateCartCounterAndPrice(cart_objects);
         this.setState({cart_objects, cart_feedback: true})
@@ -213,9 +212,9 @@ class Home extends Component {
                             current_user={this.state.current_user}
                             isAuthenticated={this.state.isAuthenticated}
                         </Orders>
-                </Switch>
-                    {this.state.toggleLogin && <Login loginCallback={this.handleLoginCallback}/>}
-                    {this.state.toggleRegister && <Register />}
+                    </Switch>
+                    {this.state.toggleLogin && <SignIn loginCallback={this.handleLoginCallback}/>}
+                    {this.state.toggleRegister && <SignUp />}
                     {this.state.toggleShoppingCart &&
                     <ShoppingCart
                         addToCartCallback={this.handleAddToCartCallback}

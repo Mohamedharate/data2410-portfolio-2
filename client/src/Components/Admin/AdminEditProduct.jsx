@@ -1,8 +1,10 @@
 import React, {Component} from "react";
 import axios from "axios";
-import DangerFeedback from "../dangerFeedback";
-import SuccessFeedback from "../successFeedback";
-import LoadingSpinnerBtn from "../LoadingSpinnerBtn";
+import bootbox from "bootbox"
+import FormData from "form-data";
+import DangerFeedback from "../Feedback/DangerFeedback";
+import SuccessFeedback from "../Feedback/SuccessFeedback";
+import LoadingSpinnerPrimaryLongBtn from "../Spinners/LoadingSpinnerPrimaryLongBtn";
 
 class AdminEditProduct extends Component {
     constructor(props) {
@@ -11,6 +13,7 @@ class AdminEditProduct extends Component {
         this.handleInputChange = this.handleInputChange.bind(this)
         this.handleInputFile = this.handleInputFile.bind(this)
     }
+
     state = {
         products: [],
         imagePreview: '',
@@ -39,16 +42,13 @@ class AdminEditProduct extends Component {
         toggle_success_feedback: false,
     };
 
-    handleGetProducts = () => {
-        this.getProducts().then()
-    };
     handleInputChange = event => {
         const target = event.target;
         const value = target.value;
         const name = target.name;
 
         this.setState({
-            ['new_'+name]: value
+            ['new_' + name]: value
         })
     };
     handleInputFile = event => {
@@ -60,7 +60,6 @@ class AdminEditProduct extends Component {
         this.setState({new_imageArray});
     }
     handleEditBtn = product => {
-
         const preview = `data:${product.imageUrl[0].contentType};base64, ${product.imageUrl[0].image}`
 
         this.setState({
@@ -82,13 +81,37 @@ class AdminEditProduct extends Component {
             new_product_category: product.category,
             new_short_description: product.descriptionShort,
             new_long_description: product.descriptionLong,
-
         })
-
+    };
+    handleDeleteBtn = async product => {
+        // Confirm delete
+        bootbox.confirm({
+            message: "Delete " + product.name + " from products?",
+            buttons : {
+                'cancel': {
+                    label: 'Cancel',
+                    className: 'btn-default pull-left'
+                },
+                'confirm': {
+                    label: 'Delete',
+                    className: 'btn-danger pull-right'
+                }
+            },
+            callback: async result => {
+                if (result) {
+                    console.log("Delete", product.name)
+                    await axios.delete(`http://localhost:3001/api/products/delete/one/${product.itemId}`)
+                        .then(() => {
+                            this.handleGetProducts()
+                        }).catch(err => {
+                            console.log(err)
+                        })
+                }
+            }
+        });
     }
-    handleSubmit =  async event => {
+    handleSubmit = async event => {
         event.preventDefault();
-
         let file = this.state.new_imageArray;
         const itemId = this.state.itemId;
         this.setState({toggle_submit_loading: true});
@@ -138,7 +161,7 @@ class AdminEditProduct extends Component {
         this.setState({toggle_submit_loading: false});
     };
 
-    getProducts = async() => {
+    handleGetProducts = async () => {
         this.setState({toggle_get_product_loading: true});
         await axios.get('http://localhost:3001/api/products/get/allProductsPure')
             .then(res => {
@@ -163,7 +186,7 @@ class AdminEditProduct extends Component {
                         <h3>Edit Products</h3>
                     </div>
                     <div className="col-md-4">
-                        {this.state.toggle_get_product_loading ? <LoadingSpinnerBtn/> :
+                        {this.state.toggle_get_product_loading ? <LoadingSpinnerPrimaryLongBtn/> :
                             <button onClick={this.handleGetProducts} className="btn btn-primary btn-block">
                                 Get Products
                             </button>}
@@ -175,9 +198,10 @@ class AdminEditProduct extends Component {
                             <div className="input-group mt-2 ml-2" key={index}>
                                 <input type="text" value={product.name} disabled/>
                                 <div className="input-group-append">
-                                    <div className="input-group-text">
-                                        <button onClick={() => this.handleEditBtn(product)} className="btn">Edit</button>
-                                    </div>
+                                        <button onClick={() => this.handleEditBtn(product)} className="btn btn-outline-secondary">Edit</button>
+                                        <button onClick={() => this.handleDeleteBtn(product)} className="btn btn-danger">
+                                            <span className="material-icons mt-2">delete_forever</span>
+                                        </button>
                                 </div>
                             </div>
                         ))}
@@ -253,9 +277,9 @@ class AdminEditProduct extends Component {
                             </div>
                             <div className="row m-2">
                                 <div className="col-md-3">
-                                    {this.state.toggle_submit_loading ? <LoadingSpinnerBtn/> :
+                                    {this.state.toggle_submit_loading ? <LoadingSpinnerPrimaryLongBtn/> :
                                         <button type="submit" className="btn btn-primary btn-block mt-2">
-                                        Update Product
+                                            Update Product
                                         </button>}
                                 </div>
                             </div>

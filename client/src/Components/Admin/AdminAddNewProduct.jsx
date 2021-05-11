@@ -1,17 +1,18 @@
 import React, {Component} from "react";
 import axios from "axios";
 import FormData from "form-data"
-import DangerFeedback from "../dangerFeedback";
-import SuccessFeedback from "../successFeedback";
-import LoadingSpinnerBtn from "../LoadingSpinnerBtn";
+import DangerFeedback from "../Feedback/DangerFeedback";
+import SuccessFeedback from "../Feedback/SuccessFeedback";
+import LoadingSpinnerPrimaryLongBtn from "../Spinners/LoadingSpinnerPrimaryLongBtn";
 
-class AdminAddNew extends Component {
+class AdminAddNewProduct extends Component {
     constructor(props) {
         super(props);
 
         this.handleInputChange = this.handleInputChange.bind(this)
         this.handleInputFile = this.handleInputFile.bind(this)
     }
+
     state = {
         imageArray: [],
         product_name: String,
@@ -155,7 +156,7 @@ class AdminAddNew extends Component {
                     </div>
                     <div className="row m-2">
                         <div className="col-md-3">
-                            {this.state.toggle_loading ? <LoadingSpinnerBtn/> :
+                            {this.state.toggle_loading ? <LoadingSpinnerPrimaryLongBtn/> :
                                 <button type="submit" className="btn btn-primary btn-block mt-2">
                                     Add Product
                                 </button>}
@@ -171,4 +172,4 @@ class AdminAddNew extends Component {
     }
 }
 
-export default AdminAddNew;
+export default AdminAddNewProduct;

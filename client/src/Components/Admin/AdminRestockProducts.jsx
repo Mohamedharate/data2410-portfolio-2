@@ -1,39 +1,50 @@
 import React, {Component} from "react";
 import axios from "axios";
 import AdminRestockProduct from "./AdminRestockProduct";
-import LoadingSpinnerBtn from "../LoadingSpinnerBtn";
+import LoadingSpinnerPrimaryLongBtn from "../Spinners/LoadingSpinnerPrimaryLongBtn";
 
 class AdminRestockProducts extends Component {
     state = {
         products: [],
         toggle_loading: false,
+        toggle_add_stock_loading: false,
+        toggle_remove_stock_loading: false,
     };
 
     handleGetProducts = () => {
         this.getProducts().then()
     };
-    handleAddStockCallback = (product, value) => {
-        console.log("click", product)
+    handleAddStockCallback = async (product, value) => {
+        this.setState({toggle_add_stock_loading: true})
         if (value != null) {
             const products = [...this.state.products];
             const index = products.findIndex(i => i._id === product)
             products[index].quantity = parseInt(products[index].quantity) + parseInt(value);
             this.setState({products})
-            this.updateStock(products[index].quantity, products[index].itemId).then()
-        } else {
-            console.error("Give number property to Quantity!")
+            await this.updateStock(products[index].quantity, products[index].itemId)
+                .then(() => {
+                    this.setState({toggle_add_stock_loading: false})
+                }).catch(err => {
+                    console.log(err)
+                    this.setState({toggle_add_stock_loading: false})
+                })
         }
     };
 
-    handleRemoveStockCallback = (product, value) => {
+    handleRemoveStockCallback = async (product, value) => {
+        this.setState({toggle_remove_stock_loading: true})
         if (value != null) {
             const products = [...this.state.products];
             const index = products.findIndex(i => i._id === product)
             products[index].quantity = parseInt(products[index].quantity) - parseInt(value);
             this.setState({products})
-            this.updateStock(products[index].quantity, products[index].itemId).then()
-        } else {
-            console.error("Give number property to Quantity!")
+            await this.updateStock(products[index].quantity, products[index].itemId)
+                .then(() => {
+                    this.setState({toggle_remove_stock_loading: false})
+                }).catch(err => {
+                    console.log(err)
+                    this.setState({toggle_remove_stock_loading: false})
+                })
         }
     };
 
@@ -53,7 +64,7 @@ class AdminRestockProducts extends Component {
         this.setState({toggle_loading: false});
     };
 
-    async updateStock(data, itemId) {
+    updateStock = async (data, itemId) => {
         await axios({
             method: 'put',
             url: `http://localhost:3001/api/products/update/${itemId}`,
@@ -72,7 +83,7 @@ class AdminRestockProducts extends Component {
                         <h3>Restock</h3>
                     </div>
                     <div className="col-md-4">
-                        {this.state.toggle_loading ? <LoadingSpinnerBtn/> :
+                        {this.state.toggle_loading ? <LoadingSpinnerPrimaryLongBtn/> :
                             <button onClick={this.handleGetProducts} className="btn btn-primary btn-block">
                                 Get Products
                             </button>}
@@ -86,6 +97,8 @@ class AdminRestockProducts extends Component {
                                 product={product}
                                 addStock={this.handleAddStockCallback}
                                 removeStock={this.handleRemoveStockCallback}
+                                toggle_add_stock_loading={this.state.toggle_add_stock_loading}
+                                toggle_remove_stock_loading={this.state.toggle_remove_stock_loading}
                             />
                         ))}
                     </div>
