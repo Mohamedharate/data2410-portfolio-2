@@ -1,7 +1,7 @@
 import React, {Component} from "react";
-import DangerFeedback from "../dangerFeedback";
+import DangerFeedback from "../Feedback/DangerFeedback";
 import axios from "axios";
-import SuccessFeedback from "../successFeedback";
+import SuccessFeedback from "../Feedback/SuccessFeedback";
 import LoadingSpinnerPrimaryLongBtn from "../Spinners/LoadingSpinnerPrimaryLongBtn";
 
 

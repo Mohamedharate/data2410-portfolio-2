@@ -2,14 +2,14 @@ import React, {Component, useEffect} from "react";
 import axios from "axios";
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Navbar from "./navbar";
-import Login from "./login";
-import Register from "./register";
+import SignIn from "./Authentication/SignIn";
+import SignUp from "./Authentication/SignUp";
 import About from "./about";
 import Mainpage from "./Products/mainpage";
 import Footer from "./footer";
 import Productpage from "./Products/productpage";
 import addReview from "./Products/addReview";
-import ShoppingCart from "./shoppingCart";
+import ShoppingCart from "./ShoppingCart/ShoppingCart";
 import Orders from "./orders";
 
 
@@ -215,8 +215,8 @@ class Home extends Component {
                         />
                         </Orders>
                     </Switch>
-                    {this.state.toggleLogin && <Login loginCallback={this.handleLoginCallback}/>}
-                    {this.state.toggleRegister && <Register />}
+                    {this.state.toggleLogin && <SignIn loginCallback={this.handleLoginCallback}/>}
+                    {this.state.toggleRegister && <SignUp />}
                     {this.state.toggleShoppingCart &&
                     <ShoppingCart
                         addToCartCallback={this.handleAddToCartCallback}

@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import axios from "axios";
-import DangerFeedback from "./dangerFeedback";
-import LoadingSpinnerPrimaryLongBtn from "./Spinners/LoadingSpinnerPrimaryLongBtn";
+import DangerFeedback from "../Feedback/DangerFeedback";
+import LoadingSpinnerPrimaryLongBtn from "../Spinners/LoadingSpinnerPrimaryLongBtn";
 
-class Login extends Component {
+class SignIn extends Component {
     constructor(props) {
         super(props);
 
@@ -124,4 +124,4 @@ class Login extends Component {
     }
 }
 
-export default Login;
+export default SignIn;

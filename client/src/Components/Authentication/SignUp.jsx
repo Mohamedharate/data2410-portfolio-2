@@ -1,11 +1,11 @@
 import React, {Component} from "react";
 import axios from "axios";
-import DangerFeedback from "./dangerFeedback";
-import SuccessFeedback from "./successFeedback";
-import LoadingSpinnerPrimaryLongBtn from "./Spinners/LoadingSpinnerPrimaryLongBtn";
+import DangerFeedback from "../Feedback/DangerFeedback";
+import SuccessFeedback from "../Feedback/SuccessFeedback";
+import LoadingSpinnerPrimaryLongBtn from "../Spinners/LoadingSpinnerPrimaryLongBtn";
 
 
-class Register extends Component {
+class SignUp extends Component {
     constructor(props) {
         super(props);
 
@@ -168,4 +168,4 @@ class Register extends Component {
     }
 }
 
-export default Register;
+export default SignUp;

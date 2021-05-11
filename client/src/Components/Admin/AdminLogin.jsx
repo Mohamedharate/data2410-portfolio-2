@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import Footer from "../footer";
-import DangerFeedback from "../dangerFeedback";
+import DangerFeedback from "../Feedback/DangerFeedback";
 import axios from "axios";
 import LoadingSpinnerPrimaryLongBtn from "../Spinners/LoadingSpinnerPrimaryLongBtn";
 

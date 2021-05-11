@@ -1,7 +1,7 @@
 import React, {Component} from "react";
-import ShoppingCartObject from "./shoppingCartObject";
-import DangerFeedback from "./dangerFeedback";
-import SuccessFeedback from "./successFeedback";
+import ShoppingCartObject from "./ShoppingCartObject";
+import DangerFeedback from "../Feedback/DangerFeedback";
+import SuccessFeedback from "../Feedback/SuccessFeedback";
 
 class ShoppingCart extends Component {
     render() {

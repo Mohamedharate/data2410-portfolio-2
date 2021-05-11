@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import DangerFeedback from "../dangerFeedback";
+import DangerFeedback from "../Feedback/DangerFeedback";
 import LoadingSpinnerPrimaryShortBtn from "../Spinners/LoadingSpinnerPrimaryShortBtn";
 import LoadingSpinnerDangerShortBtn from "../Spinners/LoadingSpinnerDangerShortBtn";
 

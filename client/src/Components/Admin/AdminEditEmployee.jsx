@@ -2,8 +2,8 @@ import React, {Component} from "react";
 import axios from "axios";
 import bootbox from "bootbox"
 import FormData from "form-data";
-import DangerFeedback from "../dangerFeedback";
-import SuccessFeedback from "../successFeedback";
+import DangerFeedback from "../Feedback/DangerFeedback";
+import SuccessFeedback from "../Feedback/SuccessFeedback";
 import LoadingSpinnerPrimaryLongBtn from "../Spinners/LoadingSpinnerPrimaryLongBtn";
 
 class AdminEditEmployee extends Component {
