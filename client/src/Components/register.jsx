@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import axios from "axios";
 import DangerFeedback from "./dangerFeedback";
 import SuccessFeedback from "./successFeedback";
-import LoadingSpinnerBtn from "./LoadingSpinnerBtn";
+import LoadingSpinnerPrimaryLongBtn from "./Spinners/LoadingSpinnerPrimaryLongBtn";
 
 
 class Register extends Component {
@@ -151,7 +151,7 @@ class Register extends Component {
                                        <Country code(optional)> <Number(At least 7 digits>."
                                        name="phoneNumber" required autoFocus=""/>
                             </div>
-                            {this.state.toggle_loading ? <LoadingSpinnerBtn/> :
+                            {this.state.toggle_loading ? <LoadingSpinnerPrimaryLongBtn/> :
                                 <button
                                     type="submit"
                                     className="btn btn-lg btn-primary btn-block mt-2">Sign Up!

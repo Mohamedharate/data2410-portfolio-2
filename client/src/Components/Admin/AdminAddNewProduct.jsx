@@ -3,9 +3,9 @@ import axios from "axios";
 import FormData from "form-data"
 import DangerFeedback from "../dangerFeedback";
 import SuccessFeedback from "../successFeedback";
-import LoadingSpinnerBtn from "../LoadingSpinnerBtn";
+import LoadingSpinnerPrimaryLongBtn from "../Spinners/LoadingSpinnerPrimaryLongBtn";
 
-class AdminAddNew extends Component {
+class AdminAddNewProduct extends Component {
     constructor(props) {
         super(props);
 
@@ -156,7 +156,7 @@ class AdminAddNew extends Component {
                     </div>
                     <div className="row m-2">
                         <div className="col-md-3">
-                            {this.state.toggle_loading ? <LoadingSpinnerBtn/> :
+                            {this.state.toggle_loading ? <LoadingSpinnerPrimaryLongBtn/> :
                                 <button type="submit" className="btn btn-primary btn-block mt-2">
                                     Add Product
                                 </button>}
@@ -172,4 +172,4 @@ class AdminAddNew extends Component {
     }
 }
 
-export default AdminAddNew;
+export default AdminAddNewProduct;

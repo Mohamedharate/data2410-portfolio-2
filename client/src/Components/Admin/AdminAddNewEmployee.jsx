@@ -2,15 +2,16 @@ import React, {Component} from "react";
 import DangerFeedback from "../dangerFeedback";
 import axios from "axios";
 import SuccessFeedback from "../successFeedback";
-import LoadingSpinnerBtn from "../LoadingSpinnerBtn";
+import LoadingSpinnerPrimaryLongBtn from "../Spinners/LoadingSpinnerPrimaryLongBtn";
 
 
-class AdminRegister extends Component {
-    constructor(props){
+class AdminAddNewEmployee extends Component {
+    constructor(props) {
         super(props)
 
         this.handleInputChange = this.handleInputChange.bind(this);
     }
+
     state = {
         firstName: String,
         lastName: String,
@@ -25,7 +26,7 @@ class AdminRegister extends Component {
         toggle_success_feedback: false,
     };
 
-    handleInputChange(event) {
+    handleInputChange = event => {
         const target = event.target;
         const value = target.value;
         const name = target.name;
@@ -108,7 +109,8 @@ class AdminRegister extends Component {
                                        <Country code(optional)> <Number(At least 7 digits>."
                                    name="phoneNumber" required autoFocus=""/>
                             <label className=" mt-2" htmlFor="position">Title:</label>
-                            <select name="position" onChange={this.handleInputChange} className="custom-select my-1 mr-sm-2" required>
+                            <select name="position" onChange={this.handleInputChange}
+                                    className="custom-select my-1 mr-sm-2" required>
                                 <option value="" defaultValue="">Choose...</option>
                                 <option value="CO-worker">CO-worker</option>
                                 <option value="Marketing Coordinator">Marketing Coordinator</option>
@@ -121,7 +123,7 @@ class AdminRegister extends Component {
                     </div>
                     <div className="row justify-content-center m-2">
                         <div className="col-md-3">
-                            {this.state.toggle_loading ? <LoadingSpinnerBtn/> :
+                            {this.state.toggle_loading ? <LoadingSpinnerPrimaryLongBtn/> :
                                 <button type="submit" className="btn btn-primary btn-block mt-2">
                                     Register Employee
                                 </button>}
@@ -137,4 +139,4 @@ class AdminRegister extends Component {
     }
 }
 
-export default AdminRegister;
+export default AdminAddNewEmployee;

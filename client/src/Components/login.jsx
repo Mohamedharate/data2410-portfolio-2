@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import axios from "axios";
 import DangerFeedback from "./dangerFeedback";
-import LoadingSpinnerBtn from "./LoadingSpinnerBtn";
+import LoadingSpinnerPrimaryLongBtn from "./Spinners/LoadingSpinnerPrimaryLongBtn";
 
 class Login extends Component {
     constructor(props) {
@@ -110,7 +110,7 @@ class Login extends Component {
                                            placeholder="Password" name="password" required="*" autoFocus=""/>
                                 </div>
                             </div>
-                            {this.state.toggle_loading ? <LoadingSpinnerBtn/> :
+                            {this.state.toggle_loading ? <LoadingSpinnerPrimaryLongBtn/> :
                                 <button type="submit" className="btn btn-primary btn-block">
                                     Sign in!
                                 </button>}

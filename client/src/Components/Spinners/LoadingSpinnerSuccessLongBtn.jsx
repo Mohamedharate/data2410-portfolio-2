@@ -1,14 +1,14 @@
 import React, {Component} from "react";
 
 
-class LoadingSpinnerBtn extends Component {
+class LoadingSpinnerSuccessLongBtn extends Component {
     constructor(props) {
         super(props);
     }
 
     render() {
         return (
-            <button className="btn btn-primary btn-block" type="button" disabled>
+            <button className="btn btn-success btn-block" type="button" disabled>
                 <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"/>
                 Loading...
             </button>
@@ -16,4 +16,4 @@ class LoadingSpinnerBtn extends Component {
     }
 }
 
-export default LoadingSpinnerBtn;
+export default LoadingSpinnerSuccessLongBtn;

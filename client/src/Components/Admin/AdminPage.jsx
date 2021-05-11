@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import Footer from "../footer";
-import AdminAddNew from "./AdminAddNew";
-import AdminRegister from "./AdminRegister";
+import AdminAddNewProduct from "./AdminAddNewProduct";
+import AdminAddNewEmployee from "./AdminAddNewEmployee";
 import AdminRestockProducts from "./AdminRestockProducts";
 import AdminEditProduct from "./AdminEditProduct";
 
@@ -79,9 +79,9 @@ class AdminPage extends Component {
                             {this.state.toggle_edit_product &&
                             <AdminEditProduct />}
                             {this.state.toggle_new_product &&
-                            <AdminAddNew />}
+                            <AdminAddNewProduct />}
                             {this.state.toggle_new_admin &&
-                            <AdminRegister />}
+                            <AdminAddNewEmployee />}
                         </div>
                     </div>
                 </div>

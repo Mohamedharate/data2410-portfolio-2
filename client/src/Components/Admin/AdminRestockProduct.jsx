@@ -1,5 +1,7 @@
 import React, {Component} from "react";
 import DangerFeedback from "../dangerFeedback";
+import LoadingSpinnerPrimaryShortBtn from "../Spinners/LoadingSpinnerPrimaryShortBtn";
+import LoadingSpinnerDangerShortBtn from "../Spinners/LoadingSpinnerDangerShortBtn";
 
 class AdminRestockProduct extends Component {
     state = {
@@ -7,7 +9,7 @@ class AdminRestockProduct extends Component {
         toggle_error_feedback: false,
     }
 
-    handleInputChange = (event) => {
+    handleInputChange = event => {
         const target = event.target;
         const value = target.value;
         const name = target.name;
@@ -46,18 +48,20 @@ class AdminRestockProduct extends Component {
                     <div className="col-md-2 text-center">
                         <p>{this.props.product.name}</p>
                     </div>
-                    <div className="col-md-2 text-center">
+                    <div className="col-md-4 text-center">
                         <p>In Stock: {this.props.product.quantity}</p>
                     </div>
                 </div>
                 <div className="row justify-content-center">
                     <div className="col-md-2 text-center mb-2">
-                        <input onChange={this.handleInputChange} type="number" className="form-control" name="value"
+                        <input onChange={this.handleInputChange} type="number" className="form-control m-2" name="value"
                                placeholder="Quantity" required/>
                     </div>
-                    <div className="col-md-2 text-center mb-2">
-                        <button onClick={this.handleAddStock} className="btn btn-primary mr-2">Add</button>
-                        <button onClick={this.handleRemoveStock} className="btn btn-danger">Remove</button>
+                    <div className="col-md-4 text-center mb-2">
+                        {this.props.toggle_add_stock_loading ? <LoadingSpinnerPrimaryShortBtn/> :
+                            <button onClick={this.handleAddStock} className="btn btn-primary m-2">Add</button>}
+                        {this.props.toggle_remove_stock_loading ? <LoadingSpinnerDangerShortBtn/> :
+                            <button onClick={this.handleRemoveStock} className="btn btn-danger m-2">Remove</button>}
                     </div>
                 </div>
                 <div className="row justify-content-center">

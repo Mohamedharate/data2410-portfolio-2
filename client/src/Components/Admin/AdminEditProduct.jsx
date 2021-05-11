@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import axios from "axios";
 import DangerFeedback from "../dangerFeedback";
 import SuccessFeedback from "../successFeedback";
-import LoadingSpinnerBtn from "../LoadingSpinnerBtn";
+import LoadingSpinnerPrimaryLongBtn from "../Spinners/LoadingSpinnerPrimaryLongBtn";
 import bootbox from "bootbox"
 
 class AdminEditProduct extends Component {
@@ -190,7 +190,7 @@ class AdminEditProduct extends Component {
                         <h3>Edit Products</h3>
                     </div>
                     <div className="col-md-4">
-                        {this.state.toggle_get_product_loading ? <LoadingSpinnerBtn/> :
+                        {this.state.toggle_get_product_loading ? <LoadingSpinnerPrimaryLongBtn/> :
                             <button onClick={this.handleGetProducts} className="btn btn-primary btn-block">
                                 Get Products
                             </button>}
@@ -281,7 +281,7 @@ class AdminEditProduct extends Component {
                             </div>
                             <div className="row m-2">
                                 <div className="col-md-3">
-                                    {this.state.toggle_submit_loading ? <LoadingSpinnerBtn/> :
+                                    {this.state.toggle_submit_loading ? <LoadingSpinnerPrimaryLongBtn/> :
                                         <button type="submit" className="btn btn-primary btn-block mt-2">
                                             Update Product
                                         </button>}
