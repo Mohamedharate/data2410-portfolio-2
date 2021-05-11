@@ -16,6 +16,18 @@ code {
     monospace;
 }
 
+.backgroundContainer{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.bg-grey{
+  background: lightgrey;
+}
+
 .loginContainer{
   position: fixed;
   top: 23%;
@@ -72,10 +84,17 @@ code {
 .shoppingCartHeader{
   direction: ltr;
 }
-
 .shoppingCartObject{
   direction: ltr;
 }
+
+.checkOutContainer{
+  min-height: 500px;
+  background: white;
+  box-shadow: 0 2px 10px black;
+  border-radius: 5px;
+}
+
 .adminLoginContainer{
   position: absolute;
   top: 15%;

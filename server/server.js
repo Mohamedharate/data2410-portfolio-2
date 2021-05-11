@@ -165,7 +165,7 @@ app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
 });
 
-
+//TODO log out for admins
 app.post('/logout', (req, res) => {
     if (req.user) {
         try {

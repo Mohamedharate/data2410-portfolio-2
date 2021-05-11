@@ -14,9 +14,10 @@ router.post('/', async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const password = await bcrypt.hash(req.body.password, salt)
 
-    const {firstName, lastName, email, country, city, zipCode, street, phoneNumber} = req.body;
+    const email = req.body.email.toLowerCase();
+    const {firstName, lastName, country, city, zipCode, street, phoneNumber} = req.body;
 
-    const user = await User.findOne({email: req.body.email,});
+    const user = await User.findOne({email: req.body.email.toLowerCase()});
     if (user) {
         return res.status(400).json({Error: "User already exists"});
     } else {
@@ -51,21 +52,21 @@ router.get('/emailActivation/:link', async (req, res) => {
             if (err) {
                 return res.status(400).json({error: "Incorrect or expired"})
             }
+
             const {firstName, lastName, email, password, country, city, zipCode, street, phoneNumber} = decodedToken;
-            const user = await User.findOne({email: email,});
 
             let newUser = new User({firstName, lastName, email, password, country, city, zipCode, street, phoneNumber})
             await newUser.save()
                 .then(data => {
-                    res.status(200).json({message: `User created successfully!`})
+                    res.status(200).json({Message: `User created successfully!`})
                 })
                 .catch(error => {
-                    res.status(500).json({error: error.toString()})
+                    res.status(500).json({Error: error.toString()})
                 })
 
         })
     } else {
-        return res.json({error: "Something went wrong!"})
+        return res.json({Error: "Something went wrong!"})
     }
 })
 

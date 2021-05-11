@@ -53,38 +53,59 @@ function formatProdcuts(arr) {
            
                 <a href="http://localhost:3001/products/${arr[i].itemId}">
                    <img class="card-img-top" src="data:${arr[i].imageUrl[0].contentType};base64, ${arr[i].imageUrl[0].image}" alt="" />
-                   </a>
-                    <div class="card-body">
-                        <h4 class="card-title">
-                            <a href="/products/${arr[i].itemId}">${arr[i].name}</a>
-                        </h4>
-                        <h5>$${parseFloat(arr[i].price)}</h5>
-                        <p class="card-text">${arr[i].descriptionShort}</p>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted" style="text-align: left">${stars}</small>
-                        <span class="material-icons-outlined">
-add_shopping_cart
-</span>
-                                         </div>
+                </a>
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <a href="/products/${arr[i].itemId}">${arr[i].name}</a>
+                    </h4>
+                    <h5>$${parseFloat(arr[i].price)}</h5>
+                     <p class="card-text">${arr[i].descriptionShort}</p>
+                </div>
+                <div class="card-footer">
+                     <small class="text-muted" style="text-align: left">${stars}</small>
+                     <span class="material-icons-outlined">
+                         add_shopping_cart
+                     </span>
+                </div>
             </div>
         </div>`)
         }
-        return out;
+        return out.toString();
     } else return "No product"
 }
 
 
 //Get all products from the productDB formatted
 router.get('/allProducts', async (req, res) => {
-
+    let products;
     try {
-        const products = await Product.find();
-        res.send(formatProdcuts(products).toString());
+        products = await Product.find();
     } catch (err) {
-        res.send(err.toString())
+        res.json({Error: err.toString()})
     }
+    if (products) {
+        return res.send(formatProdcuts(products).toString());
+    } else {
+        return res.json({Error: "No products found"})
+    }
+
 });
+
+router.get('/categories/:category', async (req, res) => {
+
+    const category = req.params.category.toLowerCase(); //TODO finne en løsning på store- og småbokstaver.
+    let products;
+    try {
+        products = await Product.find({category: req.params.category});
+    } catch (err) {
+        res.json({Error: err.toString()})
+    }
+    if (products) {
+        return res.status(200).send(formatProdcuts(products));
+    } else {
+        return res.json({Error: `No products found in category ${req.params.category}`})
+    }
+})
 
 router.get('/allProductsPure', async (req, res) => {
 
