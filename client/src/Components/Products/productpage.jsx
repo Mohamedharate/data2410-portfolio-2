@@ -8,9 +8,6 @@ import {CardImg} from "react-bootstrap";
 
 
 export default class Productpage extends Component {
-    handleAddToCartCallback = () => {
-        this.state.handleAddToCartCallback()
-    }
     constructor(props) {
         super(props);
         this.state = {descriptionLong: "", cart_feedback: false};
@@ -20,7 +17,7 @@ export default class Productpage extends Component {
     componentDidMount = async() => {
         await axios({
             method: "get",
-            url: 'http://localhost:3001/api/products/get/' + this.props.match.params.itemId,
+            url: 'http://localhost:3001/api/products/get/'+this.props.itemId,
         }).then(response => {
             this.setState({
                 product: response.data, price: response.data.price, quantityOfProduct: response.data.quantity
@@ -41,11 +38,10 @@ export default class Productpage extends Component {
             url: 'http://localhost:3001/api/cart/addToCart/',
             data: {product_id: this.state.product.itemId, quantity: this.state.quantity}
         }).then(response => {
+            this.setState({cart_feedback: "Product added to card!"})
             this.props.handleAddToCartCallback(this.state.product, this.state.quantity);
-            this.setState({cart_feedback: true})
         }).catch(error => {
             if(error.response){
-                console.log(error.response)
                 console.log(error.response)
             }else if (error.request) {
                 console.log(error.request);
@@ -101,9 +97,7 @@ export default class Productpage extends Component {
                                 <button type="submit" className="btn btn-lg btn-success btn-block mt-2"
                                         onClick={this.postToCart}
                                 >Add to cart</button>
-                                {this.state.cart_feedback &&
-                                    <p className="card-text">Product added to cart!</p>
-                                }
+                                    <p className="card-text">{this.state.cart_feedback}</p>
                             </div>
                         </div>
                         <div className="card card-outline-secondary my-4">

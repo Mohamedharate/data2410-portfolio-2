@@ -184,12 +184,12 @@ class Home extends Component {
                     />
                     <Switch>
                         <Route exact path="/" component={Mainpage}/>
-                        <Route path="/products/:itemId" handleAddToCartCallback={this.handleAddToCartCallback} component={Productpage}/>
+                        <Route exact path="/products/:itemId" component={() =>
+                            <Productpage itemId={window.location.href.split('/').pop()}
+                                         handleAddToCartCallback={this.handleAddToCartCallback} /> }/>
                         <Route path="/addReview/:itemId" component={addReview}/>
-                        <Route path="/orders/"
-                            component={Orders}
-                            current_user={this.state.current_user}
-                            isAuthenticated={this.state.isAuthenticated} />
+                        <Route path="/orders/" component={() =>
+                            <Orders current_user={this.state.current_user} isAuthenticated={this.state.isAuthenticated}/>}/>
                     </Switch>
                     {this.state.toggleLogin && <SignIn loginCallback={this.handleLoginCallback}/>}
                     {this.state.toggleRegister && <SignUp />}
