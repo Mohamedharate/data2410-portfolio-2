@@ -56,11 +56,6 @@ class Login extends Component {
         });
     };
 
-    handleGoogleBtn = async () => {
-        console.log("click");
-        await axios.get('http://localhost:3001/auth/google').then(() => {console.log("Done")})
-    };
-
     render() {
         return (
             <div className="loginContainer">
@@ -73,13 +68,13 @@ class Login extends Component {
                 </div>
                 <div className="row text-center">
                     <div className="col-12">
-                        <div onClick={this.handleGoogleBtn} className="google-btn">
+                        <a href="http://localhost:3001/auth/google" className="google-btn">
                             <div className="google-icon-wrapper">
                                 <img className="google-icon"
                                      src="/btn_google_light_normal_ios.svg"/>
                             </div>
                             <p className="btn-text"><b>Sign in with google</b></p>
-                        </div>
+                        </a>
                         <div className="separator">
                             <div className="line"/>
                             <h5>or</h5>

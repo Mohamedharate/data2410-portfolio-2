@@ -214,6 +214,7 @@ class Home extends Component {
                         </Orders>
                     </Switch>
                     {this.state.toggleLogin && <Login loginCallback={this.handleLoginCallback}/>}
+                    {this.state.toggleRegister && <Register />}
                     {this.state.toggleShoppingCart &&
                     <ShoppingCart
                         addToCartCallback={this.handleAddToCartCallback}
