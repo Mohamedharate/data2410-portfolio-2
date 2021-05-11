@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 
-
-
 const admin_schema = new mongoose.Schema(
     {
         employeeId:{

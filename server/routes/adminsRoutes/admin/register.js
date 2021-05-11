@@ -22,6 +22,8 @@ console.log(pas())
 
 
  */
+
+
 router.post('/', async (req, res) => {
 
 
@@ -34,10 +36,10 @@ router.post('/', async (req, res) => {
                         const salt = await bcrypt.genSalt(10);
                         const password = await bcrypt.hash(req.body.password, salt)
 
+                        const email = req.body.email.toLowerCase();
                         const {
                             firstName,
                             lastName,
-                            email,
                             position,
                             country,
                             city,
@@ -46,7 +48,7 @@ router.post('/', async (req, res) => {
                             phoneNumber
                         } = req.body;
 
-                        const admin = await Admin.findOne({email: req.body.email,});
+                        const admin = await Admin.findOne({email: email});
                         if (admin) {
                             return res.status(400).json({message: "User already exists"});
                         } else {
@@ -105,15 +107,17 @@ router.get('/emailActivation/:link', async (req, res) => {
                 phoneNumber
             } = decodedToken;
 
+
             function getRandomInt() {
                 return Math.floor(1000 + Math.random() * 8999);
             }
+
             let employeeId = getRandomInt();
             const checkId = await Admin.findOne({employeeId: employeeId});
-            while (checkId){
+            while (checkId) {
                 employeeId = getRandomInt();
             }
-            if (!checkId){
+            if (!checkId) {
                 let newUser = new Admin({
                     employeeId,
                     firstName,
