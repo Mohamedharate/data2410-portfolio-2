@@ -80,7 +80,7 @@ class Register extends Component {
                 <div id="login_div" className="row">
                     <div className="col-md-12 text-center">
                         <div className="mb-4">
-                            <h4>Register User</h4>
+                            <h4>Sign up!</h4>
                         </div>
                     </div>
                 </div>
