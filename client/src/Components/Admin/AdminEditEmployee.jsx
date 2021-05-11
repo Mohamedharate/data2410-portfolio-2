@@ -14,8 +14,9 @@ class AdminEditEmployee extends Component {
     }
 
     state = {
-        password: String,
+        employees: [],
         employee_id: '',
+        password: String,
 
         old_firstName: String,
         old_lastName: String,
@@ -30,7 +31,7 @@ class AdminEditEmployee extends Component {
         new_position: String,
 
         toggle_submit_loading: false,
-        toggle_get_product_loading: false,
+        toggle_get_employee_loading: false,
         feedback_text: String,
         toggle_error_feedback: false,
         toggle_success_feedback: false,
@@ -81,7 +82,7 @@ class AdminEditEmployee extends Component {
             callback: async result => {
                 if (result) {
                     console.log("Delete", employee.firstName)
-                    await axios.delete(`http://localhost:3001/*****/${employee._id}`) // TODO find url
+                    await axios.delete(`http://localhost:3001/*****/${employee._id}`) // TODO venter på route i server
                         .then(() => {
                             this.handleGetEmployees()
                         }).catch(err => {
@@ -118,7 +119,7 @@ class AdminEditEmployee extends Component {
 
         await axios({
             method: 'put',
-            url: `http://localhost:3001/*****/${employeeId}`, //TODO find url
+            url: `http://localhost:3001/*****/${employeeId}`, //TODO venter på route i server
             data: formdata,
         }).then(res => {
             this.setState({
@@ -137,11 +138,11 @@ class AdminEditEmployee extends Component {
     };
 
     handleGetEmployees = async () => {
-        this.setState({toggle_get_product_loading: true});
-        await axios.get('http://localhost:3001/api/products/get/allProductsPure')
+        this.setState({toggle_get_employee_loading: true});
+        await axios.get('http://localhost:3001/*****') //TODO venter på route i server
             .then(res => {
-                const products = res.data;
-                this.setState({products});
+                const employees = res.data;
+                this.setState({employees});
             }).catch(err => {
                 this.setState({
                     toggle_success_feedback: false,
@@ -149,7 +150,7 @@ class AdminEditEmployee extends Component {
                     feedback_text: err.data.Error,
                 });
             });
-        this.setState({toggle_get_product_loading: false});
+        this.setState({toggle_get_employee_loading: false});
     };
 
     render() {
@@ -158,23 +159,25 @@ class AdminEditEmployee extends Component {
                 <div className="row text-center m-5">
                     <div className="col-md-4"/>
                     <div className="col-md-4">
-                        <h3>Edit Products</h3>
+                        <h3>Edit Employees</h3>
                     </div>
                     <div className="col-md-4">
-                        {this.state.toggle_get_product_loading ? <LoadingSpinnerPrimaryLongBtn/> :
-                            <button onClick={this.handleGetProducts} className="btn btn-primary btn-block">
-                                Get Products
+                        {this.state.toggle_get_employee_loading ? <LoadingSpinnerPrimaryLongBtn/> :
+                            <button onClick={this.handleGetEmployees} className="btn btn-primary btn-block">
+                                Get employees
                             </button>}
                     </div>
                 </div>
                 <div className="row text-center mt-5">
                     <div className="col-sm-4 float-left one">
-                        {this.state.products.map((product, index) => (
+                        {this.state.employees.map((employee, index) => (
                             <div className="input-group mt-2 ml-2" key={index}>
-                                <input type="text" value={product.name} disabled/>
+                                <input type="text"
+                                       value={employee.position + "\n" + employee.firstName + " " + employee.lastName}
+                                       disabled/>
                                 <div className="input-group-append">
-                                    <button onClick={() => this.handleEditBtn(product)} className="btn btn-outline-secondary">Edit</button>
-                                    <button onClick={() => this.handleDeleteBtn(product)} className="btn btn-danger">
+                                    <button onClick={() => this.handleEditBtn(employee)} className="btn btn-outline-secondary">Edit</button>
+                                    <button onClick={() => this.handleDeleteBtn(employee)} className="btn btn-danger">
                                         <span className="material-icons mt-2">delete_forever</span>
                                     </button>
                                 </div>
@@ -182,79 +185,55 @@ class AdminEditEmployee extends Component {
                         ))}
                     </div>
                     <div className="col-sm-8 text-left position-fixed offset-sm-3 mr-2 two">
-                        <form onSubmit={this.handleSubmit} className="form-addProduct">
-                            <div className="row form-label-group">
-                                <div className="col-6 m-4">
-                                    <label htmlFor="uploadImage">Upload Image:</label>
-                                    <div className="input-group">
-                                        <div className="input-group-prepend">
-                                            <span className="input-group-text" id="uploadImg">Upload Image</span>
-                                        </div>
-                                        <div className="custom-file">
-                                            <input onChange={this.handleInputFile} type="file"
-                                                   className="form-control-file"
-                                                   id="uploadImage"
-                                                   name="imageUrl" aria-describedby="uploadImg" multiple/>
-                                            <label className="custom-file-label"
-                                                   htmlFor="uploadImage">Choose file..</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-sm-5">
-                                    <p>Preview image:</p>
-                                    <img className="previewImage" src={this.state.imagePreview} alt=""/>
+                        <form onSubmit={this.handleSubmit} className="form-signin">
+                            <div className="row text-center m-5">
+                                <div className="col-12">
+                                    <h3>Register New Employee</h3>
                                 </div>
                             </div>
-                            <div className="row form-label-group m-2">
+                            <div className="row form-label-group justify-content-center m-2">
                                 <div className="col-sm-6">
-                                    <label className="mt-2" htmlFor="product_name">Product name:</label>
+                                    <label className=" mt-2" htmlFor="firstName">First name:</label>
                                     <input type="text" onChange={this.handleInputChange}
-                                           className="form-control" placeholder="Name"
-                                           name="product_name" value={this.state.new_product_name} required
-                                           autoFocus=""/>
-                                    <label className="mt-2" htmlFor="product_price">Product price:</label>
-                                    <div className="input-group">
-                                        <div className="input-group-prepend">
-                                            <span className="input-group-text">$</span>
-                                        </div>
-                                        <input type="number" onChange={this.handleInputChange}
-                                               className="form-control" placeholder="Price"
-                                               name="product_price" value={this.state.new_product_price} required/>
-                                    </div>
-                                    <label className="mt-2" htmlFor="product_stock">Product Stock:</label>
-                                    <input type="number" onChange={this.handleInputChange}
-                                           className="form-control" placeholder="Stock"
-                                           name="product_stock" value={this.state.new_product_stock} required
-                                           autoFocus=""/>
-                                    <label className="mt-2" htmlFor="product_category">Category</label>
-                                    <select name="product_category" onChange={this.handleInputChange}
-                                            className="custom-select my-1 mr-sm-2"
-                                            value={this.state.new_product_category} required>
+                                           className="form-control" placeholder="Firstname"
+                                           pattern="^[A-ZÆØÅ]+[a-zæøå ,.'-]{1,20}(\s[A-ZÆØÅ]+[a-zæøå ,.'-]{1,20})?$"
+                                           title="First name has to start with an upper case letter and have at least 2 characters."
+                                           name="firstName" required autoFocus=""/>
+                                    <label className=" mt-2" htmlFor="lastName">Last name:</label>
+                                    <input type="text" onChange={this.handleInputChange}
+                                           className="form-control" placeholder="Lastname"
+                                           pattern="^[A-ZÆØÅ]+[a-zæøå ,.'-]{1,20}$"
+                                           title="Last name has to start with an upper case letter and have at least 2 characters."
+                                           name="lastName" required autoFocus=""/>
+                                    <label className=" mt-2" htmlFor="email">Email:</label>
+                                    <input type="email" onChange={this.handleInputChange}
+                                           className="form-control" placeholder="Email"
+                                           name="email" required autoFocus=""/>
+                                    <label className=" mt-2" htmlFor="phoneNumber">Phone number:</label>
+                                    <input type="text" onChange={this.handleInputChange}
+                                           className="form-control" placeholder="Phone"
+                                           pattern="^(\+|00)?[1-9][0-9 \-\(\)\.]{7,}$"
+                                           title="The address should follow this format:
+                                       <Country code(optional)> <Number(At least 7 digits>."
+                                           name="phoneNumber" required autoFocus=""/>
+                                    <label className=" mt-2" htmlFor="position">Title:</label>
+                                    <select name="position" onChange={this.handleInputChange}
+                                            className="custom-select my-1 mr-sm-2" required>
                                         <option value="" defaultValue="">Choose...</option>
-                                        <option value="Coffee Capsules">Coffee Capsules</option>
-                                        <option value="Coffee Beans">Coffee Beans</option>
-                                        <option value="Filter Ground Coffee">Filter Ground Coffee</option>
-                                        <option value="Coffee Machine">Coffee Machine</option>
-                                        <option value="Coffee">Coffee</option>
-                                        <option value="Other">Other</option>
+                                        <option value="CO-worker">CO-worker</option>
+                                        <option value="Marketing Coordinator">Marketing Coordinator</option>
+                                        <option value="Web Designer">Web Designer</option>
+                                        <option value="Project Manager">Project Manager</option>
+                                        <option value="Executive Sales Manager">Executive Sales Manager</option>
+                                        <option value="President">President</option>
                                     </select>
                                 </div>
-                                <div className="col-sm-5">
-                                    <label className="mt-2" htmlFor="short_description">Short Description:</label>
-                                    <textarea onChange={this.handleInputChange} className="form-control"
-                                              placeholder="Short Description" value={this.state.new_short_description}
-                                              rows="3" name="short_description" required/>
-                                    <label className="mt-2" htmlFor="long_description">Long Description:</label>
-                                    <textarea onChange={this.handleInputChange} className="form-control"
-                                              placeholder="Long Description" value={this.state.new_long_description}
-                                              rows="6" name="long_description" required/>
-                                </div>
                             </div>
-                            <div className="row m-2">
+                            <div className="row justify-content-center m-2">
                                 <div className="col-md-3">
                                     {this.state.toggle_submit_loading ? <LoadingSpinnerPrimaryLongBtn/> :
                                         <button type="submit" className="btn btn-primary btn-block mt-2">
-                                            Update Product
+                                            Update Employee
                                         </button>}
                                 </div>
                             </div>

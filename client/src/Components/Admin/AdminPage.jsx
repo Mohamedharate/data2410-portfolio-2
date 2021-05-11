@@ -4,6 +4,7 @@ import AdminAddNewProduct from "./AdminAddNewProduct";
 import AdminAddNewEmployee from "./AdminAddNewEmployee";
 import AdminRestockProducts from "./AdminRestockProducts";
 import AdminEditProduct from "./AdminEditProduct";
+import AdminEditEmployee from "./AdminEditEmployee";
 
 class AdminPage extends Component {
     constructor(props) {
@@ -12,7 +13,8 @@ class AdminPage extends Component {
     state = {
         toggle_restock: true,
         toggle_edit_product: false,
-        toggle_new_admin: false,
+        toggle_edit_employee: false,
+        toggle_new_employee: false,
         toggle_new_product: false,
     };
 
@@ -21,7 +23,8 @@ class AdminPage extends Component {
         this.setState({
             toggle_restock: true,
             toggle_edit_product: false,
-            toggle_new_admin: false,
+            toggle_edit_employee: false,
+            toggle_new_employee: false,
             toggle_new_product: false
         })
     };
@@ -29,7 +32,16 @@ class AdminPage extends Component {
         this.setState({
             toggle_restock: false,
             toggle_edit_product: true,
-            toggle_new_admin: false,
+            toggle_edit_employee: false,
+            toggle_new_employee: false,
+            toggle_new_product: false
+        })
+    };toggleEditEmployee = () => {
+        this.setState({
+            toggle_restock: false,
+            toggle_edit_product: false,
+            toggle_edit_employee: true,
+            toggle_new_employee: false,
             toggle_new_product: false
         })
     };
@@ -37,7 +49,8 @@ class AdminPage extends Component {
         this.setState({
             toggle_restock: false,
             toggle_edit_product: false,
-            toggle_new_admin: true,
+            toggle_edit_employee: false,
+            toggle_new_employee: true,
             toggle_new_product: false
         })
     };
@@ -45,7 +58,8 @@ class AdminPage extends Component {
         this.setState({
             toggle_restock: false,
             toggle_edit_product: false,
-            toggle_new_admin: false,
+            toggle_edit_employee: false,
+            toggle_new_employee: false,
             toggle_new_product: true
         })
     };
@@ -63,6 +77,9 @@ class AdminPage extends Component {
                             <button onClick={this.toggleEditProduct} className="btn btn-light btn-md m-2">
                                 Edit Product
                             </button>
+                            <button onClick={this.toggleEditEmployee} className="btn btn-light btn-md m-2">
+                                Edit Employee
+                            </button>
                             <button onClick={this.toggleNewProduct} className="btn btn-light btn-md m-2">
                                 Add New Product
                             </button>
@@ -78,9 +95,11 @@ class AdminPage extends Component {
                             <AdminRestockProducts />}
                             {this.state.toggle_edit_product &&
                             <AdminEditProduct />}
+                            {this.state.toggle_edit_employee &&
+                            <AdminEditEmployee />}
                             {this.state.toggle_new_product &&
                             <AdminAddNewProduct />}
-                            {this.state.toggle_new_admin &&
+                            {this.state.toggle_new_employee &&
                             <AdminAddNewEmployee />}
                         </div>
                     </div>
