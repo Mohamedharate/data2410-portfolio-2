@@ -1,7 +1,7 @@
 "use strict";
 const express = require("express");
 let router = express.Router();
-const User = require("../../../Models/user");
+const User = require("../../../Models/admin");
 
 
 router.get('/all', async (req, res) => {
@@ -42,7 +42,6 @@ router.get('/:email', async (req, res) => {
     } else {
         return res.status(500).json({Error: "Something went wrong!"})
     }
-
 })
 
 module.exports = router;
