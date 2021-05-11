@@ -8,8 +8,8 @@ import {CardImg} from "react-bootstrap";
 
 
 export default class Productpage extends Component {
-    handleAddToCart = () => {
-        this.state.addToCartCallback()
+    handleAddToCartCallback = () => {
+        this.state.handleAddToCartCallback()
     }
     constructor(props) {
         super(props);
@@ -36,12 +36,12 @@ export default class Productpage extends Component {
 
     postToCart = async (event) => {
         event.preventDefault();
-        this.handleAddToCart(this.state.product, this.state.quantity);
         await axios({
             method: "post",
             url: 'http://localhost:3001/api/cart/addToCart/',
             data: {product_id: this.state.product.itemId, quantity: this.state.quantity}
         }).then(response => {
+            this.props.handleAddToCartCallback(this.state.product, this.state.quantity);
             this.setState({cart_feedback: true})
         }).catch(error => {
             if(error.response){
@@ -103,7 +103,7 @@ export default class Productpage extends Component {
                                     onChange={(qty) => this.setState({...this.state, quantity: qty})}
                                     max={this.state.quantityOfProduct} label="Quantity" />
                                 <button type="submit" className="btn btn-lg btn-success btn-block mt-2"
-                                        onClick={this.handleAddToCart}
+                                        onClick={this.postToCart}
                                 >Add to cart</button>
                                 {this.state.cart_feedback &&
                                     <p className="card-text">Product added to cart!</p>
