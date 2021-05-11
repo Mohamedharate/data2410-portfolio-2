@@ -6,34 +6,28 @@ import DangerFeedback from "../dangerFeedback";
 import SuccessFeedback from "../successFeedback";
 import LoadingSpinnerPrimaryLongBtn from "../Spinners/LoadingSpinnerPrimaryLongBtn";
 
-class AdminEditProduct extends Component {
+class AdminEditEmployee extends Component {
     constructor(props) {
         super(props);
 
         this.handleInputChange = this.handleInputChange.bind(this)
-        this.handleInputFile = this.handleInputFile.bind(this)
     }
 
     state = {
-        products: [],
-        imagePreview: '',
-        itemId: Number,
+        password: String,
+        employee_id: '',
 
-        old_imageArray: [],
-        old_product_name: String,
-        old_product_price: Number,
-        old_product_stock: Number,
-        old_product_category: String,
-        old_short_description: String,
-        old_long_description: String,
+        old_firstName: String,
+        old_lastName: String,
+        old_email: String,
+        old_phoneNumber: String,
+        old_position: String,
 
-        new_imageArray: [],
-        new_product_name: String,
-        new_product_price: Number,
-        new_product_stock: Number,
-        new_product_category: String,
-        new_short_description: String,
-        new_long_description: String,
+        new_firstName: String,
+        new_lastName: String,
+        new_email: String,
+        new_phoneNumber: String,
+        new_position: String,
 
         toggle_submit_loading: false,
         toggle_get_product_loading: false,
@@ -51,42 +45,29 @@ class AdminEditProduct extends Component {
             ['new_' + name]: value
         })
     };
-    handleInputFile = event => {
-        const file = event.target.files[0]; //TODO make this work for a list of pictures.
 
-        this.setState({imagePreview: URL.createObjectURL(file)})
-
-        const new_imageArray = file;
-        this.setState({new_imageArray});
-    }
-    handleEditBtn = product => {
-        const preview = `data:${product.imageUrl[0].contentType};base64, ${product.imageUrl[0].image}`
-
+    handleEditBtn = employee => {
         this.setState({
-            imagePreview: preview,
-            itemId: product.itemId,
+            employee_id: employee._id,
 
-            old_imageArray: product.imageUrl,
-            old_product_name: product.name,
-            old_product_price: parseInt(product.price.$numberDecimal),
-            old_product_stock: product.quantity,
-            old_product_category: product.category,
-            old_short_description: product.descriptionShort,
-            old_long_description: product.descriptionLong,
+            old_firstName: employee.firstName,
+            old_lastName: employee.lastName,
+            old_email: employee.email,
+            old_phoneNumber: employee.phoneNumber,
+            old_position: employee.position,
 
-            new_imageArray: product.imageUrl,
-            new_product_name: product.name,
-            new_product_price: parseInt(product.price.$numberDecimal),
-            new_product_stock: product.quantity,
-            new_product_category: product.category,
-            new_short_description: product.descriptionShort,
-            new_long_description: product.descriptionLong,
+            new_firstName: employee.firstName,
+            new_lastName: employee.lastName,
+            new_email: employee.email,
+            new_phoneNumber: employee.phoneNumber,
+            new_position: employee.position,
         })
-    };
-    handleDeleteBtn = async product => {
+
+    }
+    handleDeleteBtn = async employee => {
         // Confirm delete
         bootbox.confirm({
-            message: "Delete " + product.name + " from products?",
+            message: "Delete " + employee.firstName + " " + employee.lastName + " from products?",
             buttons : {
                 'cancel': {
                     label: 'Cancel',
@@ -99,10 +80,10 @@ class AdminEditProduct extends Component {
             },
             callback: async result => {
                 if (result) {
-                    console.log("Delete", product.name)
-                    await axios.delete(`http://localhost:3001/api/products/delete/one/${product.itemId}`)
+                    console.log("Delete", employee.firstName)
+                    await axios.delete(`http://localhost:3001/*****/${employee._id}`) // TODO find url
                         .then(() => {
-                            this.handleGetProducts()
+                            this.handleGetEmployees()
                         }).catch(err => {
                             console.log(err)
                         })
@@ -112,38 +93,32 @@ class AdminEditProduct extends Component {
     }
     handleSubmit = async event => {
         event.preventDefault();
-        let file = this.state.new_imageArray;
-        const itemId = this.state.itemId;
         this.setState({toggle_submit_loading: true});
+
+        const employeeId = this.state.employee_id
 
         let formdata = new FormData();
 
         // Checks which variables has changed and add changed variables to the form-data.
-        if (this.state.old_imageArray !== this.state.new_imageArray) {
-            formdata.append('imageUrl', file);
+        if (this.state.old_firstName !== this.state.new_firstName) {
+            formdata.append('firstName', this.state.new_firstName);
         }
-        if (this.state.old_product_name !== this.state.new_product_name) {
-            formdata.append('name', this.state.new_product_name);
+        if (this.state.old_lastName !== this.state.new_lastName) {
+            formdata.append('lastName', this.state.new_lastName);
         }
-        if (this.state.old_short_description !== this.state.new_short_description) {
-            formdata.append('descriptionShort', this.state.new_short_description);
+        if (this.state.old_email !== this.state.new_email) {
+            formdata.append('email', this.state.new_email);
         }
-        if (this.state.old_long_description !== this.state.new_long_description) {
-            formdata.append('descriptionLong', this.state.new_long_description);
+        if (this.state.old_phoneNumber !== this.state.new_phoneNumber) {
+            formdata.append('phoneNumber', this.state.new_phoneNumber);
         }
-        if (this.state.old_product_price !== this.state.new_product_price) {
-            formdata.append('price', this.state.new_product_price);
-        }
-        if (this.state.old_product_category !== this.state.new_product_category) {
-            formdata.append('category', this.state.new_product_category);
-        }
-        if (this.state.old_product_stock !== this.state.new_product_stock) {
-            formdata.append('quantity', this.state.new_product_stock);
+        if (this.state.old_position !== this.state.new_position) {
+            formdata.append('position', this.state.new_position);
         }
 
         await axios({
             method: 'put',
-            url: `http://localhost:3001/api/products/update/${itemId}`,
+            url: `http://localhost:3001/*****/${employeeId}`, //TODO find url
             data: formdata,
         }).then(res => {
             this.setState({
@@ -161,7 +136,7 @@ class AdminEditProduct extends Component {
         this.setState({toggle_submit_loading: false});
     };
 
-    handleGetProducts = async () => {
+    handleGetEmployees = async () => {
         this.setState({toggle_get_product_loading: true});
         await axios.get('http://localhost:3001/api/products/get/allProductsPure')
             .then(res => {
@@ -198,10 +173,10 @@ class AdminEditProduct extends Component {
                             <div className="input-group mt-2 ml-2" key={index}>
                                 <input type="text" value={product.name} disabled/>
                                 <div className="input-group-append">
-                                        <button onClick={() => this.handleEditBtn(product)} className="btn btn-outline-secondary">Edit</button>
-                                        <button onClick={() => this.handleDeleteBtn(product)} className="btn btn-danger">
-                                            <span className="material-icons mt-2">delete_forever</span>
-                                        </button>
+                                    <button onClick={() => this.handleEditBtn(product)} className="btn btn-outline-secondary">Edit</button>
+                                    <button onClick={() => this.handleDeleteBtn(product)} className="btn btn-danger">
+                                        <span className="material-icons mt-2">delete_forever</span>
+                                    </button>
                                 </div>
                             </div>
                         ))}
@@ -295,4 +270,4 @@ class AdminEditProduct extends Component {
     }
 }
 
-export default AdminEditProduct;
+export default AdminEditEmployee;
