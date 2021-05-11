@@ -9,8 +9,23 @@ const send = require('../../../sendMail/sendActivationLink');
 const formatActivationEmail = require('../../../sendMail/formatActivationLink');
 
 const JWT_ACC = "accountactivateOsloMetShop";
+/*
+async function pas(){
+    const salt = await bcrypt.genSalt(10);
+    const password = await bcrypt.hash("OsloMet123", salt)
+    console.log(password)
+    return password
+
+}
+pas()
+console.log(pas())
+
+
+ */
+
 
 router.post('/', async (req, res) => {
+
 
     if (req.session) {
         if (req.session.passport) {
@@ -21,10 +36,10 @@ router.post('/', async (req, res) => {
                         const salt = await bcrypt.genSalt(10);
                         const password = await bcrypt.hash(req.body.password, salt)
 
+                        const email = req.body.email.toLowerCase();
                         const {
                             firstName,
                             lastName,
-                            email,
                             position,
                             country,
                             city,
@@ -33,7 +48,7 @@ router.post('/', async (req, res) => {
                             phoneNumber
                         } = req.body;
 
-                        const admin = await Admin.findOne({email: req.body.email,});
+                        const admin = await Admin.findOne({email: email});
                         if (admin) {
                             return res.status(400).json({message: "User already exists"});
                         } else {
@@ -78,6 +93,7 @@ router.get('/emailActivation/:link', async (req, res) => {
             if (err) {
                 return res.status(400).json({error: "Incorrect or expired"})
             }
+
             const {
                 firstName,
                 lastName,
@@ -90,25 +106,40 @@ router.get('/emailActivation/:link', async (req, res) => {
                 street,
                 phoneNumber
             } = decodedToken;
-            let newUser = new Admin({
-                firstName,
-                lastName,
-                email,
-                password,
-                position,
-                country,
-                city,
-                zipCode,
-                street,
-                phoneNumber
-            })
-            await newUser.save()
-                .then(data => {
-                    res.status(200).json({message: `User created successfully!`})
+
+
+            function getRandomInt() {
+                return Math.floor(1000 + Math.random() * 8999);
+            }
+
+            let employeeId = getRandomInt();
+            const checkId = await Admin.findOne({employeeId: employeeId});
+            while (checkId) {
+                employeeId = getRandomInt();
+            }
+            if (!checkId) {
+                let newUser = new Admin({
+                    employeeId,
+                    firstName,
+                    lastName,
+                    email,
+                    password,
+                    position,
+                    country,
+                    city,
+                    zipCode,
+                    street,
+                    phoneNumber
                 })
-                .catch(error => {
-                    res.status(500).json({error: error.toString()})
-                })
+                await newUser.save()
+                    .then(data => {
+                        res.status(200).json({message: `User created successfully!`})
+                    })
+                    .catch(error => {
+                        res.status(500).json({error: error.toString()})
+                    })
+            }
+
         })
     } else {
         return res.json({error: "Something went wrong!"})

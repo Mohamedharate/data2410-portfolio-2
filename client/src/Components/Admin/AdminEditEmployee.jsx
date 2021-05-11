@@ -49,7 +49,7 @@ class AdminEditEmployee extends Component {
 
     handleEditBtn = employee => {
         this.setState({
-            employee_id: employee._id,
+            employee_id: employee.employeeId,
 
             old_firstName: employee.firstName,
             old_lastName: employee.lastName,
@@ -82,7 +82,7 @@ class AdminEditEmployee extends Component {
             callback: async result => {
                 if (result) {
                     console.log("Delete", employee.firstName)
-                    await axios.delete(`http://localhost:3001/*****/${employee._id}`) // TODO venter på route i server
+                    await axios.delete(`http://localhost:3001/api/admin/delete/one/${employee.employeeId}`) // TODO venter på route i server
                         .then(() => {
                             this.handleGetEmployees()
                         }).catch(err => {
@@ -119,7 +119,7 @@ class AdminEditEmployee extends Component {
 
         await axios({
             method: 'put',
-            url: `http://localhost:3001/*****/${employeeId}`, //TODO venter på route i server
+            url: `http://localhost:3001/api/admin/update/${employeeId}`, //TODO venter på route i server
             data: formdata,
         }).then(res => {
             this.setState({
@@ -139,9 +139,10 @@ class AdminEditEmployee extends Component {
 
     handleGetEmployees = async () => {
         this.setState({toggle_get_employee_loading: true});
-        await axios.get('http://localhost:3001/*****') //TODO venter på route i server
+        await axios.get('http://localhost:3001/api/admin/get/all') //TODO venter på route i server
             .then(res => {
                 const employees = res.data;
+                console.log(employees);
                 this.setState({employees});
             }).catch(err => {
                 this.setState({
