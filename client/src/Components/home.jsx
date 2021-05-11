@@ -13,6 +13,7 @@ import ShoppingCart from "./shoppingCart";
 import Orders from "./orders";
 
 
+
 class Home extends Component {
     constructor(props) {
         super(props);
@@ -84,14 +85,14 @@ class Home extends Component {
             })
         }
     }
-    handleAddToCartCallback = (product, quantity) => {
-        console.log("add to cart")
-        const Product = product;
-        Product.quantity = quantity;
 
+    handleAddToCartCallback = (product_id, quantity) => {
+        console.log("add to cart")
+        const Product = product_id;
+        Product.quantity = quantity;
         const cart_objects = [...this.state.cart_objects, Product];
         this.updateCartCounterAndPrice(cart_objects);
-        this.setState({cart_objects})
+        this.setState({cart_objects, cart_feedback: true})
     }
 
     // Handle checkout
@@ -206,15 +207,13 @@ class Home extends Component {
                         <Route exact path="/" component={Mainpage}/>
                         <Route path="/products/:itemId" component={Productpage} addToCartCallback={this.handleAddToCartCallback}/>
                         <Route path="/addReview/:itemId" component={addReview}/>
-                        <Route path="/chart" component={ShoppingCart}/>
                         <Orders>
-                            <Route> path="/orders"</Route>
+                            <Route path="/orders" />
                             component={Orders}
                             current_user={this.state.current_user}
                             isAuthenticated={this.state.isAuthenticated}
-                        />
                         </Orders>
-                    </Switch>
+                </Switch>
                     {this.state.toggleLogin && <Login loginCallback={this.handleLoginCallback}/>}
                     {this.state.toggleRegister && <Register />}
                     {this.state.toggleShoppingCart &&

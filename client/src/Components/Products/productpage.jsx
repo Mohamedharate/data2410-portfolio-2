@@ -8,25 +8,24 @@ import {CardImg} from "react-bootstrap";
 
 
 export default class Productpage extends Component {
+    handleAddToCart = () => {
+        this.state.addToCartCallback()
+    }
     constructor(props) {
         super(props);
-        this.state = {descriptionLong: "", cart_feedback: ''};
+        this.state = {descriptionLong: "", cart_feedback: false};
         this.state = {product: [], quantity: 1, price: 0, quantityOfProduct: 0};
     }
-    handleAddToCartCallback = () => {
-        this.props.addToCartCallback()
-    }
 
-    async componentDidMount() {
-        const that = this;
+    componentDidMount = async() => {
         await axios({
             method: "get",
             url: 'http://localhost:3001/api/products/get/' + this.props.match.params.itemId,
-        }).then(function (response) {
-            that.setState({
+        }).then(response => {
+            this.setState({
                 product: response.data, price: response.data.price, quantityOfProduct: response.data.quantity
             });
-        }).catch(function (error) {
+        }).catch(error => {
             if (!error.data) {
                 console.log(error.data)
             }
@@ -34,25 +33,23 @@ export default class Productpage extends Component {
         });
     };
 
-    handleSubmit = async (event) => {
-        event.preventDefault();
-        await this.postToCart()
-            .then(response => {
-                this.props.addToCartCallback(this.state.product, this.state.quantity);
-            }
-            ).catch(error => {
-        })
-    }
 
-    async postToCart() {
-        const that = this;
+    postToCart = async (event) => {
+        event.preventDefault();
+        this.handleAddToCart(this.state.product, this.state.quantity);
         await axios({
             method: "post",
             url: 'http://localhost:3001/api/cart/addToCart/',
             data: {product_id: this.state.product.itemId, quantity: this.state.quantity}
-        }).then(function (res) {
-            that.setState({cart_feedback:  'Product added to cart!'})
-
+        }).then(response => {
+            this.setState({cart_feedback: true})
+        }).catch(error => {
+            if(error.response){
+                console.log(error.response)
+                console.log(error.response)
+            }else if (error.request) {
+                console.log(error.request);
+            }
         })
     }
 
@@ -106,9 +103,11 @@ export default class Productpage extends Component {
                                     onChange={(qty) => this.setState({...this.state, quantity: qty})}
                                     max={this.state.quantityOfProduct} label="Quantity" />
                                 <button type="submit" className="btn btn-lg btn-success btn-block mt-2"
-                                        onClick= {this.handleSubmit}
+                                        onClick={this.handleAddToCart}
                                 >Add to cart</button>
-                                <p className="card-text">{this.state.cart_feedback}</p>
+                                {this.state.cart_feedback &&
+                                    <p className="card-text">Product added to cart!</p>
+                                }
                             </div>
                         </div>
                         <div className="card card-outline-secondary my-4">
