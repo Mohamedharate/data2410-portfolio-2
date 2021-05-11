@@ -25,7 +25,7 @@ class Register extends Component {
     }
 
 
-    handleInputChange(event) {
+    handleInputChange = event => {
         const target = event.target;
         const value = target.value;
         const name = target.name;
