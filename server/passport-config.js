@@ -112,8 +112,14 @@ passport.use( 'google',new GoogleStrategy(
                 let user = await User.findOne({ googleId: profile.id })
 
                 if (user) {
-                    done(null, user)
+                    return done(null, user)
                 } else {
+
+                    let user = await User.findOne({ email: newUser.email })
+                    if (user){
+                        return done(null, false, {Error: "You are not registered with google"})
+                    }
+
                     user = await User.create(newUser)
                     done(null, user)
                 }
