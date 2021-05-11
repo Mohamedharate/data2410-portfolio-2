@@ -8,41 +8,67 @@ class Orders extends Component{
     constructor(props) {
         super(props);
         this.state = {user: "", orders: [], order_id: 0};
-    }
-    async getOrder(){
-        const that = this;
+    };
+
+    componentDidMount = async () => {
         await axios({
             method: "get",
-            url: "http://localhost:3001/api/orders/getUserOrders/",
-        }).then(function (response){
-            console.log(response.data)
-            that.setState({
+            url: 'http://localhost:3001/api/orders/getUserOrders/',
+        }).then(response => {
+            this.setState({
                 orders: response.data, order_id: response.data.orders._id,});
+            console.log(response.data.order.firstName)
+            console.log(response.data.orders.order)
+            console.log(response.data.user)
         }).catch(function (error){
             console.log(error.data)
         });
     }
+    toggleEditProfile = () => {
+        this.setState({
+            toggle_edit_profile: true,
+            toggle_previous_orders: false,
+        })
+    };
+    toggleOrders = () => {
+        this.setState({
+            toggle_edit_profile: false,
+            toggle_previous_orders: true,
+        })
+    };
+
     render() {
+        const {orders} = this.state;
         return(
             <div className="orderContainer">
-            <div className="card mt-5">
-                <h3 className="card-header">Previous orders</h3>
-                        {!this.state.orders &&
+                <div className="row">
+                    <div className="col-md-2 bg-secondary text-center fillColumn">
+                        <button onClick={this.toggleEditProfile} className="btn btn-light btn-md m-2">
+                            Edit Profile
+                        </button>
+                        <button onClick={this.toggleOrders} className="btn btn-light btn-md m-2">
+                            Previous Orders
+                        </button>
+                    </div>
+                        <div className="col-md-10">
+                        <h3 className="card-header">Previous orders</h3>
+                        {!this.state.orders.products &&
                         <Alert color="info">You have no orders. Go shopping!</Alert>}
-                        {this.state.orders &&
+                        {this.state.orders.products &&
                         <Alert color="info">You are logged in as {this.state.orders.firstName}. Here are your orders:</Alert>}
-                    <ul className="list-group">
+                        <ul className="list-group">
                         <li className="list-group-item">
-                        {this.state.orders &&
-                        this.state.orders.map((order, index) => {
+                            {orders &&
+                            [orders].map((order, index) => {
                             return(
                                 <div key={index}>
-                                    {order.products.map((p, i) => {
+                                    <p>{order.firstName}</p>
+                                    {order.products &&
+                                    [order.products].map((o, i) => {
                                         return(
                                             <div key={i}>
-                                                <h6>Name: {p.name}</h6>
-                                                <h6>Price: ${p.price}</h6>
-                                                <h6>Date: {p.date}</h6>
+                                                <h6>Price: ${o.total}</h6>
+                                                <h6>Date: {o.date}</h6>
                                     </div>
                                 )
                             })}
@@ -51,6 +77,8 @@ class Orders extends Component{
                     })}
                 </li>
                 </ul>
+            </div>
+
             </div>
     </div>
         )
