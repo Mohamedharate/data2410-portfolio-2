@@ -191,8 +191,13 @@ class Home extends Component {
                         <Route path="/orders/" component={() =>
                             <Orders current_user={this.state.current_user} isAuthenticated={this.state.isAuthenticated}/>}/>
                     </Switch>
-                    {this.state.toggleLogin && <SignIn loginCallback={this.handleLoginCallback}/>}
-                    {this.state.toggleRegister && <SignUp />}
+                    {this.state.toggleLogin && <SignIn
+                        loginCallback={this.handleLoginCallback}
+                        close={this.handleToggleLoginCallback}
+                    />}
+                    {this.state.toggleRegister && <SignUp
+                        close={this.handleToggleRegisterCallback}
+                    />}
                     {this.state.toggleCheckOut && <CheckOut
                         cart_objects={this.state.cart_objects}
                         current_user={this.state.current_user}

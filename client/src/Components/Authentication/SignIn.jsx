@@ -44,6 +44,7 @@ class SignIn extends Component {
         }).catch(error => {
             this.setState({toggle_loading: false});
             if (error.response) {
+
                 console.log(error.response.data.Error);
                 console.log(error.response.status);
                 this.setState({feedback_text: error.response.data.Error});
@@ -54,72 +55,87 @@ class SignIn extends Component {
                 console.log('Error', error.message);
             }
         });
-    };
+    }
 
     render() {
         return (
-            <div className="loginContainer">
-                <div id="login_div" className="row">
-                    <div className="col-12">
-                        <div className="text-center mb-4">
-                            <h4>Sign in to store</h4>
-                        </div>
-                    </div>
-                </div>
-                <div className="row text-center">
-                    <div className="col-12">
-                        <a href="http://localhost:3001/auth/google" className="google-btn">
-                            <div className="google-icon-wrapper">
-                                <img className="google-icon"
-                                     src="/btn_google_light_normal_ios.svg"/>
+            <div className="backgroundContainer mt-5">
+                <div className="row text-center justify-content-center mt-3">
+                    <div
+                        className="col-md-6 col-lg-3 mh-75 bg-light mt-5 p-4 border border-secondary shadow-lg rounded">
+                        <div className="row">
+                            <div className="col-3"/>
+                            <div className="col-6">
+                                <h4>Sign in!</h4>
                             </div>
-                            <p className="btn-text"><b>Sign in with google</b></p>
-                        </a>
-                        <div className="separator">
-                            <div className="line"/>
-                            <h5>or</h5>
-                            <div className="line"/>
+                            <div className="col-3">
+                                <button onClick={this.props.close} className="btn btn-light material-icons float-right">
+                                    close
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div className="row mt-2">
-                    <div className="col-md-12">
-                        <form onSubmit={this.handleSubmit} className="form-signin">
-                            <div className="form-label-group">
-                                <div className="input-group">
-                                    <div className="input-group-prepend">
-                                        <div className="input-group-text mt-2" id="basic-addon1">
-                                            <i className="material-icons">mail</i>
-                                        </div>
+                        <div className="row">
+                            <div className="col-12">
+                                <a href="http://localhost:3001/auth/google" className="google-btn">
+                                    <div className="google-icon-wrapper">
+                                        <img className="google-icon"
+                                             src="/btn_google_light_normal_ios.svg"/>
                                     </div>
-                                    <input type="email" onChange={this.handleInputChange} className="form-control mt-2"
-                                           placeholder="Email" name="email" required="*" autoFocus=""
-                                           aria-describedby="basic-addon1"/>
+                                    <p className="btn-text"><b>Sign in with google</b></p>
+                                </a>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-12">
+                                <div className="separator">
+                                    <div className="line"/>
+                                    <h5>or</h5>
+                                    <div className="line"/>
                                 </div>
-                                <div className="input-group mb-2">
-                                    <div className="input-group-prepend">
-                                        <div className="input-group-text mt-2" id="basic-addon1">
-                                            <i className="material-icons">vpn_key</i>
+                            </div>
+                        </div>
+                        <div className="row mt-2">
+                            <div className="col-md-12">
+                                <form onSubmit={this.handleSubmit} className="form-signin">
+                                    <div className="form-label-group">
+                                        <div className="input-group">
+                                            <div className="input-group-prepend">
+                                                <div className="input-group-text mt-2" id="basic-addon1">
+                                                    <i className="material-icons">mail</i>
+                                                </div>
+                                            </div>
+                                            <input type="email" onChange={this.handleInputChange}
+                                                   className="form-control mt-2"
+                                                   placeholder="Email" name="email" required="*" autoFocus=""
+                                                   aria-describedby="basic-addon1"/>
                                         </div>
-                                    </div>
-                                    <input type="Password" onChange={this.handleInputChange}
-                                           className="form-control mt-2"
-                                           pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}"
-                                           title="Password must contain at least 1 upper and lower case letter, 1 number and
+                                        <div className="input-group mb-2">
+                                            <div className="input-group-prepend">
+                                                <div className="input-group-text mt-2" id="basic-addon1">
+                                                    <i className="material-icons">vpn_key</i>
+                                                </div>
+                                            </div>
+                                            <input type="Password" onChange={this.handleInputChange}
+                                                   className="form-control mt-2"
+                                                   pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}"
+                                                   title="Password must contain at least 1 upper and lower case letter, 1 number and
                                         be at least 8 characters long."
-                                           placeholder="Password" name="password" required="*" autoFocus=""/>
-                                </div>
+                                                   placeholder="Password" name="password" required="*" autoFocus=""/>
+                                        </div>
+                                    </div>
+                                    {this.state.toggle_loading ? <LoadingSpinnerPrimaryLongBtn/> :
+                                        <button type="submit" className="btn btn-primary btn-block">
+                                            Sign in!
+                                        </button>}
+                                    {this.state.toggle_error_feedback &&
+                                    <DangerFeedback feedback_error_text={this.state.feedback_text}/>}
+                                </form>
                             </div>
-                            {this.state.toggle_loading ? <LoadingSpinnerPrimaryLongBtn/> :
-                                <button type="submit" className="btn btn-primary btn-block">
-                                    Sign in!
-                                </button>}
-                            {this.state.toggle_error_feedback &&
-                            <DangerFeedback feedback_error_text={this.state.feedback_text}/>}
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
+
         );
     }
 }
