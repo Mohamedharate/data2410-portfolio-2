@@ -12,6 +12,7 @@ import addReview from "./Products/addReview";
 import ShoppingCart from "./ShoppingCart/ShoppingCart";
 import Orders from "./orders";
 import CheckOut from "./CheckOut";
+import ProfileMain from "./UserProfile/ProfileMain"
 
 
 class Home extends Component {
@@ -23,6 +24,7 @@ class Home extends Component {
         toggleRegister: false,
         toggleShoppingCart: false,
         toggleCheckOut: false,
+        toggleProfilePage: false,
         isAuthenticated: false,
         current_user: {},
         empty_cart: false,
@@ -47,6 +49,7 @@ class Home extends Component {
             toggleRegister: false,
             toggleShoppingCart: false,
             toggleCheckOut: false,
+            toggleProfilePage: false,
         });
     }
     handleToggleRegisterCallback = () => {
@@ -55,6 +58,7 @@ class Home extends Component {
             toggleRegister: !this.state.toggleRegister,
             toggleShoppingCart: false,
             toggleCheckOut: false,
+            toggleProfilePage: false,
         });
     }
     handleToggleShoppingCartCallback = () => {
@@ -63,6 +67,7 @@ class Home extends Component {
             toggleRegister: false,
             toggleShoppingCart: !this.state.toggleShoppingCart,
             toggleCheckOut: false,
+            toggleProfilePage: false,
         });
     }
     handleToggleCheckOutCallback = () => {
@@ -71,6 +76,16 @@ class Home extends Component {
             toggleRegister: false,
             toggleShoppingCart: false,
             toggleCheckOut: !this.state.toggleCheckOut,
+            toggleProfilePage: false,
+        })
+    }
+    handleToggleProfilePageCallback = () => {
+        this.setState({
+            toggleLogin: false,
+            toggleRegister: false,
+            toggleShoppingCart: false,
+            toggleCheckOut: false,
+            toggleProfilePage: !this.state.toggleProfilePage,
         })
     }
 
@@ -196,6 +211,7 @@ class Home extends Component {
                         toggleLoginCallback={this.handleToggleLoginCallback}
                         toggleRegisterCallback={this.handleToggleRegisterCallback}
                         toggleShoppingCartCallback={this.handleToggleShoppingCartCallback}
+                        toggleProfilePageCallback={this.handleToggleProfilePageCallback}
                         handleLogoutCallback={this.handleLogoutCallback}
                         isAuthenticated={this.state.isAuthenticated}
                         current_user={this.state.current_user}
@@ -218,6 +234,7 @@ class Home extends Component {
                     {this.state.toggleRegister && <SignUp
                         close={this.handleToggleRegisterCallback}
                     />}
+                    {this.state.toggleProfilePage && <ProfileMain />}
                     {this.state.toggleCheckOut && <CheckOut
                         cart_objects={this.state.cart_objects}
                         current_user={this.state.current_user}

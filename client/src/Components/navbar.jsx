@@ -6,14 +6,17 @@ class Navbar extends Component {
     handleLogin = () => {
         this.props.toggleLoginCallback()
     }
+    handleLogout = () => {
+        this.props.handleLogoutCallback()
+    }
     handleRegister = () => {
         this.props.toggleRegisterCallback()
     }
     handleShoppingCart = () => {
         this.props.toggleShoppingCartCallback()
     }
-    handleLogout = () => {
-        this.props.handleLogoutCallback()
+    handleProfile = () => {
+        this.props.toggleProfilePageCallback()
     }
 
     render() {
