@@ -42,16 +42,36 @@ class Home extends Component {
     // Handlers
     // Toggle windows.
     handleToggleLoginCallback = () => {
-        this.setState({toggleLogin: !this.state.toggleLogin, toggleRegister: false});
+        this.setState({
+            toggleLogin: !this.state.toggleLogin,
+            toggleRegister: false,
+            toggleShoppingCart: false,
+            toggleCheckOut: false,
+        });
     }
     handleToggleRegisterCallback = () => {
-        this.setState({toggleLogin: false, toggleRegister: !this.state.toggleRegister});
+        this.setState({
+            toggleLogin: false,
+            toggleRegister: !this.state.toggleRegister,
+            toggleShoppingCart: false,
+            toggleCheckOut: false,
+        });
     }
     handleToggleShoppingCartCallback = () => {
-        this.setState({toggleShoppingCart: !this.state.toggleShoppingCart});
+        this.setState({
+            toggleLogin: false,
+            toggleRegister: false,
+            toggleShoppingCart: !this.state.toggleShoppingCart,
+            toggleCheckOut: false,
+        });
     }
     handleToggleCheckOutCallback = () => {
-        this.setState({toggleCheckOut: !this.state.toggleCheckOut, toggleShoppingCart: false})
+        this.setState({
+            toggleLogin: false,
+            toggleRegister: false,
+            toggleShoppingCart: false,
+            toggleCheckOut: !this.state.toggleCheckOut,
+        })
     }
 
     // Handle cart
@@ -191,8 +211,13 @@ class Home extends Component {
                         <Route path="/orders/" component={() =>
                             <Orders current_user={this.state.current_user} isAuthenticated={this.state.isAuthenticated}/>}/>
                     </Switch>
-                    {this.state.toggleLogin && <SignIn loginCallback={this.handleLoginCallback}/>}
-                    {this.state.toggleRegister && <SignUp />}
+                    {this.state.toggleLogin && <SignIn
+                        loginCallback={this.handleLoginCallback}
+                        close={this.handleToggleLoginCallback}
+                    />}
+                    {this.state.toggleRegister && <SignUp
+                        close={this.handleToggleRegisterCallback}
+                    />}
                     {this.state.toggleCheckOut && <CheckOut
                         cart_objects={this.state.cart_objects}
                         current_user={this.state.current_user}

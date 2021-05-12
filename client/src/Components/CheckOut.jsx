@@ -129,7 +129,7 @@ class CheckOut extends Component {
 
     render() {
         return (
-            <div className="backgroundContainer mt-5">
+            <div className="backgroundContainer position-absolute mt-5">
                 <div className="row text-center justify-content-center mt-3">
                     <div className="col-md-10 col-lg-8 mh-75 bg-light mt-5 p-2 border border-secondary shadow-lg rounded">
                         <div className="w-100">
