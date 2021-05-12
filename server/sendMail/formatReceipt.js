@@ -2,7 +2,7 @@
 const StringBuilder = require("string-builder");
 const date = require('date-and-time')
 
-function formatReceipt(user, order, total) {
+function formatReceipt(user,order,products) {
 
     let out = new StringBuilder();
 
@@ -311,18 +311,18 @@ function formatReceipt(user, order, total) {
                                                             <td>
                                                                 <h3>Delivery Address</h3>
                                                                 <br>${order.firstName} ${order.lastName}
-                                                                <br>${order.street}
-                                                                <br>${order.zipCode} ${order.city} 
-                                                                <br>${order.country} 
+                                                                <br>${order.shippingAddress[0].street}
+                                                                <br>${order.shippingAddress[0].zipCode} ${order.shippingAddress[0].city} 
+                                                                <br>${order.shippingAddress[0].country} 
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td>
                                                                 <h3>Billing Address</h3>
                                                                 <br>${user.firstName} ${user.lastName}
-                                                                <br>${user.street}
-                                                                <br>${user.zipCode} ${user.city} 
-                                                                <br>${user.country}
+                                                                <br>${order.billingAddress[0].street}
+                                                                <br>${order.billingAddress[0].zipCode} ${order.billingAddress[0].city} 
+                                                                <br>${order.billingAddress[0].country}
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -331,20 +331,20 @@ function formatReceipt(user, order, total) {
                                                                     <tbody>                       
             `)
 
-    order.products.forEach(one => {
+    for (let i = 0; i < products.length; i++){
         out.append(`
        <tr>
-            <td>${one.name}</td>
-            <td class="alignright">${one.quantity} x $${one.price}</td>
+            <td>${products[i].name}</td>
+            <td class="alignright">${products[i].quantity} x $${products[i].price}</td>
         </tr>
         
       `)
-    })
+    }
 
     out.append(`
                                                           <tr class="total">
                                                             <td class="alignright" width="80%">Total</td>
-                                                            <td class="alignright">$${total}</td>
+                                                            <td class="alignright">$${order.total}</td>
                                                         </tr>
                                                     </tbody></table>
                                                 </td>

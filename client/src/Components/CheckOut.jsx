@@ -66,14 +66,20 @@ class CheckOut extends Component {
             method: 'post',
             url: 'http://localhost:3001/api/orders/newOrder',
             data: {
+                save_address: this.state.save_address,
+                separate_shipping: this.state.separate_shipping,
                 firstName: this.state.firstName,
                 lastName: this.state.lastName,
                 email: this.state.email,
                 phoneNumber: this.state.phoneNumber,
-                country: country,
-                zipCode: zipCode,
-                city: city,
-                street: street,
+                country: this.state.country,
+                zipCode: this.state.zipCode,
+                city: this.state.city,
+                street: this.state.street,
+                shippingCountry: country,
+                shippingZipCode: zipCode,
+                shippingCity: city,
+                shippingStreet: street,
             }
         }).then(res => {
             this.setState({
@@ -95,20 +101,35 @@ class CheckOut extends Component {
             this.setState({toggle_loading: true})
             await axios({
                 method: 'put',
-                url: `http://localhost:3001/api/users/delete/${this.props.current_user.email}`,
+                url: `http://localhost:3001/api/users/update/${this.props.current_user.email}`,
                 data: {
                     country: this.state.country,
                     city: this.state.city,
                     zipCode: this.state.zipCode,
                     street: this.state.street,
                 }
-            })
+            }).then(res => {
+                this.setState({
+                    toggle_error_feedback: false,
+                    toggle_success_feedback: true,
+                    feedback_text: res.data.Message,
+                    toggle_loading: false,
+                });
+                this.props.order_complete(this.props.current_user)
+            }).catch(err => {
+                this.setState({
+                    toggle_error_feedback: true,
+                    toggle_success_feedback: false,
+                    feedback_text: err.data.Error,
+                    toggle_loading: false,
+                });
+            });
         }
     }
 
     render() {
         return (
-            <div className="backgroundContainer mt-5">
+            <div className="backgroundContainer position-absolute mt-5">
                 <div className="row text-center justify-content-center mt-3">
                     <div className="col-md-10 col-lg-8 mh-75 bg-light mt-5 p-2 border border-secondary shadow-lg rounded">
                         <div className="w-100">
