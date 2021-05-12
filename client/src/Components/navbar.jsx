@@ -40,8 +40,8 @@ class Navbar extends Component {
 
                                 </li>
                                 <li className="nav-item">
-                                    <div className="container btn justify-content-center text-center">
-                                        <span className="position-absolute float-right ml-5 mt-3">
+                                    <div className="btn btn-dark justify-content-center text-center">
+                                        <span className="position-absolute float-right ml-4 mt-3">
                                             <span className="badge badge-dark border border-light">
                                                 {this.props.cart_counter} - ${this.props.cart_total_price}
                                             </span>
