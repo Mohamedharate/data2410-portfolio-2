@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt')
 const upload = require('../../../multer/multer')
 
 
-router.put('/:employeeId', upload.single('profileImage'), async (req, res) => {
+router.put('/:employeeId',  async (req, res) => {
 
     if (req.session) {
         if (req.session.passport) {
@@ -16,7 +16,7 @@ router.put('/:employeeId', upload.single('profileImage'), async (req, res) => {
             }
             const findAdmin = await Admin.findOne({employeeId: req.params.employeeId});
             if (!findAdmin) return res.status(404).json({Error: 'The user with the given email address was not found'})
-            if (findAdmin._id === req.session.passport.user.id || findAdmin.position === 'President') {
+            if (findAdmin._id.toString() === req.session.passport.user.id || findAdmin.position === 'President') {
 
                 let password;
                 if (req.body.password) {
@@ -34,28 +34,12 @@ router.put('/:employeeId', upload.single('profileImage'), async (req, res) => {
                     lastName: req.body.lastName,
                     email: req.body.email,
                     password: password,
-                    profileImage: req.file,
+                    country: req.body.country,
+                    city: req.body.city,
                     zipCode: req.body.zipCode,
                     street: req.body.street,
                     phoneNumber: req.body.phoneNumber
                 }
-
-                if (req.file) {
-                    const file = req.file;
-                    const finalImage = {
-                        filename: file.originalname,
-                        contentType: file.mimetype,
-                        path: file.path,
-                        //image: fs.readFileSync(file.path).toString('base64')
-                    };
-                    try {
-                        await Admin.updateOne({email: req.params.email}, {profileImage: finalImage});
-                    } catch (err) {
-                        console.log(err.toString())
-                    }
-
-                }
-
 
                 let out = new StringBuilder();
 
