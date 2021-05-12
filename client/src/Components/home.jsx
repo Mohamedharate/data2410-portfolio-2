@@ -86,7 +86,7 @@ class Home extends Component {
             toggleRegister: false,
             toggleShoppingCart: false,
             toggleCheckOut: false,
-            toggleProfilePage: false,
+            toggleProfilePage: !this.state.toggleProfilePage,
         })
     }
 
