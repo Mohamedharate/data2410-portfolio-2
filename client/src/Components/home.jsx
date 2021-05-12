@@ -80,12 +80,13 @@ class Home extends Component {
         })
     }
     handleToggleProfilePageCallback = () => {
+        console.log("click")
         this.setState({
             toggleLogin: false,
             toggleRegister: false,
             toggleShoppingCart: false,
             toggleCheckOut: false,
-            toggleProfilePage: !this.state.toggleProfilePage,
+            toggleProfilePage: false,
         })
     }
 

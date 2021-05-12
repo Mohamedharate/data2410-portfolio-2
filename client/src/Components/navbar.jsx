@@ -34,20 +34,22 @@ class Navbar extends Component {
                         <div className="collapse navbar-collapse" id="navbarCollapse">
                             <ul className="navbar-nav me-auto mb-2 mb-md-0">
                                 <li className="nav-item">
-                                    <Link to="/" className="nav-link active" aria-current="page">Home</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link to="/orders/" className="nav-link" href="#" tabIndex="-1">{this.props.current_user.firstName}</Link>
+
+
                                 </li>
                                 <li className="nav-item">
-                                    <button onClick={this.handleShoppingCart} className="btn text-white">
-                                        <span className="position-absolute ml-3 mt-2">
-                                            <p><span className="badge badge-primary">
-                                                {this.props.cart_counter}
-                                            </span> - ${this.props.cart_total_price}</p>
+                                    <div className="container btn justify-content-center text-center">
+                                        <span className="position-absolute float-right ml-5 mt-3">
+                                            <span className="badge badge-dark border border-light">
+                                                {this.props.cart_counter} - ${this.props.cart_total_price}
+                                            </span>
                                         </span>
-                                        <i className="material-icons">shopping_cart</i>
-                                    </button>
+                                        <button onClick={this.handleShoppingCart} className="btn text-white">
+                                            <i className="material-icons">shopping_cart</i>
+                                        </button>
+                                    </div>
                                 </li>
                             </ul>
                         </div>
@@ -56,9 +58,18 @@ class Navbar extends Component {
                     <button onClick={this.handleLogin} className="btn text-white float-right mr-2">Login</button>}
                     {!this.props.isAuthenticated &&
                     <button onClick={this.handleRegister} className="btn text-white float-right mr-2">Register</button>}
+
                     {this.props.isAuthenticated &&
-                    <div
-                        className="welcomeText text-white float-right mr-2">Welcome, {this.props.current_user.firstName}</div>}
+                    <button className="btn btn-dark text-nowrap">
+                        <div className="row">
+                            <div className="col-4 align-self-center p-1">
+                                <span className="material-icons mt-1">account_box</span>
+                            </div>
+                            <div className="col-8 align-self-center p-1 text-left text-nowrap">
+                                {this.props.current_user.firstName}
+                            </div>
+                        </div>
+                    </button>}
                     {this.props.isAuthenticated &&
                     <button onClick={this.handleLogout} className="btn text-white float-right mr-2">Logout</button>}
 
