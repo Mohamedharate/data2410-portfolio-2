@@ -56,7 +56,7 @@ class AdminAddNewEmployee extends Component {
             this.setState({
                 toggle_success_feedback: true,
                 toggle_error_feedback: false,
-                feedback_text: res.status,
+                feedback_text: res.data.Message,
             })
         }).catch(err => {
             this.setState({

@@ -43,11 +43,11 @@ const order_schema = new mongoose.Schema(
             required: true
         },
         billingAddress: {
-            type: [],
+            type: JSON,
             required: true
         },
         shippingAddress: {
-            type: [],
+            type: JSON,
             required: true
         }
 

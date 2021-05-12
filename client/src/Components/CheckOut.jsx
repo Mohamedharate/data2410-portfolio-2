@@ -93,7 +93,7 @@ class CheckOut extends Component {
             this.setState({
                 toggle_error_feedback: true,
                 toggle_success_feedback: false,
-                feedback_text: err.data.Message,
+                feedback_text: err.data.Error,
                 toggle_loading: false,
             });
         });
@@ -117,6 +117,7 @@ class CheckOut extends Component {
                 });
             }).catch(err => {
                 this.setState({
+
                     toggle_error_feedback: true,
                     toggle_success_feedback: false,
                     feedback_text: err.data.Error,
