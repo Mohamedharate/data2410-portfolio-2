@@ -96,7 +96,7 @@ class Home extends Component {
 
         const cart_objects = [...this.state.cart_objects, Product];
         this.updateCartCounterAndPrice(cart_objects);
-        this.setState({cart_objects})
+        this.setState({cart_objects, cart_feedback: true})
     }
 
 
@@ -184,16 +184,12 @@ class Home extends Component {
                     />
                     <Switch>
                         <Route exact path="/" component={Mainpage}/>
-                        <Route path="/products/:itemId" component={Productpage} addToCartCallback={this.handleAddToCartCallback}/>
+                        <Route exact path="/products/:itemId" component={() =>
+                            <Productpage itemId={window.location.href.split('/').pop()}
+                                         handleAddToCartCallback={this.handleAddToCartCallback} /> }/>
                         <Route path="/addReview/:itemId" component={addReview}/>
-                        <Route path="/chart" component={ShoppingCart}/>
-                        <Orders>
-                            <Route> path="/orders"</Route>
-                            component={Orders}
-                            current_user={this.state.current_user}
-                            isAuthenticated={this.state.isAuthenticated}
-                        />
-                        </Orders>
+                        <Route path="/orders/" component={() =>
+                            <Orders current_user={this.state.current_user} isAuthenticated={this.state.isAuthenticated}/>}/>
                     </Switch>
                     {this.state.toggleLogin && <SignIn loginCallback={this.handleLoginCallback}/>}
                     {this.state.toggleRegister && <SignUp />}
@@ -207,7 +203,7 @@ class Home extends Component {
                     />}
                     {this.state.toggleShoppingCart &&
                     <ShoppingCart
-                        addToCartCallback={this.handleAddToCartCallback}
+                        handleAddToCartCallback={this.handleAddToCartCallback}
                         quantity_increase={this.handleQuantityIncreaseCallback}
                         quantity_decrease={this.handleQuantityDecreaseCallback}
                         onCheckOut={this.handleToggleCheckOutCallback}
@@ -218,7 +214,8 @@ class Home extends Component {
                         toggle_error_feedback={this.state.cart_error_feedback}
                         toggle_success_feedback={this.state.cart_success_feedback}
                         feedback_text={this.state.cart_feedback_text}
-                    />}
+                    />
+                    }
                     <About/>
                     <Footer toggle_admin={this.props.toggle_admin}/>
                 </React.Fragment>

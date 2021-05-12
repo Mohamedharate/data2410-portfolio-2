@@ -159,10 +159,14 @@ code {
   margin-top: auto;
   width: 100%;
 }
+.carousel-indicators{
+  visibility: hidden;
+}
 .orderContainer{
   padding-top: 60px;
   margin-right: auto;
   margin-left: auto;
+  text-align: center;
 }
 .fillPage{
   min-height: 100vh;
