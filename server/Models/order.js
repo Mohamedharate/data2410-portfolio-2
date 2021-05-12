@@ -36,32 +36,18 @@ const order_schema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        country: {
-            type: String,
-            required: true,
-            minlength: 2,
-            maxlength: 30
-        },
-        zipCode: {
-            type: String,
-            required: true,
-            minlength: 4,
-            maxlength: 4
-        },
-        city: {
-            type: String,
-            required: true,
-            minlength: 2,
-            maxlength: 30
-        },
-        street: {
-            type: String,
-            required: true
-        },
         phoneNumber: {
             type: String,
             minlength: 8,
             maxlength: 12,
+            required: true
+        },
+        billingAddress: {
+            type: [],
+            required: true
+        },
+        shippingAddress: {
+            type: [],
             required: true
         }
 

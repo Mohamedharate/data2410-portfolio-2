@@ -7,7 +7,6 @@ const Schema = mongoose.Schema;
 function getID() {
     return Math.floor(1000 + Math.random() * 8999)
 }
-
 const product_schema = new Schema(
     {
         itemId: {
