@@ -16,7 +16,7 @@ class ProfileMain extends Component {
     }
 
     handleLogout = () => {
-        console.log("Click")
+        this.props.handleLogout()
     }
 
     handleFeedbackCallback = (success, text) => {

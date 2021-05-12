@@ -27,6 +27,10 @@ code {
   background: lightgrey;
 }
 
+.rtl{
+  direction: rtl;
+}
+
 .shoppingCartContainer{
   direction: rtl;
   position: fixed;

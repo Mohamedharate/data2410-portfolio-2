@@ -213,7 +213,6 @@ class Home extends Component {
                         toggleRegisterCallback={this.handleToggleRegisterCallback}
                         toggleShoppingCartCallback={this.handleToggleShoppingCartCallback}
                         toggleProfilePageCallback={this.handleToggleProfilePageCallback}
-                        handleLogoutCallback={this.handleLogoutCallback}
                         isAuthenticated={this.state.isAuthenticated}
                         current_user={this.state.current_user}
                         cart_counter={this.state.cart_counter}
@@ -236,8 +235,9 @@ class Home extends Component {
                         close={this.handleToggleRegisterCallback}
                     />}
                     {this.state.toggleProfilePage && <ProfileMain
-                        current_user={this.state.current_user}
                         close={this.handleToggleProfilePageCallback}
+                        handleLogout={this.handleLogoutCallback}
+                        current_user={this.state.current_user}
                     />}
                     {this.state.toggleCheckOut && <CheckOut
                         cart_objects={this.state.cart_objects}
