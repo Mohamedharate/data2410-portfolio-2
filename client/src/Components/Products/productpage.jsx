@@ -5,12 +5,14 @@ import { Carousel } from "react-responsive-carousel";
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import InputSpinner from "react-bootstrap-input-spinner";
 import {CardImg} from "react-bootstrap";
+import LoadingSpinnerPrimaryLongBtn from "../Spinners/LoadingSpinnerPrimaryLongBtn";
+import LoadingSpinnerSuccessLongBtn from "../Spinners/LoadingSpinnerSuccessLongBtn";
 
 
 export default class Productpage extends Component {
     constructor(props) {
         super(props);
-        this.state = {descriptionLong: "", cart_feedback: false};
+        this.state = {descriptionLong: "", cart_feedback: false, toggle_loading: false};
         this.state = {product: [], quantity: 1, price: 0, quantityOfProduct: 0};
     }
 
@@ -33,6 +35,7 @@ export default class Productpage extends Component {
 
     postToCart = async (event) => {
         event.preventDefault();
+        this.setState({toggle_loading: true})
         await axios({
             method: "post",
             url: 'http://localhost:3001/api/cart/addToCart/',
@@ -47,6 +50,7 @@ export default class Productpage extends Component {
                 console.log(error.request);
             }
         })
+        this.setState({toggle_loading: false});
     }
 
     render() {
@@ -94,9 +98,10 @@ export default class Productpage extends Component {
                                     value={this.state.quantity} min={1}
                                     onChange={(qty) => this.setState({...this.state, quantity: qty})}
                                     max={this.state.quantityOfProduct} label="Quantity" />
-                                <button type="submit" className="btn btn-lg btn-success btn-block mt-2"
+                                {this.state.toggle_loading ? <LoadingSpinnerSuccessLongBtn/> :
+                                    <button type="submit" className="btn btn-lg btn-success btn-block mt-2"
                                         onClick={this.postToCart}
-                                >Add to cart</button>
+                                >Add to cart</button>}
                                     <p className="card-text">{this.state.cart_feedback}</p>
                             </div>
                         </div>
