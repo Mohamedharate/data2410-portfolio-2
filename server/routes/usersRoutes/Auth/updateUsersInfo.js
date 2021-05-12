@@ -12,12 +12,8 @@ router.put('/:email', async (req, res) => {
     const email = req.params.email.toLowerCase();
     if (req.session) {
         if (req.session.passport) {
-            const findUser = await User.findOne({email:email});
+            const findUser = await User.findOne({email: email});
             if (!findUser) return res.status(404).json({Error: 'The user with the given email address was not found'})
-
-            console.log("ID from passport " + req.session.passport.user.id)
-            console.log("ID from user: " + findUser._id)
-            console.log(req.session.passport.user.id === findUser._id)
 
             if (findUser._id.toString() === req.session.passport.user.id || req.session.passport.user.type === 'Admin') {
 
@@ -47,88 +43,107 @@ router.put('/:email', async (req, res) => {
 
 
                 let out = new StringBuilder();
+                let updated = false;
 
                 if (findUser) {
                     if (updateUserInfo.firstName && updateUserInfo.firstName !== findUser.firstName) {
                         try {
+                            updated = true;
                             await User.updateOne({email: req.params.email}, {firstName: updateUserInfo.firstName})
-                        } catch {
-                            out.append('Something went wrong during updating the first name\nError code: ' + err.error_code)
+                        } catch (err) {
+                            out.append('Something went wrong during updating the first name\n' + err.toString());
                         }
                     }
                     if (updateUserInfo.lastName && updateUserInfo.lastName !== findUser.lastName) {
                         try {
+                            updated = true;
+
                             await User.updateOne({email: email}, {lastName: updateUserInfo.lastName})
-                        } catch {
-                            out.append('Something went wrong during updating the last name\nError code: ' + err.error_code)
+                        } catch (err) {
+                            out.append('Something went wrong during updating the last name\n' + err.toString());
                         }
                     }
                     if (updateUserInfo.password && updateUserInfo.password !== findUser.password) {
                         try {
+                            updated = true;
+
                             await User.updateOne({email: email}, {password: updateUserInfo.password})
-                        } catch {
-                            out.append('Something went wrong during updating the password\nError code: ' + err.error_code)
+                        } catch (err) {
+                            out.append('Something went wrong during updating the password\n' + err.toString())
                         }
                     }
                     if (updateUserInfo.country && updateUserInfo.country !== findUser.country) {
                         try {
+                            updated = true;
+
                             await User.updateOne({email: email}, {country: updateUserInfo.country})
-                        } catch {
-                            out.append('Something went wrong during updating the country\nError code: ' + err.error_code)
+                        } catch (err) {
+                            out.append('Something went wrong during updating the country\n' + err.toString())
                         }
                     }
                     if (updateUserInfo.city && updateUserInfo.city !== findUser.city) {
                         try {
-                            await User.updateOne({email:email}, {$set:{ city: updateUserInfo.city}})
-                        } catch {
-                            out.append('Something went wrong during updating the city\nError code: ' + err.error_code)
+                            updated = true;
+
+                            await User.updateOne({email: email}, {$set: {city: updateUserInfo.city}})
+                        } catch (err) {
+                            out.append('Something went wrong during updating the city\n' + err.toString())
                         }
                     }
                     if (updateUserInfo.zipCode && updateUserInfo.zipCode !== findUser.zipCode) {
                         try {
+                            updated = true;
+
                             await User.updateOne({email: email}, {zipCode: updateUserInfo.zipCode})
                         } catch {
-                            out.append('Something went wrong during updating the zip code\nError code: ' + err.error_code)
+                            out.append('Something went wrong during updating the zip code\n' + err.toString())
                         }
                     }
                     if (updateUserInfo.street && updateUserInfo.street !== findUser.street) {
                         try {
+                            updated = true;
+
                             await User.updateOne({email: email}, {street: updateUserInfo.street})
-                        } catch {
-                            out.append('Something went wrong during updating the street name\nError code: ' + err.error_code)
+                        } catch (err) {
+                            out.append('Something went wrong during updating the street name\n' + err.toString())
                         }
                     }
                     if (updateUserInfo.phoneNumber && updateUserInfo.phoneNumber !== findUser.phoneNumber) {
                         try {
+                            updated = true;
+
                             await User.updateOne({email: email}, {phoneNumber: updateUserInfo.phoneNumber})
-                        } catch {
-                            out.append('Something went wrong during updating the phone number\nError code: ' + err.error_code)
+                        } catch (err) {
+                            out.append('Something went wrong during updating the phone number\n' + err.toString())
                         }
                     }
                     if (updateUserInfo.email && updateUserInfo.email !== findUser.email) {
                         try {
+                            updated = true;
+
                             await User.updateOne({email: email}, {email: updateUserInfo.email})
                         } catch (err) {
-                            out.append('Something went wrong during updating the email\nError code: ' + err.error_code)
+                            out.append('Something went wrong during updating the email\nError code: ' + err.toString())
                         }
                     }
                 } else {
                     out.append('Something went wrong during finding user`s information')
                 }
+                console.log(out.toString())
                 if (out.toString()) {
-                    res.status(500).json({Error:out.toString()})
-                } else {
+                    res.status(500).json({Error: out.toString()})
+                } else if (updated) {
                     res.json({Message: "User information is updated."})
+                } else {
+                    res.json({Message: "Nothing to update"})
                 }
 
             } else {
-                console.log("ERROR1")
-                return res.status(403).json({Error: "You don't have permission for this 1"})
+                return res.status(403).json({Error: "You don't have permission for this"})
             }
         } else {
-            console.log("ERROR2")
 
-            return res.status(403).json({Error: "You don't have permission for this 2"})
+            return res.status(403).json({Error: "You don't have permission for this"})
         }
     } else {
         return res.status(500).json({Error: "Something went wrong!"})
