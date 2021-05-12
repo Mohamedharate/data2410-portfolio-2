@@ -13,7 +13,7 @@ class ShoppingCart extends Component {
                             <h4 className="text-center m-3">Shopping Cart</h4>
                         </div>
                         <div className="col-sm-5">
-                            <button onClick={this.props.onCheckOut} className="btn btn-dark float-right mt-3">Check out!</button>
+                            <button onClick={this.props.onCheckOut} className="btn btn-dark float-right mt-3" disabled={this.props.empty_cart}>Check out!</button>
                         </div>
                     </div>
                     <div className="row">
