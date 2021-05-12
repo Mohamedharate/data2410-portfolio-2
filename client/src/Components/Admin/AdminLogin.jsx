@@ -43,19 +43,14 @@ class AdminLogin extends Component {
             this.props.loginCallback(response.data);
             this.setState({toggle_error_feedback: false});
         }).catch(error => {
-            this.setState({toggle_loading: false});
-            if (error.response) {
-                console.log(error.response.data.Error);
-                console.log(error.response.status);
-                this.setState({feedback_text: error.response.data.Error});
-                this.setState({toggle_error_feedback: true});
-            } else if (error.request) {
-                console.log(error.request);
-            } else {
-                console.log('Error', error.message);
-            }
+            this.setState({
+                feedback_text: error.response.data.Error,
+                toggle_error_feedback: true,
+                toggle_loading: false,
+            });
         });
     };
+
     render() {
         return (
             <React.Fragment>
@@ -77,7 +72,8 @@ class AdminLogin extends Component {
                                                     <i className="material-icons">mail</i>
                                                 </div>
                                             </div>
-                                            <input type="email" onChange={this.handleInputChange} className="form-control mt-2"
+                                            <input type="email" onChange={this.handleInputChange}
+                                                   className="form-control mt-2"
                                                    placeholder="Email" name="email" required="*" autoFocus=""
                                                    aria-describedby="basic-addon1"/>
                                         </div>
@@ -100,13 +96,13 @@ class AdminLogin extends Component {
                                             Sign in!
                                         </button>}
                                 </form>
-                                    {this.state.toggle_error_feedback &&
-                                    <DangerFeedback feedback_error_text={this.state.feedback_text}/>}
+                                {this.state.toggle_error_feedback &&
+                                <DangerFeedback feedback_error_text={this.state.feedback_text}/>}
                             </div>
                         </div>
                     </div>
                 </div>
-                <Footer toggle_admin = {this.props.toggle_admin}/>
+                <Footer toggle_admin={this.props.toggle_admin}/>
             </React.Fragment>
         );
     }
