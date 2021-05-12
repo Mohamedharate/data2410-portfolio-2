@@ -66,14 +66,20 @@ class CheckOut extends Component {
             method: 'post',
             url: 'http://localhost:3001/api/orders/newOrder',
             data: {
+                save_address: this.state.save_address,
+                separate_shipping: this.state.separate_shipping,
                 firstName: this.state.firstName,
                 lastName: this.state.lastName,
                 email: this.state.email,
                 phoneNumber: this.state.phoneNumber,
-                country: country,
-                zipCode: zipCode,
-                city: city,
-                street: street,
+                country: this.state.country,
+                zipCode: this.state.zipCode,
+                city: this.state.city,
+                street: this.state.street,
+                shippingCountry: country,
+                shippingZipCode: zipCode,
+                shippingCity: city,
+                shippingStreet: street,
             }
         }).then(res => {
             this.setState({
