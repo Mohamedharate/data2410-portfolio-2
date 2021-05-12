@@ -235,7 +235,10 @@ class Home extends Component {
                     {this.state.toggleRegister && <SignUp
                         close={this.handleToggleRegisterCallback}
                     />}
-                    {this.state.toggleProfilePage && <ProfileMain />}
+                    {this.state.toggleProfilePage && <ProfileMain
+                        current_user={this.state.current_user}
+                        close={this.handleToggleProfilePageCallback}
+                    />}
                     {this.state.toggleCheckOut && <CheckOut
                         cart_objects={this.state.cart_objects}
                         current_user={this.state.current_user}

@@ -8,7 +8,9 @@ class OrderPage extends Component {
 
     render() {
         return (
-            <React.Fragment></React.Fragment>
+            <React.Fragment>
+                Order page
+            </React.Fragment>
         );
     }
 }
