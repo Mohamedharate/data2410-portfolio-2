@@ -40,13 +40,13 @@ class Navbar extends Component {
 
                                 </li>
                                 <li className="nav-item">
-                                    <div className="btn btn-dark justify-content-center text-center">
+                                    <div onClick={this.handleShoppingCart} className="btn btn-dark justify-content-center text-center">
                                         <span className="position-absolute float-right ml-4 mt-3">
                                             <span className="badge badge-dark border border-light">
                                                 {this.props.cart_counter} - ${this.props.cart_total_price}
                                             </span>
                                         </span>
-                                        <button onClick={this.handleShoppingCart} className="btn text-white">
+                                        <button className="btn text-white pr-4">
                                             <i className="material-icons">shopping_cart</i>
                                         </button>
                                     </div>
@@ -60,7 +60,7 @@ class Navbar extends Component {
                     <button onClick={this.handleRegister} className="btn text-white float-right mr-2">Register</button>}
 
                     {this.props.isAuthenticated &&
-                    <button className="btn btn-dark text-nowrap">
+                    <button onClick={this.handleProfile} className="btn btn-dark text-nowrap pr-1">
                         <div className="row">
                             <div className="col-4 align-self-center p-1">
                                 <span className="material-icons mt-1">account_box</span>
