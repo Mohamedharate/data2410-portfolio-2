@@ -50,7 +50,7 @@ router.post('/', async (req, res) => {
 
                         const admin = await Admin.findOne({email: email});
                         if (admin) {
-                            return res.status(400).json({message: "User already exists"});
+                            return res.status(400).json({Error: "User already exists"});
                         } else {
                             const token = jwt.sign({
                                 firstName,
@@ -66,7 +66,7 @@ router.post('/', async (req, res) => {
                             }, JWT_ACC, {expiresIn: "20m"})
                             const link = `http://localhost:3001/api/admin/register/emailActivation/${token}`
                             await send(email, formatActivationEmail(firstName, link), "Activation");
-                            res.status(200).json({message: "A verification link has been sent to your email account, please confirm!"})
+                            res.status(200).json({Message: `A verification link has been sent to ${email}, please confirm!`})
                         }
                     } else {
                         return res.status(403).json({Error: "You don't have permission for this"})
@@ -91,7 +91,7 @@ router.get('/emailActivation/:link', async (req, res) => {
     if (token) {
         jwt.verify(token, JWT_ACC, async function (err, decodedToken) {
             if (err) {
-                return res.status(400).json({error: "Incorrect or expired"})
+                return res.status(400).json({Error: "Incorrect or expired"})
             }
 
             const {
@@ -133,16 +133,15 @@ router.get('/emailActivation/:link', async (req, res) => {
                 })
                 await newUser.save()
                     .then(data => {
-                        res.status(200).json({message: `User created successfully!`})
+                        res.status(200).redirect('/api/signin-admin')
                     })
                     .catch(error => {
-                        res.status(500).json({error: error.toString()})
+                        res.status(500).json({Error: error.toString()})
                     })
             }
-
         })
     } else {
-        return res.json({error: "Something went wrong!"})
+        return res.json({Error: "Something went wrong!"})
     }
 })
 

@@ -311,18 +311,18 @@ function formatReceipt(user,order,products) {
                                                             <td>
                                                                 <h3>Delivery Address</h3>
                                                                 <br>${order.firstName} ${order.lastName}
-                                                                <br>${order.shippingAddress[0].street}
-                                                                <br>${order.shippingAddress[0].zipCode} ${order.shippingAddress[0].city} 
-                                                                <br>${order.shippingAddress[0].country} 
+                                                                <br>${order.shippingAddress.street}
+                                                                <br>${order.shippingAddress.zipCode} ${order.shippingAddress.city} 
+                                                                <br>${order.shippingAddress.country} 
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td>
                                                                 <h3>Billing Address</h3>
                                                                 <br>${user.firstName} ${user.lastName}
-                                                                <br>${order.billingAddress[0].street}
-                                                                <br>${order.billingAddress[0].zipCode} ${order.billingAddress[0].city} 
-                                                                <br>${order.billingAddress[0].country}
+                                                                <br>${order.billingAddress.street}
+                                                                <br>${order.billingAddress.zipCode} ${order.billingAddress.city} 
+                                                                <br>${order.billingAddress.country}
                                                             </td>
                                                         </tr>
                                                         <tr>

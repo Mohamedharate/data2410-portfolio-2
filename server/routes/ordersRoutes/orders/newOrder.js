@@ -9,15 +9,14 @@ const formatReceipt = require('../../../sendMail/formatReceipt');
 
 router.post('/', async (req, res) => {
 
-    if (req.session) {
 
-        let order;
+    if (req.session) {
 
         const {
             firstName,
             lastName,
             email,
-            phoneNumber
+            phoneNumber//TODO telefonnummer blir undefined hvis brukeren har en telefonnummer lagret.
         } = req.body;
 
         let shippingAddress;
@@ -40,6 +39,7 @@ router.post('/', async (req, res) => {
         }
 
         if (req.session.passport && req.session.passport.user) {
+
             if (req.session.passport.user.type !== 'User') {
                 return res.status(403).json({Error: "You have to sign in as user to order."})
             }
@@ -51,12 +51,16 @@ router.post('/', async (req, res) => {
             if (products.length < 1) {
                 return res.status(404).json({Error: "You don't have anything in your cart"})
             }
+
+
             let tot = 0;
             products.forEach(item => {
                 tot = parseFloat(tot) + parseFloat(item.total);
             })
 
-            order = new Order({
+            console.log("14phone" + phoneNumber)
+
+            let order = await new Order({
                 user: user.email,
                 products: products,
                 firstName: firstName,
@@ -67,6 +71,7 @@ router.post('/', async (req, res) => {
                 billingAddress: billingAddress,
                 total: parseFloat(tot)
             })
+            console.log("15phone" + phoneNumber)
 
             let failed = false;
             await order.save()
@@ -79,26 +84,33 @@ router.post('/', async (req, res) => {
                     return res.status(400).json({Error: error.toString()});
                 })
 
-            try {
-
-                await User.updateOne({email: user.email}, {$push: {orders: order}});
-            } catch (err) {
-                failed = true;
-                return res.status(500).json({Error: err.toString()});
-            }
-            try {
-                await User.updateOne(
-                    {email: user.email},
-                    {$set: {[`cart`]: []}});
-            } catch (err) {
-                failed = true;
-                return res.status(500).json({Error: err.toString()});
-            }
             if (!failed) {
+
+
+                try {
+
+                    await User.updateOne({email: user.email}, {$push: {orders: order}});
+                } catch (err) {
+                    failed = true;
+                    return res.status(500).json({Error: err.toString()});
+                }
+                try {
+                    await User.updateOne(
+                        {email: user.email},
+                        {$set: {[`cart`]: []}});
+                } catch (err) {
+                    failed = true;
+                    return res.status(500).json({Error: err.toString()});
+                }
                 return res.status(200).json({Message: "The order has been registered and a receipt is sent to the user"})
+            } else {
+                return res.status(500).json({Error: "Something went wrong!"})
+
             }
+
 
         } else if (req.session.cart) {
+
             if (req.session.cart.length < 1) {
                 return res.status(404).json({Error: "You don't have anything in your cart"})
             } else {
@@ -108,7 +120,7 @@ router.post('/', async (req, res) => {
                     tot = parseFloat(tot) + parseFloat(item.total);
                 })
 
-                order = new Order({
+                let order = await new Order({
                     user: "Guest",
                     products: products,
                     firstName: firstName,
@@ -121,7 +133,6 @@ router.post('/', async (req, res) => {
                 })
 
                 let failed = false;
-
                 await order.save()
                     .then(data => {
                         send(order, formatReceipt(order, order, products))
@@ -137,7 +148,7 @@ router.post('/', async (req, res) => {
                 if (!failed) {
                     return res.status(200).json({Message: "The order has been registered and a receipt is sent to the user"})
                 } else {
-                    return res.status(500).json({Error: "No cart available"})
+                    return res.status(500).json({Error: "Something went wrong!"})
                 }
             }
         } else {
