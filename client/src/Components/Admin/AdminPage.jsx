@@ -63,6 +63,9 @@ class AdminPage extends Component {
             toggle_new_product: true
         })
     };
+    handleLogout = async () => {
+        this.props.logoutCallback();
+    }
 
     render() {
         return (
@@ -86,7 +89,7 @@ class AdminPage extends Component {
                             <button onClick={this.toggleNewAdmin} className="btn btn-light btn-md m-2">
                                 Add New Admin
                             </button>
-                            <button onClick={this.props.logoutCallback} className="btn btn-light btn-md m-2">
+                            <button onClick={this.handleLogout} className="btn btn-danger btn-md m-2">
                                 Logout
                             </button>
                         </div>
