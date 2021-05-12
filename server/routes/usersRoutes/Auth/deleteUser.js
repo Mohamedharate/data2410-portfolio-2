@@ -9,8 +9,13 @@ router.delete('/:email', async (req, res) => {
         if (req.session.passport) {
             const user = await User.findOne({email: req.params.email});
             if (!user) return res.status(404).json({Error: 'The user with the given email address was not found'})
-            if (user._id === req.session.passport.user.id || req.session.passport.user.type === 'Admin') {
+
+            console.log(user._id.toString() === req.session.passport.user.id)
+
+            if (user._id.toString() === req.session.passport.user.id || req.session.passport.user.type === 'Admin') {
                 await User.deleteOne({email: req.params.email});
+                await res.json({Message: "User information is deleted"})
+
             } else {
                 return res.status(403).json({Error: "You don't have permission for this"})
             }

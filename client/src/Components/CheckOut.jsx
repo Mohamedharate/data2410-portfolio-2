@@ -115,7 +115,6 @@ class CheckOut extends Component {
                     feedback_text: res.data.Message,
                     toggle_loading: false,
                 });
-                this.props.order_complete(this.props.current_user)
             }).catch(err => {
                 this.setState({
                     toggle_error_feedback: true,

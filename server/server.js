@@ -177,15 +177,23 @@ app.post('/logout', (req, res) => {
             return res.status(500).json({Error: 'Could not perform logout!'});
         }
         return res.status(200).redirect('http://localhost:3001');
-        /*
-        req.session.destroy(err => {
-            if (err) {
-                return res.status(500).json({message: 'Could not perform logout!'});
-            }
-            res.clearCookie(SESS_NAME)
-        })
+    }
+    else{
+        return res.status(400).json({Error: 'Not logged in'});
+    }
+})
 
-         */
+app.post('/admin/logout', (req, res) => {
+    if (req.user) {
+        try {
+            req.logout();
+            req.session.destroy();
+            res.clearCookie(SESS_NAME)
+        }
+        catch (err){
+            return res.status(500).json({Error: 'Could not perform logout!'});
+        }
+        return res.status(200).redirect('http://localhost:3001');
     }
     else{
         return res.status(400).json({Error: 'Not logged in'});
@@ -209,12 +217,7 @@ try {
 } catch (error) {
     console.log("could not connect to webshopDB");
 }
-/*
-app.listen(PORT, () => {
-    console.log(`Server listening on ${PORT}`);
-});
 
- */
 
 
 
