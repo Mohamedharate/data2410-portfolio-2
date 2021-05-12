@@ -1,7 +1,18 @@
 const mongoose = require("mongoose");
 
+function getRandomInt() {
+    return Math.floor(10000 + Math.random() * 89999);
+}
+let employeeId = getRandomInt()
+
 const user_schema = new mongoose.Schema(
     {
+        customerId:{
+            type: String,
+            required: true,
+            unique: true,
+            default: employeeId
+        },
         googleId:{
           type: String,
           required: false
