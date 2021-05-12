@@ -69,7 +69,7 @@ class AdminEditEmployee extends Component {
         // Confirm delete
         bootbox.confirm({
             message: "Delete " + employee.firstName + " " + employee.lastName + " from products?",
-            buttons : {
+            buttons: {
                 'cancel': {
                     label: 'Cancel',
                     className: 'btn-default pull-left'
@@ -141,9 +141,8 @@ class AdminEditEmployee extends Component {
         this.setState({toggle_get_employee_loading: true});
         await axios.get('http://localhost:3001/api/admin/get/all') //TODO venter på route i server
             .then(res => {
-                const employees = res.data;
-                console.log(employees);
-                this.setState({employees});
+                const employees = res.data.Message;
+                this.setState({employees})
             }).catch(err => {
                 this.setState({
                     toggle_success_feedback: false,
@@ -177,7 +176,9 @@ class AdminEditEmployee extends Component {
                                        value={employee.position + "\n" + employee.firstName + " " + employee.lastName}
                                        disabled/>
                                 <div className="input-group-append">
-                                    <button onClick={() => this.handleEditBtn(employee)} className="btn btn-outline-secondary">Edit</button>
+                                    <button onClick={() => this.handleEditBtn(employee)}
+                                            className="btn btn-outline-secondary">Edit
+                                    </button>
                                     <button onClick={() => this.handleDeleteBtn(employee)} className="btn btn-danger">
                                         <span className="material-icons mt-2">delete_forever</span>
                                     </button>
@@ -197,28 +198,33 @@ class AdminEditEmployee extends Component {
                                     <label className=" mt-2" htmlFor="firstName">First name:</label>
                                     <input type="text" onChange={this.handleInputChange}
                                            className="form-control" placeholder="Firstname"
+                                           value={this.state.new_firstName}
                                            pattern="^[A-ZÆØÅ]+[a-zæøå ,.'-]{1,20}(\s[A-ZÆØÅ]+[a-zæøå ,.'-]{1,20})?$"
                                            title="First name has to start with an upper case letter and have at least 2 characters."
                                            name="firstName" required autoFocus=""/>
                                     <label className=" mt-2" htmlFor="lastName">Last name:</label>
                                     <input type="text" onChange={this.handleInputChange}
                                            className="form-control" placeholder="Lastname"
+                                           value={this.state.new_lastName}
                                            pattern="^[A-ZÆØÅ]+[a-zæøå ,.'-]{1,20}$"
                                            title="Last name has to start with an upper case letter and have at least 2 characters."
                                            name="lastName" required autoFocus=""/>
                                     <label className=" mt-2" htmlFor="email">Email:</label>
                                     <input type="email" onChange={this.handleInputChange}
                                            className="form-control" placeholder="Email"
+                                           value={this.state.new_email}
                                            name="email" required autoFocus=""/>
                                     <label className=" mt-2" htmlFor="phoneNumber">Phone number:</label>
                                     <input type="text" onChange={this.handleInputChange}
                                            className="form-control" placeholder="Phone"
+                                           value={this.state.new_phoneNumber}
                                            pattern="^(\+|00)?[1-9][0-9 \-\(\)\.]{7,}$"
                                            title="The address should follow this format:
                                        <Country code(optional)> <Number(At least 7 digits>."
                                            name="phoneNumber" required autoFocus=""/>
                                     <label className=" mt-2" htmlFor="position">Title:</label>
                                     <select name="position" onChange={this.handleInputChange}
+                                            value={this.state.new_position}
                                             className="custom-select my-1 mr-sm-2" required>
                                         <option value="" defaultValue="">Choose...</option>
                                         <option value="CO-worker">CO-worker</option>
