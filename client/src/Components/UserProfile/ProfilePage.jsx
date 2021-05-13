@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import axios from "axios";
-import FormData from "form-data";
 
 
 class ProfilePage extends Component {
@@ -43,64 +42,72 @@ class ProfilePage extends Component {
     handleEditBtn = async (name, value) => {
         if (!value) {
             let change = false;
-            let formdata = new FormData();
+            let data = {}
 
             if(name === "edit_firstName"){
                 if(this.props.current_user.firstName !== this.state.firstName){
                     change = true;
-                    formdata.append('firstName', this.state.firstName);
+                    data['firstName'] = this.state.firstName;
                 }
             }
             if(name === "edit_lastName"){
                 if(this.props.current_user.lastName !== this.state.lastName){
                     change = true;
-                    formdata.append('lastName', this.state.lastName);
+                    data['lastName'] = this.state.lastName;
                 }
             }
             if(name === "edit_email"){
                 if(this.props.current_user.email !== this.state.email){
                     change = true;
-                    formdata.append('email', this.state.email)
+                    data['email'] = this.state.email;
                 }
             }
             if(name === 'edit_phoneNumber'){
                 if(this.props.current_user.phoneNumber !== this.state.phoneNumber){
                     change = true;
-                    formdata.append('phoneNumber', this.state.phoneNumber)
+                    data['phoneNumber'] = this.state.phoneNumber;
                 }
             }
             if(name === "edit_country"){
                 if(this.props.current_user.country !== this.state.country){
                     change = true;
-                    formdata.append('country', this.state.country);
+                    data['country'] = this.state.country;
                 }
             }
             if(name === "edit_city"){
                 if(this.props.current_user.city !== this.state.city){
                     change = true;
-                    formdata.append('city', this.state.city);
+                    data['city'] = this.state.city;
                 }
             }
             if(name === "edit_zipCode"){
                 if(this.props.current_user.zipCode !== this.state.zipCode){
                     change = true;
-                    formdata.append('zipCode', this.state.zipCode)
+                    data['zipCode'] = this.state.zipCode;
                 }
             }
             if(name === 'edit_street'){
                 if(this.props.current_user.street !== this.state.street){
                     change = true;
-                    formdata.append('street', this.state.street)
+                    data['street'] = this.state.street;
                 }
             }
             if(change){
                 await axios({
                     method: 'put',
                     url: `http://localhost:3001/api/users/update/${this.props.current_user.email}`,
-                    data: formdata,
+                    data: data,
                 }).then(res =>{
                     console.log(res)
                     this.props.feedback(true, res.data.Message)
+                    this.props.current_user.firstName = this.state.firstName;
+                    this.props.current_user.lastName = this.state.lastName;
+                    this.props.current_user.email = this.state.email;
+                    this.props.current_user.phoneNumber = this.state.phoneNumber;
+                    this.props.current_user.country = this.state.country;
+                    this.props.current_user.city = this.state.city;
+                    this.props.current_user.zipCode = this.state.zipCode;
+                    this.props.current_user.street = this.state.street;
                 }).catch(err => {
                     console.log(err)
                     this.props.feedback(false, err.data.Error)
