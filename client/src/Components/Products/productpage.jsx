@@ -2,15 +2,16 @@ import React, {Component} from "react";
 import axios from "axios";
 import {Link} from "react-router-dom";
 import { Carousel } from "react-responsive-carousel";
+import { Button} from 'react-bootstrap';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import InputSpinner from "react-bootstrap-input-spinner";
-import {CardImg} from "react-bootstrap";
+import LoadingSpinnerSuccessLongBtn from "../Spinners/LoadingSpinnerSuccessLongBtn";
 
 
 export default class Productpage extends Component {
     constructor(props) {
         super(props);
-        this.state = {descriptionLong: "", cart_feedback: false};
+        this.state = {descriptionLong: "", cart_feedback: false, toggle_loading: false};
         this.state = {product: [], quantity: 1, price: 0, quantityOfProduct: 0};
     }
 
@@ -33,13 +34,14 @@ export default class Productpage extends Component {
 
     postToCart = async (event) => {
         event.preventDefault();
+        this.setState({toggle_loading: true})
         await axios({
             method: "post",
             url: 'http://localhost:3001/api/cart/addToCart/',
             data: {product_id: this.state.product.itemId, quantity: this.state.quantity}
         }).then(response => {
             this.setState({cart_feedback: "Product added to card!"})
-            this.props.handleAddToCartCallback(this.state.product, this.state.quantity);
+            this.props.handleAddToCartCallback(this.state.product, this.state.quantity, this.state.price);
         }).catch(error => {
             if(error.response){
                 console.log(error.response)
@@ -47,6 +49,7 @@ export default class Productpage extends Component {
                 console.log(error.request);
             }
         })
+        this.setState({toggle_loading: false});
     }
 
     render() {
@@ -86,17 +89,22 @@ export default class Productpage extends Component {
 
                                 <p className="card-text">{product.descriptionLong}</p>
                                 <p className="card-text">{this.state.quantityOfProduct} left in stock</p>
-                                <span className="text-warning">★ ★ ★ ★ ☆ </span>
+                                <span className="text-warning">★ ★ ★ ★ ☆   </span>
                                  4.0 stars
-                                <InputSpinner
-                                    className="InputSpinner"
-                                    type="number" size ={'lg'} variant={'dark'}
-                                    value={this.state.quantity} min={1}
-                                    onChange={(qty) => this.setState({...this.state, quantity: qty})}
-                                    max={this.state.quantityOfProduct} label="Quantity" />
-                                <button type="submit" className="btn btn-lg btn-success btn-block mt-2"
-                                        onClick={this.postToCart}
-                                >Add to cart</button>
+
+                                <div style={{display: 'flex'}}>
+                                    <div style={{width: '180px', height:'auto'}}>
+                                        <InputSpinner
+                                            className="InputSpinner"
+                                            type="number" size ={'lg'} variant={'dark'}
+                                            value={this.state.quantity} min={1}
+                                            onChange={(qty) => this.setState({...this.state, quantity: qty})}
+                                            max={this.state.quantityOfProduct} label="Quantity" />
+                                    </div>
+                                    {this.state.toggle_loading ? <LoadingSpinnerSuccessLongBtn/> :
+                                        <Button type="submit" style={{ padding: '0 10px', marginLeft: '20px', width: '100%', fontSize: 'x-large'}} variant="success"
+                                                onClick={this.postToCart}>Add to cart</Button>}
+                                </div>
                                     <p className="card-text">{this.state.cart_feedback}</p>
                             </div>
                         </div>
