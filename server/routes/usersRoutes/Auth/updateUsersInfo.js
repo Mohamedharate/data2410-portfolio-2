@@ -27,109 +27,87 @@ router.put('/:email', async (req, res) => {
                 } else {
                     password = findUser.password;
                 }
-
-
-                const updateUserInfo = {
-                    firstName: req.body.firstName,
-                    lastName: req.body.lastName,
-                    email: req.body.email,
-                    password: password,
-                    country: req.body.country,
-                    city: req.body.city,
-                    zipCode: req.body.zipCode,
-                    street: req.body.street,
-                    phoneNumber: req.body.phoneNumber
-                }
-
+                const {firstName, lastName, inEmail, country, city, zipCode, street, phoneNumber} = req.body;
 
                 let out = new StringBuilder();
                 let updated = false;
 
                 if (findUser) {
-                    if (updateUserInfo.firstName && updateUserInfo.firstName !== findUser.firstName) {
+                    if (firstName && firstName !== findUser.firstName) {
                         try {
                             updated = true;
-                            await User.updateOne({email: req.params.email}, {firstName: updateUserInfo.firstName})
+                            await User.updateOne({email: req.params.email}, {firstName: firstName})
                         } catch (err) {
-                            out.append('Something went wrong during updating the first name\n' + err.toString());
+                            out.append('Something went wrong during updating the first name\n');
                         }
                     }
-                    if (updateUserInfo.lastName && updateUserInfo.lastName !== findUser.lastName) {
+                    if (lastName && lastName !== findUser.lastName) {
                         try {
                             updated = true;
-
-                            await User.updateOne({email: email}, {lastName: updateUserInfo.lastName})
+                            await User.updateOne({email: email}, {lastName: lastName})
                         } catch (err) {
-                            out.append('Something went wrong during updating the last name\n' + err.toString());
+                            out.append('Something went wrong during updating the last name\n');
                         }
                     }
-                    if (updateUserInfo.password && updateUserInfo.password !== findUser.password) {
+                    if (password && password !== findUser.password) {
                         try {
                             updated = true;
-
-                            await User.updateOne({email: email}, {password: updateUserInfo.password})
+                            await User.updateOne({email: email}, {password: password})
                         } catch (err) {
-                            out.append('Something went wrong during updating the password\n' + err.toString())
+                            out.append('Something went wrong during updating the password\n')
                         }
                     }
-                    if (updateUserInfo.country && updateUserInfo.country !== findUser.country) {
+                    if (country && country !== findUser.country) {
                         try {
                             updated = true;
-
-                            await User.updateOne({email: email}, {country: updateUserInfo.country})
+                            await User.updateOne({email: email}, {country: country})
                         } catch (err) {
-                            out.append('Something went wrong during updating the country\n' + err.toString())
+                            out.append('Something went wrong during updating the country\n')
                         }
                     }
-                    if (updateUserInfo.city && updateUserInfo.city !== findUser.city) {
+                    if (city && city !== findUser.city) {
                         try {
                             updated = true;
-
-                            await User.updateOne({email: email}, {$set: {city: updateUserInfo.city}})
+                            await User.updateOne({email: email}, {$set: {city: city}})
                         } catch (err) {
-                            out.append('Something went wrong during updating the city\n' + err.toString())
+                            out.append('Something went wrong during updating the city\n')
                         }
                     }
-                    if (updateUserInfo.zipCode && updateUserInfo.zipCode !== findUser.zipCode) {
+                    if (zipCode && zipCode !== findUser.zipCode) {
                         try {
                             updated = true;
-
-                            await User.updateOne({email: email}, {zipCode: updateUserInfo.zipCode})
+                            await User.updateOne({email: email}, {zipCode: zipCode})
                         } catch {
-                            out.append('Something went wrong during updating the zip code\n' + err.toString())
+                            out.append('Something went wrong during updating the zip code\n')
                         }
                     }
-                    if (updateUserInfo.street && updateUserInfo.street !== findUser.street) {
+                    if (street && street !== findUser.street) {
                         try {
                             updated = true;
-
-                            await User.updateOne({email: email}, {street: updateUserInfo.street})
+                            await User.updateOne({email: email}, {street: street})
                         } catch (err) {
-                            out.append('Something went wrong during updating the street name\n' + err.toString())
+                            out.append('Something went wrong during updating the street name\n')
                         }
                     }
-                    if (updateUserInfo.phoneNumber && updateUserInfo.phoneNumber !== findUser.phoneNumber) {
+                    if (phoneNumber && phoneNumber !== findUser.phoneNumber) {
                         try {
                             updated = true;
-
-                            await User.updateOne({email: email}, {phoneNumber: updateUserInfo.phoneNumber})
+                            await User.updateOne({email: email}, {phoneNumber: phoneNumber})
                         } catch (err) {
-                            out.append('Something went wrong during updating the phone number\n' + err.toString())
+                            out.append('Something went wrong during updating the phone number\n')
                         }
                     }
-                    if (updateUserInfo.email && updateUserInfo.email !== findUser.email) {
+                    if (inEmail && inEmail !== findUser.email) {
                         try {
                             updated = true;
-
-                            await User.updateOne({email: email}, {email: updateUserInfo.email})
+                            await User.updateOne({email: email}, {email: inEmail})
                         } catch (err) {
-                            out.append('Something went wrong during updating the email\nError code: ' + err.toString())
+                            out.append('Something went wrong during updating the email\n')
                         }
                     }
                 } else {
                     out.append('Something went wrong during finding user`s information')
                 }
-                console.log(out.toString())
                 if (out.toString()) {
                     res.status(500).json({Error: out.toString()})
                 } else if (updated) {
@@ -137,18 +115,15 @@ router.put('/:email', async (req, res) => {
                 } else {
                     res.json({Message: "Nothing to update"})
                 }
-
             } else {
                 return res.status(403).json({Error: "You don't have permission for this"})
             }
         } else {
-
             return res.status(403).json({Error: "You don't have permission for this"})
         }
     } else {
         return res.status(500).json({Error: "Something went wrong!"})
     }
-
-})
+});
 
 module.exports = router;
