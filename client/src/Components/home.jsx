@@ -12,6 +12,7 @@ import addReview from "./Products/addReview";
 import ShoppingCart from "./ShoppingCart/ShoppingCart";
 import Orders from "./orders";
 import CheckOut from "./CheckOut";
+import ProfileMain from "./UserProfile/ProfileMain"
 
 
 class Home extends Component {
@@ -23,6 +24,7 @@ class Home extends Component {
         toggleRegister: false,
         toggleShoppingCart: false,
         toggleCheckOut: false,
+        toggleProfilePage: false,
         isAuthenticated: false,
         current_user: {},
         empty_cart: false,
@@ -47,6 +49,7 @@ class Home extends Component {
             toggleRegister: false,
             toggleShoppingCart: false,
             toggleCheckOut: false,
+            toggleProfilePage: false,
         });
     }
     handleToggleRegisterCallback = () => {
@@ -55,6 +58,7 @@ class Home extends Component {
             toggleRegister: !this.state.toggleRegister,
             toggleShoppingCart: false,
             toggleCheckOut: false,
+            toggleProfilePage: false,
         });
     }
     handleToggleShoppingCartCallback = () => {
@@ -63,6 +67,7 @@ class Home extends Component {
             toggleRegister: false,
             toggleShoppingCart: !this.state.toggleShoppingCart,
             toggleCheckOut: false,
+            toggleProfilePage: false,
         });
     }
     handleToggleCheckOutCallback = () => {
@@ -71,6 +76,17 @@ class Home extends Component {
             toggleRegister: false,
             toggleShoppingCart: false,
             toggleCheckOut: !this.state.toggleCheckOut,
+            toggleProfilePage: false,
+        })
+    }
+    handleToggleProfilePageCallback = () => {
+        console.log("click")
+        this.setState({
+            toggleLogin: false,
+            toggleRegister: false,
+            toggleShoppingCart: false,
+            toggleCheckOut: false,
+            toggleProfilePage: !this.state.toggleProfilePage,
         })
     }
 
@@ -136,13 +152,14 @@ class Home extends Component {
             data: {}
         }).then(() => {
             sessionStorage.clear();
-            this.state.toggleShoppingCart = false;
             const cart_objects = [];
             this.updateCartCounterAndPrice(cart_objects);
             this.setState({
                 cart_objects,
                 current_user: {},
-                isAuthenticated: false
+                isAuthenticated: false,
+                toggleShoppingCart: false,
+                toggleProfilePage: false,
             });
         })
     };
@@ -198,7 +215,7 @@ class Home extends Component {
                         toggleLoginCallback={this.handleToggleLoginCallback}
                         toggleRegisterCallback={this.handleToggleRegisterCallback}
                         toggleShoppingCartCallback={this.handleToggleShoppingCartCallback}
-                        handleLogoutCallback={this.handleLogoutCallback}
+                        toggleProfilePageCallback={this.handleToggleProfilePageCallback}
                         isAuthenticated={this.state.isAuthenticated}
                         current_user={this.state.current_user}
                         cart_counter={this.state.cart_counter}
@@ -219,6 +236,11 @@ class Home extends Component {
                     />}
                     {this.state.toggleRegister && <SignUp
                         close={this.handleToggleRegisterCallback}
+                    />}
+                    {this.state.toggleProfilePage && <ProfileMain
+                        close={this.handleToggleProfilePageCallback}
+                        handleLogout={this.handleLogoutCallback}
+                        current_user={this.state.current_user}
                     />}
                     {this.state.toggleCheckOut && <CheckOut
                         cart_objects={this.state.cart_objects}

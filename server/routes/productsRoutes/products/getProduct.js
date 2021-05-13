@@ -48,24 +48,23 @@ function formatProdcuts(arr) {
 
 
             out.append(`
-        <div class="col-lg-4 col-md-6 mb-4">
+        <div class="col-lg-3 col-md-4 mb-3">
             <div class="card h-100">
            
                 <a href="http://localhost:3001/products/${arr[i].itemId}">
-                   <img class="card-img-top" src="data:${arr[i].imageUrl[0].contentType};base64, ${arr[i].imageUrl[0].image}" alt="" />
+                   <img class="card-img-top" src="data:${arr[i].imageUrl[0].contentType};base64, ${arr[i].imageUrl[0].image}" "alt="" />
                 </a>
                 <div class="card-body">
                     <h4 class="card-title">
                         <a href="/products/${arr[i].itemId}">${arr[i].name}</a>
                     </h4>
                     <h5>$${parseFloat(arr[i].price)}</h5>
-                     <p class="card-text">${arr[i].descriptionShort}</p>
+                     <p class="card-text">${arr[i].descriptionShort}
+                     <a href="http://localhost:3001/products/${arr[i].itemId}">Read more</a>
+                     </p>
                 </div>
                 <div class="card-footer">
                      <small class="text-muted" style="text-align: left">${stars}</small>
-                     <span class="material-icons-outlined">
-                         add_shopping_cart
-                     </span>
                 </div>
             </div>
         </div>`)

@@ -22,7 +22,7 @@ const product_schema = new Schema(
             required: true,
             type: String,
             minlength: 2,
-            maxlength: 30
+            maxlength: 50
         },
         descriptionShort: {
             required: true,

@@ -35,7 +35,7 @@ router.post('/', async (req, res) => {
 
         const link = `http://localhost:3001/api/register/emailActivation/${token}`
         try {
-            send(email, formatActivationEmail(firstName, link), "Activation")
+            await send(email, formatActivationEmail(firstName, link), "Activation")
         } catch (e) {
             return res.status(400).json({Error: e.toString()})
         }
@@ -58,7 +58,7 @@ router.get('/emailActivation/:link', async (req, res) => {
             let newUser = new User({firstName, lastName, email, password, country, city, zipCode, street, phoneNumber})
             await newUser.save()
                 .then(data => {
-                    res.status(200).json({Message: `User created successfully!`})
+                    return res.status(200).redirect('http://localhost:3001');
                 })
                 .catch(error => {
                     res.status(500).json({Error: error.toString()})
