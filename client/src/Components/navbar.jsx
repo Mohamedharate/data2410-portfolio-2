@@ -21,7 +21,9 @@ class Navbar extends Component {
         return (
             <header>
                 <nav className="row fixed-top align-items-center bg-dark">
-                    <div className="col-8">
+                    <div className={"col-lg-1 col-0"}>
+                    </div>
+                    <div className="col-8 col-lg-6">
                         <Link to="/"> <img className="navbar-logo float-left ml-2 mt-1" src="/LogoMet.svg"
                                            alt=""/></Link>
                         <button onClick={this.handleShoppingCart}
@@ -51,6 +53,9 @@ class Navbar extends Component {
                                         </span>
                             <span className="material-icons md-24 ">account_box</span>
                         </button>}
+                    </div>
+                    <div className={"col-lg-1 col-0"}>
+
                     </div>
                 </nav>
             </header>

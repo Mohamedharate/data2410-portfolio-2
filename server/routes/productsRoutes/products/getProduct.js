@@ -48,11 +48,11 @@ function formatProdcuts(arr) {
 
 
             out.append(`
-        <div class="col-lg-3 col-md-4 mb-3">
+        <div class=" col-lg-4 col-md-6 mb-4">
             <div class="card h-100">
            
                 <a href="http://localhost:3001/products/${arr[i].itemId}">
-                   <img class="card-img-top" src="data:${arr[i].imageUrl[0].contentType};base64, ${arr[i].imageUrl[0].image}" "alt="" />
+                   <img class="card-img-top" src="data:${arr[i].imageUrl[0].contentType};base64, ${arr[i].imageUrl[0].image}" style="height: 20em; width: 100%; object-fit: contain" "alt="" />
                 </a>
                 <div class="card-body">
                     <h4 class="card-title">
