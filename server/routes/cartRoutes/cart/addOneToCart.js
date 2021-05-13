@@ -6,7 +6,7 @@ const Product = require("../../../Models/product");
 
 
 router.get('/:itemId', async (req,
-                        res, next) => {
+                              res, next) => {
     let itemId = req.params.itemId;
     const product = await Product.findOne({itemId: itemId});
 
@@ -21,12 +21,12 @@ router.get('/:itemId', async (req,
 
                 if (req.session.passport.user && req.session.passport.user.type === 'User') {
                     user = await User.findOne({_id: req.session.passport.user.id});
-                    if(!user) return res.status(404).json({Error:"User not found"})
+                    if (!user) return res.status(404).json({Error: "User not found"})
 
                     for (let i = 0; i < user.cart.length; i++) {
                         let totalSumProduct = 0;
                         if (itemId === user.cart[i].itemId) {
-                             totalSumProduct += parseFloat(product.price)
+                            totalSumProduct += parseFloat(product.price)
                             await User.updateOne(
                                 {_id: user._id},
                                 {

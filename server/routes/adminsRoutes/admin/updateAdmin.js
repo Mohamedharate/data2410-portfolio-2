@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt')
 const upload = require('../../../multer/multer')
 
 
-router.put('/:employeeId',  async (req, res) => {
+router.put('/:employeeId', async (req, res) => {
 
     if (req.session) {
         if (req.session.passport) {

@@ -11,7 +11,7 @@ router.put('/', async (req, res, next) => {
         product_id: req.body.product_id,
         quantity: req.body.quantity
     }
-    if(deleteItem.quantity < 1){
+    if (deleteItem.quantity < 1) {
         return res.status(400).json({Error: `Quantity can not be lower than 1`})
     }
     const product = await Product.findOne({itemId: deleteItem.product_id});
