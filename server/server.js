@@ -1,10 +1,7 @@
 //require('./DB Connection/connectDB')
 
 const http = require('http');
-require('dotenv').config();
 
-const kk = process.env.kk;
-console.log(kk);
 
 const mongoose = require("mongoose");
 const express = require('express');

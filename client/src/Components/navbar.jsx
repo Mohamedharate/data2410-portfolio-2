@@ -20,7 +20,7 @@ class Navbar extends Component {
     render() {
         return (
             <header>
-                <nav className="row fixed-top align-items-center bg-dark">
+                <nav className="row fixed-top align-items-center bg-dark py-lg-3">
                     <div className={"col-lg-1 col-0"}>
                     </div>
                     <div className="col-8 col-lg-6">
