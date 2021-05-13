@@ -254,6 +254,7 @@ class Home extends Component {
                         quantity_increase={this.handleQuantityIncreaseCallback}
                         quantity_decrease={this.handleQuantityDecreaseCallback}
                         onCheckOut={this.handleToggleCheckOutCallback}
+                        close={this.handleToggleShoppingCartCallback}
                         empty_cart={this.state.empty_cart}
                         empty_cart_message={this.state.empty_cart_message}
                         cart_objects={this.state.cart_objects}

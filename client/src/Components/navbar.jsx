@@ -20,53 +20,38 @@ class Navbar extends Component {
     render() {
         return (
             <header>
-                <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-                    <div className="container-fluid">
-                        <Link to="/"> <img className="navbar-logo" src="/LogoMet.svg" alt=""/></Link>
-                        <a className="navbar-brand"/>
-                        <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
-                                aria-label="Toggle navigation">
-                            <span className="navbar-toggler-icon">tag</span>
-                        </button>
-                        <div className="collapse navbar-collapse" id="navbarCollapse">
-                            <ul className="navbar-nav me-auto mb-2 mb-md-0">
-                                <li className="nav-item">
-                                </li>
-                                <li className="nav-item">
-
-
-                                </li>
-                                <li className="nav-item">
-                                    <div onClick={this.handleShoppingCart} className="btn btn-dark justify-content-center text-center">
-                                        <span className="position-absolute float-right ml-4 mt-3">
-                                            <span className="btn badge badge-dark border border-light">
+                <nav className="row fixed-top align-items-center bg-dark">
+                    <div className="col-8">
+                        <Link to="/"> <img className="navbar-logo float-left ml-2 mt-1" src="/LogoMet.svg"
+                                           alt=""/></Link>
+                        <button onClick={this.handleShoppingCart}
+                             className="btn btn-dark justify-content-center text-center">
+                                        <span className="position-absolute float-right ml-3 mt-2">
+                                            <span className="btn badge badge-dark border border-secondary">
                                                 {this.props.cart_counter} - ${this.props.cart_total_price}
                                             </span>
                                         </span>
-                                        <button className="btn text-white pr-4">
-                                            <i className="material-icons">shopping_cart</i>
-                                        </button>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
+                                <span className="material-icons md-24">shopping_cart</span>
+                        </button>
                     </div>
-                    {!this.props.isAuthenticated &&
-                    <button onClick={this.handleLogin} className="btn text-white float-right mr-2">Login</button>}
-                    {!this.props.isAuthenticated &&
-                    <button onClick={this.handleRegister} className="btn text-white float-right mr-2">Register</button>}
-                    {this.props.isAuthenticated &&
-                    <button onClick={this.handleProfile} className="btn btn-dark rtl text-nowrap pr-3">
-                        <div className="row">
-                            <div className="col-8 align-self-center p-1 text-left text-nowrap">
-                                {this.props.current_user.firstName}
-                            </div>
-                            <div className="col-4 align-self-center p-1">
-                                <span className="material-icons mt-1">account_box</span>
-                            </div>
-                        </div>
-                    </button>}
+                    <div className="col-4">
+                        {!this.props.isAuthenticated &&
+                        <button onClick={this.handleLogin}
+                                className="btn btn-dark float-right mr-2 p-1">Login</button>}
+                        {!this.props.isAuthenticated &&
+                        <button onClick={this.handleRegister}
+                                className="btn btn-dark float-right mr-2 p-1">Register</button>}
+                        {this.props.isAuthenticated &&
+                        <button onClick={this.handleProfile}
+                                className="btn btn-dark float-right mr-5 pr-3">
+                            <span className="position-absolute float-right ml-3 mt-2">
+                                            <span className="btn badge badge-dark border border-secondary">
+                                                Profile
+                                            </span>
+                                        </span>
+                            <span className="material-icons md-24 ">account_box</span>
+                        </button>}
+                    </div>
                 </nav>
             </header>
         );

@@ -40,7 +40,7 @@ class ProfileMain extends Component {
                 <div className="backgroundContainer position-fixed">
                     <div className="row text-center justify-content-end">
                         <div
-                            className="col-md-8 col-lg-5 mh-75 bg-light mt-5 mr-4 p-1 pb-3 border border-secondary shadow-lg rounded-bottom">
+                            className="col-md-8 col-lg-5 mh-75 bg-light mt-5 m-2 p-1 pb-3 border border-secondary shadow-lg rounded-left">
                             <div className="row">
                                 <div className="col-12">
                                     <button onClick={this.props.close}
@@ -65,10 +65,10 @@ class ProfileMain extends Component {
                                             </li>
                                         </ul>
                                         <div className="row">
-                                            <div className="col-8 text-left mt-3">
+                                            <div className="col-7 text-left mt-3">
                                                 <h4>{this.props.current_user.firstName} {this.props.current_user.lastName}</h4>
                                             </div>
-                                            <div className="col-4">
+                                            <div className="col-5">
                                                 <button onClick={this.handleLogout} className="btn btn-danger mt-2 float-right">
                                                     <div className="row">
                                                         <div className="col-7 align-self-center">

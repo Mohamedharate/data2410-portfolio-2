@@ -14,12 +14,12 @@ class ShoppingCartObject extends Component {
                                     className="btn-circle btn-dark btn-sm rounded-circle ml-2">-</button>
                         </p>
                     </div>
-                    <div className="col-sm-3">
+                    <div className="col-3">
                         <p className="mt-1 text-right">
                             ${this.props.shoppingCartObject.price * this.props.shoppingCartObject.quantity}
                         </p>
                     </div>
-                    <div className="col-sm-5">
+                    <div className="col-5">
                         <p className="mt-1 text-center">{this.props.shoppingCartObject.name}</p>
                     </div>
                 </div>
