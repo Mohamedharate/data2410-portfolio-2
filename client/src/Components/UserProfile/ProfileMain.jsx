@@ -37,8 +37,7 @@ class ProfileMain extends Component {
 
     render() {
         return (
-            <React.Fragment>
-                <div className="backgroundContainer position-fixed mt-4">
+                <div className="backgroundContainer position-fixed">
                     <div className="row text-center justify-content-end">
                         <div
                             className="col-md-8 col-lg-5 mh-75 bg-light mt-5 mr-4 p-1 pb-3 border border-secondary shadow-lg rounded-bottom">
@@ -112,7 +111,6 @@ class ProfileMain extends Component {
                         </div>
                     </div>
                 </div>
-            </React.Fragment>
         );
     }
 }

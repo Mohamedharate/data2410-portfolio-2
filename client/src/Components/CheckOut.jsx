@@ -178,9 +178,9 @@ class CheckOut extends Component {
                                                     <input onChange={this.handleInputChange}
                                                            checked={this.state.save_address}
                                                            className="form-check-input" name="save_address"
-                                                           type="checkbox" id="flexSwitchCheck"
+                                                           type="checkbox" id="flexSwitchCheck1"
                                                            disabled={!this.props.signed_in}/>
-                                                    <label className="form-check-label" htmlFor="flexSwitchCheck">
+                                                    <label className="form-check-label" htmlFor="flexSwitchCheck1">
                                                         Save address(Signed in only)
                                                     </label>
                                                 </div>
@@ -216,8 +216,8 @@ class CheckOut extends Component {
                                                     <input onChange={this.handleInputChange}
                                                            checked={this.state.separate_shipping}
                                                            className="form-check-input" name="separate_shipping"
-                                                           type="checkbox" id="flexSwitchCheck"/>
-                                                    <label className="form-check-label" htmlFor="flexSwitchCheck">
+                                                           type="checkbox" id="flexSwitchCheck2"/>
+                                                    <label className="form-check-label" htmlFor="flexSwitchCheck2">
                                                         Different shipping address?
                                                     </label>
                                                 </div>

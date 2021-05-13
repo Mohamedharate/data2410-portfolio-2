@@ -151,13 +151,14 @@ class Home extends Component {
             data: {}
         }).then(() => {
             sessionStorage.clear();
-            this.state.toggleShoppingCart = false;
             const cart_objects = [];
             this.updateCartCounterAndPrice(cart_objects);
             this.setState({
                 cart_objects,
                 current_user: {},
-                isAuthenticated: false
+                isAuthenticated: false,
+                toggleShoppingCart: false,
+                toggleProfilePage: false,
             });
         })
     };
