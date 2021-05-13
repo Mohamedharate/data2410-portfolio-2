@@ -110,11 +110,12 @@ class Home extends Component {
         }
     }
     handleAddToCartCallback = (product, quantity) => {
-        console.log("add to cart")
         const Product = product;
         Product.quantity = quantity;
+        Product.price = product.price.Object;
 
         const cart_objects = [...this.state.cart_objects, Product];
+        console.log(Product);
         this.updateCartCounterAndPrice(cart_objects);
         this.setState({cart_objects, cart_feedback: true})
     }
@@ -184,6 +185,7 @@ class Home extends Component {
         cartArray.forEach(product => {
             cart_counter += parseInt(product.quantity);
             cart_total_price += parseInt(product.price) * parseInt(product.quantity)
+
         });
         this.setState({cart_counter, cart_total_price})
     }
