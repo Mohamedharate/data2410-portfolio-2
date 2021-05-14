@@ -6,7 +6,7 @@ const Product = require("../../../Models/product");
 
 
 router.post('/', async (req,
-                        res, next) => {
+                        res) => {
     const addItem = {
         product_id: req.body.product_id,
         quantity: req.body.quantity

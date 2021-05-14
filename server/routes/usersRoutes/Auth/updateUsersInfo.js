@@ -4,7 +4,7 @@ let router = express.Router();
 const User = require("../../../Models/user");
 const StringBuilder = require("string-builder");
 const bcrypt = require('bcrypt')
-const upload = require('../../../multer/multer')
+require('../../../multer/multer');
 
 
 router.put('/:email', async (req, res) => {
