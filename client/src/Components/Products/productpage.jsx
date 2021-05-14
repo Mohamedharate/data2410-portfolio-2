@@ -79,7 +79,7 @@ export default class Productpage extends Component {
                                     {product.imageUrl &&
                                     product.imageUrl.map((img, index) => (
                                             <div key={index}>
-                                                    <img src={`data:img/${img.contentType};base64,${img.image.toString("base64")}`}
+                                                    <img className="fit-contain" src={`data:img/${img.contentType};base64,${img.image.toString("base64")}`}
                                                     height={600}
                                                 />
                                             </div>
