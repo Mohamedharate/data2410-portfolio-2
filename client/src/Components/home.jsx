@@ -4,7 +4,7 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Navbar from "./navbar";
 import SignIn from "./Authentication/SignIn";
 import SignUp from "./Authentication/SignUp";
-import About from "./about";
+//import About from "./about";
 import Mainpage from "./Products/mainpage";
 import Footer from "./footer";
 import Productpage from "./Products/productpage";
@@ -265,12 +265,12 @@ class Home extends Component {
                         feedback_text={this.state.cart_feedback_text}
                     />
                     }
-                    <About/>
                     <Footer toggle_admin={this.props.toggle_admin}/>
                 </React.Fragment>
             </Router>
         );
     }
 }
+// <About/>
 
 export default Home;

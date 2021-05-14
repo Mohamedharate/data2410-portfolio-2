@@ -5,13 +5,35 @@ import Alert from 'react-bootstrap/Alert'
 class SuccessFeedback extends Component {
     constructor(props) {
         super(props);
+        /*
+        this.state = {
+            showingAlert: false
+        };
+
+         */
     }
+/*
+
+    handleClickShowAlert() {
+        this.setState({
+            showingAlert: true
+        });
+
+        setTimeout(() => {
+            this.setState({
+                showingAlert: false
+            });
+        }, 10000);
+    }
+${this.state.showingAlert ? 'alert-shown' : 'alert-hidden'}
+ */
 
     render() {
         return (
-            <Alert className="m-2" variant="success">
+            <Alert className ={`m - 2`} variant="success">
                 <p>
-                    <strong>This is great!</strong><br/> {this.props.feedback_success_text}
+                    <strong>This is great!</strong>
+                    <br/> {this.props.feedback_success_text}
                 </p>
             </Alert>
         );

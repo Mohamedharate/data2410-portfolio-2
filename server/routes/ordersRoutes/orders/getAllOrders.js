@@ -21,8 +21,7 @@ router.get('/', async (req, res) => {
                 } else {
                     return res.status(403).json({Error: "You don't have permission for this"})
                 }
-            }
-            else {
+            } else {
                 return res.status(403).json({Error: "You don't have permission for this"})
             }
 

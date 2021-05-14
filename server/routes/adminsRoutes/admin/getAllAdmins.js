@@ -4,7 +4,6 @@ let router = express.Router();
 const Admin = require("../../../Models/admin");
 
 
-
 router.get('/all', async (req, res) => {
     if (req.session) {
 

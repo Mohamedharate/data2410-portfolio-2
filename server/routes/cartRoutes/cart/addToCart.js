@@ -11,7 +11,7 @@ router.post('/', async (req,
         product_id: req.body.product_id,
         quantity: req.body.quantity
     }
-    if(addItem.quantity < 1){
+    if (addItem.quantity < 1) {
         return res.status(400).json({Error: `Quantity can not be lower than 1`})
     }
     const product = await Product.findOne({itemId: addItem.product_id});

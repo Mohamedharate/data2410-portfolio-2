@@ -57,6 +57,9 @@ export default class Productpage extends Component {
         return (
             <div className="productContainer">
                 <div className="row">
+                    <div className={"col-lg-1"}>
+
+                    </div>
                     <div className="col-lg-3">
                         <h1 className="my-4">ShopMet</h1>
                         <div className="list-group">
@@ -68,14 +71,15 @@ export default class Productpage extends Component {
                             <Link to="/" className="list-group-item">All</Link>
                         </div>
                     </div>
-                    <div className="col-lg-9">
+
+                    <div className="col-lg-6">
                         <div className="card mt-4">
                             <div className="card-img-top">
                                 <Carousel autoPlay="true" showThumbs={false} infiniteLoop="true">
                                     {product.imageUrl &&
                                     product.imageUrl.map((img, index) => (
                                             <div key={index}>
-                                                    <img src={`data:img/${img.contentType};base64,${img.image.toString("base64")}`}
+                                                    <img className="fit-contain" src={`data:img/${img.contentType};base64,${img.image.toString("base64")}`}
                                                     height={600}
                                                 />
                                             </div>
@@ -134,7 +138,11 @@ export default class Productpage extends Component {
                             </div>
                         </div>
                     </div>
+                    <div className={"col-lg-1"}>
+
+                    </div>
                 </div>
+
             </div>
         )
     }
