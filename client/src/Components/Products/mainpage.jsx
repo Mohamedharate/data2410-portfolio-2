@@ -31,6 +31,9 @@ export default class Mainpage extends Component {
     return (
         <div className="productContainer">
           <div className="row">
+            <div className={"col-lg-1"}>
+
+            </div>
             <div className="col-lg-3">
 
               <h1 className="my-4">ShopMet</h1>
@@ -43,7 +46,7 @@ export default class Mainpage extends Component {
                 <Link to="/" className="list-group-item">All</Link>
               </div>
             </div>
-            <div className="col-lg-9">
+            <div className="col-lg-7">
               <div id="carouselExampleIndicators" className="carousel slide my-4" data-ride="carousel">
                 <ol className="carousel-indicators">
                   <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"/>
@@ -75,6 +78,9 @@ export default class Mainpage extends Component {
                 <div className="row" dangerouslySetInnerHTML={{ __html: this.state.product}} />
 
 
+
+            </div>
+            <div className={"col-lg-1"}>
 
             </div>
           </div>

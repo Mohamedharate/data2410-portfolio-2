@@ -23,7 +23,7 @@ router.use('/subscribe', subscribe);
 router.use('/unsubscribe', unsubscribe);
 
 router.get('/isAuthenticated/', async (req, res) => {
-    if(req.user){
+    if (req.user) {
         const user = await User.findOne({_id: req.session.passport.user.id})
         return res.status(200).json(user);
     } else {

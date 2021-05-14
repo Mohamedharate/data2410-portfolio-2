@@ -6,7 +6,7 @@ const Product = require("../../../Models/product");
 
 //Delete all products
 router.delete('/all', async (req, res) => {
-    if (req.session){
+    if (req.session) {
         if (req.session.passport.user.type !== 'Admin') {
             return res.status(403).json({Error: "You don't have permission for this"})
         }
@@ -16,8 +16,7 @@ router.delete('/all', async (req, res) => {
         } catch (err) {
             res.json({Error: err.toString()})
         }
-    }
-    else {
+    } else {
         res.status(500).json({Error: "Something went wrong!"})
     }
 
@@ -27,7 +26,7 @@ router.delete('/all', async (req, res) => {
 //delete a product with the given productID.
 router.delete('/one/:itemId', async (req, res) => {
 
-    if(req.session){
+    if (req.session) {
         if (req.session.passport.user.type !== 'Admin') {
             return res.status(403).json({Error: "You don't have permission for this"})
         }
@@ -38,8 +37,7 @@ router.delete('/one/:itemId', async (req, res) => {
         }
         return res.status(200).json({Message: "The product is deleted!"});
 
-    }
-    else{
+    } else {
         res.status(500).json({Error: "Something went wrong!"})
     }
 
