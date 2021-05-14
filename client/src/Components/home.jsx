@@ -128,12 +128,11 @@ class Home extends Component {
     handleAddToCartCallback = (product, quantity) => {
         const Product = product;
         Product.quantity = quantity;
-        Product.price = product.price.Object;
+        Product.price = Object.values(product.price);
 
         const cart_objects = [...this.state.cart_objects, Product];
-        console.log(Product);
         this.updateCartCounterAndPrice(cart_objects);
-        this.setState({cart_objects, cart_feedback: true})
+        this.setState({cart_objects})
     }
 
 

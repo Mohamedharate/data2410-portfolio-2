@@ -12,7 +12,7 @@ export default class Productpage extends Component {
     constructor(props) {
         super(props);
         this.state = {descriptionLong: "", cart_feedback: false, toggle_loading: false};
-        this.state = {product: [], quantity: 1, price: 0, quantityOfProduct: 0};
+        this.state = {product: [], quantity: 1, price: 0, quantityOfProduct: 0, price_mapped: 0};
     }
 
     componentDidMount = async() => {
@@ -41,7 +41,7 @@ export default class Productpage extends Component {
             data: {product_id: this.state.product.itemId, quantity: this.state.quantity}
         }).then(response => {
             this.setState({cart_feedback: "Product added to card!"})
-            this.props.handleAddToCartCallback(this.state.product, this.state.quantity, this.state.price);
+            this.props.handleAddToCartCallback(this.state.product, this.state.quantity);
         }).catch(error => {
             if(error.response){
                 console.log(error.response)
@@ -79,7 +79,7 @@ export default class Productpage extends Component {
                                     {product.imageUrl &&
                                     product.imageUrl.map((img, index) => (
                                             <div key={index}>
-                                                    <img src={`data:img/${img.contentType};base64,${img.image.toString("base64")}`}
+                                                    <img className="fit-contain" src={`data:img/${img.contentType};base64,${img.image.toString("base64")}`}
                                                     height={600}
                                                 />
                                             </div>
@@ -89,7 +89,7 @@ export default class Productpage extends Component {
                             </div>
                             <div className="card-body">
                                 <h3 className="card-title">{product.name}</h3>
-                                {Object.values(price).map((p) => (<h4 className="price" key="p">${p}</h4>))}
+                                {Object.values(price).map((price_mapped) => (<h4 className="price" key="p">${price_mapped}</h4>))}
 
                                 <p className="card-text">{product.descriptionLong}</p>
                                 <p className="card-text">{this.state.quantityOfProduct} left in stock</p>
