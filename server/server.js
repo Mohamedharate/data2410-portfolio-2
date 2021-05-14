@@ -1,11 +1,24 @@
 //require('./DB Connection/connectDB')
+const express = require('express');
+const path = require('path');
 
-const http = require('http');
+const fs = require("fs")
+const cert = fs.readFileSync('/Users/mohamedharate/data2410-portfolio-2/server/ssl/localhost.cert');
+const key = fs.readFileSync('/Users/mohamedharate/data2410-portfolio-2/server/ssl/localhost.key');
+
+const options = {
+    key: key,
+    cert: cert,
+  };
+  const app = express();
+
+
+
+
 
 
 const mongoose = require("mongoose");
-const express = require('express');
-const path = require('path');
+
 
 const cors = require("cors");
 const passport = require('passport');
@@ -15,7 +28,6 @@ require('./passport-config')
 
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const app = express();
 
 
 app.use(cors());
@@ -200,11 +212,26 @@ app.post('/admin/logout', (req, res) => {
         return res.status(400).json({Error: 'Not logged in'});
     }
 })
+
+/*
 app.on('ready', function () {
     app.listen(3001, function () {
         console.log("app is ready");
     });
 });
+*/
+
+
+const https = require('https');
+https.createServer(options, app).listen(3001, ()=> {console.log("Connected on port 3001")} );
+
+/*
+var http = require('http');
+http.createServer(app).listen(3000);
+
+var forceSsl = require('express-force-ssl');
+app.use(forceSsl);
+*/
 
 // ------- connect to mongodb ---------- //
 try {
@@ -214,13 +241,6 @@ try {
         useCreateIndex: true
     }, () =>
         console.log("connected to webshopDB"));
-    app.emit('ready');
 } catch (error) {
     console.log("could not connect to webshopDB");
 }
-
-
-
-
-
-

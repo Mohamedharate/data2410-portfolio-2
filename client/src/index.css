@@ -24,6 +24,7 @@ code {
   width: 100vw;
   height: 90vh;
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .bg-grey{
@@ -133,6 +134,11 @@ code {
   margin-top: auto;
   width: 100%;
 }
+
+.fit-contain{
+  object-fit: contain;
+}
+
 .carousel-indicators{
   visibility: hidden;
 }
