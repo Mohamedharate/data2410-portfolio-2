@@ -3,8 +3,8 @@ const express = require('express');
 const path = require('path');
 
 const fs = require("fs")
-const cert = fs.readFileSync('/Users/mohamedharate/data2410-portfolio-2/server/ssl/localhost.cert');
-const key = fs.readFileSync('/Users/mohamedharate/data2410-portfolio-2/server/ssl/localhost.key');
+const cert = fs.readFileSync(path.join(__dirname, 'ssl/','localhost.cert'));
+const key = fs.readFileSync(path.join(__dirname, 'ssl/','localhost.key'));
 
 const options = {
     key: key,
@@ -192,7 +192,7 @@ app.post('/logout', (req, res) => {
         } catch (err) {
             return res.status(500).json({Error: 'Could not perform logout!'});
         }
-        return res.status(200).redirect('http://localhost:3001');
+        return res.status(200).redirect('https://localhost:3001');
     } else {
         return res.status(400).json({Error: 'Not logged in'});
     }
@@ -207,7 +207,7 @@ app.post('/admin/logout', (req, res) => {
         } catch (err) {
             return res.status(500).json({Error: 'Could not perform logout!'});
         }
-        return res.status(200).redirect('http://localhost:3001');
+        return res.status(200).redirect('https://localhost:3001');
     } else {
         return res.status(400).json({Error: 'Not logged in'});
     }
