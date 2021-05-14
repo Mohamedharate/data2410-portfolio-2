@@ -34,7 +34,7 @@ app.set("trust proxy", 1);
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 
-app.use('/', express.static('./public'));
+//app.use('/', express.static('./public'));
 
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
