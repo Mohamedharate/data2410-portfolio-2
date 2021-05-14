@@ -34,7 +34,7 @@ class AdminLogin extends Component {
         this.setState({toggle_loading: true});
         await axios({
             method: 'post',
-            url: 'http://localhost:3001/api/signin-admin',
+            url: 'https://localhost:3001/api/signin-admin',
             data: {
                 email: this.state.email,
                 password: this.state.password,

@@ -11,7 +11,7 @@ export default class Category extends Component{
     getCategories = async () => {
         await axios({
             method: "get",
-            url: 'http://localhost:3001/api/products/get/allProductsPure',
+            url: 'https://localhost:3001/api/products/get/allProductsPure',
         }).then(res =>{
             this.setState({categories: res.data.categories})
         })

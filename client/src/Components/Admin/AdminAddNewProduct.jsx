@@ -64,7 +64,7 @@ class AdminAddNewProduct extends Component {
 
         await axios({
             method: 'post',
-            url: 'http://localhost:3001/api/products/new',
+            url: 'https://localhost:3001/api/products/new',
             data: formdata,
         }).then(res => {
             this.setState({

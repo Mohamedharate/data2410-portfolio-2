@@ -13,7 +13,7 @@ class Orders extends Component{
     componentDidMount = async () => {
         await axios({
             method: "get",
-            url: 'http://localhost:3001/api/orders/getUserOrders/'+this.props.current_user.email,
+            url: 'https://localhost:3001/api/orders/getUserOrders/'+this.props.current_user.email,
         }).then(response => {
             this.setState({
                 orders: response.data, order_id: response.data.orders._id,});

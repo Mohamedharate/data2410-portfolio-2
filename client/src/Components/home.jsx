@@ -97,7 +97,7 @@ class Home extends Component {
         cart_objects[index].quantity++;
         await axios({
             method: 'post',
-            url: 'http://localhost:3001/api/cart/addToCart',
+            url: 'https://localhost:3001/api/cart/addToCart',
             data: {
                 product_id: cart_objects[index].itemId,
                 quantity: 1
@@ -114,7 +114,7 @@ class Home extends Component {
             cart_objects[index].quantity--;
             await axios({
                 method: 'put',
-                url: 'http://localhost:3001/api/cart/deleteFromCart',
+                url: 'https://localhost:3001/api/cart/deleteFromCart',
                 data: {
                     product_id: cart_objects[index].itemId,
                     quantity: 1
@@ -147,7 +147,7 @@ class Home extends Component {
     handleLogoutCallback = async () => {
         await axios({
             method: 'post',
-            url: 'http://localhost:3001/logout',
+            url: 'https://localhost:3001/logout',
             data: {}
         }).then(() => {
             sessionStorage.clear();
@@ -163,7 +163,7 @@ class Home extends Component {
         })
     };
     Authenticated = async () => {
-        await axios.get('http://localhost:3001/api/users/isAuthenticated')
+        await axios.get('https://localhost:3001/api/users/isAuthenticated')
             .then(response => {
                 if (response.status === 200) {
                     // Session is auth

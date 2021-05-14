@@ -14,7 +14,7 @@ export default class Mainpage extends Component {
     const that = this;
     await axios({
       method: "get",
-      url: 'http://localhost:3001/api/products/get/allProducts',
+      url: 'https://localhost:3001/api/products/get/allProducts',
     }).then(function (response) {
       that.setState({product: response.data});
     }).catch(function (error) {

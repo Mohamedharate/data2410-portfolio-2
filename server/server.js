@@ -3,18 +3,14 @@ const express = require('express');
 const path = require('path');
 
 const fs = require("fs")
-const cert = fs.readFileSync(path.join(__dirname, 'ssl/','localhost.cert'));
-const key = fs.readFileSync(path.join(__dirname, 'ssl/','localhost.key'));
+const cert = fs.readFileSync(path.join(__dirname, 'ssl/', 'localhost.cert'));
+const key = fs.readFileSync(path.join(__dirname, 'ssl/', 'localhost.key'));
 
 const options = {
     key: key,
     cert: cert,
-  };
-  const app = express();
-
-
-
-
+};
+const app = express();
 
 
 const mongoose = require("mongoose");
@@ -221,17 +217,12 @@ app.on('ready', function () {
 });
 */
 
-
 const https = require('https');
-https.createServer(options, app).listen(3001, ()=> {console.log("Connected on port 3001")} );
+https.createServer(options, app).listen(3001, () => {
+    console.log("Connected on port 3001")
+});
 
-/*
-var http = require('http');
-http.createServer(app).listen(3000);
 
-var forceSsl = require('express-force-ssl');
-app.use(forceSsl);
-*/
 
 // ------- connect to mongodb ---------- //
 try {
