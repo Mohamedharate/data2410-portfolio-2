@@ -93,7 +93,8 @@ class ProfileMain extends Component {
                                             <div className="tab-pane fade" id="profile" role="tabpanel"
                                                  aria-labelledby="profile-tab">
                                                 <OrderPage
-
+                                                    feedback={this.handleFeedbackCallback}
+                                                    orders={this.props.current_user.orders}
                                                 />
                                             </div>
                                         </div>
