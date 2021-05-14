@@ -4,8 +4,10 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "build": "cd client && npm install && npm run build",
-    "server": "nodemon server/server.js",
+    "build": "cd client && npm run build",
+    "install-client": "cd client && npm install",
+    "heroku-postbuild": "npm run install-client && npm run build",
+    "start": "node server/server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
@@ -25,6 +27,7 @@
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "date-and-time": "^1.0.0",
+    "docker": "^1.0.0",
     "domconstants": "^0.1.2",
     "express-flash": "0.0.2",
     "express-force-ssl": "^0.3.2",

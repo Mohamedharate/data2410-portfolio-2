@@ -1,8 +1,7 @@
-//require('./DB Connection/connectDB')
 const express = require('express');
 const path = require('path');
-
 const fs = require("fs")
+
 const cert = fs.readFileSync(path.join(__dirname, 'ssl/', 'localhost.cert'));
 const key = fs.readFileSync(path.join(__dirname, 'ssl/', 'localhost.key'));
 
@@ -10,11 +9,9 @@ const options = {
     key: key,
     cert: cert,
 };
+
 const app = express();
-
-
 const mongoose = require("mongoose");
-
 
 const cors = require("cors");
 const passport = require('passport');
@@ -32,6 +29,7 @@ app.all('/*', function (req, res, next) {
     next();
 });
 
+app.set("trust proxy", 1);
 
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
@@ -77,76 +75,21 @@ app.use(
         store: store
     })
 )
+
 app.set("trust proxy", 1)
 
 store.on('error', function (error) {
     console.log(error.toString() + " feil i lagring av session");
 });
 
+
 app.use(flash())
 app.use(passport.initialize());
 app.use(passport.session());
 
 
-// ------- import routes ---------- //
-
-const register = require('./routes/usersRoutes/NotAuth/register');
-const resetPassword = require('./routes/usersRoutes/NotAuth/resetPassword');
-const products = require('./routes/productsRoutes/products');
-const orders = require('./routes/ordersRoutes/orders');
-const admin = require('./routes/adminsRoutes/admins');
-const users = require('./routes/usersRoutes/users');
-const cart = require('./routes/cartRoutes/cart');
-
-// --------- Middlewares ------------- //
-
-app.use('/api/register/', register);
-app.use('/api/users/', users);
-app.use('/api/products/', products);
-app.use('/api/orders/', orders);
-app.use('/api/admin/', admin);
-app.use('/api/cart/', cart);
-
-// ------- - - - - - - - -  ---------- //
-
-
-app.post('/api/signin', (req, res, next) => {
-    passport.authenticate('local.signin',
-        (err, user, info) => {
-            if (err) {
-                return res.status(500).json(err.toString())
-            }
-
-            if (!user) {
-                return res.status(400).json(info)
-            }
-            req.logIn(user, function (err) {
-                if (err) {
-                    return next(err);
-                }
-                return res.status(200).json(user);
-            });
-        })(req, res, next);
-});
-
-
-app.post('/api/signin-admin', (req, res, next) => {
-    passport.authenticate('local.signinAdmin',
-        (err, user, info) => {
-            if (err) {
-                return res.status(500).json(err)
-            }
-            if (!user) {
-                return res.status(400).json(info)
-            }
-            req.logIn(user, function (err) {
-                if (err) {
-                    res.redirect('http://localhost:3001');
-                }
-                return res.status(200).json(user);
-            });
-        })(req, res, next);
-});
+const index = require('./routes/index');
+app.use('/api', index);
 
 
 app.get('/auth/google',
@@ -222,7 +165,9 @@ https.createServer(options, app).listen(3001, () => {
     console.log("Connected on port 3001")
 });
 
+if (process.env.NODE_ENV === 'production') {
 
+}
 
 // ------- connect to mongodb ---------- //
 try {
