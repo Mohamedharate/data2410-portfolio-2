@@ -34,6 +34,11 @@ code {
   direction: rtl;
 }
 
+.btn.btn-block.focus, .btn.btn-block:focus {
+  -webkit-box-shadow: none!important;
+  box-shadow: none!important;
+}
+
 .shoppingCartContainer{
   direction: rtl;
   position: fixed;
