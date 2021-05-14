@@ -45,10 +45,10 @@ class Navbar extends Component {
                                 className="btn btn-dark float-right mr-2 p-1">Register</button>}
                         {this.props.isAuthenticated &&
                         <button onClick={this.handleProfile}
-                                className="btn btn-dark float-right mr-5 pr-3">
-                            <span className="position-absolute float-right ml-3 mt-2">
+                                className="btn btn-dark float-right rtl mr-5 pr-3">
+                            <span className="position-absolute float-right mr-3 mt-2">
                                             <span className="btn badge badge-dark border border-secondary">
-                                                Profile
+                                                {this.props.current_user.firstName}
                                             </span>
                                         </span>
                             <span className="material-icons md-24 ">account_box</span>
