@@ -35,8 +35,7 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 
 app.use('/', express.static('./public'));
-
-//app.use(express.static(path.resolve(__dirname, '../client/build')));
+app.use(express.static(path.resolve(__dirname, '../client/build')));
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
@@ -180,10 +179,3 @@ try {
 } catch (error) {
     console.log("could not connect to webshopDB");
 }
-
-/*
-"build": "cd client && npm run build && npm run build",
-    "server": " nodemon server/server.js",
-    "client": "npm start --prefix client",
-    "start": "concurrently \"npm run server\" \"npm run client\""
- */
