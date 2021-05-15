@@ -4,10 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "build": "cd client && npm run build && npm run build",
-    "server": " nodemon server/server.js",
-    "client": "npm start --prefix client",
-    "start": "concurrently \"npm run server\" \"npm run client\""
+    "start": " node server/server.js"
   },
   "keywords": [],
   "author": "",
