@@ -42,7 +42,7 @@ class AdminAddNewEmployee extends Component {
 
         await axios({
             method: 'post',
-            url: 'http://localhost:3001/api/admin/register',
+            url: 'https://localhost:3001/api/admin/register',
             data: {
                 firstName: this.state.firstName,
                 lastName: this.state.lastName,

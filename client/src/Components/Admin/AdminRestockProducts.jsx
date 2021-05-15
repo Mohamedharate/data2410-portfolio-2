@@ -50,7 +50,7 @@ class AdminRestockProducts extends Component {
 
     getProducts = async () => {
         this.setState({toggle_loading: true});
-        await axios.get('http://localhost:3001/api/products/get/allProductsPure')
+        await axios.get('https://localhost:3001/api/products/get/allProductsPure')
             .then(res => {
                 const products = res.data;
                 this.setState({products})
@@ -67,7 +67,7 @@ class AdminRestockProducts extends Component {
     updateStock = async (data, itemId) => {
         await axios({
             method: 'put',
-            url: `http://localhost:3001/api/products/update/${itemId}`,
+            url: `https://localhost:3001/api/products/update/${itemId}`,
             data: {
                 quantity: data
             }

@@ -4,6 +4,7 @@ let router = express.Router();
 const upload = require('../../../multer/multer')
 
 const Product = require("../../../Models/product");
+const defaultImage = require("./defaultImage")
 
 const fs = require("fs");
 
@@ -29,6 +30,9 @@ router.post('/', upload.array('imageUrl', 20),
                 };
                 imageArrAfterConverting.push(finalImage)
             }
+            if (imageArrAfterConverting.length < 1) {
+                imageArrAfterConverting = defaultImage();
+            }
 
             const product = new Product({
                 name: req.body.name,
@@ -39,9 +43,7 @@ router.post('/', upload.array('imageUrl', 20),
                 category: req.body.category,
                 quantity: req.body.quantity
             });
-            if (imageArrAfterConverting.length < 1) {
-                return res.status(400).json({Error: "You to upload at least one picture."})
-            }
+
             product.save()
                 .then(data => {
                     return res.status(200).json({message: `Product with name ${product.name} added successfully!`})

@@ -5,6 +5,7 @@ const upload = require('../../../multer/multer')
 const Product = require("../../../Models/product");
 const StringBuilder = require("string-builder");
 const fs = require("fs");
+const defaultImage = require("./defaultImage")
 
 
 //update a product with the given productID.
@@ -58,6 +59,12 @@ router.put('/:itemId', upload.array('imageUrl', 20),
 
 
         try {
+            try {
+                await Product.updateOne({itemId: itemId}, {$pull: {imageUrl: defaultImage()}});
+            }
+            catch (err){
+                console.log("ERROR: Unable to update")
+            }
             await Product.updateOne({itemId: itemId}, {$push: {imageUrl: imageArrAfterConverting}});
         } catch (err) {
             out.append("Failed to upload the pictures!\n")

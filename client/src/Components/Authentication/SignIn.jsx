@@ -33,7 +33,7 @@ class SignIn extends Component {
         this.setState({toggle_loading: true});
         await axios({
             method: 'post',
-            url: 'http://localhost:3001/api/signIn',
+            url: 'https://localhost:3001/api/signIn',
             data: {
                 email: this.state.email,
                 password: this.state.password,
@@ -76,7 +76,7 @@ class SignIn extends Component {
                         </div>
                         <div className="row">
                             <div className="col-12">
-                                <a href="http://localhost:3001/auth/google" className="google-btn">
+                                <a href="https://localhost:3001/auth/google" className="google-btn">
                                     <div className="google-icon-wrapper">
                                         <img className="google-icon"
                                              src="/btn_google_light_normal_ios.svg"/>

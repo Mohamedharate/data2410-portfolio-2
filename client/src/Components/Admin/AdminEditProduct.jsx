@@ -100,7 +100,7 @@ class AdminEditProduct extends Component {
             callback: async result => {
                 if (result) {
                     console.log("Delete", product.name)
-                    await axios.delete(`http://localhost:3001/api/products/delete/one/${product.itemId}`)
+                    await axios.delete(`https://localhost:3001/api/products/delete/one/${product.itemId}`)
                         .then(() => {
                             this.handleGetProducts()
                         }).catch(err => {
@@ -143,7 +143,7 @@ class AdminEditProduct extends Component {
 
         await axios({
             method: 'put',
-            url: `http://localhost:3001/api/products/update/${itemId}`,
+            url: `https://localhost:3001/api/products/update/${itemId}`,
             data: formdata,
         }).then(res => {
             this.setState({
@@ -163,7 +163,7 @@ class AdminEditProduct extends Component {
 
     handleGetProducts = async () => {
         this.setState({toggle_get_product_loading: true});
-        await axios.get('http://localhost:3001/api/products/get/allProductsPure')
+        await axios.get('https://localhost:3001/api/products/get/allProductsPure')
             .then(res => {
                 const products = res.data;
                 this.setState({products});

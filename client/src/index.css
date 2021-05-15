@@ -8,6 +8,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 
 }
 
@@ -32,6 +33,11 @@ code {
 
 .rtl{
   direction: rtl;
+}
+
+.btn.btn-block.focus, .btn.btn-block:focus {
+  -webkit-box-shadow: none!important;
+  box-shadow: none!important;
 }
 
 .shoppingCartContainer{

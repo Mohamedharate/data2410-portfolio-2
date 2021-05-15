@@ -30,10 +30,9 @@ ${this.state.showingAlert ? 'alert-shown' : 'alert-hidden'}
 
     render() {
         return (
-            <Alert className ={`m - 2`} variant="success">
+            <Alert className ="m-2" variant="success">
                 <p>
-                    <strong>This is great!</strong>
-                    <br/> {this.props.feedback_success_text}
+                    {this.props.feedback_success_text}
                 </p>
             </Alert>
         );

@@ -49,7 +49,7 @@ export default class AddReview extends Component{
         const that = this;
         await axios({
             method: "get",
-            url: 'http://localhost:3001/api/products/get/'+this.props.match.params.itemId,
+            url: 'https://localhost:3001/api/products/get/'+this.props.match.params.itemId,
         }).then(function (response) {
             that.setState({name: response.data.name,
                 image: "data:image/png;base64,"+response.data.imageUrl[0].image,

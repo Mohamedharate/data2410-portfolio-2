@@ -95,7 +95,7 @@ class ProfilePage extends Component {
             if(change){
                 await axios({
                     method: 'put',
-                    url: `http://localhost:3001/api/users/update/${this.props.current_user.email}`,
+                    url: `https://localhost:3001/api/users/update/${this.props.current_user.email}`,
                     data: data,
                 }).then(res =>{
                     console.log(res)

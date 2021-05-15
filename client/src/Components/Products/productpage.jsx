@@ -18,7 +18,7 @@ export default class Productpage extends Component {
     componentDidMount = async() => {
         await axios({
             method: "get",
-            url: 'http://localhost:3001/api/products/get/'+this.props.itemId,
+            url: 'https://localhost:3001/api/products/get/'+this.props.itemId,
         }).then(response => {
             this.setState({
                 product: response.data, price: response.data.price, quantityOfProduct: response.data.quantity
@@ -37,7 +37,7 @@ export default class Productpage extends Component {
         this.setState({toggle_loading: true})
         await axios({
             method: "post",
-            url: 'http://localhost:3001/api/cart/addToCart/',
+            url: 'https://localhost:3001/api/cart/addToCart/',
             data: {product_id: this.state.product.itemId, quantity: this.state.quantity}
         }).then(response => {
             this.setState({cart_feedback: "Product added to card!"})

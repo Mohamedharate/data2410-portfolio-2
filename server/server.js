@@ -1,11 +1,17 @@
-//require('./DB Connection/connectDB')
-
-const http = require('http');
-
-
-const mongoose = require("mongoose");
 const express = require('express');
 const path = require('path');
+const fs = require("fs")
+
+const cert = fs.readFileSync(path.join(__dirname, 'ssl/', 'localhost.cert'));
+const key = fs.readFileSync(path.join(__dirname, 'ssl/', 'localhost.key'));
+
+const options = {
+    key: key,
+    cert: cert,
+};
+
+const app = express();
+const mongoose = require("mongoose");
 
 const cors = require("cors");
 const passport = require('passport');
@@ -15,7 +21,6 @@ require('./passport-config')
 
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const app = express();
 
 
 app.use(cors());
@@ -24,12 +29,12 @@ app.all('/*', function (req, res, next) {
     next();
 });
 
+app.set("trust proxy", 1);
 
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 
 app.use('/', express.static('./public'));
-
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
 app.use(bodyParser.json())
@@ -69,76 +74,21 @@ app.use(
         store: store
     })
 )
+
 app.set("trust proxy", 1)
 
 store.on('error', function (error) {
     console.log(error.toString() + " feil i lagring av session");
 });
 
+
 app.use(flash())
 app.use(passport.initialize());
 app.use(passport.session());
 
 
-// ------- import routes ---------- //
-
-const register = require('./routes/usersRoutes/NotAuth/register');
-const resetPassword = require('./routes/usersRoutes/NotAuth/resetPassword');
-const products = require('./routes/productsRoutes/products');
-const orders = require('./routes/ordersRoutes/orders');
-const admin = require('./routes/adminsRoutes/admins');
-const users = require('./routes/usersRoutes/users');
-const cart = require('./routes/cartRoutes/cart');
-
-// --------- Middlewares ------------- //
-
-app.use('/api/register/', register);
-app.use('/api/users/', users);
-app.use('/api/products/', products);
-app.use('/api/orders/', orders);
-app.use('/api/admin/', admin);
-app.use('/api/cart/', cart);
-
-// ------- - - - - - - - -  ---------- //
-
-
-app.post('/api/signin', (req, res, next) => {
-    passport.authenticate('local.signin',
-        (err, user, info) => {
-            if (err) {
-                return res.status(500).json(err.toString())
-            }
-
-            if (!user) {
-                return res.status(400).json(info)
-            }
-            req.logIn(user, function (err) {
-                if (err) {
-                    return next(err);
-                }
-                return res.status(200).json(user);
-            });
-        })(req, res, next);
-});
-
-
-app.post('/api/signin-admin', (req, res, next) => {
-    passport.authenticate('local.signinAdmin',
-        (err, user, info) => {
-            if (err) {
-                return res.status(500).json(err)
-            }
-            if (!user) {
-                return res.status(400).json(info)
-            }
-            req.logIn(user, function (err) {
-                if (err) {
-                    res.redirect('http://localhost:3001');
-                }
-                return res.status(200).json(user);
-            });
-        })(req, res, next);
-});
+const index = require('./routes/index');
+app.use('/api', index);
 
 
 app.get('/auth/google',
@@ -180,7 +130,7 @@ app.post('/logout', (req, res) => {
         } catch (err) {
             return res.status(500).json({Error: 'Could not perform logout!'});
         }
-        return res.status(200).redirect('http://localhost:3001');
+        return res.status(200).redirect('https://localhost:3001');
     } else {
         return res.status(400).json({Error: 'Not logged in'});
     }
@@ -195,16 +145,28 @@ app.post('/admin/logout', (req, res) => {
         } catch (err) {
             return res.status(500).json({Error: 'Could not perform logout!'});
         }
-        return res.status(200).redirect('http://localhost:3001');
+        return res.status(200).redirect('https://localhost:3001');
     } else {
         return res.status(400).json({Error: 'Not logged in'});
     }
 })
+
+/*
 app.on('ready', function () {
     app.listen(3001, function () {
         console.log("app is ready");
     });
 });
+*/
+
+const https = require('https');
+https.createServer(options, app).listen( 3001, () => {
+    console.log("Connected on port 3001")
+});
+
+if (process.env.NODE_ENV === 'production') {
+
+}
 
 // ------- connect to mongodb ---------- //
 try {
@@ -214,13 +176,6 @@ try {
         useCreateIndex: true
     }, () =>
         console.log("connected to webshopDB"));
-    app.emit('ready');
 } catch (error) {
     console.log("could not connect to webshopDB");
 }
-
-
-
-
-
-

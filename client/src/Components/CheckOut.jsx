@@ -64,7 +64,7 @@ class CheckOut extends Component {
         this.setState({toggle_loading: true})
         await axios({
             method: 'post',
-            url: 'http://localhost:3001/api/orders/newOrder',
+            url: 'https://localhost:3001/api/orders/newOrder',
             data: {
                 save_address: this.state.save_address,
                 separate_shipping: this.state.separate_shipping,
@@ -101,7 +101,7 @@ class CheckOut extends Component {
             this.setState({toggle_loading: true})
             await axios({
                 method: 'put',
-                url: `http://localhost:3001/api/users/update/${this.props.current_user.email}`,
+                url: `https://localhost:3001/api/users/update/${this.props.current_user.email}`,
                 data: {
                     country: this.state.country,
                     city: this.state.city,

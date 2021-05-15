@@ -11,7 +11,7 @@ class DangerFeedback extends Component {
         return (
             <Alert className="m-2" variant="danger">
                 <p>
-                   <strong>Oh snap!</strong><br/> {this.props.feedback_error_text}
+                    {this.props.feedback_error_text}
                 </p>
             </Alert>
         );
