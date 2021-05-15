@@ -162,6 +162,12 @@ app.on('ready', function () {
 const https = require('https');
 https.createServer(options, app).listen( 3001, () => {
     console.log("Connected on port 3001")
+    const end = requestHistogram.startTimer();
+
+    app.get('/metrics', (req, res) => {
+        res.set('Content-Type', prometheus.register.contentType);
+        res.end(prometheus.register.metrics())
+    })
 });
 
 if (process.env.NODE_ENV === 'production') {
@@ -179,3 +185,37 @@ try {
 } catch (error) {
     console.log("could not connect to webshopDB");
 }
+
+
+// ------- Prometheus ---------- //
+
+const prometheus = require('prom-client');
+const Registry = prometheus.Registry;
+const registry = new Registry();
+
+registry.setDefaultLabels({app: 'portfolio2_'})
+
+prometheus.collectDefaultMetrics();
+const requestHistogram = new prometheus.Histogram({
+    name: 'http_request_duration_seconds',
+    help: 'Duration of HTTP requests in seconds',
+    labelNames: ['code', 'handler', 'method'],
+    buckets: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5]
+})
+registry.registerMetric(requestHistogram)
+const requestTimer = (req, res, next) => {
+    const path = new URL(req.url, `https://${req.hostname}`).pathname
+    const stop = requestHistogram.startTimer({
+        method: req.method,
+        handler: path
+    })
+    res.on('finish', () => {
+        stop({
+            code: res.statusCode
+        })
+    })
+    next()
+}
+
+app.use(requestTimer);
+prometheus.register.clear();

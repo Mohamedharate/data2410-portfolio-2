@@ -1,0 +1,13 @@
+global:
+  scrape_interval:     15s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: 'prometheus-monitor'
+
+
+scrape_configs:
+  - job_name: 'portfolio2'
+    scrape_interval: 5s
+    static_configs:
+      - targets:
+          - 'localhost:3001'
