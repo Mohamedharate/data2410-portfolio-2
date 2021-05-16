@@ -40,7 +40,7 @@ app.use(express.static(path.resolve(__dirname, '../client/build')));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 
-ONE_WEEK = 604800000
+const ONE_WEEK = 604800000
 
 const {
     PORT = 3001,
@@ -116,9 +116,7 @@ app.use(function (req, res, next) {
 })
 
 // All other GET requests not handled before will return our React app
-app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
-});
+
 
 //TODO log out for admins
 app.post('/logout', (req, res) => {
@@ -159,15 +157,11 @@ app.on('ready', function () {
 });
 */
 
+
 const https = require('https');
 https.createServer(options, app).listen( 3001, () => {
     console.log("Connected on port 3001")
-    const end = requestHistogram.startTimer();
 
-    app.get('/metrics', (req, res) => {
-        res.set('Content-Type', prometheus.register.contentType);
-        res.end(prometheus.register.metrics())
-    })
 });
 
 if (process.env.NODE_ENV === 'production') {
@@ -188,34 +182,36 @@ try {
 
 
 // ------- Prometheus ---------- //
-
-const prometheus = require('prom-client');
-const Registry = prometheus.Registry;
-const registry = new Registry();
-
-registry.setDefaultLabels({app: 'portfolio2_'})
-
-prometheus.collectDefaultMetrics();
-const requestHistogram = new prometheus.Histogram({
-    name: 'http_request_duration_seconds',
-    help: 'Duration of HTTP requests in seconds',
-    labelNames: ['code', 'handler', 'method'],
-    buckets: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5]
+const client = require('prom-client')
+const responseTime = require('response-time');
+const collectDefaultMetrics = client.collectDefaultMetrics;
+collectDefaultMetrics({ timeout: 5000 });
+const register = new client.Registry()
+register.setDefaultLabels({
+    app: 'portfolio2'
 })
-registry.registerMetric(requestHistogram)
-const requestTimer = (req, res, next) => {
-    const path = new URL(req.url, `https://${req.hostname}`).pathname
-    const stop = requestHistogram.startTimer({
-        method: req.method,
-        handler: path
-    })
-    res.on('finish', () => {
-        stop({
-            code: res.statusCode
-        })
-    })
-    next()
-}
+const responsetimesumm = new client.Summary ({
+    name: 'forethought_response_time_summary',
+    help: 'Latency in percentiles',
+});
 
-app.use(requestTimer);
-prometheus.register.clear();
+const responsetimehist = new client.Histogram ({
+    name: 'forethought_response_time_histogram',
+    help: 'Latency in history form',
+    buckets: [0.1, 0.25, 0.5, 1, 2.5, 5, 10]
+});
+
+app.get('/metrics', (req, res) => {
+    res.set('Content-Type', register.contentType);
+    res.end(register.metrics());
+});
+app.use(responseTime(function (req, res, time) {
+    responsetimesumm.observe(time);
+    responsetimehist.observe(time);
+}));
+
+
+// All other GET requests not handled before will return our React app
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+});
