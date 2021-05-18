@@ -184,31 +184,22 @@ try {
 // ------- Prometheus ---------- //
 const client = require('prom-client')
 const responseTime = require('response-time');
-const collectDefaultMetrics = client.collectDefaultMetrics;
-collectDefaultMetrics({ timeout: 5000 });
-const register = new client.Registry()
+
+const register = new client.Registry();
+client.collectDefaultMetrics({register})
+
+
 register.setDefaultLabels({
     app: 'portfolio2'
 })
-const responsetimesumm = new client.Summary ({
-    name: 'forethought_response_time_summary',
-    help: 'Latency in percentiles',
-});
 
-const responsetimehist = new client.Histogram ({
-    name: 'forethought_response_time_histogram',
-    help: 'Latency in history form',
-    buckets: [0.1, 0.25, 0.5, 1, 2.5, 5, 10]
-});
-
+// prometheus endpoint
 app.get('/metrics', (req, res) => {
     res.set('Content-Type', register.contentType);
     res.end(register.metrics());
 });
-app.use(responseTime(function (req, res, time) {
-    responsetimesumm.observe(time);
-    responsetimehist.observe(time);
-}));
+
+client.register.clear();
 
 
 // All other GET requests not handled before will return our React app
