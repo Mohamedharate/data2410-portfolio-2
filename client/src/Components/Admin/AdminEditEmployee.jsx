@@ -82,7 +82,7 @@ class AdminEditEmployee extends Component {
             callback: async result => {
                 if (result) {
                     console.log("Delete", employee.firstName)
-                    await axios.delete(`https://localhost:3001/api/admin/delete/one/${employee.employeeId}`) // TODO venter på route i server
+                    await axios.delete(`https://localhost:3001/api/admin/delete/one/${employee.employeeId}`) //
                         .then(() => {
                             this.handleGetEmployees()
                         }).catch(err => {
@@ -119,7 +119,7 @@ class AdminEditEmployee extends Component {
 
         await axios({
             method: 'put',
-            url: `https://localhost:3001/api/admin/update/${employeeId}`, //TODO venter på route i server
+            url: `https://localhost:3001/api/admin/update/${employeeId}`,
             data: formdata,
         }).then(res => {
             this.setState({
@@ -139,7 +139,7 @@ class AdminEditEmployee extends Component {
 
     handleGetEmployees = async () => {
         this.setState({toggle_get_employee_loading: true});
-        await axios.get('https://localhost:3001/api/admin/get/all') //TODO venter på route i server
+        await axios.get('https://localhost:3001/api/admin/get/all')
             .then(res => {
                 const employees = res.data.Message;
                 this.setState({employees})
@@ -172,9 +172,9 @@ class AdminEditEmployee extends Component {
                     <div className="col-sm-4 float-left one">
                         {this.state.employees.map((employee, index) => (
                             <div className="input-group mt-2 ml-2" key={index}>
-                                <input type="text"
-                                       value={employee.position + "\n" + employee.firstName + " " + employee.lastName}
-                                       disabled/>
+                                <textarea type="text"
+                                       value={employee.position + " \n" + employee.firstName + " " + employee.lastName}
+                                       rows="2" disabled/>
                                 <div className="input-group-append">
                                     <button onClick={() => this.handleEditBtn(employee)}
                                             className="btn btn-outline-secondary">Edit
