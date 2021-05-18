@@ -26,6 +26,7 @@ class Home extends Component {
         toggleCheckOut: false,
         toggleProfilePage: false,
         isAuthenticated: false,
+        navbar_loading: false,
         current_user: {},
         empty_cart: false,
         empty_cart_message: 'Nothing to show here.',
@@ -80,7 +81,6 @@ class Home extends Component {
         })
     }
     handleToggleProfilePageCallback = () => {
-        console.log("click")
         this.setState({
             toggleLogin: false,
             toggleRegister: false,
@@ -163,16 +163,24 @@ class Home extends Component {
         })
     };
     Authenticated = async () => {
+        this.setState({navbar_loading: true})
         await axios.get('https://localhost:3001/api/users/isAuthenticated')
             .then(response => {
                 if (response.status === 200) {
                     // Session is auth
                     const current_user = response.data;
                     this.getCartObjects(current_user);
-                    this.setState({ current_user, isAuthenticated: true});
+                    this.setState({
+                        current_user,
+                        isAuthenticated: true,
+                        navbar_loading: false,
+                    });
                 } else {
                     // Session is not auth
-                    this.setState({ current_user: {}, isAuthenticated: false });
+                    this.setState({ current_user: {},
+                        isAuthenticated: false,
+                        navbar_loading: false,
+                    });
                 }
             }).catch(error => {
                 console.log(error);
@@ -216,6 +224,7 @@ class Home extends Component {
                         toggleShoppingCartCallback={this.handleToggleShoppingCartCallback}
                         toggleProfilePageCallback={this.handleToggleProfilePageCallback}
                         isAuthenticated={this.state.isAuthenticated}
+                        loading={this.state.navbar_loading}
                         current_user={this.state.current_user}
                         cart_counter={this.state.cart_counter}
                         cart_total_price={this.state.cart_total_price}
