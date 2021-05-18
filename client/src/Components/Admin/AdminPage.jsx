@@ -5,6 +5,8 @@ import AdminAddNewEmployee from "./AdminAddNewEmployee";
 import AdminRestockProducts from "./AdminRestockProducts";
 import AdminEditProduct from "./AdminEditProduct";
 import AdminEditEmployee from "./AdminEditEmployee";
+import axios from "axios";
+import DangerFeedback from "../Feedback/DangerFeedback";
 
 class AdminPage extends Component {
     constructor(props) {
@@ -16,6 +18,9 @@ class AdminPage extends Component {
         toggle_edit_employee: false,
         toggle_new_employee: false,
         toggle_new_product: false,
+        logout_loading: false,
+        toggle_error_feedback: false,
+        feedback_text: '',
     };
 
     // Toggle windows
@@ -64,7 +69,18 @@ class AdminPage extends Component {
         })
     };
     handleLogout = async () => {
-        this.props.logoutCallback();
+        this.setState({logout_loading: true})
+        await axios.post('https://localhost:3001/admin/logout')
+            .then(() => {
+                this.props.logoutCallback();
+                this.setState({logout_loading: false})
+            }).catch(err => {
+                this.setState({
+                    logout_loading: false,
+                    toggle_error_feedback: true,
+                    feedback_text: err.data.Error,
+                })
+            })
     }
 
     render() {
@@ -76,22 +92,24 @@ class AdminPage extends Component {
                             <h3 className="mt-5">Actions:</h3>
                             <button onClick={this.toggleRestock} className="btn btn-light btn-md m-2">
                                 Restock
-                            </button>
+                            </button><br/>
                             <button onClick={this.toggleEditProduct} className="btn btn-light btn-md m-2">
                                 Edit Product
-                            </button>
+                            </button><br/>
                             <button onClick={this.toggleEditEmployee} className="btn btn-light btn-md m-2">
                                 Edit Employee
-                            </button>
+                            </button><br/>
                             <button onClick={this.toggleNewProduct} className="btn btn-light btn-md m-2">
                                 Add New Product
-                            </button>
+                            </button><br/>
                             <button onClick={this.toggleNewAdmin} className="btn btn-light btn-md m-2">
                                 Add New Admin
-                            </button>
+                            </button><br/>
                             <button onClick={this.handleLogout} className="btn btn-danger btn-md m-2">
                                 Logout
                             </button>
+                            {this.state.toggle_error_feedback &&
+                            <DangerFeedback feedback_error_text={this.state.feedback_text}/>}
                         </div>
                         <div className="col-md-10">
                             {this.state.toggle_restock &&

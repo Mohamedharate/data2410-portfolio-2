@@ -40,7 +40,7 @@ class AdminAddNewProduct extends Component {
     };
 
     handleInputFile = event => {
-        const file = event.target.files[0]; //TODO make this work for a list of pictures.
+        const file = event.target.files[0];
 
         this.setState({imagePreview: URL.createObjectURL(file)})
 
