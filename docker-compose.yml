@@ -1,12 +1,12 @@
 version: "2"
 services:
   server:
-    image: webapp-server
+    image: shopmet-app
     ports:
       - "3001:3001"
     volumes:
-      - ./api:/api
-      - /api/node_modules
+      - ./server:/api
+      - /server/node_modules
     depends_on:
       - mongodb
     networks:
