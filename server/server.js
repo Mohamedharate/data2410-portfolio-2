@@ -40,7 +40,7 @@ app.use(express.static(path.resolve(__dirname, '../client/build')));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 
-ONE_WEEK = 604800000
+const ONE_WEEK = 604800000
 
 const {
     PORT = 3001,
@@ -116,9 +116,7 @@ app.use(function (req, res, next) {
 })
 
 // All other GET requests not handled before will return our React app
-app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
-});
+
 
 //TODO log out for admins
 app.post('/logout', (req, res) => {
@@ -159,9 +157,11 @@ app.on('ready', function () {
 });
 */
 
+
 const https = require('https');
 https.createServer(options, app).listen( 3001, () => {
     console.log("Connected on port 3001")
+
 });
 
 if (process.env.NODE_ENV === 'production') {
@@ -179,3 +179,39 @@ try {
 } catch (error) {
     console.log("could not connect to webshopDB");
 }
+
+
+// ------- Prometheus ---------- //
+const client = require('prom-client')
+const responseTime = require('response-time');
+const collectDefaultMetrics = client.collectDefaultMetrics;
+collectDefaultMetrics({ timeout: 5000 });
+const register = new client.Registry()
+register.setDefaultLabels({
+    app: 'portfolio2'
+})
+const responsetimesumm = new client.Summary ({
+    name: 'forethought_response_time_summary',
+    help: 'Latency in percentiles',
+});
+
+const responsetimehist = new client.Histogram ({
+    name: 'forethought_response_time_histogram',
+    help: 'Latency in history form',
+    buckets: [0.1, 0.25, 0.5, 1, 2.5, 5, 10]
+});
+
+app.get('/metrics', (req, res) => {
+    res.set('Content-Type', register.contentType);
+    res.end(register.metrics());
+});
+app.use(responseTime(function (req, res, time) {
+    responsetimesumm.observe(time);
+    responsetimehist.observe(time);
+}));
+
+
+// All other GET requests not handled before will return our React app
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+});

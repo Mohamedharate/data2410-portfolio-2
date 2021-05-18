@@ -21,8 +21,8 @@ export default class Category extends Component{
             <div className="col-lg-3">
                 <h1 className="my-4">ShopMet</h1>
                 <div className="list-group">
-                    {this.state.categories &&
-                        this.state.categories.map((cat, index) =>(
+                    {this.props.product.category &&
+                        this.props.product.category.map((cat, index) =>(
                             <div key={index}
                             />
                         ))

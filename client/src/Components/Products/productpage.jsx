@@ -54,6 +54,7 @@ export default class Productpage extends Component {
 
     render() {
         const {product,price} = this.state;
+        const {products} = this.props;
         return (
             <div className="productContainer">
                 <div className="row">
@@ -97,16 +98,16 @@ export default class Productpage extends Component {
                                  4.0 stars
 
                                 <div style={{display: 'flex'}}>
-                                    <div style={{width: '180px', height:'auto'}}>
+                                    <div style={{width: '100px', height:'auto'}}>
                                         <InputSpinner
                                             className="InputSpinner"
-                                            type="number" size ={'lg'} variant={'dark'}
+                                            type="number" size ={'sm'} variant={'dark'}
                                             value={this.state.quantity} min={1}
                                             onChange={(qty) => this.setState({...this.state, quantity: qty})}
                                             max={this.state.quantityOfProduct} label="Quantity" />
                                     </div>
                                     {this.state.toggle_loading ? <LoadingSpinnerSuccessLongBtn/> :
-                                        <Button type="submit" style={{ padding: '0 10px', marginLeft: '20px', width: '100%', fontSize: 'x-large'}} variant="success"
+                                        <Button type="submit" style={{ padding: '0 10px', marginLeft: '20px', width: '50%', fontSize: 'large'}} variant="success"
                                                 onClick={this.postToCart}>Add to cart</Button>}
                                 </div>
                                     <p className="card-text">{this.state.cart_feedback}</p>

@@ -1,0 +1,45 @@
+version: '2.1'
+networks:
+  monitoring:
+    driver: bridge
+volumes:
+  prometheus_data: {}
+  grafana_data: {}
+services:
+  prometheus:
+    image: prom/prometheus:v2.20.1
+    container_name: prometheus3
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prometheus_data:/prometheus
+    ports:
+      - 9090:9090
+    expose:
+      - 9090
+    networks:
+      - monitoring
+  grafana:
+    image: grafana/grafana:7.1.5
+    container_name: grafana3
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    ports:
+      - 3000:3000
+    expose:
+      - 3000
+    networks:
+      - monitoring
+  server:
+    build:
+      context: server
+    ports:
+      - 3001:3001
+    expose:
+      - 3001
+    networks:
+      - monitoring
