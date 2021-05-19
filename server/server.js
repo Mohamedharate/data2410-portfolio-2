@@ -142,7 +142,7 @@ app.post('/admin/logout', (req, res) => {
         } catch (err) {
             return res.status(500).json({Error: 'Could not perform logout!'});
         }
-        return res.status(200);
+        return res.status(200).redirect('https://localhost:3001');
     } else {
         return res.status(400).json({Error: 'Not logged in'});
     }
