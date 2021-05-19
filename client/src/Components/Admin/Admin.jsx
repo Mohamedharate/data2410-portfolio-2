@@ -25,6 +25,7 @@ class Admin extends Component {
             <React.Fragment>
                 {this.state.toggleLogin ?
                     <AdminPage
+                        current_user={this.state.current_user}
                         logoutCallback={this.handleLogoutCallback}
                         toggle_admin={this.props.toggle_admin}
                     /> :

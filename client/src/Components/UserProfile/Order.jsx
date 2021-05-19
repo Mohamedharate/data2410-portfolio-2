@@ -1,10 +1,9 @@
 import React, {Component} from "react";
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 
 class Order extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     state = {
         toggle_products: false,
@@ -50,7 +49,7 @@ class Order extends Component {
                             {this.state.toggle_products ?
                                 <div className="row align-items-center">
                                     <div className="col-auto p-1">
-                                        <span className="material-icons ml-1 mt-1">expand_more</span>
+                                        <ExpandMoreIcon/>
                                     </div>
                                     <div className="col-auto p-1">
                                         <span>Show Less</span>
@@ -59,7 +58,7 @@ class Order extends Component {
                                 :
                                 <div className="row align-items-center">
                                     <div className="col-auto p-1">
-                                        <span className="material-icons ml-1 mt-1">chevron_right</span>
+                                        <ChevronRightIcon/>
                                     </div>
                                     <div className="col-auto p-1">
                                         <span>Show Products</span>

@@ -3,6 +3,7 @@ import axios from "axios";
 import DangerFeedback from "./Feedback/DangerFeedback";
 import LoadingSpinnerPrimaryLongBtn from "./Spinners/LoadingSpinnerPrimaryLongBtn";
 import SuccessFeedback from "./Feedback/SuccessFeedback";
+import CloseIcon from '@material-ui/icons/Close';
 
 class CheckOut extends Component {
     constructor(props) {
@@ -132,8 +133,16 @@ class CheckOut extends Component {
             <div className="backgroundContainer position-absolute mt-5">
                 <div className="row text-center justify-content-center mt-3">
                     <div className="col-md-10 col-lg-8 mh-75 bg-light mt-5 p-2 border border-secondary shadow-lg rounded">
-                        <div className="w-100">
-                            <h4>Check Out<button onClick={this.props.close} className="btn btn-light material-icons float-right">close</button></h4>
+                        <div className="row">
+                            <div className="col-3"/>
+                            <div className="col-6">
+                                <h4>Check out!</h4>
+                            </div>
+                            <div className="col-3">
+                                <button onClick={this.props.close} className="btn btn-light float-right">
+                                    <CloseIcon/>
+                                </button>
+                            </div>
                         </div>
                         <div className="container">
                             <div className="row">

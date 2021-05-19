@@ -71,15 +71,16 @@ class AdminAddNewProduct extends Component {
                 toggle_success_feedback: true,
                 toggle_error_feedback: false,
                 feedback_text: res.data.Message,
+                toggle_loading: false
             })
         }).catch(err => {
             this.setState({
                 toggle_success_feedback: false,
                 toggle_error_feedback: true,
-                feedback_text: err.response.data.Error,
+                feedback_text: err.data.Error,
+                toggle_loading: false
             })
         })
-        this.setState({toggle_loading: false});
     };
 
     render() {
@@ -139,7 +140,7 @@ class AdminAddNewProduct extends Component {
                                 <option value="Coffee Beans">Coffee Beans</option>
                                 <option value="Filter Ground Coffee">Filter Ground Coffee</option>
                                 <option value="Coffee Machine">Coffee Machine</option>
-                                <option value="Coffee Beans">Coffee Beans</option>
+                                <option value="Instant Coffee">Instant Coffee</option>
                                 <option value="Other">Other</option>
                             </select>
                         </div>

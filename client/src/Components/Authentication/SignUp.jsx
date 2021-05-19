@@ -3,6 +3,7 @@ import axios from "axios";
 import DangerFeedback from "../Feedback/DangerFeedback";
 import SuccessFeedback from "../Feedback/SuccessFeedback";
 import LoadingSpinnerPrimaryLongBtn from "../Spinners/LoadingSpinnerPrimaryLongBtn";
+import CloseIcon from '@material-ui/icons/Close';
 
 
 class SignUp extends Component {
@@ -86,8 +87,8 @@ class SignUp extends Component {
                                 <h4>Sign in!</h4>
                             </div>
                             <div className="col-3">
-                                <button onClick={this.props.close} className="btn btn-light material-icons float-right">
-                                    close
+                                <button onClick={this.props.close} className="btn btn-light float-right">
+                                    <CloseIcon/>
                                 </button>
                             </div>
                         </div>

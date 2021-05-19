@@ -2,9 +2,6 @@ import React, {Component} from "react";
 
 
 class LoadingSpinnerPrimaryShortBtn extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         return (
