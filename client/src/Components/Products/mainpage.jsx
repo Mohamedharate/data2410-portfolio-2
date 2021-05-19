@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import axios from "axios";
 import { Link } from 'react-router-dom';
+import Category from "./category";
 
 
 
@@ -37,14 +38,7 @@ export default class Mainpage extends Component {
             <div className="col-lg-3">
 
               <h1 className="my-4">ShopMet</h1>
-              <div className="list-group">
-                <Link to="/category/coffee" className="list-group-item">Coffee beans</Link>
-                <Link to="/category/capsules" className="list-group-item">Coffee capsules</Link>
-                <Link to="/category/filter" className="list-group-item">Filter Ground coffee</Link>
-                <Link to="/category/machines" className="list-group-item">Coffee machines</Link>
-                <Link to="/category/access" className="list-group-item">Other</Link>
-                <Link to="/" className="list-group-item">All</Link>
-              </div>
+            <Category />
             </div>
             <div className="col-lg-7">
               <div id="carouselExampleIndicators" className="carousel slide my-4" data-ride="carousel">
@@ -76,8 +70,6 @@ export default class Mainpage extends Component {
                 </a>
               </div>
                 <div className="row" dangerouslySetInnerHTML={{ __html: this.state.product}} />
-
-
 
             </div>
             <div className={"col-lg-1"}>

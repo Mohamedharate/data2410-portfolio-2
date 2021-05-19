@@ -6,6 +6,7 @@ import { Button} from 'react-bootstrap';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import InputSpinner from "react-bootstrap-input-spinner";
 import LoadingSpinnerSuccessLongBtn from "../Spinners/LoadingSpinnerSuccessLongBtn";
+import Category from "./category";
 
 
 export default class Productpage extends Component {
@@ -54,7 +55,6 @@ export default class Productpage extends Component {
 
     render() {
         const {product,price} = this.state;
-        const {products} = this.props;
         return (
             <div className="productContainer">
                 <div className="row">
@@ -63,16 +63,8 @@ export default class Productpage extends Component {
                     </div>
                     <div className="col-lg-3">
                         <h1 className="my-4">ShopMet</h1>
-                        <div className="list-group">
-                            <Link to="/category/coffee" className="list-group-item">Coffee beans</Link>
-                            <Link to="/category/capsules" className="list-group-item">Coffee capsules</Link>
-                            <Link to="/category/filter" className="list-group-item">Filter Ground coffee</Link>
-                            <Link to="/category/machines" className="list-group-item">Coffee machines</Link>
-                            <Link to="/category/access" className="list-group-item">Other</Link>
-                            <Link to="/" className="list-group-item">All</Link>
-                        </div>
-                    </div>
-
+                    <Category/>
+                </div>
                     <div className="col-lg-6">
                         <div className="card mt-4">
                             <div className="card-img-top">
