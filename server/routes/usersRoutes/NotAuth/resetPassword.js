@@ -36,7 +36,7 @@ router.post('/', async (req, res) => {
             subject: 'Reset your password',
             html: `
             <h2>Please click on the link to reset your password</h2>
-            <a href=http://localhost:3001/api/reset/newPassword/${token} class="btn-secondary bg-light">Reset password</a>`
+            <a href=https://localhost:3001/api/reset/newPassword/${token} class="btn-secondary bg-light">Reset password</a>`
         };
 
         await transporter.sendMail(mailOptions, async function (error, info) {

@@ -64,7 +64,7 @@ router.post('/', async (req, res) => {
                                 street,
                                 phoneNumber
                             }, JWT_ACC, {expiresIn: "20m"})
-                            const link = `http://localhost:3001/api/admin/register/emailActivation/${token}`
+                            const link = `https://localhost:3001/api/admin/register/emailActivation/${token}`
                             await send(email, formatActivationEmail(firstName, link), "Activation");
                             res.status(200).json({Message: `A verification link has been sent to ${email}, please confirm!`})
                         }
