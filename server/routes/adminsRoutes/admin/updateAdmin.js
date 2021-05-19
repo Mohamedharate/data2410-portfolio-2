@@ -18,6 +18,7 @@ router.put('/:employeeId', async (req, res) => {
             if (!findAdmin) return res.status(404).json({Error: 'The user with the given email address was not found'})
             if (findAdmin._id.toString() === req.session.passport.user.id || findAdmin.position === 'President') {
 
+                const employeeId = req.params.employeeId;
                 let password;
                 if (req.body.password) {
                     //Hashing password:
@@ -37,7 +38,7 @@ router.put('/:employeeId', async (req, res) => {
                     if (firstName && firstName !== findAdmin.firstName) {
                         try {
                             updated = true;
-                            await Admin.updateOne({email: req.params.email}, {firstName: firstName})
+                            await Admin.updateOne({employeeId: employeeId}, {firstName: firstName})
                         } catch (err) {
                             out.append('Something went wrong during updating the first name\n');
                         }
@@ -45,7 +46,7 @@ router.put('/:employeeId', async (req, res) => {
                     if (lastName && lastName !== findAdmin.lastName) {
                         try {
                             updated = true;
-                            await Admin.updateOne({email: email}, {lastName: lastName})
+                            await Admin.updateOne({employeeId: employeeId}, {lastName: lastName})
                         } catch (err) {
                             out.append('Something went wrong during updating the last name\n');
                         }
@@ -53,7 +54,7 @@ router.put('/:employeeId', async (req, res) => {
                     if (password && password !== findAdmin.password) {
                         try {
                             updated = true;
-                            await Admin.updateOne({email: email}, {password: password})
+                            await Admin.updateOne({employeeId: employeeId}, {password: password})
                         } catch (err) {
                             out.append('Something went wrong during updating the password\n')
                         }
@@ -96,7 +97,7 @@ router.put('/:employeeId', async (req, res) => {
                     if (phoneNumber && phoneNumber !== findAdmin.phoneNumber) {
                         try {
                             updated = true;
-                            await Admin.updateOne({email: email}, {phoneNumber: phoneNumber})
+                            await Admin.updateOne({employeeId: employeeId}, {phoneNumber: phoneNumber})
                         } catch (err) {
                             out.append('Something went wrong during updating the phone number\n')
                         }
@@ -104,7 +105,7 @@ router.put('/:employeeId', async (req, res) => {
                     if (inEmail && inEmail !== findAdmin.email) {
                         try {
                             updated = true;
-                            await Admin.updateOne({email: email}, {email: inEmail})
+                            await Admin.updateOne({employeeId: employeeId}, {email: inEmail})
                         } catch (err) {
                             out.append('Something went wrong during updating the email\n')
                         }
@@ -112,7 +113,7 @@ router.put('/:employeeId', async (req, res) => {
                     if (position && position !== findAdmin.position) {
                         try {
                             updated = true;
-                            await Admin.updateOne({email: email}, {position: position})
+                            await Admin.updateOne({employeeId: employeeId}, {position: position})
                         } catch (err) {
                             out.append('Something went wrong during updating the position\n')
                         }
