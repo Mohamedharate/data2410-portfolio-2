@@ -8,9 +8,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 
 class ProfileMain extends Component {
-    constructor(props) {
-        super(props);
-    }
+
     state = {
         toggle_error_feedback: false,
         toggle_success_feedback: false,

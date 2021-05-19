@@ -5,7 +5,7 @@ import FormData from "form-data";
 import DangerFeedback from "../Feedback/DangerFeedback";
 import SuccessFeedback from "../Feedback/SuccessFeedback";
 import LoadingSpinnerPrimaryLongBtn from "../Spinners/LoadingSpinnerPrimaryLongBtn";
-import {DeleteForever} from "@material-ui/icons";
+import DeleteForever from "@material-ui/icons/DeleteForever";
 import EditIcon from '@material-ui/icons/Edit';
 
 class AdminEditEmployee extends Component {

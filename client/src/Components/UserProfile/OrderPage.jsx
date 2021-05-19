@@ -3,9 +3,6 @@ import Order from "./Order";
 
 
 class OrderPage extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         return (

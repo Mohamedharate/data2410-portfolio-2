@@ -13,6 +13,7 @@ class AdminPage extends Component {
     constructor(props) {
         super(props);
     }
+
     state = {
         toggle_restock: true,
         toggle_edit_product: false,
@@ -42,7 +43,8 @@ class AdminPage extends Component {
             toggle_new_employee: false,
             toggle_new_product: false
         })
-    };toggleEditEmployee = () => {
+    };
+    toggleEditEmployee = () => {
         this.setState({
             toggle_restock: false,
             toggle_edit_product: false,
@@ -71,17 +73,22 @@ class AdminPage extends Component {
     };
     handleLogout = async () => {
         this.setState({logout_loading: true})
-        await axios.post('https://localhost:3001/admin/logout')
-            .then(() => {
-                this.props.logoutCallback();
-                this.setState({logout_loading: false})
-            }).catch(err => {
-                this.setState({
-                    logout_loading: false,
-                    toggle_error_feedback: true,
-                    feedback_text: err.data.Error,
-                })
+        await axios({
+            method: 'post',
+            url: 'https://localhost:3001/admin/logout',
+            data: {
+                user: this.props.current_user
+            }
+        }).then(() => {
+            this.props.logoutCallback();
+            this.setState({logout_loading: false})
+        }).catch(err => {
+            this.setState({
+                logout_loading: false,
+                toggle_error_feedback: true,
+                feedback_text: err.data.Error,
             })
+        })
     }
 
     render() {
@@ -93,19 +100,24 @@ class AdminPage extends Component {
                             <h3 className="mt-5">Actions:</h3>
                             <button onClick={this.toggleRestock} className="btn btn-light btn-md m-2">
                                 Restock
-                            </button><br/>
+                            </button>
+                            <br/>
                             <button onClick={this.toggleEditProduct} className="btn btn-light btn-md m-2">
                                 Edit Product
-                            </button><br/>
+                            </button>
+                            <br/>
                             <button onClick={this.toggleEditEmployee} className="btn btn-light btn-md m-2">
                                 Edit Employee
-                            </button><br/>
+                            </button>
+                            <br/>
                             <button onClick={this.toggleNewProduct} className="btn btn-light btn-md m-2">
                                 Add New Product
-                            </button><br/>
+                            </button>
+                            <br/>
                             <button onClick={this.toggleNewAdmin} className="btn btn-light btn-md m-2">
                                 Add New Admin
-                            </button><br/>
+                            </button>
+                            <br/>
                             <button onClick={this.handleLogout} className="btn btn-danger btn-md m-2">
                                 Logout <ExitToAppIcon/>
                             </button>
@@ -114,21 +126,22 @@ class AdminPage extends Component {
                         </div>
                         <div className="col-md-10">
                             {this.state.toggle_restock &&
-                            <AdminRestockProducts />}
+                            <AdminRestockProducts/>}
                             {this.state.toggle_edit_product &&
-                            <AdminEditProduct />}
+                            <AdminEditProduct/>}
                             {this.state.toggle_edit_employee &&
-                            <AdminEditEmployee />}
+                            <AdminEditEmployee/>}
                             {this.state.toggle_new_product &&
-                            <AdminAddNewProduct />}
+                            <AdminAddNewProduct/>}
                             {this.state.toggle_new_employee &&
-                            <AdminAddNewEmployee />}
+                            <AdminAddNewEmployee/>}
                         </div>
                     </div>
                 </div>
-                <Footer toggle_admin = {this.props.toggle_admin}/>
+                <Footer toggle_admin={this.props.toggle_admin}/>
             </React.Fragment>
         );
     }
 }
+
 export default AdminPage;

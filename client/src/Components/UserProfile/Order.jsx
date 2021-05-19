@@ -4,9 +4,6 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 
 class Order extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     state = {
         toggle_products: false,

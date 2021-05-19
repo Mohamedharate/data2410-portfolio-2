@@ -36,7 +36,7 @@ class Navbar extends Component {
                                                 {this.props.cart_counter} - ${this.props.cart_total_price}
                                             </span>
                                         </span>
-                            <ShoppingCartIcon color="light" />
+                            <ShoppingCartIcon/>
                         </button>}
                     </div>
                     <div className="col-4">
@@ -56,7 +56,7 @@ class Navbar extends Component {
                             {this.props.current_user.firstName}
                             </span>
                             </span>
-                            <AccountBoxIcon color="light" />
+                            <AccountBoxIcon/>
                             </button>}
                             </React.Fragment>
                         }

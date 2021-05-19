@@ -5,9 +5,6 @@ import EditIcon from '@material-ui/icons/Edit';
 
 
 class ProfilePage extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     state = {
         edit_firstName: false,
