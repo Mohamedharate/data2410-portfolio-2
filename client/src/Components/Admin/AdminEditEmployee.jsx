@@ -190,11 +190,6 @@ class AdminEditEmployee extends Component {
                     </div>
                     <div className="col-sm-8 text-left position-fixed offset-sm-3 mr-2 two">
                         <form onSubmit={this.handleSubmit} className="form-signin">
-                            <div className="row text-center m-5">
-                                <div className="col-12">
-                                    <h3>Register New Employee</h3>
-                                </div>
-                            </div>
                             <div className="row form-label-group justify-content-center m-2">
                                 <div className="col-sm-6">
                                     <label className=" mt-2" htmlFor="firstName">First name:</label>

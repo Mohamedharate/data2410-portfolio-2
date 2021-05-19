@@ -4,9 +4,9 @@ class ShoppingCartObject extends Component {
     render() {
         return (
             <div className="shoppingCartObject m-1">
-                <div className="row text-nowrap">
+                <div className="row align-items-center">
                     <div className="col-4">
-                        <p className="mt-1 text-center">
+                        <p className="mt-1 text-center text-nowrap">
                             <button onClick={this.props.quantity_increase}
                                     className="btn-circle btn-dark btn-sm rounded-circle mr-2">+</button>
                             {this.props.shoppingCartObject.quantity}
