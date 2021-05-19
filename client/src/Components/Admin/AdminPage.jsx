@@ -76,9 +76,7 @@ class AdminPage extends Component {
         await axios({
             method: 'post',
             url: 'https://localhost:3001/admin/logout',
-            data: {
-                user: this.props.current_user
-            }
+            data: {}
         }).then(() => {
             this.props.logoutCallback();
             this.setState({logout_loading: false})

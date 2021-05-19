@@ -150,11 +150,9 @@ class Home extends Component {
             url: 'https://localhost:3001/logout',
             data: {}
         }).then(() => {
-            sessionStorage.clear();
             const cart_objects = [];
             this.updateCartCounterAndPrice(cart_objects);
             this.setState({
-                cart_objects,
                 current_user: {},
                 isAuthenticated: false,
                 toggleShoppingCart: false,
@@ -184,6 +182,10 @@ class Home extends Component {
                 }
             }).catch(error => {
                 console.log(error);
+                this.setState({ current_user: {},
+                    isAuthenticated: false,
+                    navbar_loading: false,
+                });
             });
     };
 
