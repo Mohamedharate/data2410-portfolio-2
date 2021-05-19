@@ -2,6 +2,9 @@ import React, {Component} from "react";
 import axios from "axios";
 import DangerFeedback from "../Feedback/DangerFeedback";
 import LoadingSpinnerPrimaryLongBtn from "../Spinners/LoadingSpinnerPrimaryLongBtn";
+import CloseIcon from '@material-ui/icons/Close';
+import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
 
 class SignIn extends Component {
     constructor(props) {
@@ -69,8 +72,8 @@ class SignIn extends Component {
                                 <h4>Sign in!</h4>
                             </div>
                             <div className="col-3">
-                                <button onClick={this.props.close} className="btn btn-light material-icons float-right">
-                                    close
+                                <button onClick={this.props.close} className="btn btn-light float-right">
+                                    <CloseIcon/>
                                 </button>
                             </div>
                         </div>
@@ -101,7 +104,7 @@ class SignIn extends Component {
                                         <div className="input-group">
                                             <div className="input-group-prepend">
                                                 <div className="input-group-text mt-2" id="basic-addon1">
-                                                    <i className="material-icons">mail</i>
+                                                    <AlternateEmailIcon/>
                                                 </div>
                                             </div>
                                             <input type="email" onChange={this.handleInputChange}
@@ -112,7 +115,7 @@ class SignIn extends Component {
                                         <div className="input-group mb-2">
                                             <div className="input-group-prepend">
                                                 <div className="input-group-text mt-2" id="basic-addon1">
-                                                    <i className="material-icons">vpn_key</i>
+                                                    <VpnKeyIcon/>
                                                 </div>
                                             </div>
                                             <input type="Password" onChange={this.handleInputChange}

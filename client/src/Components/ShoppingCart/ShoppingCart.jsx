@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import ShoppingCartObject from "./ShoppingCartObject";
 import DangerFeedback from "../Feedback/DangerFeedback";
 import SuccessFeedback from "../Feedback/SuccessFeedback";
+import CloseIcon from '@material-ui/icons/Close';
 
 class ShoppingCart extends Component {
     render() {
@@ -12,9 +13,8 @@ class ShoppingCart extends Component {
                         className="col-md-8 col-lg-5 mh-75 bg-light mt-5 p-1 pb-3 border border-secondary shadow-lg rounded-right">
                         <div className="row">
                             <div className="col-12">
-                                <button onClick={this.props.close}
-                                        className="btn btn-light material-icons float-right">
-                                    close
+                                <button onClick={this.props.close} className="btn btn-light float-right">
+                                    <CloseIcon/>
                                 </button>
                             </div>
                         </div>

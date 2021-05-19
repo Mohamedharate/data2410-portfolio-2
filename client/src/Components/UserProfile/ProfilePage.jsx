@@ -1,5 +1,7 @@
 import React, {Component} from "react";
 import axios from "axios";
+import DoneIcon from '@material-ui/icons/Done';
+import EditIcon from '@material-ui/icons/Edit';
 
 
 class ProfilePage extends Component {
@@ -139,9 +141,8 @@ class ProfilePage extends Component {
                     </div>
                     <div className="col-3">
                         <button onClick={() => this.handleEditBtn("edit_firstName", !this.state.edit_firstName)}
-                                className="btn btn-light border border-secondary pb-0 float-left">
-                            {this.state.edit_firstName ? <span className="material-icons">done</span> :
-                                <span className="material-icons">edit</span>}
+                                className="btn btn-light border border-secondary float-left">
+                            {this.state.edit_firstName ? <DoneIcon/> : <EditIcon/>}
                         </button>
                     </div>
                 </div>
@@ -156,9 +157,8 @@ class ProfilePage extends Component {
                     </div>
                     <div className="col-3">
                         <button onClick={() => this.handleEditBtn("edit_lastName", !this.state.edit_lastName)}
-                                className="btn btn-light border border-secondary pb-0 float-left">
-                            {this.state.edit_lastName ? <span className="material-icons">done</span> :
-                                <span className="material-icons">edit</span>}
+                                className="btn btn-light border border-secondary float-left">
+                            {this.state.edit_lastName ? <DoneIcon/> : <EditIcon/>}
                         </button>
                     </div>
                 </div>
@@ -171,9 +171,8 @@ class ProfilePage extends Component {
                     </div>
                     <div className="col-3">
                         <button onClick={() => this.handleEditBtn("edit_email", !this.state.edit_email)}
-                                className="btn btn-light border border-secondary pb-0 float-left">
-                            {this.state.edit_email ? <span className="material-icons">done</span> :
-                                <span className="material-icons">edit</span>}
+                                className="btn btn-light border border-secondary float-left">
+                            {this.state.edit_email ? <DoneIcon/> : <EditIcon/>}
                         </button>
                     </div>
                 </div>
@@ -189,9 +188,8 @@ class ProfilePage extends Component {
                     </div>
                     <div className="col-3">
                         <button onClick={() => this.handleEditBtn("edit_phoneNumber", !this.state.edit_phoneNumber)}
-                                className="btn btn-light border border-secondary pb-0 float-left">
-                            {this.state.edit_phoneNumber ? <span className="material-icons">done</span> :
-                                <span className="material-icons">edit</span>}
+                                className="btn btn-light border border-secondary float-left">
+                            {this.state.edit_phoneNumber ? <DoneIcon/> : <EditIcon/>}
                         </button>
                     </div>
                 </div>
@@ -215,16 +213,15 @@ class ProfilePage extends Component {
                     </div>
                     <div className="col-3">
                         <button onClick={() => this.handleEditBtn("edit_country", !this.state.edit_country)}
-                                className="btn btn-light border border-secondary pb-0 float-left">
-                            {this.state.edit_country ? <span className="material-icons">done</span> :
-                                <span className="material-icons">edit</span>}
+                                className="btn btn-light border border-secondary float-left">
+                            {this.state.edit_country ? <DoneIcon/> : <EditIcon/>}
                         </button>
                     </div>
                 </div>
                 <div className="row justify-content-center mt-2">
                     <div className="col-7">
                         <input type="text" onChange={this.handleInputChange}
-                               className="form-control mt-2" placeholder="City"
+                               className="form-control" placeholder="City"
                                pattern="^[A-ZÆØÅ]+[a-zæøåA-ZÆØÅ ,.'-]{1,20}(\s[A-ZÆØÅ]+[a-zæøåA-ZÆØÅ ,.'-]{1,20})?(\s[A-ZÆØÅ]+[a-zæøåA-ZÆØÅ ,.'-]{1,20})?$"
                                title="City name has to start with an upper case letter and have at least 2 characters."
                                defaultValue={this.props.current_user.city ? this.props.current_user.city : ''}
@@ -232,32 +229,30 @@ class ProfilePage extends Component {
                     </div>
                     <div className="col-3">
                         <button onClick={() => this.handleEditBtn("edit_city", !this.state.edit_city)}
-                                className="btn btn-light border border-secondary pb-0 float-left">
-                            {this.state.edit_city ? <span className="material-icons">done</span> :
-                                <span className="material-icons">edit</span>}
+                                className="btn btn-light border border-secondary float-left">
+                            {this.state.edit_city ? <DoneIcon/> : <EditIcon/>}
                         </button>
                     </div>
                 </div>
                 <div className="row justify-content-center mt-2">
                     <div className="col-7">
                         <input type="text" onChange={this.handleInputChange}
-                               className="form-control mt-2" placeholder="Zip Code"
+                               className="form-control" placeholder="Zip Code"
                                pattern="^\d{4,5}(?:[-\s]\d{4})?$"
                                defaultValue={this.props.current_user.zipCode ? this.props.current_user.zipCode : ''}
                                name="zipCode" disabled={!this.state.edit_zipCode}/>
                     </div>
                     <div className="col-3">
                         <button onClick={() => this.handleEditBtn("edit_zipCode", !this.state.edit_zipCode)}
-                                className="btn btn-light border border-secondary pb-0 float-left">
-                            {this.state.edit_zipCode ? <span className="material-icons">done</span> :
-                                <span className="material-icons">edit</span>}
+                                className="btn btn-light border border-secondary float-left">
+                            {this.state.edit_zipCode ? <DoneIcon/> : <EditIcon/>}
                         </button>
                     </div>
                 </div>
                 <div className="row justify-content-center mt-2">
                     <div className="col-7">
                         <input type="text" onChange={this.handleInputChange}
-                               className="form-control mt-2" placeholder="Street name"
+                               className="form-control" placeholder="Street name"
                                pattern="^[A-ZÆØÅ]+[a-zæøåA-ZÆØÅ ,.'-]{1,20}([A-ZÆØÅ]+[a-zæøåA-ZÆØÅ ,.'-]{1,20})?(\s[A-ZÆØÅ]+[a-zæøåA-ZÆØÅ ,.'-]{1,20})?\s\d+\s?[a-zæøåA-ZÆØÅ]?"
                                title="The address should follow this format:
                                        <Address> <Number><Letter(optional)>."
@@ -266,9 +261,8 @@ class ProfilePage extends Component {
                     </div>
                     <div className="col-3">
                         <button onClick={() => this.handleEditBtn("edit_street", !this.state.edit_street)}
-                                className="btn btn-light border border-secondary pb-0 float-left">
-                            {this.state.edit_street ? <span className="material-icons">done</span> :
-                                <span className="material-icons">edit</span>}
+                                className="btn btn-light border border-secondary float-left">
+                            {this.state.edit_street ? <DoneIcon/> : <EditIcon/>}
                         </button>
                     </div>
                 </div>

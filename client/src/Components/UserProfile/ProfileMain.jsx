@@ -3,6 +3,8 @@ import ProfilePage from "./ProfilePage";
 import OrderPage from "./OrderPage";
 import SuccessFeedback from "../Feedback/SuccessFeedback";
 import DangerFeedback from "../Feedback/DangerFeedback";
+import CloseIcon from '@material-ui/icons/Close';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 
 class ProfileMain extends Component {
@@ -43,9 +45,8 @@ class ProfileMain extends Component {
                             className="col-md-8 col-lg-5 mh-75 bg-light mt-5 m-2 p-1 pb-3 border border-secondary shadow-lg rounded-left">
                             <div className="row">
                                 <div className="col-12">
-                                    <button onClick={this.props.close}
-                                            className="btn btn-light material-icons float-right">
-                                        close
+                                    <button onClick={this.props.close} className="btn btn-light float-right">
+                                        <CloseIcon/>
                                     </button>
                                 </div>
                             </div>
@@ -75,7 +76,7 @@ class ProfileMain extends Component {
                                                             Logout
                                                         </div>
                                                         <div className="col-4 align-self-center">
-                                                            <span className="material-icons mt-2">exit_to_app</span>
+                                                            <ExitToAppIcon/>
                                                         </div>
                                                     </div>
                                                 </button>

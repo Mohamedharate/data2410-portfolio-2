@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
 import LoadingSpinnerSmallGeneral from "./Spinners/LoadingSpinnerSmallGeneral";
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
 
 class Navbar extends Component {
 
@@ -34,7 +36,7 @@ class Navbar extends Component {
                                                 {this.props.cart_counter} - ${this.props.cart_total_price}
                                             </span>
                                         </span>
-                            <span className="material-icons md-24">shopping_cart</span>
+                            <ShoppingCartIcon color="light" />
                         </button>}
                     </div>
                     <div className="col-4">
@@ -54,7 +56,7 @@ class Navbar extends Component {
                             {this.props.current_user.firstName}
                             </span>
                             </span>
-                            <span className="material-icons md-24 ">account_box</span>
+                            <AccountBoxIcon color="light" />
                             </button>}
                             </React.Fragment>
                         }
