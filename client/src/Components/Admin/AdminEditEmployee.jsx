@@ -5,6 +5,8 @@ import FormData from "form-data";
 import DangerFeedback from "../Feedback/DangerFeedback";
 import SuccessFeedback from "../Feedback/SuccessFeedback";
 import LoadingSpinnerPrimaryLongBtn from "../Spinners/LoadingSpinnerPrimaryLongBtn";
+import {DeleteForever} from "@material-ui/icons";
+import EditIcon from '@material-ui/icons/Edit';
 
 class AdminEditEmployee extends Component {
     constructor(props) {
@@ -176,11 +178,11 @@ class AdminEditEmployee extends Component {
                                        value={employee.position + " \n" + employee.firstName + " " + employee.lastName}
                                        rows="2" disabled/>
                                 <div className="input-group-append">
-                                    <button onClick={() => this.handleEditBtn(employee)}
-                                            className="btn btn-outline-secondary">Edit
+                                    <button onClick={() => this.handleEditBtn(employee)} className="btn btn-outline-secondary">
+                                        <EditIcon/>
                                     </button>
                                     <button onClick={() => this.handleDeleteBtn(employee)} className="btn btn-danger">
-                                        <span className="material-icons mt-2">delete_forever</span>
+                                        <DeleteForever/>
                                     </button>
                                 </div>
                             </div>

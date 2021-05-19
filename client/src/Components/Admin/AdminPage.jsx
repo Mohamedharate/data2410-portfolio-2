@@ -7,6 +7,7 @@ import AdminEditProduct from "./AdminEditProduct";
 import AdminEditEmployee from "./AdminEditEmployee";
 import axios from "axios";
 import DangerFeedback from "../Feedback/DangerFeedback";
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 class AdminPage extends Component {
     constructor(props) {
@@ -106,7 +107,7 @@ class AdminPage extends Component {
                                 Add New Admin
                             </button><br/>
                             <button onClick={this.handleLogout} className="btn btn-danger btn-md m-2">
-                                Logout
+                                Logout <ExitToAppIcon/>
                             </button>
                             {this.state.toggle_error_feedback &&
                             <DangerFeedback feedback_error_text={this.state.feedback_text}/>}
