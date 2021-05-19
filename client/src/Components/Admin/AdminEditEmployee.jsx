@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import axios from "axios";
-import bootbox from "bootbox"
-import FormData from "form-data";
+import bootbox from "bootbox";
 import DangerFeedback from "../Feedback/DangerFeedback";
 import SuccessFeedback from "../Feedback/SuccessFeedback";
 import LoadingSpinnerPrimaryLongBtn from "../Spinners/LoadingSpinnerPrimaryLongBtn";
@@ -96,47 +95,55 @@ class AdminEditEmployee extends Component {
     }
     handleSubmit = async event => {
         event.preventDefault();
-        this.setState({toggle_submit_loading: true});
-
         const employeeId = this.state.employee_id
-
-        let formdata = new FormData();
+        let change = false;
+        let data = {}
 
         // Checks which variables has changed and add changed variables to the form-data.
         if (this.state.old_firstName !== this.state.new_firstName) {
-            formdata.append('firstName', this.state.new_firstName);
+            change = true;
+            data['firstName'] = this.state.new_firstName;
         }
         if (this.state.old_lastName !== this.state.new_lastName) {
-            formdata.append('lastName', this.state.new_lastName);
+            change = true;
+            data['lastName'] = this.state.new_lastName;
         }
         if (this.state.old_email !== this.state.new_email) {
-            formdata.append('email', this.state.new_email);
+            change = true;
+            data['email'] = this.state.new_email;
         }
         if (this.state.old_phoneNumber !== this.state.new_phoneNumber) {
-            formdata.append('phoneNumber', this.state.new_phoneNumber);
+            change = true;
+            data['phoneNumber'] = this.state.new_phoneNumber;
         }
         if (this.state.old_position !== this.state.new_position) {
-            formdata.append('position', this.state.new_position);
+            change = true;
+            data['position'] = this.state.new_position;
         }
 
-        await axios({
-            method: 'put',
-            url: `https://localhost:3001/api/admin/update/${employeeId}`,
-            data: formdata,
-        }).then(res => {
-            this.setState({
-                toggle_success_feedback: true,
-                toggle_error_feedback: false,
-                feedback_text: res.data.Message,
+        if(change){
+            this.setState({toggle_submit_loading: true});
+            await axios({
+                method: 'put',
+                url: `https://localhost:3001/api/admin/update/${employeeId}`,
+                data: data,
+            }).then(res => {
+                this.setState({
+                    toggle_success_feedback: true,
+                    toggle_error_feedback: false,
+                    feedback_text: res.data.Message,
+                    toggle_submit_loading: false
+                });
+            }).catch(err => {
+                this.setState({
+                    toggle_success_feedback: false,
+                    toggle_error_feedback: true,
+                    feedback_text: err.response.data.Error,
+                    toggle_submit_loading: false
+                });
             });
-        }).catch(err => {
-            this.setState({
-                toggle_success_feedback: false,
-                toggle_error_feedback: true,
-                feedback_text: err.response.data.Error,
-            });
-        });
-        this.setState({toggle_submit_loading: false});
+        }
+
     };
 
     handleGetEmployees = async () => {
