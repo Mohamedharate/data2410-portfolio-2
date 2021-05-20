@@ -110,6 +110,7 @@ class CheckOut extends Component {
                     street: this.state.street,
                 }
             }).then(res => {
+
                 this.setState({
                     toggle_error_feedback: false,
                     toggle_success_feedback: true,

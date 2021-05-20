@@ -29,7 +29,7 @@ class Home extends Component {
         isAuthenticated: false,
         navbar_loading: false,
         current_user: {},
-        empty_cart: false,
+        empty_cart: true,
         empty_cart_message: 'Nothing to show here.',
         cart_objects: [],
         cart_counter: 0,
@@ -133,7 +133,16 @@ class Home extends Component {
 
         const cart_objects = [...this.state.cart_objects, Product];
         this.updateCartCounterAndPrice(cart_objects);
-        this.setState({cart_objects})
+        this.setState({
+            cart_objects,
+            empty_cart: false
+        })
+    }
+    handleOrderCompleteCallback = user => {
+        this.getCartObjects(user)
+        const cart_objects = [...user.cart]
+        this.updateCartCounterAndPrice(cart_objects)
+        this.setState({cart_objects, empty_cart: true})
     }
 
 
@@ -272,7 +281,7 @@ class Home extends Component {
                         current_user={this.state.current_user}
                         price_total={this.state.cart_total_price}
                         signed_in={this.state.isAuthenticated}
-                        order_complete={this.getCartObjects}
+                        order_complete={this.handleOrderCompleteCallback}
                         close={this.handleToggleCheckOutCallback}
                     />}
                     {this.state.toggleShoppingCart &&
