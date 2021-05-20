@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
-import LoadingSpinnerSmallLight from "./Spinners/LoadingSpinnerSmallLight";
+import LoadingSpinnerSmallLight from "../Spinners/LoadingSpinnerSmallLight";
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 

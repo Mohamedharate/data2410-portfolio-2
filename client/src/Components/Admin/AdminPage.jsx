@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import Footer from "../footer";
+import Footer from "../Webstore/Footer";
 import AdminAddNewProduct from "./AdminAddNewProduct";
 import AdminAddNewEmployee from "./AdminAddNewEmployee";
 import AdminRestockProducts from "./AdminRestockProducts";

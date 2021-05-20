@@ -1,18 +1,18 @@
 import React, {Component, useEffect} from "react";
 import axios from "axios";
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import Navbar from "./navbar";
-import SignIn from "./Authentication/SignIn";
-import SignUp from "./Authentication/SignUp";
+import Navbar from "./Navbar";
+import SignIn from "../Authentication/SignIn";
+import SignUp from "../Authentication/SignUp";
 //import About from "./about";
-import Mainpage from "./Products/mainpage";
-import Footer from "./footer";
-import Productpage from "./Products/productpage";
-import addReview from "./Products/addReview";
-import ShoppingCart from "./ShoppingCart/ShoppingCart";
-import Orders from "./orders";
-import Checkout from "./Checkout";
-import ProfileMain from "./UserProfile/ProfileMain"
+import Mainpage from "../Products/mainpage";
+import Footer from "./Footer";
+import Productpage from "../Products/productpage";
+import addReview from "../Products/addReview";
+import ShoppingCart from "../ShoppingCart/ShoppingCart";
+import Orders from "../Orders";
+import Checkout from "../ShoppingCart/Checkout";
+import ProfileMain from "../UserProfile/ProfileMain"
 
 
 class Home extends Component {

@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import Footer from "../footer";
+import Footer from "../Webstore/Footer";
 import DangerFeedback from "../Feedback/DangerFeedback";
 import axios from "axios";
 import LoadingSpinnerPrimaryLongBtn from "../Spinners/LoadingSpinnerPrimaryLongBtn";

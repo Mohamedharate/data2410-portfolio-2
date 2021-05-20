@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 import axios from "axios";
-import DangerFeedback from "./Feedback/DangerFeedback";
-import LoadingSpinnerPrimaryLongBtn from "./Spinners/LoadingSpinnerPrimaryLongBtn";
-import SuccessFeedback from "./Feedback/SuccessFeedback";
+import DangerFeedback from "../Feedback/DangerFeedback";
+import LoadingSpinnerPrimaryLongBtn from "../Spinners/LoadingSpinnerPrimaryLongBtn";
+import SuccessFeedback from "../Feedback/SuccessFeedback";
 import CloseIcon from '@material-ui/icons/Close';
 
 class Checkout extends Component {
