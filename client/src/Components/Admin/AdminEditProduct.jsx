@@ -5,6 +5,8 @@ import FormData from "form-data";
 import DangerFeedback from "../Feedback/DangerFeedback";
 import SuccessFeedback from "../Feedback/SuccessFeedback";
 import LoadingSpinnerPrimaryLongBtn from "../Spinners/LoadingSpinnerPrimaryLongBtn";
+import DeleteForever from "@material-ui/icons/DeleteForever";
+import EditIcon from '@material-ui/icons/Edit';
 
 class AdminEditProduct extends Component {
     constructor(props) {
@@ -198,9 +200,11 @@ class AdminEditProduct extends Component {
                             <div className="input-group mt-2 ml-2" key={index}>
                                 <textarea type="text" value={product.name} rows="auto" disabled/>
                                 <div className="input-group-append">
-                                        <button onClick={() => this.handleEditBtn(product)} className="btn btn-outline-secondary">Edit</button>
+                                        <button onClick={() => this.handleEditBtn(product)} className="btn btn-outline-secondary">
+                                            <EditIcon/>
+                                        </button>
                                         <button onClick={() => this.handleDeleteBtn(product)} className="btn btn-danger">
-                                            <span className="material-icons mt-2">delete_forever</span>
+                                            <DeleteForever/>
                                         </button>
                                 </div>
                             </div>

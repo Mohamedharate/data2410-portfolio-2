@@ -33,7 +33,7 @@ router.post('/', async (req, res) => {
             phoneNumber
         }, JWT_ACC, {expiresIn: "20m"})
 
-        const link = `http://localhost:3001/api/register/emailActivation/${token}`
+        const link = `https://localhost:3001/api/register/emailActivation/${token}`
         try {
             await send(email, formatActivationEmail(firstName, link), "Activation")
         } catch (e) {
@@ -58,7 +58,7 @@ router.get('/emailActivation/:link', async (req, res) => {
             let newUser = new User({firstName, lastName, email, password, country, city, zipCode, street, phoneNumber})
             await newUser.save()
                 .then(data => {
-                    return res.status(200).redirect('http://localhost:3001');
+                    return res.status(200).redirect('https://localhost:3001');
                 })
                 .catch(error => {
                     res.status(500).json({Error: error.toString()})

@@ -3,6 +3,8 @@ import Footer from "../footer";
 import DangerFeedback from "../Feedback/DangerFeedback";
 import axios from "axios";
 import LoadingSpinnerPrimaryLongBtn from "../Spinners/LoadingSpinnerPrimaryLongBtn";
+import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
 
 class AdminLogin extends Component {
     constructor(props) {
@@ -69,7 +71,7 @@ class AdminLogin extends Component {
                                         <div className="input-group">
                                             <div className="input-group-prepend">
                                                 <div className="input-group-text mt-2" id="basic-addon1">
-                                                    <i className="material-icons">mail</i>
+                                                    <AlternateEmailIcon/>
                                                 </div>
                                             </div>
                                             <input type="email" onChange={this.handleInputChange}
@@ -80,7 +82,7 @@ class AdminLogin extends Component {
                                         <div className="input-group">
                                             <div className="input-group-prepend">
                                                 <div className="input-group-text mt-2" id="basic-addon1">
-                                                    <i className="material-icons">vpn_key</i>
+                                                    <VpnKeyIcon/>
                                                 </div>
                                             </div>
                                             <input type="Password" onChange={this.handleInputChange}

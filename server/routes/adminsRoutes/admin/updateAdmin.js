@@ -15,9 +15,10 @@ router.put('/:employeeId', async (req, res) => {
                 return res.status(403).json({Error: "You don't have permission for this"})
             }
             const findAdmin = await Admin.findOne({employeeId: req.params.employeeId});
-            if (!findAdmin) return res.status(404).json({Error: 'The user with the given email address was not found'})
+            if (!findAdmin) return res.status(404).json({Error: 'The Admin with the given email address was not found'})
             if (findAdmin._id.toString() === req.session.passport.user.id || findAdmin.position === 'President') {
 
+                const employeeId = req.params.employeeId;
                 let password;
                 if (req.body.password) {
                     //Hashing password:
@@ -28,97 +29,112 @@ router.put('/:employeeId', async (req, res) => {
                 } else {
                     password = findAdmin.password;
                 }
-
-                const updateAdminInfo = {
-                    firstName: req.body.firstName,
-                    lastName: req.body.lastName,
-                    email: req.body.email,
-                    password: password,
-                    country: req.body.country,
-                    city: req.body.city,
-                    zipCode: req.body.zipCode,
-                    street: req.body.street,
-                    phoneNumber: req.body.phoneNumber
-                }
+                const {firstName, lastName, inEmail, country, city, zipCode, street, phoneNumber, position} = req.body;
 
                 let out = new StringBuilder();
+                let updated = false;
 
                 if (findAdmin) {
-                    if (updateAdminInfo.firstName && updateAdminInfo.firstName !== findAdmin.firstName) {
+                    if (firstName && firstName !== findAdmin.firstName) {
                         try {
-                            await Admin.updateOne({email: req.params.email}, {firstName: updateAdminInfo.firstName})
-                        } catch {
-                            out.append('Something went wrong during updating the first name\nError code: ' + err.error_code)
-                        }
-                    }
-                    if (updateAdminInfo.lastName && updateAdminInfo.lastName !== findAdmin.lastName) {
-                        try {
-                            await Admin.updateOne({email: req.params.email}, {lastName: updateAdminInfo.lastName})
-                        } catch {
-                            out.append('Something went wrong during updating the last name\nError code: ' + err.error_code)
-                        }
-                    }
-                    if (updateAdminInfo.password && updateAdminInfo.password !== findAdmin.password) {
-                        try {
-                            await Admin.updateOne({email: req.params.email}, {password: updateAdminInfo.password})
-                        } catch {
-                            out.append('Something went wrong during updating the password\nError code: ' + err.error_code)
-                        }
-                    }
-                    if (updateAdminInfo.country && updateAdminInfo.country !== findAdmin.country) {
-                        try {
-                            await Admin.updateOne({email: req.params.email}, {country: updateAdminInfo.country})
-                        } catch {
-                            out.append('Something went wrong during updating the country\nError code: ' + err.error_code)
-                        }
-                    }
-                    if (updateAdminInfo.city && updateAdminInfo.city !== findAdmin.city) {
-                        try {
-                            await Admin.updateOne({email: req.params.email}, {city: updateAdminInfo.city})
-                        } catch {
-                            out.append('Something went wrong during updating the city\nError code: ' + err.error_code)
-                        }
-                    }
-                    if (updateAdminInfo.zipCode && updateAdminInfo.zipCode !== findAdmin.zipCode) {
-                        try {
-                            await Admin.updateOne({email: req.params.email}, {zipCode: updateAdminInfo.zipCode})
-                        } catch {
-                            out.append('Something went wrong during updating the zip code\nError code: ' + err.error_code)
-                        }
-                    }
-                    if (updateAdminInfo.street && updateAdminInfo.street !== findAdmin.street) {
-                        try {
-                            await Admin.updateOne({email: req.params.email}, {street: updateAdminInfo.street})
-                        } catch {
-                            out.append('Something went wrong during updating the street name\nError code: ' + err.error_code)
-                        }
-                    }
-                    if (updateAdminInfo.phoneNumber && updateAdminInfo.phoneNumber !== findAdmin.phoneNumber) {
-                        try {
-                            await Admin.updateOne({email: req.params.email}, {phoneNumber: updateAdminInfo.phoneNumber})
-                        } catch {
-                            out.append('Something went wrong during updating the phone number\nError code: ' + err.error_code)
-                        }
-                    }
-                    if (updateAdminInfo.email && updateAdminInfo.email !== findAdmin.email) {
-                        try {
-                            await Admin.updateOne({email: req.params.email}, {email: updateAdminInfo.email})
+                            updated = true;
+                            await Admin.updateOne({employeeId: employeeId}, {firstName: firstName})
                         } catch (err) {
-                            out.append('Something went wrong during updating the email\nError code: ' + err.error_code)
+                            out.append('Something went wrong during updating the first name\n');
                         }
                     }
+                    if (lastName && lastName !== findAdmin.lastName) {
+                        try {
+                            updated = true;
+                            await Admin.updateOne({employeeId: employeeId}, {lastName: lastName})
+                        } catch (err) {
+                            out.append('Something went wrong during updating the last name\n');
+                        }
+                    }
+                    if (password && password !== findAdmin.password) {
+                        try {
+                            updated = true;
+                            await Admin.updateOne({employeeId: employeeId}, {password: password})
+                        } catch (err) {
+                            out.append('Something went wrong during updating the password\n')
+                        }
+                    }
+                    /*
+                    if (country && country !== findAdmin.country) {
+                        try {
+                            updated = true;
+                            await Admin.updateOne({email: email}, {country: country})
+                        } catch (err) {
+                            out.append('Something went wrong during updating the country\n')
+                        }
+                    }
+                    if (city && city !== findAdmin.city) {
+                        try {
+                            updated = true;
+                            await Admin.updateOne({email: email}, {$set: {city: city}})
+                        } catch (err) {
+                            out.append('Something went wrong during updating the city\n')
+                        }
+                    }
+                    if (zipCode && zipCode !== findAdmin.zipCode) {
+                        try {
+                            updated = true;
+                            await Admin.updateOne({email: email}, {zipCode: zipCode})
+                        } catch {
+                            out.append('Something went wrong during updating the zip code\n')
+                        }
+                    }
+                    if (street && street !== findAdmin.street) {
+                        try {
+                            updated = true;
+                            await Admin.updateOne({email: email}, {street: street})
+                        } catch (err) {
+                            out.append('Something went wrong during updating the street name\n')
+                        }
+                    }
+
+                     */
+                    if (phoneNumber && phoneNumber !== findAdmin.phoneNumber) {
+                        try {
+                            updated = true;
+                            await Admin.updateOne({employeeId: employeeId}, {phoneNumber: phoneNumber})
+                        } catch (err) {
+                            out.append('Something went wrong during updating the phone number\n')
+                        }
+                    }
+                    if (inEmail && inEmail !== findAdmin.email) {
+                        try {
+                            updated = true;
+                            await Admin.updateOne({employeeId: employeeId}, {email: inEmail})
+                        } catch (err) {
+                            out.append('Something went wrong during updating the email\n')
+                        }
+                    }
+                    if (position && position !== findAdmin.position) {
+                        try {
+                            updated = true;
+                            await Admin.updateOne({employeeId: employeeId}, {position: position})
+                        } catch (err) {
+                            out.append('Something went wrong during updating the position\n')
+                        }
+                    }
+
+
                 } else {
-                    out.append('Something went wrong during finding admin`s information')
+                    out.append('Admin not found')
                 }
                 if (out.toString()) {
-                    res.send(out.toString())
-                } else {
+                    res.status(500).json({Error: out.toString()})
+                } else if (updated) {
                     res.json({Message: "Admin information is updated."})
+                } else {
+                    res.json({Message: "Nothing to update"})
                 }
 
             } else {
                 return res.status(403).json({Error: "You don't have permission for this"})
             }
+
         } else {
             return res.status(403).json({Error: "You don't have permission for this"})
         }
@@ -126,6 +142,6 @@ router.put('/:employeeId', async (req, res) => {
         return res.status(500).json({Error: "Something went wrong!"})
     }
 
-})
+});
 
 module.exports = router;

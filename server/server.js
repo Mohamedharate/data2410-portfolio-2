@@ -34,7 +34,7 @@ app.set("trust proxy", 1);
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 
-app.use('/', express.static('./public'));
+app.use('/', express.static('../client/build'));
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
 app.use(bodyParser.json())
@@ -118,7 +118,6 @@ app.use(function (req, res, next) {
 // All other GET requests not handled before will return our React app
 
 
-//TODO log out for admins
 app.post('/logout', (req, res) => {
     if (req.user) {
         try {
@@ -143,7 +142,7 @@ app.post('/admin/logout', (req, res) => {
         } catch (err) {
             return res.status(500).json({Error: 'Could not perform logout!'});
         }
-        return res.status(200);
+        return res.status(200).redirect('https://localhost:3001');
     } else {
         return res.status(400).json({Error: 'Not logged in'});
     }

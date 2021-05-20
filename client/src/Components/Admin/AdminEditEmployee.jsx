@@ -1,10 +1,11 @@
 import React, {Component} from "react";
 import axios from "axios";
-import bootbox from "bootbox"
-import FormData from "form-data";
+import bootbox from "bootbox";
 import DangerFeedback from "../Feedback/DangerFeedback";
 import SuccessFeedback from "../Feedback/SuccessFeedback";
 import LoadingSpinnerPrimaryLongBtn from "../Spinners/LoadingSpinnerPrimaryLongBtn";
+import DeleteForever from "@material-ui/icons/DeleteForever";
+import EditIcon from '@material-ui/icons/Edit';
 
 class AdminEditEmployee extends Component {
     constructor(props) {
@@ -94,47 +95,55 @@ class AdminEditEmployee extends Component {
     }
     handleSubmit = async event => {
         event.preventDefault();
-        this.setState({toggle_submit_loading: true});
-
         const employeeId = this.state.employee_id
-
-        let formdata = new FormData();
+        let change = false;
+        let data = {}
 
         // Checks which variables has changed and add changed variables to the form-data.
         if (this.state.old_firstName !== this.state.new_firstName) {
-            formdata.append('firstName', this.state.new_firstName);
+            change = true;
+            data['firstName'] = this.state.new_firstName;
         }
         if (this.state.old_lastName !== this.state.new_lastName) {
-            formdata.append('lastName', this.state.new_lastName);
+            change = true;
+            data['lastName'] = this.state.new_lastName;
         }
         if (this.state.old_email !== this.state.new_email) {
-            formdata.append('email', this.state.new_email);
+            change = true;
+            data['email'] = this.state.new_email;
         }
         if (this.state.old_phoneNumber !== this.state.new_phoneNumber) {
-            formdata.append('phoneNumber', this.state.new_phoneNumber);
+            change = true;
+            data['phoneNumber'] = this.state.new_phoneNumber;
         }
         if (this.state.old_position !== this.state.new_position) {
-            formdata.append('position', this.state.new_position);
+            change = true;
+            data['position'] = this.state.new_position;
         }
 
-        await axios({
-            method: 'put',
-            url: `https://localhost:3001/api/admin/update/${employeeId}`,
-            data: formdata,
-        }).then(res => {
-            this.setState({
-                toggle_success_feedback: true,
-                toggle_error_feedback: false,
-                feedback_text: res.data.Message,
+        if(change){
+            this.setState({toggle_submit_loading: true});
+            await axios({
+                method: 'put',
+                url: `https://localhost:3001/api/admin/update/${employeeId}`,
+                data: data,
+            }).then(res => {
+                this.setState({
+                    toggle_success_feedback: true,
+                    toggle_error_feedback: false,
+                    feedback_text: res.data.Message,
+                    toggle_submit_loading: false
+                });
+            }).catch(err => {
+                this.setState({
+                    toggle_success_feedback: false,
+                    toggle_error_feedback: true,
+                    feedback_text: err.response.data.Error,
+                    toggle_submit_loading: false
+                });
             });
-        }).catch(err => {
-            this.setState({
-                toggle_success_feedback: false,
-                toggle_error_feedback: true,
-                feedback_text: err.response.data.Error,
-            });
-        });
-        this.setState({toggle_submit_loading: false});
+        }
+
     };
 
     handleGetEmployees = async () => {
@@ -176,11 +185,11 @@ class AdminEditEmployee extends Component {
                                        value={employee.position + " \n" + employee.firstName + " " + employee.lastName}
                                        rows="2" disabled/>
                                 <div className="input-group-append">
-                                    <button onClick={() => this.handleEditBtn(employee)}
-                                            className="btn btn-outline-secondary">Edit
+                                    <button onClick={() => this.handleEditBtn(employee)} className="btn btn-outline-secondary">
+                                        <EditIcon/>
                                     </button>
                                     <button onClick={() => this.handleDeleteBtn(employee)} className="btn btn-danger">
-                                        <span className="material-icons mt-2">delete_forever</span>
+                                        <DeleteForever/>
                                     </button>
                                 </div>
                             </div>
@@ -188,11 +197,6 @@ class AdminEditEmployee extends Component {
                     </div>
                     <div className="col-sm-8 text-left position-fixed offset-sm-3 mr-2 two">
                         <form onSubmit={this.handleSubmit} className="form-signin">
-                            <div className="row text-center m-5">
-                                <div className="col-12">
-                                    <h3>Register New Employee</h3>
-                                </div>
-                            </div>
                             <div className="row form-label-group justify-content-center m-2">
                                 <div className="col-sm-6">
                                     <label className=" mt-2" htmlFor="firstName">First name:</label>

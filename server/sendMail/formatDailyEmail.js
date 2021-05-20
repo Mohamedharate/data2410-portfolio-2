@@ -118,7 +118,7 @@ function formatDailyEmail(prod1, prod2) {
                                                     <td align="center" valign="top" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding-bottom: 15px;"> 
                                                     <img src="cid:prod1" alt="" width="219" height="125" style="display: block; border: 0px;" />
                                                         <p style="font-size: 15px; font-weight: 800; line-height: 18px; color: #333333;">${prod1.name}</p>
-                                                        <p style="font-size: 15px; font-weight: 800; line-height: 18px; color: #ed8e20;"><a href="http://localhost:3001/products/${prod2.itemId}" target="_blank" style="text-decoration: none; color: #ed8e20;">BUY NOW</a></p>
+                                                        <p style="font-size: 15px; font-weight: 800; line-height: 18px; color: #ed8e20;"><a href="https://localhost:3001/products/${prod2.itemId}" target="_blank" style="text-decoration: none; color: #ed8e20;">BUY NOW</a></p>
                                                     </td>
                                                 </tr>
                                             </table>
@@ -128,7 +128,7 @@ function formatDailyEmail(prod1, prod2) {
                                                 <tr>
                                                     <td align="center" valign="top" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding-bottom: 15px;"> <img src="cid:prod2" alt="" width="219" height="125" style="display: block; border: 0px;" />
                                                         <p style="font-size: 15px; font-weight: 800; line-height: 18px; color: #333333;">${prod2.name}</p>
-                                                        <p style="font-size: 15px; font-weight: 800; line-height: 18px; color: #ed8e20;"><a href="http://localhost:3001/products/${prod2.itemId}" target="_blank" style="text-decoration: none; color: #ed8e20;">BUY NOW</a></p>
+                                                        <p style="font-size: 15px; font-weight: 800; line-height: 18px; color: #ed8e20;"><a href="https://localhost:3001/products/${prod2.itemId}" target="_blank" style="text-decoration: none; color: #ed8e20;">BUY NOW</a></p>
                                                     </td>
                                                 </tr>
                                             </table>
@@ -150,7 +150,7 @@ function formatDailyEmail(prod1, prod2) {
                                 </tr>
                                 <tr>
                                     <td align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 24px;">
-                                        <p style="font-size: 14px; font-weight: 400; line-height: 20px; color: #777777;"> If you didn't create an account using this email address, please ignore this email or <a href="http://localhost:3001/api/users/unsubscribe" target="_blank" style="color: #777777;">unsusbscribe</a>. </p>
+                                        <p style="font-size: 14px; font-weight: 400; line-height: 20px; color: #777777;"> If you didn't create an account using this email address, please ignore this email or <a href="https://localhost:3001/api/users/unsubscribe" target="_blank" style="color: #777777;">unsusbscribe</a>. </p>
                                     </td>
                                 </tr>
                             </table>

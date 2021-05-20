@@ -19,6 +19,7 @@ class Home extends Component {
     constructor(props) {
         super(props);
     }
+
     state = {
         toggleLogin: false,
         toggleRegister: false,
@@ -26,8 +27,9 @@ class Home extends Component {
         toggleCheckOut: false,
         toggleProfilePage: false,
         isAuthenticated: false,
+        navbar_loading: false,
         current_user: {},
-        empty_cart: false,
+        empty_cart: true,
         empty_cart_message: 'Nothing to show here.',
         cart_objects: [],
         cart_counter: 0,
@@ -80,7 +82,6 @@ class Home extends Component {
         })
     }
     handleToggleProfilePageCallback = () => {
-        console.log("click")
         this.setState({
             toggleLogin: false,
             toggleRegister: false,
@@ -110,7 +111,7 @@ class Home extends Component {
     handleQuantityDecreaseCallback = async item_id => {
         const cart_objects = [...this.state.cart_objects];
         const index = cart_objects.findIndex(i => i.itemId === item_id)
-        if (cart_objects[index].quantity > 0){
+        if (cart_objects[index].quantity > 0) {
             cart_objects[index].quantity--;
             await axios({
                 method: 'put',
@@ -132,9 +133,17 @@ class Home extends Component {
 
         const cart_objects = [...this.state.cart_objects, Product];
         this.updateCartCounterAndPrice(cart_objects);
-        this.setState({cart_objects})
+        this.setState({
+            cart_objects,
+            empty_cart: false
+        })
     }
-
+    handleOrderCompleteCallback = user => {
+        this.getCartObjects(user)
+        const cart_objects = [...user.cart]
+        this.updateCartCounterAndPrice(cart_objects)
+        this.setState({cart_objects, empty_cart: true})
+    }
 
 
     // Handle authentication.
@@ -150,11 +159,9 @@ class Home extends Component {
             url: 'https://localhost:3001/logout',
             data: {}
         }).then(() => {
-            sessionStorage.clear();
             const cart_objects = [];
             this.updateCartCounterAndPrice(cart_objects);
             this.setState({
-                cart_objects,
                 current_user: {},
                 isAuthenticated: false,
                 toggleShoppingCart: false,
@@ -163,19 +170,45 @@ class Home extends Component {
         })
     };
     Authenticated = async () => {
+        this.setState({navbar_loading: true})
         await axios.get('https://localhost:3001/api/users/isAuthenticated')
             .then(response => {
                 if (response.status === 200) {
                     // Session is auth
                     const current_user = response.data;
                     this.getCartObjects(current_user);
-                    this.setState({ current_user, isAuthenticated: true});
+                    this.setState({
+                        current_user,
+                        isAuthenticated: true,
+                        navbar_loading: false,
+                    });
+                } else if (response.status === 206) {
+                    // Session is not auth but has items in cart
+                    this.state.empty_cart = false;
+                    const cart_objects = [...response.data.Cart];
+                    this.updateCartCounterAndPrice(cart_objects);
+                    this.setState({
+                        cart_objects,
+                        current_user: {},
+                        isAuthenticated: false,
+                        navbar_loading: false,
+                    });
                 } else {
-                    // Session is not auth
-                    this.setState({ current_user: {}, isAuthenticated: false });
+                    // Session is not auth and has no items in cart
+                    this.setState({
+                        current_user: {},
+                        isAuthenticated: false,
+                        navbar_loading: false,
+                    });
                 }
+
             }).catch(error => {
                 console.log(error);
+                this.setState({
+                    current_user: {},
+                    isAuthenticated: false,
+                    navbar_loading: false,
+                });
             });
     };
 
@@ -216,6 +249,7 @@ class Home extends Component {
                         toggleShoppingCartCallback={this.handleToggleShoppingCartCallback}
                         toggleProfilePageCallback={this.handleToggleProfilePageCallback}
                         isAuthenticated={this.state.isAuthenticated}
+                        loading={this.state.navbar_loading}
                         current_user={this.state.current_user}
                         cart_counter={this.state.cart_counter}
                         cart_total_price={this.state.cart_total_price}
@@ -224,10 +258,11 @@ class Home extends Component {
                         <Route exact path="/" component={Mainpage}/>
                         <Route exact path="/products/:itemId" component={() =>
                             <Productpage itemId={window.location.href.split('/').pop()}
-                                         handleAddToCartCallback={this.handleAddToCartCallback} /> }/>
+                                         handleAddToCartCallback={this.handleAddToCartCallback}/>}/>
                         <Route path="/addReview/:itemId" component={addReview}/>
                         <Route path="/orders/" component={() =>
-                            <Orders current_user={this.state.current_user} isAuthenticated={this.state.isAuthenticated}/>}/>
+                            <Orders current_user={this.state.current_user}
+                                    isAuthenticated={this.state.isAuthenticated}/>}/>
                     </Switch>
                     {this.state.toggleLogin && <SignIn
                         loginCallback={this.handleLoginCallback}
@@ -246,7 +281,7 @@ class Home extends Component {
                         current_user={this.state.current_user}
                         price_total={this.state.cart_total_price}
                         signed_in={this.state.isAuthenticated}
-                        order_complete={this.getCartObjects}
+                        order_complete={this.handleOrderCompleteCallback}
                         close={this.handleToggleCheckOutCallback}
                     />}
                     {this.state.toggleShoppingCart &&
@@ -271,6 +306,7 @@ class Home extends Component {
         );
     }
 }
+
 // <About/>
 
 export default Home;

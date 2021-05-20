@@ -1,14 +1,12 @@
 import React, {Component} from "react";
+import {Button} from "react-bootstrap";
 
 
 class LoadingSpinnerSuccessLongBtn extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         return (
-            <button className="btn btn-success btn-block" type="button" disabled>
+            <button style={{ padding: '0 10px', marginLeft: '20px', width: '50%', fontSize: 'large'}} className="btn btn-success" type="button" disabled>
                 <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"/>
                 Loading...
             </button>
