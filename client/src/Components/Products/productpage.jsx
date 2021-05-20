@@ -120,6 +120,7 @@ export default class Productpage extends Component {
                                         <p className="review_text">{review.reviewText}</p>
                                         <p className="star-ratings">{review.rating} stars</p>
                                         <small className="text-muted">Posted by {review.user} on {review.Date}</small>
+
                                         <hr/>
                                     </div>
                                     ))}
@@ -129,7 +130,6 @@ export default class Productpage extends Component {
                         </div>
                     </div>
                     <div className={"col-lg-1"}>
-
                     </div>
                 </div>
 

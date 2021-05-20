@@ -84,7 +84,7 @@ export default class AddReview extends Component{
     ];
     return(
         <div className="review">
-        <div className="container">
+        <div className="productContainer">
                         <div>
                             <div width="100%">
                                 <div className="row">
