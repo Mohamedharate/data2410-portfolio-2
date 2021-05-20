@@ -11,7 +11,7 @@ import Productpage from "./Products/productpage";
 import addReview from "./Products/addReview";
 import ShoppingCart from "./ShoppingCart/ShoppingCart";
 import Orders from "./orders";
-import CheckOut from "./CheckOut";
+import Checkout from "./Checkout";
 import ProfileMain from "./UserProfile/ProfileMain"
 
 
@@ -276,7 +276,7 @@ class Home extends Component {
                         handleLogout={this.handleLogoutCallback}
                         current_user={this.state.current_user}
                     />}
-                    {this.state.toggleCheckOut && <CheckOut
+                    {this.state.toggleCheckOut && <Checkout
                         cart_objects={this.state.cart_objects}
                         current_user={this.state.current_user}
                         price_total={this.state.cart_total_price}

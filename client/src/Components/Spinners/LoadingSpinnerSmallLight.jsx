@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 
 
-class LoadingSpinnerSmallGeneral extends Component {
+class LoadingSpinnerSmallLight extends Component {
 
     render() {
         return (
@@ -10,4 +10,4 @@ class LoadingSpinnerSmallGeneral extends Component {
     }
 }
 
-export default LoadingSpinnerSmallGeneral;
+export default LoadingSpinnerSmallLight;

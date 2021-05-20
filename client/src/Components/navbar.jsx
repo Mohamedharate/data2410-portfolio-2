@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
-import LoadingSpinnerSmallGeneral from "./Spinners/LoadingSpinnerSmallGeneral";
+import LoadingSpinnerSmallLight from "./Spinners/LoadingSpinnerSmallLight";
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 
@@ -40,7 +40,7 @@ class Navbar extends Component {
                         </button>}
                     </div>
                     <div className="col-4">
-                        {this.props.loading ? <LoadingSpinnerSmallGeneral/> :
+                        {this.props.loading ? <LoadingSpinnerSmallLight/> :
                             <React.Fragment>
                             {!this.props.isAuthenticated &&
                             <button onClick={this.handleLogin}

@@ -5,7 +5,7 @@ import LoadingSpinnerPrimaryLongBtn from "./Spinners/LoadingSpinnerPrimaryLongBt
 import SuccessFeedback from "./Feedback/SuccessFeedback";
 import CloseIcon from '@material-ui/icons/Close';
 
-class CheckOut extends Component {
+class Checkout extends Component {
     constructor(props) {
         super(props);
 
@@ -318,4 +318,4 @@ class CheckOut extends Component {
     }
 }
 
-export default CheckOut;
+export default Checkout;
