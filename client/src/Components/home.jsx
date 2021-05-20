@@ -175,7 +175,6 @@ class Home extends Component {
                     });
                 } else if (response.status === 206) {
                     // Session is not auth but has items in cart
-                    console.log("Cart", response.data.Cart)
                     this.state.empty_cart = false;
                     const cart_objects = [...response.data.Cart];
                     this.updateCartCounterAndPrice(cart_objects);
