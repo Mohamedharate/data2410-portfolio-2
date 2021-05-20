@@ -7,37 +7,37 @@ export default class AddReview extends Component{
         super(props);
         this.state = {
             dateTime: (new Date()).toDateString(),
-            reviewText: this.props.reviewText || '',
-            reviewStars: this.props.reviewStars || ''}
+            message: '',
+            rating: '',
+            user_name: '',
+            email: '',
+        }
         this.handleChange = this.handleChange.bind(this);
     }
-    handleChange = e => {
+    handleChange = event => {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+
         this.setState({
-            [e.target.name]: e.target.value
+            [name]: value
         });
     };
 
-    handleSubmit = (event) => {
+    handleSubmit = async (event) => {
         event.preventDefault();
-        this.putReview()
-            .then(response => {
-            }).catch(error => {
-        })
-    };
-    async putReview(){
         const that = this;
         await axios({
             method: 'post',
-            url: '/api/products/addReview/:itemId',
+            url: '/api/products/addReview/'+this.props.match.params.itemId,
             data: {
-                user: this.state.user,
-                mail: this.state.mail,
-                reviewText: this.state.reviewText,
+                user: this.state.user_name,
+                reviewText: this.state.message,
                 rating: this.state.rating,
             }
         }).then(function(response){
             console.log("Data: ", response.data);
-            that.setState({reviewText: response.data.message})
+            this.setState({reviewText: response.data.message})
         }).catch(function (error){
             if (error.response){
                 console.log(error.response.data);
@@ -97,7 +97,7 @@ export default class AddReview extends Component{
                                                 <label className="col-md-9 control-label">Full
                                                     Name</label>
                                                 <div className="col-md-9">
-                                                    <input id="name" name="name" type="text" placeholder="Your name"
+                                                    <input type="text" name="user_name" onChange={this.handleChange} placeholder="Your name"
                                                            className="form-control"/>
                                                 </div>
                                             </div>
@@ -105,7 +105,7 @@ export default class AddReview extends Component{
                                                 <label className="col-md-9 control-label">Your
                                                     E-mail</label>
                                                 <div className="col-md-9">
-                                                    <input id="email" name="email" type="text" placeholder="Your email"
+                                                    <input name="email" type="text" onChange={this.handleChange} placeholder="Your email"
                                                            className="form-control"/>
                                                 </div>
                                             </div>
@@ -113,7 +113,7 @@ export default class AddReview extends Component{
                                                 <label className="col-md-9 control-label">Your
                                                     message</label>
                                                 <div className="col-md-9">
-                                                    <textarea className="form-control" id="message" name="message"
+                                                    <textarea className="form-control" onChange={this.handleChange} name="message"
                                                               placeholder="Please enter your feedback here..."
                                                               rows="5"/>
                                                 </div>
@@ -122,7 +122,7 @@ export default class AddReview extends Component{
                                                 <label className="rating" htmlFor="message">Your
                                                     rating</label>
                                                 <div className="col-md-9">
-                                                    <select name="rating" id="reviewStars" className="star_rate" value={reviewStars}
+                                                    <select name="rating" className="star_rate" value={reviewStars}
                                                             onChange={this.handleChange}>
                                                             {options.map((option) => (
                                                                 <option key={option.value} value={option.value}>

@@ -5,17 +5,22 @@ import { Carousel } from "react-responsive-carousel";
 import { Button} from 'react-bootstrap';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import InputSpinner from "react-bootstrap-input-spinner";
+
+
 import LoadingSpinnerSuccessLongBtn from "../Spinners/LoadingSpinnerSuccessLongBtn";
+import LoadingSpinnerSmallGeneral from "../Spinners/LoadingSpinnerSmallGeneral";
+import LoadingSpinnerLargeGeneral from "../Spinners/LoadingSpinnerLargeGeneral";
 
 
 export default class Productpage extends Component {
     constructor(props) {
         super(props);
-        this.state = {descriptionLong: "", cart_feedback: false, toggle_loading: false};
-        this.state = {product: [], quantity: 1, price: 0, quantityOfProduct: 0, price_mapped: 0};
+        this.state = {descriptionLong: "", cart_feedback: false, toggle_loading: false, loading_photo: false};
+        this.state = {product: [], quantity: 1, price: 0, quantityOfProduct: 0, price_mapped: 0, reviews: []};
     }
 
     componentDidMount = async() => {
+        this.setState({loading_photo: true})
         await axios({
             method: "get",
             url: 'https://localhost:3001/api/products/get/'+this.props.itemId,
@@ -29,6 +34,7 @@ export default class Productpage extends Component {
             }
             console.log(error);
         });
+        this.setState({loading_photo: false})
     };
 
 
@@ -69,17 +75,20 @@ export default class Productpage extends Component {
                     <div className="col-lg-6">
                         <div className="card mt-4">
                             <div className="card-img-top">
-                                <Carousel autoPlay="true" showThumbs={false} infiniteLoop="true">
-                                    {product.imageUrl &&
-                                    product.imageUrl.map((img, index) => (
+                                {this.state.loading_photo ? <LoadingSpinnerLargeGeneral/> :
+                                    <Carousel autoPlay="true" showThumbs={false} infiniteLoop="true">
+                                        {product.imageUrl &&
+                                        product.imageUrl.map((img, index) => (
                                             <div key={index}>
-                                                    <img className="fit-contain" src={`data:img/${img.contentType};base64,${img.image.toString("base64")}`}
-                                                    height={600}
+                                                <img className="fit-contain"
+                                                     src={`data:img/${img.contentType};base64,${img.image.toString("base64")}`}
+                                                     height={600}
                                                 />
                                             </div>
                                         ))
-                                    }
-                                </Carousel>
+                                        }
+                                    </Carousel>
+                                }
                             </div>
                             <div className="card-body">
                                 <h3 className="card-title">{product.name}</h3>
@@ -87,9 +96,6 @@ export default class Productpage extends Component {
 
                                 <p className="card-text">{product.descriptionLong}</p>
                                 <p className="card-text">{this.state.quantityOfProduct} left in stock</p>
-                                <span className="text-warning">★ ★ ★ ★ ☆   </span>
-                                 4.0 stars
-
                                 <div style={{display: 'flex'}}>
                                     <div style={{width: '100px', height:'auto'}}>
                                         <InputSpinner
@@ -97,7 +103,7 @@ export default class Productpage extends Component {
                                             type="number" size ={'sm'} variant={'dark'}
                                             value={this.state.quantity} min={1}
                                             onChange={(qty) => this.setState({...this.state, quantity: qty})}
-                                            max={this.state.quantityOfProduct} label="Quantity" />
+                                            max={this.state.quantityOfProduct} label="Quantity"  precision={1} step={1}/>
                                     </div>
                                     {this.state.toggle_loading ? <LoadingSpinnerSuccessLongBtn/> :
                                         <Button type="submit" style={{ padding: '0 10px', marginLeft: '20px', width: '50%', fontSize: 'large'}} variant="success"
@@ -109,24 +115,14 @@ export default class Productpage extends Component {
                         <div className="card card-outline-secondary my-4">
                             <div className="card-header">Product Reviews</div>
                             <div className="card-body">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam
-                                    inventore, similique necessitatibus neque non! Doloribus, modi sapiente
-                                    laboriosam
-                                    aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-                                <small className="text-muted">Posted by Anonymous on 3/1/21</small>
-                                <hr/>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam
-                                    inventore, similique necessitatibus neque non! Doloribus, modi sapiente
-                                    laboriosam
-                                    aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-                                <small className="text-muted">Posted by Anonymous on 3/1/21</small>
-                                <hr/>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam
-                                    inventore, similique necessitatibus neque non! Doloribus, modi sapiente
-                                    laboriosam
-                                    aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-                                <small className="text-muted">Posted by Anonymous on 3/1/21</small>
-                                <hr/>
+                                {product.reviews && product.reviews.map(review => (
+                                    <div key={review.Time} className="review">
+                                        <p className="review_text">{review.reviewText}</p>
+                                        <p className="star-ratings">{review.rating} stars</p>
+                                        <small className="text-muted">Posted by {review.user} on {review.Date}</small>
+                                        <hr/>
+                                    </div>
+                                    ))}
                                 <Link to={'/addReview/' + product.itemId} className="btn btn-success">Leave a
                                     Review</Link>
                             </div>

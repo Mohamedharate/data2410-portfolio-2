@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import axios from "axios";
+import LoadingSpinnerSuccessLongBtn from "../Spinners/LoadingSpinnerSuccessLongBtn";
 
 
 
@@ -7,11 +8,12 @@ import axios from "axios";
 export default class Mainpage extends Component {
   constructor(props) {
     super(props);
-    this.state = {'product': [], 'category': "", show_categories: false};
+    this.state = {'product': [], 'category': "", show_categories: false, loading_product: false};
   }
 
-  async componentDidMount() {
+  componentDidMount = async() => {
     const that = this;
+    that.setState({loading_product: true})
     await axios({
       method: "get",
       url: 'https://localhost:3001/api/products/get/allProducts',
@@ -23,7 +25,7 @@ export default class Mainpage extends Component {
       }
       console.log(error);
     });
-
+    this.setState({loading_product: false})
   };
 
   getCategories(category) {
@@ -96,7 +98,7 @@ export default class Mainpage extends Component {
               {this.state.show_categories ?
                   <div className="row" dangerouslySetInnerHTML={{__html: this.state.categories}}/> :
                   <div className="row" dangerouslySetInnerHTML={{__html: this.state.product}}/>
-              }
+                  }
             </div>
             <div className={"col-lg-1"}>
 
