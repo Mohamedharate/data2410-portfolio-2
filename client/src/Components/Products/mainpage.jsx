@@ -1,14 +1,13 @@
 import React, {Component} from "react";
 import axios from "axios";
-import { Link } from 'react-router-dom';
-import Category from "./category";
+
 
 
 
 export default class Mainpage extends Component {
   constructor(props) {
     super(props);
-    this.state = {'product': []};
+    this.state = {'product': [], 'category': "", show_categories: false};
   }
 
   async componentDidMount() {
@@ -18,6 +17,23 @@ export default class Mainpage extends Component {
       url: 'https://localhost:3001/api/products/get/allProducts',
     }).then(function (response) {
       that.setState({product: response.data});
+    }).catch(function (error) {
+      if (!error.data) {
+        console.log(error.data)
+      }
+      console.log(error);
+    });
+
+  };
+
+  getCategories(category) {
+    const that = this;
+    that.setState({show_categories: true})
+    axios({
+      method: "get",
+      url: 'https://localhost:3001/api/products/get/categories/'+category,
+    }).then(function (response) {
+      that.setState({categories: response.data});
     }).catch(function (error) {
       if (!error.data) {
         console.log(error.data)
@@ -38,7 +54,15 @@ export default class Mainpage extends Component {
             <div className="col-lg-3">
 
               <h1 className="my-4">ShopMet</h1>
-            <Category />
+              <div className="list-group">
+                <button onClick={()=> this.getCategories("Coffee Beans")} className="list-group-item">Coffee beans</button>
+                <button onClick={()=> this.getCategories("Coffee Capsules")} className="list-group-item">Coffee capsules</button>
+                <button onClick={()=> this.getCategories("Filter Ground Coffee")} className="list-group-item">Filter Ground coffee</button>
+                <button onClick={()=> this.getCategories("Coffee Machine")} className="list-group-item">Coffee machines</button>
+                <button onClick={()=> this.getCategories("Instant Coffee")} className="list-group-item">Instant Coffee</button>
+                <button onClick={()=> this.getCategories("Other")} className="list-group-item">Other</button>
+                <button onClick={()=> this.setState({show_categories: false})}  className="list-group-item">All</button>
+              </div>
             </div>
             <div className="col-lg-7">
               <div id="carouselExampleIndicators" className="carousel slide my-4" data-ride="carousel">
@@ -69,8 +93,10 @@ export default class Mainpage extends Component {
                   <span className="sr-only">Next</span>
                 </a>
               </div>
-                <div className="row" dangerouslySetInnerHTML={{ __html: this.state.product}} />
-
+              {this.state.show_categories ?
+                  <div className="row" dangerouslySetInnerHTML={{__html: this.state.categories}}/> :
+                  <div className="row" dangerouslySetInnerHTML={{__html: this.state.product}}/>
+              }
             </div>
             <div className={"col-lg-1"}>
 
