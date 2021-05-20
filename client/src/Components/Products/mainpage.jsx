@@ -31,17 +31,24 @@ export default class Mainpage extends Component {
 
     getCategories(category) {
         const that = this;
-        that.setState({show_categories: true})
+        that.setState({
+            show_categories: true,
+            loading_product: true,
+        })
         axios({
             method: "get",
             url: 'https://localhost:3001/api/products/get/categories/' + category,
         }).then(function (response) {
-            that.setState({categories: response.data});
+            that.setState({
+                categories: response.data,
+                loading_product: false,
+            });
         }).catch(function (error) {
             if (!error.data) {
                 console.log(error.data)
             }
             console.log(error);
+            this.setState({loading_product: false})
         });
     };
 
