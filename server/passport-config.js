@@ -65,30 +65,33 @@ passport.use('local.signin', new LocalStrategy({
             if (!validPassword) {
                 return done(null, false, {Error: "Incorrect password"})
             }
+            else{
 
-            if (req.session.cart) {
-                if (req.session.cart.length > 0) {
-                    if (user.cart.length > 0) {
-                        for (let i = 0; i < user.cart.length; i++) {
-                            for (let j = 0; j < req.session.cart.length; j++) {
-                                if (user.cart[i].itemId === req.session.cart[j].itemId) {
-                                    await User.updateOne(
-                                        {email: email},
-                                        {
-                                            $inc: {
-                                                [`cart.${i}.quantity`]: req.session.cart[j].quantity
-                                            },
-                                            [`cart.${i}.total`]: parseFloat(req.session.cart[j].total)
-                                        });
+                if (req.session && req.session.cart) {
+                    if (req.session.cart.length > 0) {
+                        if (user.cart.length > 0) {
+                            for (let i = 0; i < user.cart.length; i++) {
+                                for (let j = 0; j < req.session.cart.length; j++) {
+                                    if (user.cart[i].itemId === req.session.cart[j].itemId) {
+                                        await User.updateOne(
+                                            {email: email},
+                                            {
+                                                $inc: {
+                                                    [`cart.${i}.quantity`]: req.session.cart[j].quantity
+                                                },
+                                                [`cart.${i}.total`]: parseFloat(req.session.cart[j].total)
+                                            });
+                                    }
                                 }
                             }
                         }
+                        else {
+                            await User.updateOne({email: email}, {$push: {cart: req.session.cart}});
+                        }
+                        req.session.cart = []
                     }
-                } else {
-                    await User.updateOne({email: email}, {$push: {cart: req.session.cart}});
                 }
             }
-            req.session.cart = []
             return done(null, user)
         });
     }

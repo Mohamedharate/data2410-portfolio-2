@@ -15,7 +15,7 @@ router.put('/:employeeId', async (req, res) => {
                 return res.status(403).json({Error: "You don't have permission for this"})
             }
             const findAdmin = await Admin.findOne({employeeId: req.params.employeeId});
-            if (!findAdmin) return res.status(404).json({Error: 'The user with the given email address was not found'})
+            if (!findAdmin) return res.status(404).json({Error: 'The Admin with the given email address was not found'})
             if (findAdmin._id.toString() === req.session.passport.user.id || findAdmin.position === 'President') {
 
                 const employeeId = req.params.employeeId;
@@ -126,7 +126,7 @@ router.put('/:employeeId', async (req, res) => {
                 if (out.toString()) {
                     res.status(500).json({Error: out.toString()})
                 } else if (updated) {
-                    res.json({Message: "User information is updated."})
+                    res.json({Message: "Admin information is updated."})
                 } else {
                     res.json({Message: "Nothing to update"})
                 }
