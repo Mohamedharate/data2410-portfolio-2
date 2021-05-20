@@ -8,8 +8,8 @@ import InputSpinner from "react-bootstrap-input-spinner";
 
 
 import LoadingSpinnerSuccessLongBtn from "../Spinners/LoadingSpinnerSuccessLongBtn";
-import LoadingSpinnerSmallGeneral from "../Spinners/LoadingSpinnerSmallGeneral";
-import LoadingSpinnerLargeGeneral from "../Spinners/LoadingSpinnerLargeGeneral";
+import LoadingSpinnerSmallLight from "../Spinners/LoadingSpinnerSmallLight";
+import LoadingSpinnerLargeSuccess from "../Spinners/LoadingSpinnerLargeSuccess";
 
 
 export default class Productpage extends Component {
@@ -74,8 +74,8 @@ export default class Productpage extends Component {
                 </div>
                     <div className="col-lg-6">
                         <div className="card mt-4">
-                            <div className="card-img-top">
-                                {this.state.loading_photo ? <LoadingSpinnerLargeGeneral/> :
+                            <div className="card-img-top" style={{height: 600}}>
+                                {this.state.loading_photo ? <LoadingSpinnerLargeSuccess/> :
                                     <Carousel autoPlay="true" showThumbs={false} infiniteLoop="true">
                                         {product.imageUrl &&
                                         product.imageUrl.map((img, index) => (
