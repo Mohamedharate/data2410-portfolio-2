@@ -8,7 +8,9 @@ scrape_configs:
   - job_name: 'portfolio2'
     scheme: https
     scrape_interval: 5s
+    tls_config:
+      insecure_skip_verify: true
     static_configs:
-      - targets: ['host.docker.internal:3001', 'localhost:3001']
+      - targets: ['localhost:3001','host.docker.internal:3001']
         labels:
           app: Portfolio2
