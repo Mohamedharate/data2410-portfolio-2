@@ -11,9 +11,6 @@ class AdminRestockProducts extends Component {
         toggle_remove_stock_loading: false,
     };
 
-    handleGetProducts = () => {
-        this.getProducts().then()
-    };
     handleAddStockCallback = async (product, value) => {
         this.setState({toggle_add_stock_loading: true})
         if (value != null) {
@@ -48,7 +45,7 @@ class AdminRestockProducts extends Component {
         }
     };
 
-    getProducts = async () => {
+    handleGetProducts = async () => {
         this.setState({toggle_loading: true});
         await axios.get('https://localhost:3001/api/products/get/allProductsPure')
             .then(res => {
