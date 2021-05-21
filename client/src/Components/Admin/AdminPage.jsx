@@ -117,7 +117,7 @@ class AdminPage extends Component {
                                 Add New Employee
                             </button>
                             <br/>
-                            <button onClick={this.handleLogout} className="btn btn-danger btn-md m-2">
+                            <button onClick={this.handleLogout} className="btn btn-danger btn-md m-2" disabled={this.state.logout_loading}>
                                 Logout {this.state.logout_loading ? <LoadingSpinnerSmallLight/> : <ExitToAppIcon/>}
                             </button>
                             {this.state.toggle_error_feedback &&

@@ -77,7 +77,7 @@ class ProfileMain extends Component {
                                         </div>
                                         <div className="col-5">
                                             <button onClick={this.handleLogout}
-                                                    className="btn btn-danger mt-2 float-right">
+                                                    className="btn btn-danger mt-2 float-right" disabled={this.state.logout_loading}>
                                                 Logout {this.state.logout_loading ? <LoadingSpinnerSmallLight/> :
                                                 <ExitToAppIcon/>}
                                             </button>
