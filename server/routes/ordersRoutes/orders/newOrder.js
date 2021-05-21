@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
             firstName,
             lastName,
             email,
-            phoneNumber//TODO telefonnummer blir undefined hvis brukeren har en telefonnummer lagret.
+            phoneNumber
         } = req.body;
 
         let shippingAddress;
@@ -52,13 +52,10 @@ router.post('/', async (req, res) => {
                 return res.status(404).json({Error: "You don't have anything in your cart"})
             }
 
-
             let tot = 0;
             products.forEach(item => {
                 tot = parseFloat(tot) + parseFloat(item.total);
             })
-
-            console.log("14phone" + phoneNumber)
 
             let order = await new Order({
                 user: user.email,
@@ -71,7 +68,6 @@ router.post('/', async (req, res) => {
                 billingAddress: billingAddress,
                 total: parseFloat(tot)
             })
-            console.log("15phone" + phoneNumber)
 
             let failed = false;
             await order.save()
@@ -86,7 +82,6 @@ router.post('/', async (req, res) => {
 
             if (!failed) {
 
-
                 try {
 
                     await User.updateOne({email: user.email}, {$push: {orders: order}});
@@ -98,6 +93,10 @@ router.post('/', async (req, res) => {
                     await User.updateOne(
                         {email: user.email},
                         {$set: {[`cart`]: []}});
+                    await User.updateOne(
+                        {email: user.email},
+                        {$set: { hasCart: false}});
+
                 } catch (err) {
                     failed = true;
                     return res.status(500).json({Error: err.toString()});

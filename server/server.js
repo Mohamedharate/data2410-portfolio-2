@@ -1,3 +1,4 @@
+require('./DB Connection/connectDB')
 const express = require('express');
 const path = require('path');
 const fs = require("fs")
@@ -148,36 +149,11 @@ app.post('/admin/logout', (req, res) => {
     }
 })
 
-/*
-app.on('ready', function () {
-    app.listen(3001, function () {
-        console.log("app is ready");
-    });
-});
-*/
-
 
 const https = require('https');
 https.createServer(options, app).listen( 3001, () => {
     console.log("Connected on port 3001")
-
 });
-
-if (process.env.NODE_ENV === 'production') {
-
-}
-
-// ------- connect to mongodb ---------- //
-try {
-    mongoose.connect("mongodb+srv://haratemo:12345oslomet@webshop.uemit.mongodb.net/webshop?retryWrites=true&w=majority", {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true
-    }, () =>
-        console.log("connected to webshopDB"));
-} catch (error) {
-    console.log("could not connect to webshopDB");
-}
 
 
 // ------- Prometheus ---------- //
@@ -199,7 +175,6 @@ app.get('/metrics', (req, res) => {
 });
 
 client.register.clear();
-
 
 // All other GET requests not handled before will return our React app
 app.get('*', (req, res) => {

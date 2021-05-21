@@ -40,7 +40,7 @@ passport.use('local.signinAdmin', new LocalStrategy({
             }
             const validPassword = await bcrypt.compare(password, admin.password);
             if (!validPassword) {
-                return done(null, false, {Error: "Wrong passoword"})
+                return done(null, false, {Error: "Wrong password"})
             }
             return done(null, admin)
         });

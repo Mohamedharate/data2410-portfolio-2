@@ -4,7 +4,7 @@ let router = express.Router();
 const jwt = require('jsonwebtoken');
 const User = require("../../../Models/user");
 const bcrypt = require('bcrypt')
-const send = require('../../../sendMail/sendActivationLink');
+const send = require('../../../sendMail/sendEmailGen');
 const formatActivationEmail = require('../../../sendMail/formatActivationLink')
 const JWT_ACC = "accountactivateOsloMetShop";
 

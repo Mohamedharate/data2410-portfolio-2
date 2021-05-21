@@ -48,7 +48,7 @@ router.post('/', async (req, res) => {
             }
         });
     } else {
-        res.status(404).json({message: "Email not found"});
+        res.status(404).json({message: "User not found"});
     }
 })
 
@@ -62,19 +62,19 @@ router.post("/newPassword/:link", async (req, res, next) => {
     if (token) {
         jwt.verify(token, JWT_ACC, async function (err, decodedToken) {
             if (err) {
-                return res.status(400).json({error: "Incorrect or expired"})
+                return res.status(400).json({Error: "Incorrect or expired"})
             }
             const {email} = decodedToken;
             try {
                 await User.updateOne({email: email}, {password: password})
             } catch {
-                out.append('Something went wrong during updating the password\nError code: ' + err.error_code)
+                res.status(500).json({Error: "Something went wrong during updating the password"});
             }
-            return res.json({message: "Your password is updated!"})
+            return res.status(200).json({Message: "Your password is updated!"})
         })
 
     } else {
-        return res.json({error: "Something went wrong!"})
+        return res.status(500).json({Error: "Something went wrong!"})
     }
 })
 

@@ -1,7 +1,7 @@
 "use strict";
 const schedule = require('node-schedule');
 const User = require("../Models/user");
-const send = require('./sendMail');
+const send = require('./sendDailyEmails');
 const formatDailyEmail = require('./formatDailyEmail');
 
 const Product = require("../Models/product");

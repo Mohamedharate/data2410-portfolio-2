@@ -5,7 +5,7 @@ let router = express.Router();
 const Admin = require("../../../Models/admin");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt')
-const send = require('../../../sendMail/sendActivationLink');
+const send = require('../../../sendMail/sendEmailGen');
 const formatActivationEmail = require('../../../sendMail/formatActivationLink');
 
 const JWT_ACC = "accountactivateOsloMetShop";
@@ -133,7 +133,7 @@ router.get('/emailActivation/:link', async (req, res) => {
                 })
                 await newUser.save()
                     .then(data => {
-                        res.status(200).redirect('/api/signin-admin')
+                        res.status(200).redirect('/')
                     })
                     .catch(error => {
                         res.status(500).json({Error: error.toString()})

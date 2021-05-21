@@ -1,6 +1,8 @@
 "use strict";
 const express = require("express");
 let router = express.Router();
+require('../sendMail/sendCartReminder')
+require('../sendMail/sendDailyEmails')
 
 
 // ------- import routes ---------- //
