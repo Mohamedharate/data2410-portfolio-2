@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import Home from "./home";
+import Home from "./Webstore/Home";
 import Admin from "./Admin/Admin"
 
 

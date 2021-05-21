@@ -1,11 +1,12 @@
 import React, {Component} from "react";
-import Footer from "../footer";
+import Footer from "../Webstore/Footer";
 import AdminAddNewProduct from "./AdminAddNewProduct";
 import AdminAddNewEmployee from "./AdminAddNewEmployee";
 import AdminRestockProducts from "./AdminRestockProducts";
 import AdminEditProduct from "./AdminEditProduct";
 import AdminEditEmployee from "./AdminEditEmployee";
 import axios from "axios";
+import LoadingSpinnerSmallLight from "../Spinners/LoadingSpinnerSmallLight";
 import DangerFeedback from "../Feedback/DangerFeedback";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
@@ -113,11 +114,11 @@ class AdminPage extends Component {
                             </button>
                             <br/>
                             <button onClick={this.toggleNewAdmin} className="btn btn-light btn-md m-2">
-                                Add New Admin
+                                Add New Employee
                             </button>
                             <br/>
                             <button onClick={this.handleLogout} className="btn btn-danger btn-md m-2">
-                                Logout <ExitToAppIcon/>
+                                Logout {this.state.logout_loading ? <LoadingSpinnerSmallLight/> : <ExitToAppIcon/>}
                             </button>
                             {this.state.toggle_error_feedback &&
                             <DangerFeedback feedback_error_text={this.state.feedback_text}/>}

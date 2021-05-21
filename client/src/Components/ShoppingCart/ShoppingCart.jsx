@@ -24,7 +24,7 @@ class ShoppingCart extends Component {
                             </div>
                             <div className="col-sm-5">
                                 <button onClick={this.props.onCheckOut} className="btn btn-dark float-md-right mt-3"
-                                        disabled={this.props.empty_cart}>Check out!
+                                        disabled={this.props.empty_cart}>Checkout!
                                 </button>
                             </div>
                         </div>

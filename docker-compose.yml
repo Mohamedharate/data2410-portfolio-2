@@ -2,6 +2,7 @@ version: "2"
 services:
   server:
     image: shopmet-app
+    container_name: shopmet-app
     ports:
       - "3001:3001"
     volumes:
@@ -14,10 +15,9 @@ services:
 
   mongodb:
       image: mongo
-      restart: always
       container_name: mongodb
       volumes:
-        - ./data-node:/data/db
+        - data-node:/data/db
       ports:
         - 27017:27017
       command: mongod
@@ -26,3 +26,5 @@ services:
 networks:
     webappnetwork:
       driver: bridge
+volumes:
+  data-node:
