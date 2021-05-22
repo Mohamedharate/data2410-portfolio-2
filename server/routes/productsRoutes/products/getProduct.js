@@ -36,7 +36,7 @@ function reviewRating(item) {
             stars = "☆ ☆ ☆ ☆ ☆"
         }
     }
-    return stars;
+    return `${stars} (${count})`;
 }
 
 function formatProdcuts(arr) {
