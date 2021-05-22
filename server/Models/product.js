@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const {Binary} = require("bson");
 const {Decimal128} = require("bson");
 
 const Schema = mongoose.Schema;
@@ -7,6 +6,7 @@ const Schema = mongoose.Schema;
 function getID() {
     return Math.floor(1000 + Math.random() * 8999)
 }
+
 const product_schema = new Schema(
     {
         itemId: {
