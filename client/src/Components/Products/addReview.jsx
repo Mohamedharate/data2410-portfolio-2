@@ -1,6 +1,5 @@
 import React, {Component,} from "react";
 import axios from "axios";
-import {Link} from "react-router-dom";
 import LoadingSpinnerLargeSuccess from "../Spinners/LoadingSpinnerLargeSuccess";
 
 
@@ -13,7 +12,8 @@ export default class AddReview extends Component{
             rating: '',
             user_name: '',
             email: '',
-            toggle_spinner: false
+            toggle_spinner: false,
+            review_sent: false
         }
         this.handleChange = this.handleChange.bind(this);
     }
@@ -46,7 +46,7 @@ export default class AddReview extends Component{
                 console.log(error.response.data);
             }
         });
-        this.setState({toggle_spinner: false})
+        this.setState({toggle_spinner: false, review_sent: true})
     };
 
     async componentDidMount() {
@@ -139,6 +139,7 @@ export default class AddReview extends Component{
                                             {this.state.toggle_spinner ? <LoadingSpinnerLargeSuccess/>:
                                                 <button type="submit" className="btn btn-success">Send review</button>
                                             }
+                                            {this.state.review_sent ? <label className="label">New review is added to product with ID {this.state.itemId}</label>: ""}
                                         </fieldset>
                                     </form>
                                 </div>
