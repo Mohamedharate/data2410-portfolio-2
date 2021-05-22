@@ -8,7 +8,6 @@ const fs = require("fs");
 const defaultImage = require("./defaultImage")
 
 
-//update a product with the given productID.
 router.put('/:itemId', upload.array('imageUrl', 20),
     async (req, res) => {
 

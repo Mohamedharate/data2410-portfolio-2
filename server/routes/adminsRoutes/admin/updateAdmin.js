@@ -4,7 +4,6 @@ let router = express.Router();
 const Admin = require("../../../Models/admin");
 const StringBuilder = require("string-builder");
 const bcrypt = require('bcrypt')
-const upload = require('../../../multer/multer')
 
 
 router.put('/:employeeId', async (req, res) => {

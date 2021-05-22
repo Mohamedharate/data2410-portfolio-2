@@ -13,9 +13,11 @@ router.put('/:email', async (req, res) => {
     if (req.session) {
         if (req.session.passport) {
             const findUser = await User.findOne({email: email});
-            if (!findUser) return res.status(404).json({Error: 'The user with the given email address was not found'})
+            if (!findUser) return res.status(404)
+                .json({Error: 'The user with the given email address was not found'})
 
-            if (findUser._id.toString() === req.session.passport.user.id || req.session.passport.user.type === 'Admin') {
+            if (findUser._id.toString() === req.session.passport.user.id
+                || req.session.passport.user.type === 'Admin') {
 
                 let password;
                 if (req.body.password) {

@@ -5,7 +5,7 @@ const formatEmail = require('../sendMail/formatCartReminder');
 const send = require('./sendEmailGen');
 const schedule = require('node-schedule');
 
-const job = schedule.scheduleJob('55 12 19 * * 5', async function sendToSub() {
+schedule.scheduleJob('55 12 19 * * 5', async function sendToSub() {
 
     const users = await User.find({hasCart:true})
     if (users){

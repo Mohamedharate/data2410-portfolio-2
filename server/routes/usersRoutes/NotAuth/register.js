@@ -40,11 +40,13 @@ router.post('/', async (req, res) => {
             return res.status(400).json({Error: e.toString()})
         }
 
-        return res.status(200).json({Message: "A verification link has been sent to your email account, please confirm!"})
+        return res.status(200)
+            .json({Message: "A verification link has been sent to your email account, please confirm!"})
     }
 })
 
-router.get('/emailActivation/:link', async (req, res) => {
+router.get('/emailActivation/:link',
+    async (req, res) => {
 
     const token = req.params.link;
     if (token) {
@@ -55,15 +57,15 @@ router.get('/emailActivation/:link', async (req, res) => {
 
             const {firstName, lastName, email, password, country, city, zipCode, street, phoneNumber} = decodedToken;
 
-            let newUser = new User({firstName, lastName, email, password, country, city, zipCode, street, phoneNumber})
+            let newUser =
+                new User({firstName, lastName, email, password, country, city, zipCode, street, phoneNumber})
             await newUser.save()
                 .then(data => {
-                    return res.status(200).redirect('https://localhost:3001');
+                    return res.status(200).redirect('/');
                 })
                 .catch(error => {
                     res.status(500).json({Error: error.toString()})
                 })
-
         })
     } else {
         return res.json({Error: "Something went wrong!"})

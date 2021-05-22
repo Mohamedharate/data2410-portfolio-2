@@ -8,16 +8,19 @@ function reviewRating(item) {
 
     let reviewRating = 0;
     let count = 0;
-    let stars = ""
-    if (item.reviews.length === 0) {
+    let stars = "";
+    if (item.reviews.length < 1) {
         reviewRating = 5;
         stars = "★ ★ ★ ★ ★"
     } else {
         item.reviews.forEach(review => {
-            reviewRating = reviewRating + review.rating;
-            count++;
+            if (review.rating && parseInt(review.rating) >= 0 ){
+                reviewRating +=  parseInt(review.rating);
+                count++;
+            }
         })
-        reviewRating = parseFloat(reviewRating / count);
+
+        reviewRating = parseFloat(reviewRating/count);
 
         if (reviewRating > 4.5) {
             stars = "★ ★ ★ ★ ★"
@@ -33,7 +36,6 @@ function reviewRating(item) {
             stars = "☆ ☆ ☆ ☆ ☆"
         }
     }
-
     return stars;
 }
 
@@ -43,9 +45,6 @@ function formatProdcuts(arr) {
         let out = new StringBuilder();
 
         for (let i = 0; i < arr.length; i++) {
-
-            let stars = reviewRating(arr[i]);
-
 
             out.append(`
         <div class=" col-lg-4 col-md-6 mb-4">
@@ -64,18 +63,18 @@ function formatProdcuts(arr) {
                      </p>
                 </div>
                 <div class="card-footer">
-                     <small class="text-muted" style="text-align: left">${stars}</small>
+                     <small class="text-muted" style="text-align: left">${reviewRating(arr[i])}</small>
                 </div>
             </div>
         </div>`)
         }
         return out.toString();
-    } else return "No product"
+    } else return "No products found"
 }
 
 
-//Get all products from the productDB formatted
-router.get('/allProducts', async (req, res) => {
+router.get('/allProducts',
+    async (req, res) => {
     let products;
     try {
         products = await Product.find();
@@ -90,9 +89,9 @@ router.get('/allProducts', async (req, res) => {
 
 });
 
-router.get('/categories/:category', async (req, res) => {
+router.get('/categories/:category',
+    async (req, res) => {
 
-    const category = req.params.category.toLowerCase(); //TODO finne en løsning på store- og småbokstaver.
     let products;
     try {
         products = await Product.find({category: req.params.category});
@@ -106,7 +105,8 @@ router.get('/categories/:category', async (req, res) => {
     }
 })
 
-router.get('/allProductsPure', async (req, res) => {
+router.get('/allProductsPure',
+    async (req, res) => {
 
     try {
         const products = await Product.find();

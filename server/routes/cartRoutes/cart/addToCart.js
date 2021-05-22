@@ -26,7 +26,8 @@ router.post('/', async (req,
                     user = await User.findOne({_id: req.session.passport.user.id});
                     for (let i = 0; i < user.cart.length; i++) {
                         if (addItem.product_id === user.cart[i].itemId) {
-                            let totalSumProduct = user.cart[i].total + parseFloat(product.price * addItem.quantity)
+                            let totalSumProduct = user.cart[i].total
+                                + parseFloat(product.price * addItem.quantity)
                             await User.updateOne(
                                 {_id: user._id},
                                 {

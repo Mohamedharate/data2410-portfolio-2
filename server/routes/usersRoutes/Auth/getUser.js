@@ -1,7 +1,7 @@
 "use strict";
 const express = require("express");
 let router = express.Router();
-const User = require("../../../Models/admin");
+const User = require("../../../Models/user");
 
 
 router.get('/all', async (req, res) => {

@@ -52,7 +52,8 @@ router.post('/', async (req, res) => {
     }
 })
 
-router.post("/newPassword/:link", async (req, res, next) => {
+router.post("/newPassword/:link",
+    async (req, res) => {
 
     const token = req.params.link;
     const newPassword = req.body.password;

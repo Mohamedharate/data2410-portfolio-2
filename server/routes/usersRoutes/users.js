@@ -3,7 +3,6 @@ const express = require("express");
 let router = express.Router();
 const User = require("../../Models/user");
 const bodyParser = require('body-parser');
-const bcrypt = require('bcrypt')
 
 const resetPassword = require('./NotAuth/resetPassword');
 const updateUsersInfo = require('./Auth/updateUsersInfo');
@@ -22,7 +21,8 @@ router.use('/get', getUser);
 router.use('/subscribe', subscribe);
 router.use('/unsubscribe', unsubscribe);
 
-router.get('/isAuthenticated/', async (req, res) => {
+router.get('/isAuthenticated/',
+    async (req, res) => {
     if (req.user) {
         const user = await User.findOne({_id: req.session.passport.user.id})
         return res.status(200).json(user);

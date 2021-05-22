@@ -4,7 +4,6 @@ let router = express.Router();
 const Product = require("../../../Models/product");
 
 
-// add review.
 router.post('/:itemId', async (req, res) => {
     const itemId = req.params.itemId;
 
@@ -18,12 +17,13 @@ router.post('/:itemId', async (req, res) => {
     }
     try {
         const product = await Product.updateOne({itemId: itemId}, {$push: {reviews: review}});
-        if (product.nModified === 1) res.status(200).json({message: `New review is added to product with ID ${itemId} `});
+        if (product.nModified === 1)
+            return res.status(200).json({Message: `New review is added to product with ID ${itemId} `});
         else {
-            res.status(400).json({message: 'The product with the given item ID was not found'})
+            return res.status(400).json({Error: 'The product with the given item ID was not found'})
         }
     } catch (err) {
-        res.status(500).json({message: 'DB error!'})
+        return res.status(500).json({Error: 'DB error!'})
     }
 });
 
