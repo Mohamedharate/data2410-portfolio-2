@@ -5,6 +5,9 @@ global:
       monitor: 'prometheus-monitor'
 
 scrape_configs:
+  - job_name: 'Grafana'
+    static_configs:
+      - targets: [ 'localhost:3000' ]
   - job_name: 'portfolio2'
     scheme: https
     scrape_interval: 5s

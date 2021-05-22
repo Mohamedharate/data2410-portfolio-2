@@ -1,6 +1,5 @@
 import React, {Component,} from "react";
 import axios from "axios";
-import {Link} from "react-router-dom";
 import LoadingSpinnerLargeSuccess from "../Spinners/LoadingSpinnerLargeSuccess";
 
 
@@ -13,7 +12,8 @@ export default class AddReview extends Component{
             rating: '',
             user_name: '',
             email: '',
-            toggle_spinner: false
+            toggle_spinner: false,
+            review_sent: false
         }
         this.handleChange = this.handleChange.bind(this);
     }
@@ -46,7 +46,7 @@ export default class AddReview extends Component{
                 console.log(error.response.data);
             }
         });
-        this.setState({toggle_spinner: false})
+        this.setState({toggle_spinner: false, review_sent: true})
     };
 
     async componentDidMount() {
@@ -125,8 +125,8 @@ export default class AddReview extends Component{
                                             <div className="form-group">
                                                 <label className="col-md-9 control-label" htmlFor="message">Your
                                                     rating</label>
-                                                <div className="col-md-9 flex-column">
-                                                    <select name="rating" className="star_rate" value={reviewStars} required={true}
+                                                <div className="col-md-9">
+                                                    <select name="rating" className="form-control" value={reviewStars} required={true}
                                                             onChange={this.handleChange}>
                                                             {options.map((option) => (
                                                                 <option key={option.value} value={option.value}>
@@ -139,13 +139,16 @@ export default class AddReview extends Component{
                                             {this.state.toggle_spinner ? <LoadingSpinnerLargeSuccess/>:
                                                 <button type="submit" className="btn btn-success">Send review</button>
                                             }
+                                            <div className="label">
+                                            {this.state.review_sent ? <label>New review is added to product with ID {this.state.itemId}</label>: ""}
+                                    </div>
                                         </fieldset>
                                     </form>
                                 </div>
                                 </div>
                                 <div className="col-lg-5">
                                     <div className="card-img">
-                                    <img className="fit-contain" src={this.state.image} alt = "picture of product"/>
+                                    <img className="card-img" src={this.state.image} alt = "picture of product"/>
                                     </div>
                                 </div>
                                     <div className={"col-lg-1"}>
