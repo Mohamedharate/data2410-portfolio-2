@@ -50,7 +50,7 @@ router.post('/', upload.array('imageUrl', 20),
                 })
                 .catch(error => {
                     if (error.name === 'MongoError' && error.code === 11000) {
-                        return Promise.reject({Error: `Duplicate ${files[index].originalname}. File Already exists! `});
+                        return res.status(400).json({Error: `Duplicate ${product.name} already exists! `});
 
                     } else {
                         console.log(error.message)
