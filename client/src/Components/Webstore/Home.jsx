@@ -1,16 +1,14 @@
-import React, {Component, useEffect} from "react";
+import React, {Component,} from "react";
 import axios from "axios";
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Navbar from "./Navbar";
 import SignIn from "../Authentication/SignIn";
 import SignUp from "../Authentication/SignUp";
-//import About from "./about";
 import Mainpage from "../Products/mainpage";
 import Footer from "./Footer";
 import Productpage from "../Products/productpage";
 import addReview from "../Products/addReview";
 import ShoppingCart from "../ShoppingCart/ShoppingCart";
-import Orders from "../Orders";
 import Checkout from "../ShoppingCart/Checkout";
 import ProfileMain from "../UserProfile/ProfileMain"
 
@@ -260,9 +258,6 @@ class Home extends Component {
                             <Productpage itemId={window.location.href.split('/').pop()}
                                          handleAddToCartCallback={this.handleAddToCartCallback}/>}/>
                         <Route path="/addReview/:itemId" component={addReview}/>
-                        <Route path="/orders/" component={() =>
-                            <Orders current_user={this.state.current_user}
-                                    isAuthenticated={this.state.isAuthenticated}/>}/>
                     </Switch>
                     {this.state.toggleLogin && <SignIn
                         loginCallback={this.handleLoginCallback}

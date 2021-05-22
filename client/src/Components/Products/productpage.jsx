@@ -5,17 +5,14 @@ import { Carousel } from "react-responsive-carousel";
 import { Button} from 'react-bootstrap';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import InputSpinner from "react-bootstrap-input-spinner";
-
-
 import LoadingSpinnerSuccessLongBtn from "../Spinners/LoadingSpinnerSuccessLongBtn";
-import LoadingSpinnerSmallLight from "../Spinners/LoadingSpinnerSmallLight";
 import LoadingSpinnerLargeSuccess from "../Spinners/LoadingSpinnerLargeSuccess";
 
 
 export default class Productpage extends Component {
     constructor(props) {
         super(props);
-        this.state = {descriptionLong: "", cart_feedback: false, toggle_loading: false, loading_photo: false};
+        this.state = {descriptionLong: "", toggle_loading: false, loading_photo: false};
         this.state = {product: [], quantity: 1, price: 0, quantityOfProduct: 0, price_mapped: 0, reviews: []};
     }
 
@@ -46,7 +43,6 @@ export default class Productpage extends Component {
             url: 'https://localhost:3001/api/cart/addToCart/',
             data: {product_id: this.state.product.itemId, quantity: this.state.quantity}
         }).then(response => {
-            this.setState({cart_feedback: "Product added to card!"})
             this.props.handleAddToCartCallback(this.state.product, this.state.quantity);
         }).catch(error => {
             if(error.response){
@@ -83,7 +79,7 @@ export default class Productpage extends Component {
                                                 <img className="fit-contain"
                                                      src={`data:img/${img.contentType};base64,${img.image.toString("base64")}`}
                                                      height={600}
-                                                />
+                                                 alt="Carousel"/>
                                             </div>
                                         ))
                                         }
@@ -109,7 +105,6 @@ export default class Productpage extends Component {
                                         <Button type="submit" style={{ padding: '0 10px', marginLeft: '20px', width: '50%', fontSize: 'large'}} variant="success"
                                                 onClick={this.postToCart}>Add to cart</Button>}
                                 </div>
-                                    <p className="card-text">{this.state.cart_feedback}</p>
                             </div>
                         </div>
                         <div className="card card-outline-secondary my-4">
@@ -118,7 +113,7 @@ export default class Productpage extends Component {
                                 {product.reviews && product.reviews.map(review => (
                                     <div key={review.Time} className="review">
                                         <p className="review_text">{review.reviewText}</p>
-                                        <p className="star-ratings">{review.rating} stars</p>
+                                        {review.rating ? <p className="star-ratings">{review.rating} stars</p>: ""}
                                         <small className="text-muted">Posted by {review.user} on {review.Date}</small>
                                         <hr/>
                                     </div>
@@ -129,7 +124,6 @@ export default class Productpage extends Component {
                         </div>
                     </div>
                     <div className={"col-lg-1"}>
-
                     </div>
                 </div>
 

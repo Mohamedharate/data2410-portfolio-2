@@ -1,5 +1,7 @@
 import React, {Component,} from "react";
 import axios from "axios";
+import {Link} from "react-router-dom";
+import LoadingSpinnerLargeSuccess from "../Spinners/LoadingSpinnerLargeSuccess";
 
 
 export default class AddReview extends Component{
@@ -11,6 +13,7 @@ export default class AddReview extends Component{
             rating: '',
             user_name: '',
             email: '',
+            toggle_spinner: false
         }
         this.handleChange = this.handleChange.bind(this);
     }
@@ -26,7 +29,7 @@ export default class AddReview extends Component{
 
     handleSubmit = async (event) => {
         event.preventDefault();
-        const that = this;
+        this.setState({toggle_spinner: true})
         await axios({
             method: 'post',
             url: '/api/products/addReview/'+this.props.match.params.itemId,
@@ -42,8 +45,9 @@ export default class AddReview extends Component{
             if (error.response){
                 console.log(error.response.data);
             }
-        })
-    }
+        });
+        this.setState({toggle_spinner: false})
+    };
 
     async componentDidMount() {
         const that = this;
@@ -84,11 +88,11 @@ export default class AddReview extends Component{
     ];
     return(
         <div className="review">
-        <div className="container">
-                        <div>
-                            <div width="100%">
+        <div className="productContainer">
                                 <div className="row">
-                                <div className="col-lg-6">
+                                    <div className={"col-lg-1"}>
+                                    </div>
+                                <div className="col-lg-5">
                                     <div className="card-header">Add review for item {this.state.name}</div>
                                     <div className="card-body">
                                     <form onSubmit={this.handleSubmit}>
@@ -97,7 +101,7 @@ export default class AddReview extends Component{
                                                 <label className="col-md-9 control-label">Full
                                                     Name</label>
                                                 <div className="col-md-9">
-                                                    <input type="text" name="user_name" onChange={this.handleChange} placeholder="Your name"
+                                                    <input type="text" name="user_name" onChange={this.handleChange} placeholder="Your name" required={true}
                                                            className="form-control"/>
                                                 </div>
                                             </div>
@@ -113,16 +117,16 @@ export default class AddReview extends Component{
                                                 <label className="col-md-9 control-label">Your
                                                     message</label>
                                                 <div className="col-md-9">
-                                                    <textarea className="form-control" onChange={this.handleChange} name="message"
+                                                    <textarea className="form-control" onChange={this.handleChange} name="message" required={true}
                                                               placeholder="Please enter your feedback here..."
                                                               rows="5"/>
                                                 </div>
                                             </div>
                                             <div className="form-group">
-                                                <label className="rating" htmlFor="message">Your
+                                                <label className="col-md-9 control-label" htmlFor="message">Your
                                                     rating</label>
-                                                <div className="col-md-9">
-                                                    <select name="rating" className="star_rate" value={reviewStars}
+                                                <div className="col-md-9 flex-column">
+                                                    <select name="rating" className="star_rate" value={reviewStars} required={true}
                                                             onChange={this.handleChange}>
                                                             {options.map((option) => (
                                                                 <option key={option.value} value={option.value}>
@@ -132,17 +136,20 @@ export default class AddReview extends Component{
 
                                                 </div>
                                             </div>
-
-                                            <button type="submit" className="btn btn-success">Send review</button>
+                                            {this.state.toggle_spinner ? <LoadingSpinnerLargeSuccess/>:
+                                                <button type="submit" className="btn btn-success">Send review</button>
+                                            }
                                         </fieldset>
                                     </form>
                                 </div>
                                 </div>
-                                <div className="col-lg-6">
-                                    <img className="card-img" src={this.state.image} alt = "picture of product"/>
-                            </div>
-                        </div>
-                    </div>
+                                <div className="col-lg-5">
+                                    <div className="card-img">
+                                    <img className="fit-contain" src={this.state.image} alt = "picture of product"/>
+                                    </div>
+                                </div>
+                                    <div className={"col-lg-1"}>
+                                    </div>
                 </div>
             </div>
         </div>

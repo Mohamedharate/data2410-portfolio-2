@@ -116,7 +116,6 @@ app.use(function (req, res, next) {
     next();
 })
 
-// All other GET requests not handled before will return our React app
 
 
 app.post('/logout', (req, res) => {
@@ -158,7 +157,7 @@ https.createServer(options, app).listen( PORT, () => {
 
 // ------- Prometheus ---------- //
 const client = require('prom-client')
-const responseTime = require('response-time');
+
 
 const register = new client.Registry();
 client.collectDefaultMetrics({register})
