@@ -77,7 +77,7 @@ class AdminAddNewProduct extends Component {
             this.setState({
                 toggle_success_feedback: false,
                 toggle_error_feedback: true,
-                feedback_text: err.data.Error,
+                feedback_text: err.response.data.Error,
                 toggle_loading: false
             })
         })

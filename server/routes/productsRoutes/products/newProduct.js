@@ -54,7 +54,7 @@ router.post('/', upload.array('imageUrl', 20),
 
                     } else {
                         console.log(error.message)
-                        return res.status(500).json({Error: error.message})
+                        return res.status(406).json({Error: error.message})
                     }
                 })
         } else {
