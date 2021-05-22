@@ -139,7 +139,9 @@ export default class AddReview extends Component{
                                             {this.state.toggle_spinner ? <LoadingSpinnerLargeSuccess/>:
                                                 <button type="submit" className="btn btn-success">Send review</button>
                                             }
-                                            {this.state.review_sent ? <label className="label">New review is added to product with ID {this.state.itemId}</label>: ""}
+                                            <div className="label">
+                                            {this.state.review_sent ? <label>New review is added to product with ID {this.state.itemId}</label>: ""}
+                                    </div>
                                         </fieldset>
                                     </form>
                                 </div>
