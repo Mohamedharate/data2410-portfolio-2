@@ -28,13 +28,13 @@ const product_schema = new Schema(
             required: true,
             type: String,
             minlength: 10,
-            max: 1000
+            maxlength: 50
         },
         descriptionLong: {
             required: true,
             type: String,
             minlength: 20,
-            max: 1000
+            maxlength: 1000
         },
         price: {
             required: true,
