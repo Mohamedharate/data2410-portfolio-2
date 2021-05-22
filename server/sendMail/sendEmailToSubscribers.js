@@ -1,7 +1,7 @@
 "use strict";
 const schedule = require('node-schedule');
 const User = require("../Models/user");
-const send = require('./sendMail');
+const send = require('./sendDailyEmails');
 const formatDailyEmail = require('./formatDailyEmail');
 
 const Product = require("../Models/product");
@@ -10,7 +10,7 @@ function random_item(items) {
     return items[Math.floor(Math.random() * items.length)];
 }
 
-const job = schedule.scheduleJob('42 17 * * *', async function sendToSub() {
+schedule.scheduleJob('42 17 * * *', async function sendToSub() {
 
     const products = await Product.find();
     const prod1 = random_item(products);

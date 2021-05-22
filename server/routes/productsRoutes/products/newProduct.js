@@ -8,7 +8,6 @@ const defaultImage = require("./defaultImage")
 
 const fs = require("fs");
 
-//Add a new product
 router.post('/', upload.array('imageUrl', 20),
     (req, res) => {
         if (req.session) {
@@ -46,13 +45,16 @@ router.post('/', upload.array('imageUrl', 20),
 
             product.save()
                 .then(data => {
-                    return res.status(200).json({Message: `Product with name ${product.name} added successfully!`})
+                    return res.status(200)
+                        .json({Message: `Product with name ${product.name} added successfully!`})
                 })
                 .catch(error => {
                     if (error.name === 'MongoError' && error.code === 11000) {
                         return Promise.reject({Error: `Duplicate ${files[index].originalname}. File Already exists! `});
+
                     } else {
-                        return res.status(500).json({Error: error.toString()})
+                        console.log(error.message)
+                        return res.status(500).json({Error: error.message})
                     }
                 })
         } else {

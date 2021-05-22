@@ -4,7 +4,7 @@ let router = express.Router();
 const User = require("../../../Models/user");
 const Product = require("../../../Models/product");
 
-router.delete('/', async (req, res, next) => {
+router.delete('/', async (req, res) => {
 
     if (req.session) {
         if (req.session.passport) {

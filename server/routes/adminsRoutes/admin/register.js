@@ -5,23 +5,10 @@ let router = express.Router();
 const Admin = require("../../../Models/admin");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt')
-const send = require('../../../sendMail/sendActivationLink');
+const send = require('../../../sendMail/sendEmailGen');
 const formatActivationEmail = require('../../../sendMail/formatActivationLink');
 
 const JWT_ACC = "accountactivateOsloMetShop";
-/*
-async function pas(){
-    const salt = await bcrypt.genSalt(10);
-    const password = await bcrypt.hash("OsloMet123", salt)
-    console.log(password)
-    return password
-
-}
-pas()
-console.log(pas())
-
-
- */
 
 
 router.post('/', async (req, res) => {
@@ -66,7 +53,9 @@ router.post('/', async (req, res) => {
                             }, JWT_ACC, {expiresIn: "20m"})
                             const link = `https://localhost:3001/api/admin/register/emailActivation/${token}`
                             await send(email, formatActivationEmail(firstName, link), "Activation");
-                            res.status(200).json({Message: `A verification link has been sent to ${email}, please confirm!`})
+                            res.status(200)
+                                .json(
+                                    {Message: `A verification link has been sent to ${email}, please confirm!`})
                         }
                     } else {
                         return res.status(403).json({Error: "You don't have permission for this"})
@@ -85,7 +74,8 @@ router.post('/', async (req, res) => {
     }
 })
 
-router.get('/emailActivation/:link', async (req, res) => {
+router.get('/emailActivation/:link',
+    async (req, res) => {
 
     const token = req.params.link;
     if (token) {
@@ -133,7 +123,7 @@ router.get('/emailActivation/:link', async (req, res) => {
                 })
                 await newUser.save()
                     .then(data => {
-                        res.status(200).redirect('/api/signin-admin')
+                        res.status(200).redirect('/')
                     })
                     .catch(error => {
                         res.status(500).json({Error: error.toString()})
