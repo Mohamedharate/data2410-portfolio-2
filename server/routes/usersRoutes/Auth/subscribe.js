@@ -8,7 +8,8 @@ router.put('/', async (req, res) => {
         if (req.session.passport) {
             if (req.session.passport.user.type === 'User') {
                 const user = await User.findOne({_id: req.session.passport.user.id});
-                if (!user) return res.status(404).json({Error: 'The user with the given email address was not found'})
+                if (!user) return res.status(404)
+                    .json({Error: 'The user with the given email address was not found'})
                 try {
                     await User.updateOne({_id: req.session.passport.user.id}, {$set: {subscriber: true}});
                 } catch (err) {

@@ -3,7 +3,8 @@ const express = require("express");
 let router = express.Router();
 const passport = require('passport');
 
-router.post('/', (req, res, next) => {
+router.post('/',
+    (req, res, next) => {
     passport.authenticate('local.signin',
         (err, user, info) => {
             if (err) {

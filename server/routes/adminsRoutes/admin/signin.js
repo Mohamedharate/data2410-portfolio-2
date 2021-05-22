@@ -14,7 +14,7 @@ router.post('/', (req, res, next) => {
             }
             req.logIn(user, function (err) {
                 if (err) {
-                    res.redirect('https://localhost:3001');
+                    res.redirect('/');
                 }
                 return res.status(200).json(user);
             });

@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const {Binary} = require("bson");
 const {Decimal128} = require("bson");
 
 const Schema = mongoose.Schema;
@@ -7,6 +6,7 @@ const Schema = mongoose.Schema;
 function getID() {
     return Math.floor(1000 + Math.random() * 8999)
 }
+
 const product_schema = new Schema(
     {
         itemId: {
@@ -28,13 +28,13 @@ const product_schema = new Schema(
             required: true,
             type: String,
             minlength: 10,
-            max: 1000
+            maxlength: 50
         },
         descriptionLong: {
             required: true,
             type: String,
             minlength: 20,
-            max: 1000
+            maxlength: 1000
         },
         price: {
             required: true,

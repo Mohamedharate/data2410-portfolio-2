@@ -6,7 +6,7 @@ const Product = require("../../../Models/product");
 
 
 router.get('/:itemId', async (req,
-                              res, next) => {
+                              res) => {
     let itemId = req.params.itemId;
     const product = await Product.findOne({itemId: itemId});
 
@@ -43,7 +43,8 @@ router.get('/:itemId', async (req,
                                     }
                                 });
                             added = true;
-                            return res.status(200).json({Message: "The item has been added to cart successfully"})
+                            return res.status(200)
+                                .json({Message: "The item has been added to cart successfully"})
                         }
                     }
                 } else {
@@ -70,7 +71,8 @@ router.get('/:itemId', async (req,
                                     quantity: -1
                                 }
                             });
-                        return res.status(200).json({Message: "The item has been added to cart successfully"})
+                        return res.status(200)
+                            .json({Message: "The item has been added to cart successfully"})
                     } catch (err) {
                         return res.status(500).json({Error: "Failed to add the item to cart."})
                     }

@@ -4,7 +4,6 @@ let router = express.Router();
 const User = require("../../../Models/user");
 
 
-//Get all products from the productDB
 router.get('/:email', async (req, res) => {
     if (req.session) {
         if (req.session.passport) {

@@ -5,7 +5,7 @@ const User = require("../../../Models/user");
 const Product = require("../../../Models/product");
 
 
-router.put('/', async (req, res, next) => {
+router.put('/', async (req, res) => {
 
     const deleteItem = {
         product_id: req.body.product_id,
@@ -51,7 +51,8 @@ router.put('/', async (req, res, next) => {
                                         }
                                     });
                                 deleted = true;
-                                if (deleted) return res.status(200).json({Message: "The item is deleted successfully"})
+                                if (deleted)
+                                    return res.status(200).json({Message: "The item is deleted successfully"})
                             } catch (err) {
                                 return res.status(400).json({Error: err.toString()})
                             }
@@ -68,10 +69,12 @@ router.put('/', async (req, res, next) => {
                             await User.updateOne(
                                 {email: user.email},
                                 {$set: {hasCart: false}});
-                            if (deleted) return res.status(200).json({Message: "The item is deleted successfully"})
+                            if (deleted)
+                                return res.status(200).json({Message: "The item is deleted successfully"})
 
                         } else {
-                            return res.status(400).json({Error: "You cant delete more items than you have in the cart"})
+                            return res.status(400)
+                                .json({Error: "You cant delete more items than you have in the cart"})
                         }
                     } else {
                         return res.status(400).json({Error: "You don't have the item in your cart"})
