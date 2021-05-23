@@ -148,7 +148,7 @@ export default class AddReview extends Component{
                                 </div>
                                 <div className="col-lg-5">
                                     <div className="card-img">
-                                    <img className="card-img" src={this.state.image} alt = "picture of product"/>
+                                    <img className="card-img" style={{height: '100%',width: '20em',objectFit: `contain`}} src={this.state.image} alt = "picture of product"/>
                                     </div>
                                 </div>
                                     <div className={"col-lg-1"}>
