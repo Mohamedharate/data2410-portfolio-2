@@ -16,9 +16,11 @@ const product_schema = new Schema(
         },
         date: {
             type: Date,
-            default: Date.now
+            default: Date.now,
         },
         name: {
+            unique: true,
+
             required: true,
             type: String,
             minlength: 2,
@@ -28,13 +30,13 @@ const product_schema = new Schema(
             required: true,
             type: String,
             minlength: 10,
-            maxlength: 50
+            maxlength: 150
         },
         descriptionLong: {
             required: true,
             type: String,
             minlength: 20,
-            maxlength: 1000
+            maxlength: 2000
         },
         price: {
             required: true,

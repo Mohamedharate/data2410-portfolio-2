@@ -14,13 +14,13 @@ function reviewRating(item) {
         stars = "★ ★ ★ ★ ★"
     } else {
         item.reviews.forEach(review => {
-            if (review.rating && parseInt(review.rating) >= 0 ){
-                reviewRating +=  parseInt(review.rating);
+            if (review.rating && parseInt(review.rating) >= 0) {
+                reviewRating += parseInt(review.rating);
                 count++;
             }
         })
 
-        reviewRating = parseFloat(reviewRating/count);
+        reviewRating = parseFloat(reviewRating / count);
 
         if (reviewRating > 4.5) {
             stars = "★ ★ ★ ★ ★"
@@ -68,6 +68,7 @@ function formatProdcuts(arr) {
             </div>
         </div>`)
         }
+
         return out.toString();
     } else return "No products found"
 }
@@ -75,46 +76,47 @@ function formatProdcuts(arr) {
 
 router.get('/allProducts',
     async (req, res) => {
-    let products;
-    try {
-        products = await Product.find();
-    } catch (err) {
-        res.json({Error: err.toString()})
-    }
-    if (products) {
-        return res.send(formatProdcuts(products).toString());
-    } else {
-        return res.json({Error: "No products found"})
-    }
+        let products;
+        try {
+            products = await Product.find();
+        } catch (err) {
+            res.json({Error: err.toString()})
+        }
+        if (products) {
 
-});
+            return res.send(formatProdcuts(products));
+        } else {
+            return res.json({Error: "No products found"})
+        }
+
+    });
 
 router.get('/categories/:category',
     async (req, res) => {
 
-    let products;
-    try {
-        products = await Product.find({category: req.params.category});
-    } catch (err) {
-        res.json({Error: err.toString()})
-    }
-    if (products) {
-        return res.status(200).send(formatProdcuts(products));
-    } else {
-        return res.json({Error: `No products found in category ${req.params.category}`})
-    }
-})
+        let products;
+        try {
+            products = await Product.find({category: req.params.category});
+        } catch (err) {
+            res.json({Error: err.toString()})
+        }
+        if (products) {
+            return res.status(200).send(formatProdcuts(products));
+        } else {
+            return res.json({Error: `No products found in category ${req.params.category}`})
+        }
+    })
 
 router.get('/allProductsPure',
     async (req, res) => {
 
-    try {
-        const products = await Product.find();
-        res.send(products);
-    } catch (err) {
-        res.json(err.toString())
-    }
-});
+        try {
+            const products = await Product.find();
+            res.send(products);
+        } catch (err) {
+            res.json(err.toString())
+        }
+    });
 
 
 router.get('/:itemId', async (req, res) => {

@@ -15,17 +15,16 @@ router.post('/:itemId', async (req, res) => {
         Time: new Date().toLocaleTimeString(),
     }
     try {
-        if (review.user && review.reviewText && review.rating) {
-            const product0 = await Product.findOne({itemId: itemId})
-            if (!product0) res.status(404).json({Error: "Product not found"})
+        if(review.user && review.reviewText && review.rating) {
             const product = await Product.updateOne({itemId: itemId}, {$push: {reviews: review}});
             if (product.nModified === 1)
                 return res.status(200).json({Message: `New review is added to product with ID ${itemId} `});
             else {
-                return res.status(500).json({Error: 'Something went wrong'})
+                return res.status(400).json({Error: 'The product with the given item ID was not found'})
             }
-        } else {
-            return res.status(400).json({Error: "Please fill in the required"})
+        }
+        else{
+            return res.status(400).json({Error:"Please fill the required "})
         }
     } catch (err) {
         return res.status(500).json({Error: 'DB error!'})

@@ -2,6 +2,15 @@ require('./DB Connection/connectDB')
 const express = require('express');
 const path = require('path');
 const fs = require("fs")
+const compression = require('compression');
+require('./passport-config')
+const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
+
+
+const cors = require("cors");
+const passport = require('passport');
+const flash = require('express-flash')
 
 const cert = fs.readFileSync(path.join(__dirname, 'ssl/', 'localhost.cert'));
 const key = fs.readFileSync(path.join(__dirname, 'ssl/', 'localhost.key'));
@@ -12,13 +21,10 @@ const options = {
 };
 
 const app = express();
-const mongoose = require("mongoose");
+app.use(compression());
 
-const cors = require("cors");
-const passport = require('passport');
-const flash = require('express-flash')
 
-require('./passport-config')
+
 
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -32,11 +38,9 @@ app.all('/*', function (req, res, next) {
 
 app.set("trust proxy", 1);
 
-const session = require('express-session');
-const MongoDBStore = require('connect-mongodb-session')(session);
 
-app.use('/', express.static('../client/build'));
-app.use(express.static(path.resolve(__dirname, '../client/build')));
+
+app.use(express.static(path.resolve(__dirname , '../client/build')));
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
@@ -55,7 +59,7 @@ const IN_PROD = NODE_ENV === 'production'
 
 const store = new MongoDBStore({
     uri: 'mongodb+srv://haratemo:12345oslomet@webshop.uemit.mongodb.net/webshop?retryWrites=true&w=majority',
-    collection: 'mySessions'
+    collection: 'sessions'
 });
 app.use(cookieParser('shhh!this,a7\'secret'))
 
@@ -150,6 +154,8 @@ app.post('/admin/logout', (req, res) => {
 
 
 const https = require('https');
+https.globalAgent.maxSockets = Infinity;
+
 https.createServer(options, app).listen( PORT, () => {
     console.log(`Connected on port ${PORT}`)
 });
