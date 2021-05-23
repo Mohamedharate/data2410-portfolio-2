@@ -43,8 +43,8 @@ app.use(bodyParser.urlencoded({extended: false}))
 
 const ONE_WEEK = 604800000
 
+const PORT = process.env.PORT || 3001;
 const {
-    PORT = 3001,
     NODE_ENV = 'development',
     SESS_NAME = 'sid',
     SESS_SECRET = 'shhh!this,a7\'secret',
