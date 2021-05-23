@@ -264,7 +264,7 @@ class AdminEditProduct extends Component {
                                         <option value="Coffee Beans">Coffee Beans</option>
                                         <option value="Filter Ground Coffee">Filter Ground Coffee</option>
                                         <option value="Coffee Machine">Coffee Machine</option>
-                                        <option value="Coffee">Coffee</option>
+                                        <option value="Instant Coffee">Instant Coffee</option>
                                         <option value="Other">Other</option>
                                     </select>
                                 </div>
